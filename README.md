@@ -1,4 +1,6 @@
-<img alt="Packet Run" src="./docs/assets/packet-run-logo.svg" height="72" />
+<img alt="Packet Run" src="./documentation/assets/packet-run-logo.svg"
+height="72" />
+<br />
 
 Packet Run is an interactive art installation that visualises how data travels
 across the internet in discrete packets. This process is known as **Internet
@@ -32,7 +34,7 @@ various assets, bits and pieces:
 * `./server`: Contains all software that is run on the server
 
 ## Contributors
-<img alt="Bureau Moeilijke Dingen" src="./docs/assets/bmd-logo.svg" height="48"
+<img alt="Bureau Moeilijke Dingen" src="./documentation/assets/bmd-logo.svg" height="48"
 />
 
 Packet Run was designed and built by **Bureau Moeilijke Dingen**, an Eindhoven-based
@@ -45,7 +47,7 @@ These people from Bureau Moeilijke Dingen contributed to Packet Run:
 
 <br />
 
-<img alt="SIDN" src="./docs/assets/sidn-logo.svg" height="48" />
+<img alt="SIDN" src="./documentation/assets/sidn-logo.svg" height="48" />
 
 Packet Run was based on [PathVis](https://github.com/SIDN/pathvis), an open
 source tool that visualises traceroutes. PathVis was built by **SIDN Labs**, an
@@ -60,7 +62,7 @@ These people from SIDN Labs contributed to PathVis and Packet Run:
 
 <br />
 
-<img alt="SIDN Fonds" src="./docs/assets/sidn-fonds-logo.svg" height="48" />
+<img alt="SIDN Fonds" src="./documentation/assets/sidn-fonds-logo.svg" height="48" />
 
 Building Packet Run was made possible by a grant from **SIDN Fonds**, a public
 fund that supports supports and strengthens the internet and its users. 
