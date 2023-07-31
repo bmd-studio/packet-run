@@ -1,0 +1,15 @@
+{
+  "name": "packet-run-server",
+  "version": "1.0.0",
+  "description": "All software components for the Packet Run installation that run on a server",
+  "main": "",
+  "scripts": {
+    "start": "npm run build --workspaces & npm run start --workspaces",
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "author": "Bureau Moeilijke Dingen",
+  "license": "MIT",
+  "workspaces": ["./packages/*"]
+}
