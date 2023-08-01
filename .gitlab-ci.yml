@@ -18,13 +18,10 @@ cache:
     - server/node_modules/
     - server/**/.turbo/
 
-lint:
-  script:
-    - npm install
-    - npm run lint
-
 build:
   script:
+    - cd server
     - npm install
     - npm run build
+    - npm run lint
     - npx turbo migrations:check
