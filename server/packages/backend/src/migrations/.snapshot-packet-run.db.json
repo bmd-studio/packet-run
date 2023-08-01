@@ -1,0 +1,537 @@
+{
+  "namespaces": [],
+  "tables": [
+    {
+      "columns": {
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "operator": {
+          "name": "operator",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "asn": {
+          "name": "asn",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "address",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "ip"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "sender",
+            "receiver",
+            "server",
+            "gateway",
+            "router"
+          ],
+          "mappedType": "enum"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'offline'",
+          "enumItems": [
+            "idle",
+            "scanning_nfc",
+            "creating_packet",
+            "created_packet",
+            "offline"
+          ],
+          "mappedType": "enum"
+        },
+        "payload": {
+          "name": "payload",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "last_seen_at": {
+          "name": "last_seen_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "terminal",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "nfc_id": {
+          "name": "nfc_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "destination_ip": {
+          "name": "destination_ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "terminal_id": {
+          "name": "terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        }
+      },
+      "name": "run",
+      "indexes": [
+        {
+          "columnNames": [
+            "destination_ip"
+          ],
+          "composite": false,
+          "keyName": "run_destination_ip_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "terminal_id"
+          ],
+          "composite": false,
+          "keyName": "run_terminal_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "run_destination_ip_foreign": {
+          "constraintName": "run_destination_ip_foreign",
+          "columnNames": [
+            "destination_ip"
+          ],
+          "localTableName": "run",
+          "referencedColumnNames": [
+            "ip"
+          ],
+          "referencedTableName": "address",
+          "updateRule": "cascade"
+        },
+        "run_terminal_id_foreign": {
+          "constraintName": "run_terminal_id_foreign",
+          "columnNames": [
+            "terminal_id"
+          ],
+          "localTableName": "run",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "address_ip": {
+          "name": "address_ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "run_hops",
+      "indexes": [
+        {
+          "columnNames": [
+            "run_id"
+          ],
+          "composite": false,
+          "keyName": "run_hops_run_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "address_ip"
+          ],
+          "composite": false,
+          "keyName": "run_hops_address_ip_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "run_id",
+            "address_ip"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "run_hops_run_id_foreign": {
+          "constraintName": "run_hops_run_id_foreign",
+          "columnNames": [
+            "run_id"
+          ],
+          "localTableName": "run_hops",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "run",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "run_hops_address_ip_foreign": {
+          "constraintName": "run_hops_address_ip_foreign",
+          "columnNames": [
+            "address_ip"
+          ],
+          "localTableName": "run_hops",
+          "referencedColumnNames": [
+            "ip"
+          ],
+          "referencedTableName": "address",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "address_ip": {
+          "name": "address_ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "terminal_id": {
+          "name": "terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "hop": {
+          "name": "hop",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "hop",
+      "indexes": [
+        {
+          "columnNames": [
+            "address_ip"
+          ],
+          "composite": false,
+          "keyName": "hop_address_ip_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "terminal_id"
+          ],
+          "composite": false,
+          "keyName": "hop_terminal_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "run_id"
+          ],
+          "composite": false,
+          "keyName": "hop_run_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "hop_address_ip_foreign": {
+          "constraintName": "hop_address_ip_foreign",
+          "columnNames": [
+            "address_ip"
+          ],
+          "localTableName": "hop",
+          "referencedColumnNames": [
+            "ip"
+          ],
+          "referencedTableName": "address",
+          "updateRule": "cascade"
+        },
+        "hop_terminal_id_foreign": {
+          "constraintName": "hop_terminal_id_foreign",
+          "columnNames": [
+            "terminal_id"
+          ],
+          "localTableName": "hop",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "updateRule": "cascade"
+        },
+        "hop_run_id_foreign": {
+          "constraintName": "hop_run_id_foreign",
+          "columnNames": [
+            "run_id"
+          ],
+          "localTableName": "hop",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "run",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "from_terminal_id": {
+          "name": "from_terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "to_terminal_id": {
+          "name": "to_terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "terminal_connections_to",
+      "indexes": [
+        {
+          "columnNames": [
+            "from_terminal_id"
+          ],
+          "composite": false,
+          "keyName": "terminal_connections_to_from_terminal_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "to_terminal_id"
+          ],
+          "composite": false,
+          "keyName": "terminal_connections_to_to_terminal_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "from_terminal_id",
+            "to_terminal_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "terminal_connections_to_from_terminal_id_foreign": {
+          "constraintName": "terminal_connections_to_from_terminal_id_foreign",
+          "columnNames": [
+            "from_terminal_id"
+          ],
+          "localTableName": "terminal_connections_to",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "terminal_connections_to_to_terminal_id_foreign": {
+          "constraintName": "terminal_connections_to_to_terminal_id_foreign",
+          "columnNames": [
+            "to_terminal_id"
+          ],
+          "localTableName": "terminal_connections_to",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    }
+  ]
+}

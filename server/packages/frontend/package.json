@@ -2,6 +2,8 @@
   "name": "packet-run-frontend",
   "version": "0.1.0",
   "private": true,
+  "author": "Bureau Moeilijke Dingen",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
