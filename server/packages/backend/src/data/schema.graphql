@@ -17,3 +17,7 @@ scalar DateTime
 type Query {
   address(ip: String!): Address!
 }
+
+type Subscription {
+  listen(ip: String!): Address
+}

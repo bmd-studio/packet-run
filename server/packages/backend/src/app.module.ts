@@ -19,11 +19,15 @@ import Terminal from './entities/Terminal';
             entitiesTs: ['./src/entities'],
             dbName: './database/packet-run.db',
             type: 'better-sqlite',
+            allowGlobalContext: true,
         }),
         MikroOrmModule.forFeature([Address, Hop, Run, Terminal]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
             autoSchemaFile: join(process.cwd(), 'src/data/schema.graphql'),
+            subscriptions: {
+                'graphql-ws': true,
+            },
         }),
     ],
     controllers: [AppController],
