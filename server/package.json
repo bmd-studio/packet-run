@@ -4,12 +4,17 @@
   "description": "All software components for the Packet Run installation that run on a server",
   "main": "",
   "scripts": {
-    "start": "npm run build --workspaces & npm run start --workspaces",
-    "build": "npm run build --workspaces",
-    "dev": "npm run dev --workspaces",
-    "lint": "npm run lint --workspaces"
+    "start": "turbo run start",
+    "build": "turbo build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
   },
   "author": "Bureau Moeilijke Dingen",
   "license": "MIT",
-  "workspaces": ["./packages/*"]
+  "workspaces": [
+    "./packages/*"
+  ],
+  "dependencies": {
+    "turbo": "^1.10.12"
+  }
 }
