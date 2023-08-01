@@ -17,7 +17,7 @@ import Terminal from './entities/Terminal';
         MikroOrmModule.forRoot({
             entities: ['./dist/entities'],
             entitiesTs: ['./src/entities'],
-            dbName: './data/packet-run.db',
+            dbName: './database/packet-run.db',
             type: 'better-sqlite',
         }),
         MikroOrmModule.forFeature([Address, Hop, Run, Terminal]),
