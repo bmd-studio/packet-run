@@ -1,5 +1,5 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { Args, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import AddressModel from './model';
 import Address from './index';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
@@ -31,5 +31,15 @@ export default class AddressesResolver {
             subscriptionId,
             'listen',
         );
+    }
+
+    @Mutation(() => Boolean, { nullable: true })
+    async updateAddress(
+        @Args('ip') ip: string,
+    ) {
+        const address = await this.repository.findOneOrFail({ ip });
+        address.updatedAt = new Date();
+        await this.repository.flush();
+        return true;
     }
 }

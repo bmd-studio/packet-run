@@ -18,6 +18,10 @@ type Query {
   address(ip: String!): Address
 }
 
+type Mutation {
+  updateAddress(ip: String!): Boolean
+}
+
 type Subscription {
   listen(ip: String!): Address
 }

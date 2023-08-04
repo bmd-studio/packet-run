@@ -19,39 +19,44 @@ export default class PubSubManager {
     /** A registry of event names that are subscribed to keyed by identified entities  */
     private readonly events = new Map<string, Set<string>>;
     
+    private getKeyBase(entity: AnyEntity, id: string | number) {
+        return `${entity.name}_${id}`;
+    }
+
     /**
      * Calculate the key that is used to subscribe or publish for this specificy
      * entity instance.
      */
     private getKey(entity: AnyEntity, id: string | number, eventName) {
-        return `${entity.name}_${id}_${eventName}`;
+        return `${this.getKeyBase(entity, id)}_${eventName}`;
     }
 
     /**
      * Since all observables are scoped by event names, retrieve all keys that
      * can possibly associated with an identifiy entity.
      */
-    private getAllKeysForEntity(entity: AnyEntity, id: string | number) {
-        const baseKey = `${entity.name}_${id}`;
-        return Array.from(this.events.get(baseKey) || []).map((eventName) => `${baseKey}_${eventName}`);
+    private getEventsForEntity(entity: new (...args: any[]) => AnyEntity, id: string | number) {
+        const baseKey = this.getKeyBase(entity, id);
+        return Array.from(this.events.get(baseKey) || []).map((eventName) => [eventName, `${baseKey}_${eventName}`]);
     }
 
     /**
      * Publish a new value for a particular entity
      */
-    publish<T = AnyEntity>(id: string | number, value: T): void {
-        this.getAllKeysForEntity(value, id).forEach((key) => {
+    publish<T = AnyEntity>(entity: new (...args: any[]) => T, id: string | number, data: T): void {
+        console.log(this.events);
+        this.getEventsForEntity(entity, id).forEach(([eventName, observableKey]) => {
             // GUARD: Check whether an observable already exists for this key
-            if (this.observables.has(key)) {
+            if (this.observables.has(observableKey)) {
                 // If it does, simply update it with the next value
-                this.observables.get(key).next(value);
+                this.observables.get(observableKey).next({ [eventName]: data });
             } else {
                 // For now: don't create observables if they don't exist, wait for
                 // them to be initialised by a subscriber first.
                 return;
     
                 // If it doesn't, create the observable based on the supplied value
-                const subject = new BehaviorSubject(value);
+                const subject = new BehaviorSubject(data);
     
                 // Then store the observable in the registry
                 this.observables.set(key, subject);
@@ -77,22 +82,23 @@ export default class PubSubManager {
          * MUST match the function name you are calling this function from. */
         eventName: string,
     ): Promise<BehaviorSubject<{ [key: string] : T }> | null> {
+        const baseKey = this.getKeyBase(entity, id);
         const key = this.getKey(entity, id, eventName);
 
         // Register the subscription first
         if (this.subscriptions.has(key)) {
             this.subscriptions.get(key).add(websocketId);
         } else {
-            this.subscriptions.set(key, new Set(websocketId));
+            this.subscriptions.set(key, new Set([websocketId]));
         }
 
         // Then, register the event name if it hasn't been already
-        if (this.events.has(key)) {
-            if (!this.events.get(key).has(eventName)) {
-                this.events.get(key).add(eventName);
+        if (this.events.has(baseKey)) {
+            if (!this.events.get(baseKey).has(eventName)) {
+                this.events.get(baseKey).add(eventName);
             }
         } else {
-            this.events.set(key, new Set(eventName));
+            this.events.set(baseKey, new Set([eventName]));
         }
 
         // GUARD: Check whether an observable already exists for this particular entity

@@ -17,10 +17,10 @@ export default class AddressSubscriber implements EventSubscriber<Address> {
     }
 
     async afterUpdate({ entity }: EventArgs<Address>) {
-        this.pubSub.publish(entity.ip, entity);
+        this.pubSub.publish(Address, entity.ip, entity);
     }
 
     async afterUpsert({ entity }: EventArgs<Address>) {
-        this.pubSub.publish(entity.ip, entity);
+        this.pubSub.publish(Address, entity.ip, entity);
     }
 }
