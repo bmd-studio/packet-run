@@ -1,10 +1,10 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Args, Query, Resolver, Subscription } from '@nestjs/graphql';
-import AddressModel from '../models/Address';
-import Address from '../entities/Address';
+import AddressModel from './model';
+import Address from './index';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
-import PubSubManager from '../lib/PubSubManager';
-import WebsocketId from '../lib/WebsocketId';
+import PubSubManager from '../../lib/PubSubManager';
+import WebsocketId from '../../lib/WebsocketId';
 
 @Resolver(() => AddressModel)
 export default class AddressesResolver {
@@ -14,12 +14,12 @@ export default class AddressesResolver {
         private readonly pubsub: PubSubManager,
     ) {}
 
-    @Query(() => AddressModel)
+    @Query(() => AddressModel, { nullable: true })
     async address(@Args('ip') ip: string) {
         return this.repository.findOneOrFail({ ip });
     }
 
-    @Subscription(() => AddressModel)
+    @Subscription(() => AddressModel, { nullable: true })
     async listen(
         @Args('ip') ip: string,
         @WebsocketId() subscriptionId: string,
@@ -27,8 +27,9 @@ export default class AddressesResolver {
         return this.pubsub.subscribe(
             AddressModel,
             ip,
-            () => this.repository.findOneOrFail({ ip }),
-            subscriptionId
+            () => this.repository.findOne({ ip }),
+            subscriptionId,
+            'listen',
         );
     }
 }

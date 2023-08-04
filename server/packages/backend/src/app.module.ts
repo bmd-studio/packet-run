@@ -7,19 +7,19 @@ import { GraphQLModule } from '@nestjs/graphql';
 import PubSubManager from './lib/PubSubManager';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import AddressesResolver from './resolver/Address';
-import Address from './entities/Address';
+import AddressesResolver from './entities/address/resolver';
+import Address from './entities/address';
 import Hop from './entities/Hop';
 import Run from './entities/Run';
 import Terminal from './entities/Terminal';
 import CustomApolloDriver from './lib/CustomApolloDriver';
+import AddressSubscriber from './entities/address/subscriber';
 
 @Global()
 @Module({
     imports: [
         MikroOrmModule.forRoot({
-            entities: ['./dist/entities'],
-            entitiesTs: ['./src/entities'],
+            entities: [Address, Hop, Run, Terminal],
             dbName: './database/packet-run.db',
             type: 'better-sqlite',
             allowGlobalContext: true,
@@ -41,6 +41,7 @@ import CustomApolloDriver from './lib/CustomApolloDriver';
         AppService,
         AutoMigrationService,
         AddressesResolver,
+        AddressSubscriber,
     ],
     exports: [PubSubManager],
 })

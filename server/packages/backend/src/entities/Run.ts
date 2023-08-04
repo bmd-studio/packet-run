@@ -1,7 +1,7 @@
 import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
-import Address from './Address';
+import Address from './address';
 import Terminal from './Terminal';
 import Hop from './Hop';
 

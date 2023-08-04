@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import 'reflect-metadata';
-import Address from './Address';
+import Address from './address';
 import Terminal from './Terminal';
 import Run from './Run';
 
