@@ -59,7 +59,7 @@ export default class PubSubManager {
                 const subject = new BehaviorSubject(data);
     
                 // Then store the observable in the registry
-                this.observables.set(key, subject);
+                this.observables.set(eventName, subject);
             }
         });
     }
