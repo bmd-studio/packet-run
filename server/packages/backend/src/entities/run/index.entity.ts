@@ -1,9 +1,9 @@
 import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
-import Address from './address';
-import Terminal from './Terminal';
-import Hop from './Hop';
+import Address from '../address/index.entity';
+import Terminal from '../terminal/index.entity';
+import Hop from '../hop/index.entity';
 
 const nanoid = customAlphabet(
     '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',

@@ -2,8 +2,8 @@
 const config = {
     type: 'better-sqlite',
     dbName: './database/packet-run.db',
-    entities: ['./dist/entities'],
-    entitiesTs: ['./src/entities'],
+    entities: ['./dist/entities/**/index.entity.js'],
+    entitiesTs: ['./src/entities/**/index.entity.ts'],
 };
 
 module.exports = config;

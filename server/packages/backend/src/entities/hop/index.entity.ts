@@ -1,8 +1,8 @@
 import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import 'reflect-metadata';
-import Address from './address';
-import Terminal from './Terminal';
-import Run from './Run';
+import Address from '../address/index.entity';
+import Terminal from '../terminal/index.entity';
+import Run from '../run/index.entity';
 
 @Entity()
 export default class Hop {

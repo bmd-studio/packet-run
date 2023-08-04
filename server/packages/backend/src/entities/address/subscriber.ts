@@ -1,5 +1,5 @@
 import { EntityManager, EntityName, EventArgs, EventSubscriber } from '@mikro-orm/core';
-import Address from './index';
+import Address from './index.entity';
 import PubSubManager from '../../lib/PubSubManager';
 import { Injectable } from '@nestjs/common';
 

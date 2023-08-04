@@ -8,10 +8,10 @@ import PubSubManager from './lib/PubSubManager';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import AddressesResolver from './entities/address/resolver';
-import Address from './entities/address';
-import Hop from './entities/Hop';
-import Run from './entities/Run';
-import Terminal from './entities/Terminal';
+import Address from './entities/address/index.entity';
+import Hop from './entities/hop/index.entity';
+import Run from './entities/run/index.entity';
+import Terminal from './entities/terminal/index.entity';
 import CustomApolloDriver from './lib/CustomApolloDriver';
 import AddressSubscriber from './entities/address/subscriber';
 
@@ -19,7 +19,8 @@ import AddressSubscriber from './entities/address/subscriber';
 @Module({
     imports: [
         MikroOrmModule.forRoot({
-            entities: [Address, Hop, Run, Terminal],
+            entities: ['./dist/entities/**/index.entity.js'],
+            entitiesTs: ['./src/entities/**/index.entity.ts'],
             dbName: './database/packet-run.db',
             type: 'better-sqlite',
             allowGlobalContext: true,

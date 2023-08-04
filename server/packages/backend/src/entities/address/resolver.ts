@@ -1,7 +1,7 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import AddressModel from './model';
-import Address from './index';
+import Address from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
 import PubSubManager from '../../lib/PubSubManager';
 import WebsocketId from '../../lib/WebsocketId';
