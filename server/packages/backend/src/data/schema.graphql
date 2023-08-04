@@ -19,5 +19,5 @@ type Query {
 }
 
 type Subscription {
-  listen(ip: String!): Address
+  listen(ip: String!): Address!
 }

@@ -3,39 +3,32 @@ import { Args, Query, Resolver, Subscription } from '@nestjs/graphql';
 import AddressModel from '../models/Address';
 import Address from '../entities/Address';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
-import { BehaviorSubject } from 'rxjs';
+import PubSubManager from '../lib/PubSubManager';
+import WebsocketId from '../lib/WebsocketId';
 
 @Resolver(() => AddressModel)
 export default class AddressesResolver {
-    private observables = new Map<string, BehaviorSubject<{ listen: Address }>>();
-
     constructor(
         @InjectRepository(Address)
-        private readonly repository: EntityRepository<Address>
+        private readonly repository: EntityRepository<Address>,
+        private readonly pubsub: PubSubManager,
     ) {}
 
     @Query(() => AddressModel)
     async address(@Args('ip') ip: string) {
-        const address = await this.repository.findOneOrFail({ ip });
-
-        if (this.observables.has(ip)) {
-            console.log('HAS OBSERVABLE, UPDATE IT');
-            this.observables.get(ip).next({ listen: address });
-        } else {
-            this.observables.set(ip, new BehaviorSubject({ listen: address }));
-        }
-
-        return address;
+        return this.repository.findOneOrFail({ ip });
     }
 
-    @Subscription(() => AddressModel, { nullable: true })
-    async listen(@Args('ip') ip: string) {
-        const address = await this.repository.findOneOrFail({ ip });
-
-        if (!this.observables.has(ip)) {
-            this.observables.set(ip, new BehaviorSubject({ listen: address }));
-        } 
-
-        return this.observables.get(ip);
+    @Subscription(() => AddressModel)
+    async listen(
+        @Args('ip') ip: string,
+        @WebsocketId() subscriptionId: string,
+    ) {
+        return this.pubsub.subscribe(
+            AddressModel,
+            ip,
+            () => this.repository.findOneOrFail({ ip }),
+            subscriptionId
+        );
     }
 }
