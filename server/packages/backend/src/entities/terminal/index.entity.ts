@@ -1,5 +1,6 @@
 import 'reflect-metadata';
-import { Collection, Entity, Enum, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, EntityManager, Enum, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import Run from '../run/index.entity';
 
 export enum TerminalType {
     SENDER = 'sender',
@@ -32,11 +33,24 @@ export default class Terminal {
     payload?: string;
 
     @ManyToMany(() => Terminal, null, { joinColumn: 'from_terminal_id', inverseJoinColumn: 'to_terminal_id' })
-    connectionsTo: Collection<Terminal> = new Collection<Terminal>(this);
+    connectionsTo = new Collection<Terminal>(this);
 
     @ManyToMany(() => Terminal, 'connectionsTo')
     connectionsFrom = new Collection<Terminal>(this);
 
+    @OneToOne(() => Run, (run) => run.terminal)
+    run: Rel<Run>;
+
     @Property({ onUpdate: () => new Date() })
     lastSeenAt: Date = new Date();
+
+    @Property()
+    createdAt: Date = new Date();
+
+    @Property({ onUpdate: () => new Date() })
+    updatedAt: Date = new Date();
+}
+
+export async function fetchAllTerminals(em: EntityManager) {
+    return em.find(Terminal, {}, { populate: ['connectionsFrom', 'connectionsTo' ]});
 }

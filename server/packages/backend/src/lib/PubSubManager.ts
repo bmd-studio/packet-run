@@ -43,8 +43,11 @@ export default class PubSubManager {
     /**
      * Publish a new value for a particular entity
      */
-    publish<T = AnyEntity>(entity: new (...args: any[]) => T, id: string | number, data: T): void {
-        console.log(this.events);
+    async publish<T = AnyEntity>(
+        entity: new (...args: any[]) => T,
+        id: string | number,
+        data: T,
+    ): Promise<void> {
         this.getEventsForEntity(entity, id).forEach(([eventName, observableKey]) => {
             // GUARD: Check whether an observable already exists for this key
             if (this.observables.has(observableKey)) {
@@ -74,7 +77,7 @@ export default class PubSubManager {
         id: string | number, 
         /** A function that retrieves the value for this instance if it doesn't
          * already exists in the registry */
-        retriever: () => Promise<T> | T | Promise<Loaded<T>> | null | Promise<null>,
+        retriever: () => Promise<T | Loaded<T> | null> | T | Promise<Loaded<T>> | null,
         /** The websocket id (key) for the client subscribing to the value.
          * Retrieve this in your resolver using the @WebsocketId decorator. */
         websocketId: string,

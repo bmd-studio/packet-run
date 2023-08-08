@@ -1,4 +1,4 @@
-import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
 import Address from '../address/index.entity';
@@ -21,15 +21,21 @@ export default class Run {
     @Property()
     url!: string;
 
-    @OneToOne()
-    destination!: Address;
+    @OneToOne(() => Address)
+    destination!: Rel<Address>;
 
     @ManyToMany(() => Address)
-    hops: Collection<Address> = new Collection<Address>(this);
+    hops: Collection<Rel<Address>> = new Collection<Rel<Address>>(this);
 
-    @OneToOne({ nullable: true })
-    terminal?: Terminal;
+    @OneToOne(() => Terminal, { nullable: true, inversedBy: 'run' })
+    terminal?: Rel<Terminal>;
 
     @OneToMany(() => Hop, hop => hop.run)
-    route = new Collection<Hop>(this);
+    route = new Collection<Rel<Hop>>(this);
+
+    @Property()
+    createdAt: Date = new Date();
+
+    @Property({ onUpdate: () => new Date() })
+    updatedAt: Date = new Date();
 }

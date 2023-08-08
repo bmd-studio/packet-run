@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import 'reflect-metadata';
 import Address from '../address/index.entity';
 import Terminal from '../terminal/index.entity';
@@ -9,15 +9,21 @@ export default class Hop {
     @PrimaryKey()
     id!: number;
 
-    @OneToOne()
-    address: Address;
+    @OneToOne(() => Address)
+    address: Rel<Address>;
 
-    @OneToOne()
-    terminal: Terminal;
+    @OneToOne(() => Terminal)
+    terminal: Rel<Terminal>;
 
-    @ManyToOne()
-    run: Run;
+    @ManyToOne(() => Run)
+    run: Rel<Run>;
 
     @Property()
     hop: number;
+
+    @Property()
+    createdAt: Date = new Date();
+
+    @Property({ onUpdate: () => new Date() })
+    updatedAt: Date = new Date();
 }

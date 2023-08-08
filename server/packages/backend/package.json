@@ -23,6 +23,7 @@
     "@mikro-orm/core": "^5.7.14",
     "@mikro-orm/migrations": "^5.7.14",
     "@mikro-orm/nestjs": "^5.2.0",
+    "@mikro-orm/seeder": "^5.7.14",
     "@nestjs/apollo": "^12.0.7",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",

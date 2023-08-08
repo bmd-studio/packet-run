@@ -12,6 +12,9 @@ export default class Address {
     @Property({ nullable: true })
     asn?: number;
 
+    @Property()
+    createdAt: Date = new Date();
+
     @Property({ onUpdate: () => new Date() })
     updatedAt: Date = new Date();
 } 

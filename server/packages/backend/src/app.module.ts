@@ -14,6 +14,9 @@ import Run from './entities/run/index.entity';
 import Terminal from './entities/terminal/index.entity';
 import CustomApolloDriver from './lib/CustomApolloDriver';
 import AddressSubscriber from './entities/address/subscriber';
+import TerminalsResolver from './entities/terminal/resolver';
+import DatabasePragmasService from './lib/DatabasePragmasService';
+import TerminalSubscriber from './entities/terminal/subscriber';
 
 @Global()
 @Module({
@@ -24,6 +27,7 @@ import AddressSubscriber from './entities/address/subscriber';
             dbName: './database/packet-run.db',
             type: 'better-sqlite',
             allowGlobalContext: true,
+            debug: true,
         }),
         MikroOrmModule.forFeature([Address, Hop, Run, Terminal]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -41,8 +45,11 @@ import AddressSubscriber from './entities/address/subscriber';
         PubSubManager,
         AppService,
         AutoMigrationService,
+        DatabasePragmasService,
         AddressesResolver,
+        TerminalsResolver,
         AddressSubscriber,
+        TerminalSubscriber,
     ],
     exports: [PubSubManager],
 })

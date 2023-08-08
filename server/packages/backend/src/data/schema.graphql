@@ -6,6 +6,7 @@ type Address {
   ip: String!
   operator: String
   asn: Float
+  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
@@ -14,14 +15,63 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Query {
-  address(ip: String!): Address
+type Hop {
+  id: Float!
+  address: Address!
+  terminal: Terminal!
+  run: Run!
+  hop: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-type Mutation {
-  updateAddress(ip: String!): Boolean
+type Run {
+  id: String!
+  nfcId: String
+  url: String!
+  destination: Address!
+  hops: [Address!]!
+  terminal: Terminal
+  route: Hop!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Terminal {
+  id: Float!
+  type: TerminalType!
+  status: TerminalStatus!
+  payload: String
+  connectionsTo: [Terminal!]!
+  connectionsFrom: [Terminal!]!
+  run: Run
+  lastSeenAt: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum TerminalType {
+  SENDER
+  RECEIVER
+  SERVER
+  GATEWAY
+  ROUTER
+}
+
+enum TerminalStatus {
+  IDLE
+  SCANNING_NFC
+  CREATING_PACKET
+  CREATED_PACKET
+  OFFLINE
+}
+
+type Query {
+  terminal(id: Float!): Terminal
+  terminals: [Terminal!]!
 }
 
 type Subscription {
-  listen(ip: String!): Address
+  registerTerminal(id: Float!): Terminal
+  allTerminals: [Terminal!]!
 }

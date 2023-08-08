@@ -12,5 +12,8 @@ export default class Address {
     asn?: number;
 
     @Field()
+    createdAt: Date;
+
+    @Field()
     updatedAt: Date;
 }
