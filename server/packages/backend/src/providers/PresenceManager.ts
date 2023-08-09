@@ -12,6 +12,11 @@ export default class PresenceManager implements OnModuleInit {
     private logger = new Logger(PresenceManager.name);
     private repository: EntityRepository<Presence>;
 
+    /** This will keep a reference to all websocketIds that have been
+     * registered, so we don't update presence for any subscriptions that have
+     * not been properly registered.  */
+    private registry = new Set<string>;
+
     constructor(
         private readonly orm: MikroORM
     ) {
@@ -37,10 +42,17 @@ export default class PresenceManager implements OnModuleInit {
             ip,
         });
 
+        // Register the websocketId
+        this.registry.add(websocketId);
+
         // Flush any outstanding transactions
         await this.orm.em.flush();
 
+        // Then, find the terminal that is supposed to be associated with the
+        // terminal id.
         const terminal = await this.orm.em.findOne(Terminal, { id: terminalId });
+
+        // GUARD: If it is offline, set the status to idle
         if (terminal.status === TerminalStatus.OFFLINE) {
             terminal.status = TerminalStatus.IDLE;
             await this.orm.em.flush();
@@ -51,6 +63,11 @@ export default class PresenceManager implements OnModuleInit {
      * Transform a single pong into an update for 
      */
     async pong(websocketId: string) {
+        // GUARD: Check that the websocket has been registered before
+        if (!this.registry.has(websocketId)) {
+            return;
+        }
+
         await this.repository.nativeUpdate({ websocketId }, { lastSeenAt: new Date() });
     }
 
@@ -58,6 +75,11 @@ export default class PresenceManager implements OnModuleInit {
      * Process a disconnect event from a websocket
      */
     async disconnect(websocketId: string) {
+        // GUARD: Check that the websocket has been registered before
+        if (!this.registry.has(websocketId)) {
+            return;
+        }
+        
         // Retrieve the presence object for this id
         const presence = await this.repository.findOne({ websocketId }, { populate: ['terminal']});
 
@@ -72,8 +94,8 @@ export default class PresenceManager implements OnModuleInit {
         // Retrieve the remaining count of presences for the associated terminal id
         const count = await this.repository.count({ terminal: presence.terminal.id });
 
+        // GUARD: If there are no presences left, set the terminal status to offline
         if (count === 0) {
-            // If there are no presences left, set the terminal status to offline
             await this.orm.em.getRepository(Terminal)
                 .nativeUpdate({ id: presence.terminal.id }, { status: TerminalStatus.OFFLINE })
         }
