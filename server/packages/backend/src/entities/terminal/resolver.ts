@@ -1,31 +1,33 @@
 import { Args, Context, Query, Resolver, Subscription } from '@nestjs/graphql';
 import Terminal from './model';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import TerminalEntity from './index.entity';
+import TerminalEntity, { fetchAllTerminals } from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
 import PubSubManager from '../../providers/PubSubManager';
 import WebsocketId, { GraphQLContext } from '../../lib/WebsocketId';
 import { terminalsObservable } from './subscriber';
 import { map } from 'rxjs';
 import PresenceManager from '../../providers/PresenceManager';
+import { EntityManager } from '@mikro-orm/core';
 
 @Resolver(() => Terminal)
 export default class TerminalsResolver {
     constructor(
         @InjectRepository(TerminalEntity)
         private readonly repository: EntityRepository<TerminalEntity>,
+        private readonly em: EntityManager,
         private readonly pubsub: PubSubManager,
         private readonly presence: PresenceManager,
     ) {}
 
     @Query(() => Terminal, { nullable: true })
     async terminal(@Args('id') id: number) {
-        return this.repository.findOneOrFail({ id });
+        return this.repository.findOneOrFail({ id }, { populate: ['connectionsFrom', 'connectionsTo', 'run', 'run.hops', 'run.route', 'presences'] });
     }
 
     @Query(() => [Terminal])
     async terminals() {
-        return this.repository.findAll({ populate: ['connectionsTo', 'connectionsFrom'] });
+        return fetchAllTerminals(this.em);
     }
 
     @Subscription(() => Terminal, { nullable: true })
