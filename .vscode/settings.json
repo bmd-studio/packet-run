@@ -2,5 +2,6 @@
     "eslint.workingDirectories": [
         "./server/packages/frontend",
         "./server/packages/backend"
-    ]
+    ],
+    "graphql-config.load.rootDir": "./server/packages/frontend"
 }

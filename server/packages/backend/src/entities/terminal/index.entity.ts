@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Collection, Entity, EntityManager, Enum, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import { Collection, Entity, EntityManager, Enum, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import Run from '../run/index.entity';
 import Presence from '../presence/index.entity';
 

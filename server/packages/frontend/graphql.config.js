@@ -1,8 +1,7 @@
 /** @type {import('@graphql-codegen/cli').CodegenConfig} */
 const codegenConfig = {
     schema: '../backend/src/data/schema.graphql',
-    documents: ['src/**/*.tsx'],
-    ignoreNoDocuments: true,
+    documents: ['src/**/*.graphql'],
     generates: {
         './src/data/generated/index.tsx': {
             plugins: [

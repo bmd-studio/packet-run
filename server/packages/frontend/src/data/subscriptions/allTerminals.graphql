@@ -1,0 +1,43 @@
+subscription AllTerminals {
+    allTerminals {
+        id
+        type
+        status
+        payload
+        connectionsTo {
+            id
+        }
+        run {
+            id
+            nfcId
+            url
+            destination {
+                ip
+                operator
+            }
+            hops {
+                ip
+            }
+            route {
+                id
+                address {
+                    ip
+                }
+                terminal {
+                    id
+                }
+            }
+            createdAt
+            updatedAt
+        }
+        createdAt
+        updatedAt
+        presences {
+            id
+            ip
+            websocketId
+            connectedAt
+            lastSeenAt
+        }
+    }
+}

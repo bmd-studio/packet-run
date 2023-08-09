@@ -9,22 +9,34 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen --config graphql.config.js"
   },
   "dependencies": {
     "@apollo/client": "^3.8.0",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-popover": "^1.0.6",
+    "@types/cytoscape": "^3.19.10",
+    "@types/dagre": "^0.7.49",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
+    "@visx/network": "^3.3.0",
     "autoprefixer": "10.4.14",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "cytoscape": "^3.26.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "graphql": "^16.7.1",
+    "graphql-ws": "^5.14.0",
+    "lucide-react": "^0.265.0",
     "next": "13.4.12",
     "postcss": "8.4.27",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3"
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "3.3.3",
+    "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
@@ -32,6 +44,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "mini-css-extract-plugin": "^2.7.6",
     "typescript": "^5.1.6"
   }
 }
