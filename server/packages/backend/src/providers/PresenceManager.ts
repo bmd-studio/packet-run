@@ -61,6 +61,11 @@ export default class PresenceManager implements OnModuleInit {
         // Retrieve the presence object for this id
         const presence = await this.repository.findOne({ websocketId }, { populate: ['terminal']});
 
+        // GUARD: Check that we actually managed to retrieve the presence
+        if (!presence) {
+            return;
+        }
+
         // Then, delete it
         await this.repository.nativeDelete({ websocketId });
 
