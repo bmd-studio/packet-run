@@ -25,3 +25,7 @@ build:
     - npm run build
     - npm run lint
     - npx turbo migrations:check
+    - npx turbo codegen
+    # Make sure the codegen hasn't introduced any file changes
+    - git status --porcelain
+    - git diff-index --quiet HEAD
