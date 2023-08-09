@@ -9,6 +9,7 @@
             ]
         },
         "lint": {},
+        "codegen": {},
         "migrations:check": {
             "dependsOn": ["build"]
         },
