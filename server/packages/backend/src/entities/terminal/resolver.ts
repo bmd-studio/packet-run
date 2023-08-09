@@ -1,12 +1,13 @@
-import { Args, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Context, Query, Resolver, Subscription } from '@nestjs/graphql';
 import Terminal from './model';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import TerminalEntity from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
-import PubSubManager from '../../lib/PubSubManager';
-import WebsocketId from '../../lib/WebsocketId';
+import PubSubManager from '../../providers/PubSubManager';
+import WebsocketId, { GraphQLContext } from '../../lib/WebsocketId';
 import { terminalsObservable } from './subscriber';
 import { map } from 'rxjs';
+import PresenceManager from '../../providers/PresenceManager';
 
 @Resolver(() => Terminal)
 export default class TerminalsResolver {
@@ -14,6 +15,7 @@ export default class TerminalsResolver {
         @InjectRepository(TerminalEntity)
         private readonly repository: EntityRepository<TerminalEntity>,
         private readonly pubsub: PubSubManager,
+        private readonly presence: PresenceManager,
     ) {}
 
     @Query(() => Terminal, { nullable: true })
@@ -30,7 +32,13 @@ export default class TerminalsResolver {
     async registerTerminal(
         @Args('id') id: number,
         @WebsocketId() subscriptionId: string,
+        @Context() context: { req: GraphQLContext }
     ) {
+        this.presence.register(
+            subscriptionId,
+            id,
+            context.req.extra.request.socket.remoteAddress
+        );
         return this.pubsub.subscribe(
             TerminalEntity,
             id,

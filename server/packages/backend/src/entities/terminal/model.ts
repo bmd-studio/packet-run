@@ -2,6 +2,7 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { TerminalStatus, TerminalType } from './index.entity';
 import Run from '../run/model';
 import { Rel } from '@mikro-orm/core';
+import Presence from '../presence/model';
 
 registerEnumType(TerminalType, { name: 'TerminalType' });
 registerEnumType(TerminalStatus, { name: 'TerminalStatus' });
@@ -29,8 +30,8 @@ export default class Terminal {
     @Field(() => Run, { nullable: true })
     run?: Rel<Run>;
 
-    @Field()
-    lastSeenAt: Date;
+    @Field(() => [Presence])
+    presences: Rel<Presence[]>;
 
     @Field()
     createdAt: Date;

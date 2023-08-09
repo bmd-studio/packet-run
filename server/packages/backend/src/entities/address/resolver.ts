@@ -3,7 +3,7 @@ import { Resolver } from '@nestjs/graphql';
 import AddressModel from './model';
 import Address from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
-import PubSubManager from '../../lib/PubSubManager';
+import PubSubManager from '../../providers/PubSubManager';
 // import WebsocketId from '../../lib/WebsocketId';
 
 @Resolver(() => AddressModel)

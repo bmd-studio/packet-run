@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import Terminal, { fetchAllTerminals } from './index.entity';
-import PubSubManager from '../../lib/PubSubManager';
+import PubSubManager from '../../providers/PubSubManager';
 import { Injectable } from '@nestjs/common';
 import { EntityManager, EntityName, EventArgs, EventSubscriber } from '@mikro-orm/core';
 

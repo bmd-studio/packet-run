@@ -119,16 +119,6 @@
           "nullable": true,
           "mappedType": "text"
         },
-        "last_seen_at": {
-          "name": "last_seen_at",
-          "type": "datetime",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 0,
-          "mappedType": "datetime"
-        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",
@@ -370,6 +360,102 @@
           ],
           "referencedTableName": "address",
           "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "terminal_id": {
+          "name": "terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "websocket_id": {
+          "name": "websocket_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "connected_at": {
+          "name": "connected_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "last_seen_at": {
+          "name": "last_seen_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "presence",
+      "indexes": [
+        {
+          "columnNames": [
+            "terminal_id"
+          ],
+          "composite": false,
+          "keyName": "presence_terminal_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "presence_terminal_id_foreign": {
+          "constraintName": "presence_terminal_id_foreign",
+          "columnNames": [
+            "terminal_id"
+          ],
+          "localTableName": "presence",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
           "updateRule": "cascade"
         }
       }

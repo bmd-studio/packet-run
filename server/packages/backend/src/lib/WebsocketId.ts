@@ -3,7 +3,7 @@ import { Context as ContextDecorator } from '@nestjs/graphql';
 import type { Context  } from 'graphql-ws';
 import { Extra } from 'graphql-ws/lib/use/ws';
 
-type GraphQLContext = Context<Record<string, unknown>, Extra & Partial<Record<PropertyKey, never>>>
+export type GraphQLContext = Context<Record<string, unknown>, Extra & Partial<Record<PropertyKey, never>>>
 
 /**
  * Retrieve the id for a client that is supplied via the Sec-Websocket-Key header

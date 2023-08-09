@@ -7,13 +7,15 @@ import { printSchema } from 'graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import CustomGqlSubscriptionService from './CustomSubscriptionService';
 import { ModulesContainer } from '@nestjs/core';
-import PubSubManager from './PubSubManager';
+import PubSubManager from '../providers/PubSubManager';
+import PresenceManager from '../providers/PresenceManager';
 
 @Injectable()
 export default class CustomApolloDriver extends ApolloDriver {
     constructor(
         modulesContainer: ModulesContainer,
         private readonly pubSubManager: PubSubManager,
+        private readonly presenceManager: PresenceManager,
     ) {
         super(modulesContainer);
     }
@@ -47,6 +49,7 @@ export default class CustomApolloDriver extends ApolloDriver {
                 },
                 this.httpAdapterHost.httpAdapter?.getHttpServer(),
                 this.pubSubManager,
+                this.presenceManager,
             );
         }
     }

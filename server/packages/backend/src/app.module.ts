@@ -2,9 +2,9 @@ import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import AutoMigrationService from './lib/AutoMigrationsService';
+import AutoMigrationService from './providers/AutoMigrationsService';
 import { GraphQLModule } from '@nestjs/graphql';
-import PubSubManager from './lib/PubSubManager';
+import PubSubManager from './providers/PubSubManager';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import AddressesResolver from './entities/address/resolver';
@@ -15,8 +15,9 @@ import Terminal from './entities/terminal/index.entity';
 import CustomApolloDriver from './lib/CustomApolloDriver';
 import AddressSubscriber from './entities/address/subscriber';
 import TerminalsResolver from './entities/terminal/resolver';
-import DatabasePragmasService from './lib/DatabasePragmasService';
+import DatabasePragmasService from './providers/DatabasePragmasService';
 import TerminalSubscriber from './entities/terminal/subscriber';
+import PresenceManager from './providers/PresenceManager';
 
 @Global()
 @Module({
@@ -42,6 +43,7 @@ import TerminalSubscriber from './entities/terminal/subscriber';
     ],
     controllers: [AppController],
     providers: [
+        PresenceManager,
         PubSubManager,
         AppService,
         AutoMigrationService,
@@ -51,6 +53,9 @@ import TerminalSubscriber from './entities/terminal/subscriber';
         AddressSubscriber,
         TerminalSubscriber,
     ],
-    exports: [PubSubManager],
+    exports: [
+        PubSubManager,
+        PresenceManager,
+    ],
 })
 export class AppModule { }

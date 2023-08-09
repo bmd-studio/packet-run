@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-import { Collection, Entity, EntityManager, Enum, ManyToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import { Collection, Entity, EntityManager, Enum, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import Run from '../run/index.entity';
+import Presence from '../presence/index.entity';
 
 export enum TerminalType {
     SENDER = 'sender',
@@ -41,8 +42,8 @@ export default class Terminal {
     @OneToOne(() => Run, (run) => run.terminal)
     run: Rel<Run>;
 
-    @Property({ onUpdate: () => new Date() })
-    lastSeenAt: Date = new Date();
+    @OneToMany(() => Presence, (presence) => presence.terminal)
+    presences = new Collection<Presence>(this);
 
     @Property()
     createdAt: Date = new Date();

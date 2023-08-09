@@ -37,6 +37,15 @@ type Run {
   updatedAt: DateTime!
 }
 
+type Presence {
+  id: Float!
+  terminal: Terminal!
+  ip: String!
+  websocketId: String!
+  connectedAt: DateTime!
+  lastSeenAt: DateTime!
+}
+
 type Terminal {
   id: Float!
   type: TerminalType!
@@ -45,7 +54,7 @@ type Terminal {
   connectionsTo: [Terminal!]!
   connectionsFrom: [Terminal!]!
   run: Run
-  lastSeenAt: DateTime!
+  presences: [Presence!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
