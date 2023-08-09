@@ -53,7 +53,7 @@ export default function Home() {
                     data: {
                         ...terminal,
                         id: terminal.id.toString(),
-                        label: `${terminal.id} [${terminal.type}]\n${terminal.status}`,
+                        label: `${terminal.id}`,
                         backgroundColor: mapTerminalStatusToColor[terminal.status].background,
                         borderColor: mapTerminalStatusToColor[terminal.status].border,
                         shape: mapTerminalTypeToShape[terminal.type],
@@ -93,6 +93,8 @@ export default function Home() {
                     "border-style": 'solid',
                     "border-width": 5,
                     shape: 'data(shape)' as cytoscape.Css.NodeShape,
+                    width: 64,
+                    height: 64,
                 }
             }, {
                 selector: 'node[label]',
@@ -100,7 +102,11 @@ export default function Home() {
                     label: 'data(label)',
                     "text-wrap": 'wrap',
                     "font-family": '-apple-system',
-                    "text-margin-y": -12,
+                    // "text-margin-y": -12,
+                    "font-size": 18,
+                    "font-weight": "bold",
+                    "color": "white",
+                    "text-valign": "center"
                 }
             }, {
                 selector: 'edge',
@@ -151,8 +157,6 @@ export default function Home() {
     const closePopover = useCallback(() => {
         setActiveTerminal(null);
     }, []);
-
-    console.log(JSON.stringify(activeTerminal, null, 4));
 
     return (
         <div className="w-screen h-screen flex flex-col">
