@@ -12,7 +12,8 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix & nest build --type-check",
     "migrations:generate": "npm run build && npx mikro-orm migration:create",
     "migrations:run": "npm run build && npx mikro-orm migration:up",
-    "migrations:check": "mikro-orm migration:check"
+    "migrations:check": "mikro-orm migration:check",
+    "seed": "mikro-orm seeder:run"
   },
   "dependencies": {
     "@apollo/server": "^4.9.0",

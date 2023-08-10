@@ -23,10 +23,7 @@ build:
   script:
     - cd server
     - npm install
-    - npm run build
-    - npm run lint
-    - npx turbo migrations:check
-    - npx turbo codegen
+    - npx turbo build lint migrations:check codegen migrations:run seed
     # Make sure the codegen hasn't introduced any file changes
     - apk add --no-cache git
     - git status --porcelain

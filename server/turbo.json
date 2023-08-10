@@ -13,6 +13,12 @@
         "migrations:check": {
             "dependsOn": ["build"]
         },
+        "migrations:run": {
+            "dependsOn": ["build"]
+        },
+        "seed": {
+            "dependsOn": ["build", "migrations:run"]
+        },
         "dev": {
             "cache": false,
             "persistent": true
