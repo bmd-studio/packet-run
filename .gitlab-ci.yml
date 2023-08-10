@@ -16,7 +16,9 @@ image: node:20-alpine
 cache:
   paths:
     - server/node_modules/
+    - server/**/node_modules
     - server/**/.turbo/
+    - server/packages/frontend/.next/cache
 
 build:
   script:
