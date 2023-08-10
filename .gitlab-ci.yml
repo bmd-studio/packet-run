@@ -15,7 +15,6 @@ image: node:20-alpine
 # https://docs.gitlab.com/ee/ci/yaml/index.html#cache
 cache:
   paths:
-    - server/node_modules/
     - server/**/node_modules
     - server/**/.turbo/
     - server/packages/frontend/.next/cache
