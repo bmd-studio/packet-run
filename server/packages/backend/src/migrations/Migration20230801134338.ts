@@ -5,7 +5,7 @@ export class Migration20230801134338 extends Migration {
     async up(): Promise<void> {
         this.addSql('create table `address` (`ip` text not null, `operator` text null, `asn` integer null, `updated_at` datetime not null, primary key (`ip`));');
 
-        this.addSql('create table `terminal` (`id` integer not null primary key autoincrement, `type` text check (`type` in (\'sender\', \'receiver\', \'server\', \'gateway\', \'router\')) not null, `status` text check (`status` in (\'idle\', \'scanning_nfc\', \'creating_packet\', \'created_packet\', \'offline\')) not null default \'offline\', `payload` text null, `last_seen_at` datetime not null);');
+        this.addSql('create table `terminal` (`id` integer not null primary key autoincrement, `type` text check (`type` in (\'sender\', \'receiver\', \'server\', \'gateway\', \'router\')) not null, `status` text check (`status` in (\'idle\', \'scanning_nfc\', \'creating_packet\', \'created_packet\', \'offline\')) not null default \'offline\', `payload` text null);');
 
         this.addSql('create table `run` (`id` text not null, `nfc_id` text not null, `url` text not null, `destination_ip` text not null, `terminal_id` integer null, constraint `run_destination_ip_foreign` foreign key(`destination_ip`) references `address`(`ip`) on update cascade, constraint `run_terminal_id_foreign` foreign key(`terminal_id`) references `terminal`(`id`) on delete set null on update cascade, primary key (`id`));');
         this.addSql('create unique index `run_destination_ip_unique` on `run` (`destination_ip`);');
