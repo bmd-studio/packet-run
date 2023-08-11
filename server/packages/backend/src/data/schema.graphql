@@ -5,7 +5,7 @@
 type IpInfo {
   ip: String!
   type: String!
-  hostname: String!
+  hostname: String
   carrier: Carrier!
   company: Company!
   connection: Connection!
@@ -16,9 +16,9 @@ type IpInfo {
 }
 
 type Carrier {
-  name: String!
-  mcc: String!
-  mnc: String!
+  name: String
+  mcc: String
+  mnc: String
 }
 
 type Company {
@@ -83,7 +83,7 @@ type Country {
   population: Float!
   population_density: Float!
   flag: Flag!
-  languages: [LanguagesEntityOrLanguage!]!
+  languages: [LanguagesEntityOrLanguage!]
   tld: String!
 }
 
@@ -139,7 +139,7 @@ scalar DateTime
 
 type Hop {
   id: Float!
-  address: Address!
+  address: Address
   terminal: Terminal!
   run: Run!
   hop: Float!
@@ -154,7 +154,7 @@ type Run {
   destination: Address!
   hops: [Address!]!
   terminal: Terminal
-  route: Hop!
+  route: [Hop!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

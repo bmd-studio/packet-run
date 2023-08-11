@@ -60,7 +60,8 @@ export default async function (runId: string, orm: MikroORM) {
         // Whenever a new hop is received, wrap it in an address and add it as a hop
         tracer.on('hop', async ({ ip, hop: hopNumber }) => {
             const address = await findOrCreateAddress(ip, orm);
-            orm.em.create(Hop, { address, run, hop: hopNumber });
+            const hop = orm.em.create(Hop, { address, hop: hopNumber });
+            run.route.add(hop);
             await orm.em.flush();
         });
 

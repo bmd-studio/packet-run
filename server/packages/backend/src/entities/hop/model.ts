@@ -9,8 +9,8 @@ export default class Hop {
     @Field()
     id!: number;
 
-    @Field(() => Address)
-    address: Address;
+    @Field(() => Address, { nullable: true })
+    address?: Address;
 
     @Field(() => Terminal)
     terminal: Rel<Terminal>;

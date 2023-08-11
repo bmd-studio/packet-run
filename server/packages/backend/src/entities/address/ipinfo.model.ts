@@ -10,7 +10,7 @@ export default class IpInfo {
     @Field()
     type: string;
     
-    @Field()
+    @Field({ nullable: true })
     hostname?: string;
     
     @Field(() => Carrier)
@@ -37,13 +37,13 @@ export default class IpInfo {
 
 @ObjectType()
 export class Carrier {
-    @Field()
+    @Field({ nullable: true })
     name?: string;
     
-    @Field()
+    @Field({ nullable: true })
     mcc?: string;
     
-    @Field()
+    @Field({ nullable: true })
     mnc?: string;
 }
 
@@ -190,7 +190,7 @@ export class Country {
     @Field(() => Flag)
     flag: Rel<Flag>;
     
-    @Field(() => [LanguagesEntityOrLanguage])
+    @Field(() => [LanguagesEntityOrLanguage], { nullable: true })
     languages?: Rel<LanguagesEntityOrLanguage>[];
     
     @Field()

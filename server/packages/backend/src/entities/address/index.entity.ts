@@ -7,7 +7,7 @@ export default class Address {
     @PrimaryKey()
     ip!: string;
     
-    @Property({ nullable: true })
+    @Property({ nullable: true, type: 'json', columnType: 'text' })
     info?: Rel<IpInfo>;
 
     @Property()

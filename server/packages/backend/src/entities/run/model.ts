@@ -24,7 +24,7 @@ export default class Run {
     @Field(() => Terminal, { nullable: true })
     terminal: Rel<Terminal>;
 
-    @Field(() => Hop)
+    @Field(() => [Hop])
     route: Hop[];
 
     @Field()

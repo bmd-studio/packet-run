@@ -13,7 +13,9 @@ export default class RunsResolver {
 
     @Query(() => RunModel)
     async run(@Args('id') id: string) {
-        return this.repository.findOneOrFail({ id });
+        return this.repository.findOneOrFail({ id }, { 
+            populate: ['hops', 'destination', 'terminal', 'route', 'route.address'],
+        });
     }
 
     @Mutation(() => RunModel)
