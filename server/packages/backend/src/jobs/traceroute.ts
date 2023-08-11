@@ -2,7 +2,7 @@ import Traceroute from 'nodejs-traceroute';
 import Run from '../entities/run/index.entity';
 import Address from '../entities/address/index.entity';
 import Hop from '../entities/hop/index.entity';
-import { MikroORM } from '@mikro-orm/better-sqlite';
+import { MikroORM } from '@mikro-orm/core';
 
 /**
  * A convenience function that either finds an address by its IP, or
