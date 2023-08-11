@@ -22,22 +22,144 @@ export type Scalars = {
 
 export type Address = {
   __typename?: 'Address';
-  asn?: Maybe<Scalars['Float']['output']>;
   createdAt: Scalars['DateTime']['output'];
+  info?: Maybe<IpInfo>;
   ip: Scalars['String']['output'];
-  operator?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type Carrier = {
+  __typename?: 'Carrier';
+  mcc?: Maybe<Scalars['String']['output']>;
+  mnc?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+export type Company = {
+  __typename?: 'Company';
+  domain: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type Connection = {
+  __typename?: 'Connection';
+  asn: Scalars['Float']['output'];
+  domain: Scalars['String']['output'];
+  organization: Scalars['String']['output'];
+  route: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type ContinentOrRegion = {
+  __typename?: 'ContinentOrRegion';
+  code: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type Country = {
+  __typename?: 'Country';
+  area: Scalars['Float']['output'];
+  borders: Array<Scalars['String']['output']>;
+  calling_code: Scalars['String']['output'];
+  capital: Scalars['String']['output'];
+  code: Scalars['String']['output'];
+  flag: Flag;
+  languages?: Maybe<Array<LanguagesEntityOrLanguage>>;
+  name: Scalars['String']['output'];
+  population: Scalars['Float']['output'];
+  population_density: Scalars['Float']['output'];
+  tld: Scalars['String']['output'];
+};
+
+export type Currency = {
+  __typename?: 'Currency';
+  code: Scalars['String']['output'];
+  format: Format;
+  name: Scalars['String']['output'];
+  name_native: Scalars['String']['output'];
+  plural: Scalars['String']['output'];
+  plural_native: Scalars['String']['output'];
+  symbol: Scalars['String']['output'];
+  symbol_native: Scalars['String']['output'];
+};
+
+export type Flag = {
+  __typename?: 'Flag';
+  emoji: Scalars['String']['output'];
+  emoji_unicode: Scalars['String']['output'];
+  emojitwo: Scalars['String']['output'];
+  noto: Scalars['String']['output'];
+  twemoji: Scalars['String']['output'];
+  wikimedia: Scalars['String']['output'];
+};
+
+export type Format = {
+  __typename?: 'Format';
+  negative: NegativeOrPositive;
+  positive: NegativeOrPositive;
 };
 
 export type Hop = {
   __typename?: 'Hop';
-  address: Address;
+  address?: Maybe<Address>;
   createdAt: Scalars['DateTime']['output'];
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
   run: Run;
   terminal: Terminal;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type IpInfo = {
+  __typename?: 'IpInfo';
+  carrier: Carrier;
+  company: Company;
+  connection: Connection;
+  currency: Currency;
+  hostname?: Maybe<Scalars['String']['output']>;
+  ip: Scalars['String']['output'];
+  location: Location;
+  security: Security;
+  time_zone: TimeZone;
+  type: Scalars['String']['output'];
+};
+
+export type LanguagesEntityOrLanguage = {
+  __typename?: 'LanguagesEntityOrLanguage';
+  code: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  native: Scalars['String']['output'];
+};
+
+export type Location = {
+  __typename?: 'Location';
+  city: Scalars['String']['output'];
+  continent: ContinentOrRegion;
+  country: Country;
+  in_eu: Scalars['Boolean']['output'];
+  language: LanguagesEntityOrLanguage;
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  postal: Scalars['String']['output'];
+  region: ContinentOrRegion;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createRun: Run;
+};
+
+
+export type MutationCreateRunArgs = {
+  nfcId: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+};
+
+export type NegativeOrPositive = {
+  __typename?: 'NegativeOrPositive';
+  prefix: Scalars['String']['output'];
+  suffix: Scalars['String']['output'];
 };
 
 export type Presence = {
@@ -52,8 +174,14 @@ export type Presence = {
 
 export type Query = {
   __typename?: 'Query';
+  run: Run;
   terminal?: Maybe<Terminal>;
   terminals: Array<Terminal>;
+};
+
+
+export type QueryRunArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -68,10 +196,25 @@ export type Run = {
   hops: Array<Address>;
   id: Scalars['String']['output'];
   nfcId?: Maybe<Scalars['String']['output']>;
-  route: Hop;
+  route: Array<Hop>;
   terminal?: Maybe<Terminal>;
   updatedAt: Scalars['DateTime']['output'];
   url: Scalars['String']['output'];
+};
+
+export type Security = {
+  __typename?: 'Security';
+  is_abuser: Scalars['Boolean']['output'];
+  is_anonymous: Scalars['Boolean']['output'];
+  is_attacker: Scalars['Boolean']['output'];
+  is_bogon: Scalars['Boolean']['output'];
+  is_cloud_provider: Scalars['Boolean']['output'];
+  is_proxy: Scalars['Boolean']['output'];
+  is_relay: Scalars['Boolean']['output'];
+  is_threat: Scalars['Boolean']['output'];
+  is_tor: Scalars['Boolean']['output'];
+  is_tor_exit: Scalars['Boolean']['output'];
+  is_vpn: Scalars['Boolean']['output'];
 };
 
 export type Subscription = {
@@ -115,10 +258,20 @@ export enum TerminalType {
   Server = 'SERVER'
 }
 
+export type TimeZone = {
+  __typename?: 'TimeZone';
+  abbreviation: Scalars['String']['output'];
+  current_time: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  in_daylight_saving: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  offset: Scalars['Float']['output'];
+};
+
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, operator?: string | null }, hops: Array<{ __typename?: 'Address', ip: string }>, route: { __typename?: 'Hop', id: number, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } } } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'Address', ip: string }>, route: Array<{ __typename?: 'Hop', id: number, address?: { __typename?: 'Address', ip: string } | null, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 
 export const AllTerminalsDocument = gql`
@@ -137,7 +290,11 @@ export const AllTerminalsDocument = gql`
       url
       destination {
         ip
-        operator
+        info {
+          company {
+            name
+          }
+        }
       }
       hops {
         ip

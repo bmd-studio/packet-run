@@ -13,7 +13,11 @@ subscription AllTerminals {
             url
             destination {
                 ip
-                operator
+                info {
+                    company {
+                        name
+                    }
+                }
             }
             hops {
                 ip
