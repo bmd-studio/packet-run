@@ -21,7 +21,7 @@ export default class Run {
     @Property()
     url!: string;
 
-    @OneToOne(() => Address)
+    @OneToOne(() => Address, { nullable: true })
     destination!: Rel<Address>;
 
     @ManyToMany(() => Address)

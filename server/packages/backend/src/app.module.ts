@@ -18,6 +18,10 @@ import TerminalsResolver from './entities/terminal/resolver';
 import DatabasePragmasService from './providers/DatabasePragmasService';
 import TerminalSubscriber from './entities/terminal/subscriber';
 import PresenceManager from './providers/PresenceManager';
+import { BullModule } from '@nestjs/bullmq';
+import JobProcessor from './jobs';
+import RunsResolver from './entities/run/resolver';
+import RunSubscriber from './entities/run/subscriber';
 
 @Global()
 @Module({
@@ -40,18 +44,29 @@ import PresenceManager from './providers/PresenceManager';
                 },
             },
         }),
+        BullModule.forRoot({}),
+        BullModule.registerQueue({
+            name: 'default',
+        }),
     ],
     controllers: [AppController],
     providers: [
+        /** Providers */
         PresenceManager,
         PubSubManager,
-        AppService,
         AutoMigrationService,
         DatabasePragmasService,
+        /** Resolvers */
         AddressesResolver,
         TerminalsResolver,
+        RunsResolver,
+        /** Subscribers */
         AddressSubscriber,
         TerminalSubscriber,
+        RunSubscriber,
+        /** Misc */
+        AppService,
+        JobProcessor,
     ],
     exports: [
         PubSubManager,

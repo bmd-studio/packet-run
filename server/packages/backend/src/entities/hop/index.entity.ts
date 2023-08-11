@@ -9,10 +9,10 @@ export default class Hop {
     @PrimaryKey()
     id!: number;
 
-    @OneToOne(() => Address)
+    @OneToOne(() => Address, { unique: false, nullable: true })
     address: Rel<Address>;
 
-    @OneToOne(() => Terminal)
+    @OneToOne(() => Terminal, { nullable: true, unique: false })
     terminal: Rel<Terminal>;
 
     @ManyToOne(() => Run)

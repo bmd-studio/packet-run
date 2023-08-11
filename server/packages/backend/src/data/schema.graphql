@@ -80,6 +80,10 @@ type Query {
   terminals: [Terminal!]!
 }
 
+type Mutation {
+  createRun(url: String!, nfcId: String!): Run!
+}
+
 type Subscription {
   registerTerminal(id: Float!): Terminal
   allTerminals: [Terminal!]!

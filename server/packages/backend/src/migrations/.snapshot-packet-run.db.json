@@ -190,7 +190,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "terminal_id": {
@@ -265,6 +265,7 @@
             "ip"
           ],
           "referencedTableName": "address",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         },
         "run_terminal_id_foreign": {
@@ -486,7 +487,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "integer"
         },
         "run_id": {
@@ -532,24 +533,6 @@
       "indexes": [
         {
           "columnNames": [
-            "address_ip"
-          ],
-          "composite": false,
-          "keyName": "hop_address_ip_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "columnNames": [
-            "terminal_id"
-          ],
-          "composite": false,
-          "keyName": "hop_terminal_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "columnNames": [
             "run_id"
           ],
           "composite": false,
@@ -591,6 +574,7 @@
             "id"
           ],
           "referencedTableName": "terminal",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         },
         "hop_run_id_foreign": {
