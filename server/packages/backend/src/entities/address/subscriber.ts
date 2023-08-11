@@ -1,13 +1,15 @@
 import { EntityManager, EntityName, EventArgs, EventSubscriber } from '@mikro-orm/core';
 import Address from './index.entity';
-import PubSubManager from '../../providers/PubSubManager';
 import { Injectable } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export default class AddressSubscriber implements EventSubscriber<Address> {
     constructor(
         em: EntityManager,
-        private readonly pubSub: PubSubManager,
+        @InjectQueue('default')
+        private readonly queue: Queue,
     ) {
         em.getEventManager().registerSubscriber(this);
     }
@@ -16,11 +18,11 @@ export default class AddressSubscriber implements EventSubscriber<Address> {
         return [Address];
     }
 
-    async afterUpdate({ entity }: EventArgs<Address>) {
-        this.pubSub.publish(Address, entity.ip, entity);
+    async afterCreate(args: EventArgs<Address>) {
+        //
     }
 
-    async afterUpsert({ entity }: EventArgs<Address>) {
-        this.pubSub.publish(Address, entity.ip, entity);
+    async afterUpdate(args) {
+        //
     }
 }

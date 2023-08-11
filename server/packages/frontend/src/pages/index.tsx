@@ -74,8 +74,6 @@ export default function Home() {
         };
     }, [data]);
 
-    console.log(data, elements);
-
     useEffect(() => {
         graph.current = cytoscape({
             elements,

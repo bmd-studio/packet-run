@@ -5,6 +5,26 @@ import Hop from '../entities/hop/index.entity';
 import { MikroORM } from '@mikro-orm/better-sqlite';
 
 /**
+ * A convenience function that either finds an address by its IP, or
+ * alternatively creates it and inserts it into the database.
+ */
+async function findOrCreateAddress(ip: string, orm: MikroORM) {
+    // Check if the address exists
+    const exists = (await orm.em.count(Address, { ip })) > 1;
+
+    // Based on this, either create or retrieve it
+    const address = exists
+        ? await orm.em.findOneOrFail(Address, { ip })
+        : orm.em.create(Address, { ip });
+
+    // Make sure we change the updatedAt column so we trigger the events
+    address.updatedAt = new Date();
+    orm.em.flush();
+
+    return address;
+}
+
+/**
  * This job takes a base runId, and retrieves the destination IP and all
  * underlying hops.
  */
@@ -27,24 +47,14 @@ export default async function (runId: string, orm: MikroORM) {
         
         // Whenever a destination is received, add it as the destination address
         tracer.on('destination', async (destination) => {
-            const address = await orm.em.createQueryBuilder(Address)
-                .insert({ ip: destination, updatedAt: new Date(), createdAt: new Date() })
-                .onConflict('ip')
-                .merge({ ip: destination, updatedAt: new Date() });
+            const address = await findOrCreateAddress(destination, orm);
             run.destination = address;
             await orm.em.flush();
         });
 
         // Whenever a new hop is received, wrap it in an address and add it as a hop
         tracer.on('hop', async ({ ip, hop: hopNumber }) => {
-            const address = ip !== '*'
-                ? (await orm.em.createQueryBuilder(Address)
-                    .insert({ ip, updatedAt: new Date(), createdAt: new Date() })
-                    .onConflict('ip')
-                    .merge({ ip, updatedAt: new Date() })
-                    .select(['ip']))[0]
-                : null;
-            console.log(ip, address);
+            const address = await findOrCreateAddress(ip, orm);
             orm.em.create(Hop, { address, run, hop: hopNumber });
             await orm.em.flush();
         });
