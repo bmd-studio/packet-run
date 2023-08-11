@@ -2,10 +2,132 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type IpInfo {
+  ip: String!
+  type: String!
+  hostname: String!
+  carrier: Carrier!
+  company: Company!
+  connection: Connection!
+  currency: Currency!
+  location: Location!
+  security: Security!
+  time_zone: TimeZone!
+}
+
+type Carrier {
+  name: String!
+  mcc: String!
+  mnc: String!
+}
+
+type Company {
+  domain: String!
+  name: String!
+  type: String!
+}
+
+type Connection {
+  asn: Float!
+  domain: String!
+  organization: String!
+  route: String!
+  type: String!
+}
+
+type Currency {
+  code: String!
+  name: String!
+  name_native: String!
+  plural: String!
+  plural_native: String!
+  symbol: String!
+  symbol_native: String!
+  format: Format!
+}
+
+type Format {
+  negative: NegativeOrPositive!
+  positive: NegativeOrPositive!
+}
+
+type NegativeOrPositive {
+  prefix: String!
+  suffix: String!
+}
+
+type Location {
+  continent: ContinentOrRegion!
+  country: Country!
+  region: ContinentOrRegion!
+  city: String!
+  postal: String!
+  latitude: Float!
+  longitude: Float!
+  language: LanguagesEntityOrLanguage!
+  in_eu: Boolean!
+}
+
+type ContinentOrRegion {
+  code: String!
+  name: String!
+}
+
+type Country {
+  area: Float!
+  borders: [String!]!
+  calling_code: String!
+  capital: String!
+  code: String!
+  name: String!
+  population: Float!
+  population_density: Float!
+  flag: Flag!
+  languages: [LanguagesEntityOrLanguage!]!
+  tld: String!
+}
+
+type Flag {
+  emoji: String!
+  emoji_unicode: String!
+  emojitwo: String!
+  noto: String!
+  twemoji: String!
+  wikimedia: String!
+}
+
+type LanguagesEntityOrLanguage {
+  code: String!
+  name: String!
+  native: String!
+}
+
+type Security {
+  is_abuser: Boolean!
+  is_attacker: Boolean!
+  is_bogon: Boolean!
+  is_cloud_provider: Boolean!
+  is_proxy: Boolean!
+  is_relay: Boolean!
+  is_tor: Boolean!
+  is_tor_exit: Boolean!
+  is_vpn: Boolean!
+  is_anonymous: Boolean!
+  is_threat: Boolean!
+}
+
+type TimeZone {
+  id: String!
+  abbreviation: String!
+  current_time: String!
+  name: String!
+  offset: Float!
+  in_daylight_saving: Boolean!
+}
+
 type Address {
   ip: String!
-  operator: String
-  asn: Float
+  info: IpInfo
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -78,6 +200,7 @@ enum TerminalStatus {
 type Query {
   terminal(id: Float!): Terminal
   terminals: [Terminal!]!
+  run(id: String!): Run!
 }
 
 type Mutation {

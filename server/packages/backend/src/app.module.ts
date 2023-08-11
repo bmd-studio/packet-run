@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
@@ -22,10 +22,13 @@ import { BullModule } from '@nestjs/bullmq';
 import JobProcessor from './jobs';
 import RunsResolver from './entities/run/resolver';
 import RunSubscriber from './entities/run/subscriber';
+import { ConfigModule } from '@nestjs/config';
+import { InMemoryCache, IpregistryClient } from '@ipregistry/client';
 
 @Global()
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         MikroOrmModule.forRoot({
             entities: ['./dist/entities/**/index.entity.js'],
             entitiesTs: ['./src/entities/**/index.entity.ts'],
@@ -67,6 +70,16 @@ import RunSubscriber from './entities/run/subscriber';
         /** Misc */
         AppService,
         JobProcessor,
+        { 
+            provide: IpregistryClient, 
+            useFactory: () => {
+                if (!process.env.IPREGISTRY_API_KEY) {
+                    const logger = new Logger('IpRegistryClient');
+                    logger.warn('Could not find IPREGISTRY_API_KEY environment variable...');
+                }
+                return new IpregistryClient(process.env.IPREGISTRY_API_KEY, new InMemoryCache(256));
+            },
+        },
     ],
     exports: [
         PubSubManager,

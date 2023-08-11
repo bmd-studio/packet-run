@@ -12,23 +12,14 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "operator": {
-          "name": "operator",
+        "info": {
+          "name": "info",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "mappedType": "text"
-        },
-        "asn": {
-          "name": "asn",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
         },
         "created_at": {
           "name": "created_at",
@@ -478,7 +469,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "terminal_id": {
@@ -562,6 +553,7 @@
             "ip"
           ],
           "referencedTableName": "address",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         },
         "hop_terminal_id_foreign": {

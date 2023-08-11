@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import RunModel from './model';
 import Run from './index.entity';
@@ -10,6 +10,11 @@ export default class RunsResolver {
         @InjectRepository(Run)
         private readonly repository: EntityRepository<Run>
     ) {}
+
+    @Query(() => RunModel)
+    async run(@Args('id') id: string) {
+        return this.repository.findOneOrFail({ id });
+    }
 
     @Mutation(() => RunModel)
     async createRun(

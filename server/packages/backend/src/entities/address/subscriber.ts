@@ -19,10 +19,10 @@ export default class AddressSubscriber implements EventSubscriber<Address> {
     }
 
     async afterCreate(args: EventArgs<Address>) {
-        //
+        this.queue.add('whois', args.entity.ip);
     }
-
+    
     async afterUpdate(args) {
-        //
+        this.queue.add('whois', args.entity.ip);
     }
 }

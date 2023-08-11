@@ -5,6 +5,7 @@ import { Job } from 'bullmq';
 import traceroute from './traceroute';
 import website from './website';
 import whois from './whois';
+import { IpregistryClient } from '@ipregistry/client';
 
 /** A type union for all possible job types */
 type AnyJob = Job<string, void, 'traceroute'>
@@ -14,11 +15,12 @@ type AnyJob = Job<string, void, 'traceroute'>
 /**
  * This class handles all jobs that come in on the `default` queue.
  */
-@Processor('default')
+@Processor('default', { concurrency: 10 })
 @Injectable()
 export default class JobProcessor extends WorkerHost {
     constructor(
         private readonly orm: MikroORM,
+        private readonly client: IpregistryClient,
     ) {
         super();
     }
@@ -31,7 +33,7 @@ export default class JobProcessor extends WorkerHost {
             case 'website':
                 return website(job.data, this.orm);
             case 'whois':
-                return whois(job.data, this.orm);
+                return whois(job.data, this.orm, this.client);
             default:
                 throw new Error(`Process ${(job as Job).name} not implemented`);
         }

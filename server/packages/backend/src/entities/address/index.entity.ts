@@ -1,16 +1,14 @@
 import 'reflect-metadata';
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import { IpInfo } from '@ipregistry/client';
 
 @Entity()
 export default class Address { 
     @PrimaryKey()
     ip!: string;
-
-    @Property({ nullable: true })
-    operator?: string;
     
     @Property({ nullable: true })
-    asn?: number;
+    info?: Rel<IpInfo>;
 
     @Property()
     createdAt: Date = new Date();

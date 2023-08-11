@@ -9,8 +9,13 @@ import { MikroORM } from '@mikro-orm/core';
  * alternatively creates it and inserts it into the database.
  */
 async function findOrCreateAddress(ip: string, orm: MikroORM) {
+    // GUARD: We cannot save '*' IPs, as they indicate unresponsive routers
+    if (ip === '*') {
+        return null;
+    }
+
     // Check if the address exists
-    const exists = (await orm.em.count(Address, { ip })) > 1;
+    const exists = (await orm.em.count(Address, { ip })) >= 1;
 
     // Based on this, either create or retrieve it
     const address = exists

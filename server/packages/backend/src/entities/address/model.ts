@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import IpInfo from './ipinfo.model';
 
 @ObjectType()
 export default class Address {
@@ -6,10 +7,7 @@ export default class Address {
     ip: string;
 
     @Field({ nullable: true })
-    operator?: string;
-
-    @Field({ nullable: true })
-    asn?: number;
+    info?: IpInfo;
 
     @Field()
     createdAt: Date;
