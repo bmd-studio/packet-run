@@ -20,5 +20,6 @@ export default class RunSubscriber implements EventSubscriber<Run> {
 
     afterCreate(args: EventArgs<Run>): void | Promise<void> {
         this.queue.add('traceroute', args.entity.id);
+        this.queue.add('website', args.entity.id);
     }
 }

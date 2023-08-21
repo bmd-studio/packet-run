@@ -25,6 +25,7 @@ import RunSubscriber from './entities/run/subscriber';
 import { ConfigModule } from '@nestjs/config';
 import { InMemoryCache, IpregistryClient } from '@ipregistry/client';
 import { JobsResolver } from './entities/job/resolver';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Global()
 @Module({
@@ -33,7 +34,7 @@ import { JobsResolver } from './entities/job/resolver';
         MikroOrmModule.forRoot({
             entities: ['./dist/entities/**/index.entity.js'],
             entitiesTs: ['./src/entities/**/index.entity.ts'],
-            dbName: './database/packet-run.db',
+            dbName: './data/packet-run.db',
             type: 'better-sqlite',
             allowGlobalContext: true,
             debug: true,
@@ -51,6 +52,10 @@ import { JobsResolver } from './entities/job/resolver';
         BullModule.forRoot({}),
         BullModule.registerQueue({
             name: 'default',
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'data', 'images'),
+            serveRoot: '/images',
         }),
     ],
     controllers: [AppController],

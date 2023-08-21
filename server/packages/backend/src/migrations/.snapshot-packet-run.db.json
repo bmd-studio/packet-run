@@ -212,6 +212,15 @@
           "nullable": false,
           "length": 0,
           "mappedType": "datetime"
+        },
+        "image_path": {
+          "name": "image_path",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
         }
       },
       "name": "run",

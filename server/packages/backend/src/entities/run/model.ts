@@ -32,4 +32,7 @@ export default class Run {
 
     @Field()
     updatedAt: Date;
+
+    @Field({ nullable: true })
+    imagePath?: string;
 }

@@ -38,4 +38,7 @@ export default class Run {
 
     @Property({ onUpdate: () => new Date() })
     updatedAt: Date = new Date();
+
+    @Property({ nullable: true })
+    imagePath?: string;
 }

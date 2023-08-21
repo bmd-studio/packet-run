@@ -157,6 +157,7 @@ type Run {
   route: [Hop!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+  imagePath: String
 }
 
 type Presence {
