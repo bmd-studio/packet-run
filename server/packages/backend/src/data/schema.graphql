@@ -197,6 +197,16 @@ enum TerminalStatus {
   OFFLINE
 }
 
+type Job {
+  name: String!
+  id: String
+  attemptsMade: Float!
+  processedOn: Float
+  finishedOn: Float
+  timestamp: Float!
+  data: String!
+}
+
 type Query {
   terminal(id: Float!): Terminal
   terminals: [Terminal!]!
@@ -210,4 +220,5 @@ type Mutation {
 type Subscription {
   registerTerminal(id: Float!): Terminal
   allTerminals: [Terminal!]!
+  jobs: [Job!]!
 }
