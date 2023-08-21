@@ -24,7 +24,7 @@ import RunsResolver from './entities/run/resolver';
 import RunSubscriber from './entities/run/subscriber';
 import { ConfigModule } from '@nestjs/config';
 import { InMemoryCache, IpregistryClient } from '@ipregistry/client';
-import { JobsResolver } from './entities/jobs/resolver';
+import { JobsResolver } from './entities/job/resolver';
 
 @Global()
 @Module({

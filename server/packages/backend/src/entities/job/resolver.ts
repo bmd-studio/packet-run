@@ -20,9 +20,8 @@ export class JobsResolver extends QueueEventsHost {
     @OnQueueEvent('failed')
     @OnQueueEvent('delayed')
     @OnQueueEvent('waiting')
-    async updateObservable(...args) {
-        console.log('EVENT', args);
-        const jobs = await this.queue.getJobs(['active', 'waiting', 'delayed', 'completed', 'failed']);
+    async updateObservable() {
+        const jobs = await this.queue.getJobs(['active', 'waiting', 'delayed', 'failed']);
         this.observable.next(jobs);
     }
 
