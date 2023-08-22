@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import Address from '../address/model';
-import Terminal from '../terminal/model';
 import Run from '../run/model';
 import { Rel } from '@mikro-orm/core';
 
@@ -11,9 +10,6 @@ export default class Hop {
 
     @Field(() => Address, { nullable: true })
     address?: Address;
-
-    @Field(() => Terminal)
-    terminal: Rel<Terminal>;
 
     @Field(() => Run)
     run: Rel<Run>;

@@ -182,18 +182,40 @@ type Terminal {
 }
 
 enum TerminalType {
+  """Creates a request and dispatches it to an `gateway`"""
   SENDER
+
+  """Receives a response and displays it on a connected screen"""
   RECEIVER
+
+  """Receives a request, transforms it into a response"""
   SERVER
+
+  """
+  A special type of router that bridges a `sender` and an internet of `router`s
+  """
   GATEWAY
+
+  """A distributor of packets across the internet"""
   ROUTER
 }
 
 enum TerminalStatus {
+  """
+  The terminal is active and operational, but not currently in use by a user
+  """
   IDLE
+
+  """A packet is currently being scanned using the NFC reader"""
   SCANNING_NFC
+
+  """A packet is actively being created or transformed on the terminal"""
   CREATING_PACKET
+
+  """A packet has been transformed, but is still actively being scanned"""
   CREATED_PACKET
+
+  """The terminal has failed its heartbeats and is considered offline"""
   OFFLINE
 }
 
@@ -216,6 +238,25 @@ type Query {
 }
 
 type Mutation {
+  """
+  Indicate that a particular terminal has scanned an NFC tag. This should result in the terminal status being set to `SCANNING_NFC`
+  """
+  scanNfcForTerminal(terminalId: Float!, nfcId: String!): Boolean
+
+  """
+  Used for `SENDER` and `SERVER` terminal types. These terminals may transform a packet using a particular interaction. Depending on `isPacketCreated`, this should result in the terminal status being set to `CREATING_PACKET` or `CREATED_PACKET`
+  """
+  createReturnPacketForTerminal(
+    terminalId: Float!
+
+    """
+    The before/after packet creation states are tracked seperately. If `isPacketCreated` is set to `false`, the state will be set to `CREATING_PACKET`, whereas if `isPacketCreated` is `true`, the terminal state will be set to `CREATED_PACKET`
+    """
+    isPacketCreated: Boolean!
+  ): Boolean
+
+  """Restore a particular terminal to the `IDLE` status"""
+  setTerminalToIdle(terminalId: Float!): Boolean
   createRun(url: String!, nfcId: String!): Run!
 }
 

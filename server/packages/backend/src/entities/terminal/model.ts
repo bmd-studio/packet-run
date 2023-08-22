@@ -4,8 +4,20 @@ import Run from '../run/model';
 import { Rel } from '@mikro-orm/core';
 import Presence from '../presence/model';
 
-registerEnumType(TerminalType, { name: 'TerminalType' });
-registerEnumType(TerminalStatus, { name: 'TerminalStatus' });
+registerEnumType(TerminalType, { name: 'TerminalType', valuesMap: {
+    SENDER: { description: 'Creates a request and dispatches it to an `gateway`' },
+    RECEIVER: { description: 'Receives a response and displays it on a connected screen' },
+    SERVER: { description: 'Receives a request, transforms it into a response' },
+    ROUTER: { description: 'A distributor of packets across the internet' },
+    GATEWAY: { description: 'A special type of router that bridges a `sender` and an internet of `router`s' },
+} });
+registerEnumType(TerminalStatus, { name: 'TerminalStatus', valuesMap: {
+    IDLE: { description: 'The terminal is active and operational, but not currently in use by a user' },
+    SCANNING_NFC: { description: 'A packet is currently being scanned using the NFC reader' },
+    CREATING_PACKET: { description: 'A packet is actively being created or transformed on the terminal' },
+    CREATED_PACKET: { description: 'A packet has been transformed, but is still actively being scanned' },
+    OFFLINE: { description: 'The terminal has failed its heartbeats and is considered offline' },
+} });
 
 @ObjectType()
 export default class Terminal {
