@@ -20,7 +20,7 @@ export class Job {
     @Field({ nullable: true })
     failedReason?: string;
 
-    @Field({ nullable: true })
+    @Field(() => [String], { nullable: true })
     stacktrace?: string[];
 
     @Field()

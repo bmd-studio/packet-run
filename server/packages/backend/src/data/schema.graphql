@@ -203,6 +203,8 @@ type Job {
   attemptsMade: Float!
   processedOn: Float
   finishedOn: Float
+  failedReason: String
+  stacktrace: [String!]
   timestamp: Float!
   data: String!
 }
