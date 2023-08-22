@@ -193,6 +193,16 @@
           "nullable": true,
           "mappedType": "integer"
         },
+        "current_hop_index": {
+          "name": "current_hop_index",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "1",
+          "mappedType": "integer"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",
@@ -285,14 +295,14 @@
     },
     {
       "columns": {
-        "run_id": {
-          "name": "run_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
           "nullable": false,
-          "mappedType": "text"
+          "mappedType": "integer"
         },
         "address_ip": {
           "name": "address_ip",
@@ -302,65 +312,139 @@
           "primary": false,
           "nullable": false,
           "mappedType": "text"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "previous",
+            "alternative",
+            "recommended"
+          ],
+          "mappedType": "enum"
+        },
+        "terminal_id": {
+          "name": "terminal_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "actual",
+            "potential"
+          ],
+          "mappedType": "enum"
+        },
+        "hop": {
+          "name": "hop",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
         }
       },
-      "name": "run_hops",
+      "name": "run_hop",
       "indexes": [
         {
           "columnNames": [
             "run_id"
           ],
           "composite": false,
-          "keyName": "run_hops_run_id_index",
-          "primary": false,
-          "unique": false
-        },
-        {
-          "columnNames": [
-            "address_ip"
-          ],
-          "composite": false,
-          "keyName": "run_hops_address_ip_index",
+          "keyName": "run_hop_run_id_index",
           "primary": false,
           "unique": false
         },
         {
           "keyName": "primary",
           "columnNames": [
-            "run_id",
-            "address_ip"
+            "id"
           ],
-          "composite": true,
+          "composite": false,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
       "foreignKeys": {
-        "run_hops_run_id_foreign": {
-          "constraintName": "run_hops_run_id_foreign",
-          "columnNames": [
-            "run_id"
-          ],
-          "localTableName": "run_hops",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "run",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "run_hops_address_ip_foreign": {
-          "constraintName": "run_hops_address_ip_foreign",
+        "run_hop_address_ip_foreign": {
+          "constraintName": "run_hop_address_ip_foreign",
           "columnNames": [
             "address_ip"
           ],
-          "localTableName": "run_hops",
+          "localTableName": "run_hop",
           "referencedColumnNames": [
             "ip"
           ],
           "referencedTableName": "address",
-          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "run_hop_terminal_id_foreign": {
+          "constraintName": "run_hop_terminal_id_foreign",
+          "columnNames": [
+            "terminal_id"
+          ],
+          "localTableName": "run_hop",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "updateRule": "cascade"
+        },
+        "run_hop_run_id_foreign": {
+          "constraintName": "run_hop_run_id_foreign",
+          "columnNames": [
+            "run_id"
+          ],
+          "localTableName": "run_hop",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "run",
           "updateRule": "cascade"
         }
       }
@@ -463,137 +547,6 @@
     },
     {
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "address_ip": {
-          "name": "address_ip",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
-        },
-        "terminal_id": {
-          "name": "terminal_id",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "run_id": {
-          "name": "run_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        },
-        "hop": {
-          "name": "hop",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "datetime",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 0,
-          "mappedType": "datetime"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "datetime",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 0,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "hop",
-      "indexes": [
-        {
-          "columnNames": [
-            "run_id"
-          ],
-          "composite": false,
-          "keyName": "hop_run_id_index",
-          "primary": false,
-          "unique": false
-        },
-        {
-          "keyName": "primary",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "hop_address_ip_foreign": {
-          "constraintName": "hop_address_ip_foreign",
-          "columnNames": [
-            "address_ip"
-          ],
-          "localTableName": "hop",
-          "referencedColumnNames": [
-            "ip"
-          ],
-          "referencedTableName": "address",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
-        "hop_terminal_id_foreign": {
-          "constraintName": "hop_terminal_id_foreign",
-          "columnNames": [
-            "terminal_id"
-          ],
-          "localTableName": "hop",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "terminal",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
-        "hop_run_id_foreign": {
-          "constraintName": "hop_run_id_foreign",
-          "columnNames": [
-            "run_id"
-          ],
-          "localTableName": "hop",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "run",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
         "from_terminal_id": {
           "name": "from_terminal_id",
           "type": "integer",
@@ -670,6 +623,114 @@
           ],
           "referencedTableName": "terminal",
           "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "address_ip": {
+          "name": "address_ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "hop": {
+          "name": "hop",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "traceroute_hop",
+      "indexes": [
+        {
+          "columnNames": [
+            "run_id"
+          ],
+          "composite": false,
+          "keyName": "traceroute_hop_run_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "traceroute_hop_address_ip_foreign": {
+          "constraintName": "traceroute_hop_address_ip_foreign",
+          "columnNames": [
+            "address_ip"
+          ],
+          "localTableName": "traceroute_hop",
+          "referencedColumnNames": [
+            "ip"
+          ],
+          "referencedTableName": "address",
+          "updateRule": "cascade"
+        },
+        "traceroute_hop_run_id_foreign": {
+          "constraintName": "traceroute_hop_run_id_foreign",
+          "columnNames": [
+            "run_id"
+          ],
+          "localTableName": "traceroute_hop",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "run",
           "updateRule": "cascade"
         }
       }

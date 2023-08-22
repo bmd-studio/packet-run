@@ -9,7 +9,6 @@ import { ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import AddressesResolver from './entities/address/resolver';
 import Address from './entities/address/index.entity';
-import Hop from './entities/hop/index.entity';
 import Run from './entities/run/index.entity';
 import Terminal from './entities/terminal/index.entity';
 import CustomApolloDriver from './lib/CustomApolloDriver';
@@ -26,6 +25,8 @@ import { ConfigModule } from '@nestjs/config';
 import { InMemoryCache, IpregistryClient } from '@ipregistry/client';
 import { JobsResolver } from './entities/job/resolver';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import TracerouteHop from './entities/tracerouteHop/index.entity';
+import RunHop from './entities/runHop/index.entity';
 
 @Global()
 @Module({
@@ -39,7 +40,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
             allowGlobalContext: true,
             debug: true,
         }),
-        MikroOrmModule.forFeature([Address, Hop, Run, Terminal]),
+        MikroOrmModule.forFeature([Address, TracerouteHop, RunHop, Run, Terminal]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: CustomApolloDriver,
             autoSchemaFile: join(process.cwd(), 'src/data/schema.graphql'),

@@ -4,11 +4,11 @@ import Address from '../address/index.entity';
 import Run from '../run/index.entity';
 
 @Entity()
-export default class Hop {
+export default class TracerouteHop {
     @PrimaryKey()
     id!: number;
 
-    @OneToOne(() => Address, { unique: false, nullable: true })
+    @OneToOne(() => Address, { unique: false })
     address: Rel<Address>;
 
     @ManyToOne(() => Run)

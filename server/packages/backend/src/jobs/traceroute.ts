@@ -1,7 +1,7 @@
 import Traceroute from 'nodejs-traceroute';
 import Run from '../entities/run/index.entity';
 import Address from '../entities/address/index.entity';
-import Hop from '../entities/hop/index.entity';
+import TracerouteHop from '../entities/tracerouteHop/index.entity';
 import { MikroORM } from '@mikro-orm/core';
 
 /**
@@ -52,16 +52,24 @@ export default async function (runId: string, orm: MikroORM) {
         
         // Whenever a destination is received, add it as the destination address
         tracer.on('destination', async (destination) => {
+            // Insert the address
             const address = await findOrCreateAddress(destination, orm);
+
+            // Assign it as a destination and save to database
             run.destination = address;
             await orm.em.flush();
         });
 
         // Whenever a new hop is received, wrap it in an address and add it as a hop
         tracer.on('hop', async ({ ip, hop: hopNumber }) => {
+            // Create the to address
             const address = await findOrCreateAddress(ip, orm);
-            const hop = orm.em.create(Hop, { address, hop: hopNumber });
-            run.route.add(hop);
+
+            // Insert the hop
+            const hop = orm.em.create(TracerouteHop, { address, hop: hopNumber });
+            run.tracerouteHops.add(hop);
+
+            // Save to database
             await orm.em.flush();
         });
 

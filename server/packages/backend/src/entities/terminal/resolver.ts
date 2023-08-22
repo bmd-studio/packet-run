@@ -31,7 +31,6 @@ export default class TerminalsResolver {
                     'connectionsTo',
                     'run',
                     'run.hops',
-                    'run.route',
                     'presences',
                 ], 
             }

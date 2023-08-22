@@ -20,14 +20,17 @@ subscription AllTerminals {
                 }
             }
             hops {
-                ip
-            }
-            route {
-                id
+                id,
                 address {
                     ip
                 }
+                terminal {
+                    id
+                }
+                status
+                type
             }
+            currentHopIndex
             createdAt
             updatedAt
         }

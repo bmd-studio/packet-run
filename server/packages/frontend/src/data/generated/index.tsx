@@ -100,16 +100,6 @@ export type Format = {
   positive: NegativeOrPositive;
 };
 
-export type Hop = {
-  __typename?: 'Hop';
-  address?: Maybe<Address>;
-  createdAt: Scalars['DateTime']['output'];
-  hop: Scalars['Float']['output'];
-  id: Scalars['Float']['output'];
-  run: Run;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
 export type IpInfo = {
   __typename?: 'IpInfo';
   carrier: Carrier;
@@ -227,16 +217,55 @@ export type QueryTerminalArgs = {
 export type Run = {
   __typename?: 'Run';
   createdAt: Scalars['DateTime']['output'];
+  /** The index of the RunHop where the run is currently at */
+  currentHopIndex: Scalars['Float']['output'];
   destination: Address;
-  hops: Array<Address>;
+  /** The hops that have been identified for this route in the context of the installation. */
+  hops: Array<RunHop>;
   id: Scalars['String']['output'];
   imagePath?: Maybe<Scalars['String']['output']>;
   nfcId?: Maybe<Scalars['String']['output']>;
-  route: Array<Hop>;
   terminal?: Maybe<Terminal>;
+  /**
+   * The internet hops a packet would actually take when transmitted in real life. NOTE: Look at the `hops` field if you want the hops that pertain specifically to the installation
+   * @deprecated You shouldn't need this field on the front-end. Please use `hops` instead.
+   */
+  tracerouteHops: Array<TracerouteHop>;
   updatedAt: Scalars['DateTime']['output'];
   url: Scalars['String']['output'];
 };
+
+/** This describes an hop in the context of the installation. It is either a previous hop that has been taken by the user, or it is an option for the user in the future. */
+export type RunHop = {
+  __typename?: 'RunHop';
+  address: Address;
+  createdAt: Scalars['DateTime']['output'];
+  hop: Scalars['Float']['output'];
+  id: Scalars['Float']['output'];
+  run: Run;
+  status: RunHopStatus;
+  terminal: Terminal;
+  type: RunHopType;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/** Describes the current status of this hop: has it already been taken or merely been suggested... */
+export enum RunHopStatus {
+  /** The hop was actually taken by a user action */
+  Actual = 'ACTUAL',
+  /** The hop is potential option for the user to take */
+  Potential = 'POTENTIAL'
+}
+
+/** Describes the label that is attached to the hop */
+export enum RunHopType {
+  /** The hop is taken as an alternative to an advised hop */
+  Alternative = 'ALTERNATIVE',
+  /** The hop takes the user backwards to a previously visited hop */
+  Previous = 'PREVIOUS',
+  /** The hop takes the user in the recommended direction */
+  Recommended = 'RECOMMENDED'
+}
 
 export type Security = {
   __typename?: 'Security';
@@ -315,10 +344,21 @@ export type TimeZone = {
   offset: Scalars['Float']['output'];
 };
 
+/** This describes a hop that was retrieved by running traceroute to the destionation. It is an existing hop that would ahve been taken were the packet routed over the internet. */
+export type TracerouteHop = {
+  __typename?: 'TracerouteHop';
+  address: Address;
+  createdAt: Scalars['DateTime']['output'];
+  hop: Scalars['Float']['output'];
+  id: Scalars['Float']['output'];
+  run: Run;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'Address', ip: string }>, route: Array<{ __typename?: 'Hop', id: number, address?: { __typename?: 'Address', ip: string } | null }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 
 export const AllTerminalsDocument = gql`
@@ -344,14 +384,17 @@ export const AllTerminalsDocument = gql`
         }
       }
       hops {
-        ip
-      }
-      route {
         id
         address {
           ip
         }
+        terminal {
+          id
+        }
+        status
+        type
       }
+      currentHopIndex
       createdAt
       updatedAt
     }

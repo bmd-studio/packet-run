@@ -53,5 +53,14 @@ export default class Terminal {
 }
 
 export async function fetchAllTerminals(em: EntityManager) {
-    return em.find(Terminal, {}, { populate: ['connectionsFrom', 'connectionsTo', 'run', 'run.hops', 'run.route', 'presences']});
+    return em.find(Terminal, {}, { 
+        populate: [
+            'connectionsFrom',
+            'connectionsTo',
+            'run',
+            'run.tracerouteHops',
+            'run.hops',
+            'presences',
+        ],
+    });
 }

@@ -137,13 +137,54 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Hop {
+"""
+This describes a hop that was retrieved by running traceroute to the destionation. It is an existing hop that would ahve been taken were the packet routed over the internet.
+"""
+type TracerouteHop {
   id: Float!
-  address: Address
+  address: Address!
   run: Run!
   hop: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+"""
+This describes an hop in the context of the installation. It is either a previous hop that has been taken by the user, or it is an option for the user in the future.
+"""
+type RunHop {
+  id: Float!
+  address: Address!
+  terminal: Terminal!
+  run: Run!
+  type: RunHopType!
+  status: RunHopStatus!
+  hop: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Describes the label that is attached to the hop"""
+enum RunHopType {
+  """The hop takes the user backwards to a previously visited hop"""
+  PREVIOUS
+
+  """The hop is taken as an alternative to an advised hop"""
+  ALTERNATIVE
+
+  """The hop takes the user in the recommended direction"""
+  RECOMMENDED
+}
+
+"""
+Describes the current status of this hop: has it already been taken or merely been suggested...
+"""
+enum RunHopStatus {
+  """The hop was actually taken by a user action"""
+  ACTUAL
+
+  """The hop is potential option for the user to take"""
+  POTENTIAL
 }
 
 type Run {
@@ -151,9 +192,20 @@ type Run {
   nfcId: String
   url: String!
   destination: Address!
-  hops: [Address!]!
   terminal: Terminal
-  route: [Hop!]!
+
+  """
+  The internet hops a packet would actually take when transmitted in real life. NOTE: Look at the `hops` field if you want the hops that pertain specifically to the installation
+  """
+  tracerouteHops: [TracerouteHop!]! @deprecated(reason: "You shouldn't need this field on the front-end. Please use `hops` instead.")
+
+  """
+  The hops that have been identified for this route in the context of the installation.
+  """
+  hops: [RunHop!]!
+
+  """The index of the RunHop where the run is currently at"""
+  currentHopIndex: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
   imagePath: String

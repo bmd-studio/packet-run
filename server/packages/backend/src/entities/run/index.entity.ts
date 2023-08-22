@@ -1,9 +1,10 @@
-import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
 import Address from '../address/index.entity';
 import Terminal from '../terminal/index.entity';
-import Hop from '../hop/index.entity';
+import TracerouteHop from '../tracerouteHop/index.entity';
+import RunHop from '../runHop/index.entity';
 
 const nanoid = customAlphabet(
     '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -24,14 +25,18 @@ export default class Run {
     @OneToOne(() => Address, { nullable: true })
     destination!: Rel<Address>;
 
-    @ManyToMany(() => Address)
-    hops: Collection<Rel<Address>> = new Collection<Rel<Address>>(this);
-
     @OneToOne(() => Terminal, { nullable: true, inversedBy: 'run' })
     terminal?: Rel<Terminal>;
 
-    @OneToMany(() => Hop, hop => hop.run)
-    route = new Collection<Rel<Hop>>(this);
+    @OneToMany(() => TracerouteHop, hop => hop.run)
+    tracerouteHops = new Collection<Rel<TracerouteHop>>(this);
+
+    @OneToMany(() => RunHop, hop => hop.run)
+    hops = new Collection<Rel<RunHop>>(this);
+
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    @Property()
+    currentHopIndex: number = 1;
 
     @Property()
     createdAt: Date = new Date();
