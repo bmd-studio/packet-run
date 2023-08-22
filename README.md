@@ -65,4 +65,4 @@ These people from SIDN Labs contributed to PathVis and Packet Run:
 <img alt="SIDN Fonds" src="./documentation/assets/sidn-fonds-logo.svg" height="48" />
 
 Building Packet Run was made possible by a grant from **SIDN Fonds**, a public
-fund that supports supports and strengthens the internet and its users. 
+fund that supports and strengthens the internet and its users. 
