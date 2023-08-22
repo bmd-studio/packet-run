@@ -128,10 +128,12 @@ export type Job = {
   __typename?: 'Job';
   attemptsMade: Scalars['Float']['output'];
   data: Scalars['String']['output'];
+  failedReason?: Maybe<Scalars['String']['output']>;
   finishedOn?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   processedOn?: Maybe<Scalars['Float']['output']>;
+  stacktrace?: Maybe<Array<Scalars['String']['output']>>;
   timestamp: Scalars['Float']['output'];
 };
 
@@ -157,13 +159,36 @@ export type Location = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Used for `SENDER` and `SERVER` terminal types. These terminals may transform a packet using a particular interaction. Depending on `isPacketCreated`, this should result in the terminal status being set to `CREATING_PACKET` or `CREATED_PACKET` */
+  createReturnPacketForTerminal?: Maybe<Scalars['Boolean']['output']>;
   createRun: Run;
+  /** Indicate that a particular terminal has scanned an NFC tag. This should result in the terminal status being set to `SCANNING_NFC` */
+  scanNfcForTerminal?: Maybe<Scalars['Boolean']['output']>;
+  /** Restore a particular terminal to the `IDLE` status */
+  setTerminalToIdle?: Maybe<Scalars['Boolean']['output']>;
+};
+
+
+export type MutationCreateReturnPacketForTerminalArgs = {
+  isPacketCreated: Scalars['Boolean']['input'];
+  terminalId: Scalars['Float']['input'];
 };
 
 
 export type MutationCreateRunArgs = {
   nfcId: Scalars['String']['input'];
   url: Scalars['String']['input'];
+};
+
+
+export type MutationScanNfcForTerminalArgs = {
+  nfcId: Scalars['String']['input'];
+  terminalId: Scalars['Float']['input'];
+};
+
+
+export type MutationSetTerminalToIdleArgs = {
+  terminalId: Scalars['Float']['input'];
 };
 
 export type NegativeOrPositive = {
@@ -255,18 +280,28 @@ export type Terminal = {
 };
 
 export enum TerminalStatus {
+  /** A packet has been transformed, but is still actively being scanned */
   CreatedPacket = 'CREATED_PACKET',
+  /** A packet is actively being created or transformed on the terminal */
   CreatingPacket = 'CREATING_PACKET',
+  /** The terminal is active and operational, but not currently in use by a user */
   Idle = 'IDLE',
+  /** The terminal has failed its heartbeats and is considered offline */
   Offline = 'OFFLINE',
+  /** A packet is currently being scanned using the NFC reader */
   ScanningNfc = 'SCANNING_NFC'
 }
 
 export enum TerminalType {
+  /** A special type of router that bridges a `sender` and an internet of `router`s */
   Gateway = 'GATEWAY',
+  /** Receives a response and displays it on a connected screen */
   Receiver = 'RECEIVER',
+  /** A distributor of packets across the internet */
   Router = 'ROUTER',
+  /** Creates a request and dispatches it to an `gateway` */
   Sender = 'SENDER',
+  /** Receives a request, transforms it into a response */
   Server = 'SERVER'
 }
 
