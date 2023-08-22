@@ -27,9 +27,6 @@ subscription AllTerminals {
                 address {
                     ip
                 }
-                terminal {
-                    id
-                }
             }
             createdAt
             updatedAt

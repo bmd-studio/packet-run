@@ -107,7 +107,6 @@ export type Hop = {
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
   run: Run;
-  terminal: Terminal;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -123,6 +122,17 @@ export type IpInfo = {
   security: Security;
   time_zone: TimeZone;
   type: Scalars['String']['output'];
+};
+
+export type Job = {
+  __typename?: 'Job';
+  attemptsMade: Scalars['Float']['output'];
+  data: Scalars['String']['output'];
+  finishedOn?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  processedOn?: Maybe<Scalars['Float']['output']>;
+  timestamp: Scalars['Float']['output'];
 };
 
 export type LanguagesEntityOrLanguage = {
@@ -195,6 +205,7 @@ export type Run = {
   destination: Address;
   hops: Array<Address>;
   id: Scalars['String']['output'];
+  imagePath?: Maybe<Scalars['String']['output']>;
   nfcId?: Maybe<Scalars['String']['output']>;
   route: Array<Hop>;
   terminal?: Maybe<Terminal>;
@@ -220,6 +231,7 @@ export type Security = {
 export type Subscription = {
   __typename?: 'Subscription';
   allTerminals: Array<Terminal>;
+  jobs: Array<Job>;
   registerTerminal?: Maybe<Terminal>;
 };
 
@@ -271,7 +283,7 @@ export type TimeZone = {
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'Address', ip: string }>, route: Array<{ __typename?: 'Hop', id: number, address?: { __typename?: 'Address', ip: string } | null, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'Address', ip: string }>, route: Array<{ __typename?: 'Hop', id: number, address?: { __typename?: 'Address', ip: string } | null }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 
 export const AllTerminalsDocument = gql`
@@ -303,9 +315,6 @@ export const AllTerminalsDocument = gql`
         id
         address {
           ip
-        }
-        terminal {
-          id
         }
       }
       createdAt
