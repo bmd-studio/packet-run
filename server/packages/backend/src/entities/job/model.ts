@@ -17,6 +17,12 @@ export class Job {
     @Field({ nullable: true })
     finishedOn?: number;
 
+    @Field({ nullable: true })
+    failedReason?: string;
+
+    @Field({ nullable: true })
+    stacktrace?: string[];
+
     @Field()
     timestamp: number;
 
