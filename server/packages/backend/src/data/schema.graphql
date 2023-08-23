@@ -142,8 +142,7 @@ This describes a hop that was retrieved by running traceroute to the destionatio
 """
 type TracerouteHop {
   id: Float!
-  address: Address
-  terminal: Terminal!
+  address: Address!
   run: Run!
   hop: Float!
   createdAt: DateTime!
