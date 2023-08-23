@@ -74,9 +74,14 @@ export default async function (runId: string, orm: MikroORM) {
         });
 
         // Wait for the traceroute command to finish
-        tracer.on('close', (code) => {
+        tracer.on('close', async (code) => {
             // GUARD: Check that the command was executed successfully
             if (code === 0){
+                // Mark traceroute as finished
+                run.isTracerouteFinished = true;
+                await orm.em.flush();
+
+                // Mark the job as complete
                 resolve();
             } else {
                 reject(code);

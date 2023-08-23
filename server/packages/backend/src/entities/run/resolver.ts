@@ -2,13 +2,16 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import RunModel from './model';
 import Run from './index.entity';
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityManager, EntityRepository } from '@mikro-orm/core';
+import Terminal, { TerminalType } from '../terminal/index.entity';
+import { sample } from 'lodash';
 
 @Resolver(() => RunModel)
 export default class RunsResolver {
     constructor(
         @InjectRepository(Run)
-        private readonly repository: EntityRepository<Run>
+        private readonly repository: EntityRepository<Run>,
+        private readonly em: EntityManager,
     ) {}
 
     @Query(() => RunModel)
@@ -23,8 +26,16 @@ export default class RunsResolver {
         @Args('url') url: string,
         @Args('nfcId') nfcId: string,
     ) {
-        const run = this.repository.create({ url, nfcId });
+        // Retrieve all servers so we can already set the destination for this
+        // run
+        // TODO: Track the server from the previous run so we can loadbalance
+        // new runs
+        const terminals = await this.em.find(Terminal, { type: TerminalType.SERVER });
+
+        // Create the run
+        const run = this.repository.create({ url, nfcId, server: sample(terminals) });
         await this.repository.flush();
+
         return run;
     }
 }

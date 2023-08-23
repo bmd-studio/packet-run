@@ -1,10 +1,16 @@
-import { Collection, Entity, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+import { Collection, Entity, Enum, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
 import Address from '../address/index.entity';
 import Terminal from '../terminal/index.entity';
 import TracerouteHop from '../tracerouteHop/index.entity';
 import RunHop from '../runHop/index.entity';
+
+export enum RunPacketType {
+    REQUEST = 'request',
+    RESPONSE = 'response',
+}
 
 const nanoid = customAlphabet(
     '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -28,13 +34,21 @@ export default class Run {
     @OneToOne(() => Terminal, { nullable: true, inversedBy: 'run' })
     terminal?: Rel<Terminal>;
 
+    @ManyToOne(() => Terminal)
+    server: Rel<Terminal>;
+
+    @Property()
+    isTracerouteFinished: boolean = false;
+
     @OneToMany(() => TracerouteHop, hop => hop.run)
     tracerouteHops = new Collection<Rel<TracerouteHop>>(this);
 
     @OneToMany(() => RunHop, hop => hop.run)
     hops = new Collection<Rel<RunHop>>(this);
 
-    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    @Enum(() => RunPacketType)
+    packetType: RunPacketType = RunPacketType.REQUEST;
+
     @Property()
     currentHopIndex: number = 1;
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Entity, Enum, ManyToOne, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import 'reflect-metadata';
 import Address from '../address/index.entity';
@@ -13,6 +14,8 @@ export enum RunHopType {
     PREVIOUS = 'previous',
     ALTERNATIVE = 'alternative',
     RECOMMENDED = 'recommended',
+    INVALID = 'invalid',
+    WORMHOLE = 'wormhole',
 }
 
 @Entity()
@@ -33,7 +36,10 @@ export default class RunHop {
     run: Rel<Run>;
 
     @Enum(() => RunHopStatus)
-    status: RunHopStatus;
+    status: RunHopStatus = RunHopStatus.POTENTIAL;
+
+    @Property()
+    mayPerformTransformation: boolean = false;
 
     @Property()
     hop: number;

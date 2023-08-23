@@ -9,7 +9,8 @@ import { terminalsObservable } from './subscriber';
 import { map } from 'rxjs';
 import PresenceManager from '../../providers/PresenceManager';
 import { EntityManager } from '@mikro-orm/core';
-import Run from '../run/index.entity';
+import Run, { RunPacketType } from '../run/index.entity';
+import RunHop, { RunHopStatus } from '../runHop/index.entity';
 
 @Resolver(() => Terminal)
 export default class TerminalsResolver {
@@ -81,9 +82,23 @@ export default class TerminalsResolver {
         }
 
         // Retrieve the run
-        const run = await this.em.findOneOrFail(Run, { nfcId });
-
-        // TODO: Check that the terminal the Run has arrived at is actually valid
+        const run = await this.em.findOneOrFail(
+            Run,
+            { nfcId },
+            { 
+                populate: [
+                    'hops',
+                    'hops.terminal',
+                    'terminal',
+                    'terminal.connectionsTo',
+                    'terminal.connectionsTo.id',
+                    'tracerouteHops',
+                    'tracerouteHops.id',
+                    'server',
+                    'server.id',
+                ],
+            }
+        );
 
         // Set the terminal to the desired state
         terminal.status = TerminalStatus.SCANNING_NFC;
@@ -122,13 +137,26 @@ export default class TerminalsResolver {
             throw new Error(`Cannot find run for terminal with id "${terminal.id}"`);
         }
 
+        // GUARD: Check whether the run may actually perform transformations
+        const hop = await this.em.findOneOrFail(RunHop, {
+            hop: terminal.run.currentHopIndex,
+            status: RunHopStatus.ACTUAL,
+        });
+        if (!hop.mayPerformTransformation) {
+            throw new Error('StateError: cannot transform packet before reaching a server in a valid manner');
+        }
+
         // Assign the status to terminal
         terminal.status = isPacketCreated
             ? TerminalStatus.CREATED_PACKET
             : TerminalStatus.CREATING_PACKET;
 
+        if (isPacketCreated) {
+            terminal.run.packetType = RunPacketType.RESPONSE;
+        }
+
         // Save to database
-        this.repository.flush();
+        await this.repository.flush();
 
         return true;
     }

@@ -261,10 +261,12 @@ export enum RunHopStatus {
 export enum RunHopType {
   /** The hop is taken as an alternative to an advised hop */
   Alternative = 'ALTERNATIVE',
+  Invalid = 'INVALID',
   /** The hop takes the user backwards to a previously visited hop */
   Previous = 'PREVIOUS',
   /** The hop takes the user in the recommended direction */
-  Recommended = 'RECOMMENDED'
+  Recommended = 'RECOMMENDED',
+  Wormhole = 'WORMHOLE'
 }
 
 export type Security = {
@@ -347,12 +349,11 @@ export type TimeZone = {
 /** This describes a hop that was retrieved by running traceroute to the destionation. It is an existing hop that would ahve been taken were the packet routed over the internet. */
 export type TracerouteHop = {
   __typename?: 'TracerouteHop';
-  address?: Maybe<Address>;
+  address: Address;
   createdAt: Scalars['DateTime']['output'];
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
   run: Run;
-  terminal: Terminal;
   updatedAt: Scalars['DateTime']['output'];
 };
 

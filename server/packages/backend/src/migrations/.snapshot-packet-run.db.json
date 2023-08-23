@@ -193,6 +193,39 @@
           "nullable": true,
           "mappedType": "integer"
         },
+        "server_id": {
+          "name": "server_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "is_traceroute_finished": {
+          "name": "is_traceroute_finished",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "integer"
+        },
+        "packet_type": {
+          "name": "packet_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'request'",
+          "enumItems": [
+            "request",
+            "response"
+          ],
+          "mappedType": "enum"
+        },
         "current_hop_index": {
           "name": "current_hop_index",
           "type": "integer",
@@ -254,6 +287,15 @@
           "unique": true
         },
         {
+          "columnNames": [
+            "server_id"
+          ],
+          "composite": false,
+          "keyName": "run_server_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
           "keyName": "primary",
           "columnNames": [
             "id"
@@ -290,6 +332,18 @@
           "referencedTableName": "terminal",
           "deleteRule": "set null",
           "updateRule": "cascade"
+        },
+        "run_server_id_foreign": {
+          "constraintName": "run_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "run",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "terminal",
+          "updateRule": "cascade"
         }
       }
     },
@@ -323,7 +377,8 @@
           "enumItems": [
             "previous",
             "alternative",
-            "recommended"
+            "recommended",
+            "invalid"
           ],
           "mappedType": "enum"
         },
@@ -352,11 +407,22 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "default": "'potential'",
           "enumItems": [
             "actual",
             "potential"
           ],
           "mappedType": "enum"
+        },
+        "may_perform_transformation": {
+          "name": "may_perform_transformation",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "integer"
         },
         "hop": {
           "name": "hop",
