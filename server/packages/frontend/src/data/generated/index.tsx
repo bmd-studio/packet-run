@@ -347,11 +347,12 @@ export type TimeZone = {
 /** This describes a hop that was retrieved by running traceroute to the destionation. It is an existing hop that would ahve been taken were the packet routed over the internet. */
 export type TracerouteHop = {
   __typename?: 'TracerouteHop';
-  address: Address;
+  address?: Maybe<Address>;
   createdAt: Scalars['DateTime']['output'];
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
   run: Run;
+  terminal: Terminal;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -359,6 +360,11 @@ export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>
 
 
 export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+
+export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name: string, id?: string | null, attemptsMade: number, processedOn?: number | null, finishedOn?: number | null, timestamp: number, data: string, failedReason?: string | null, stacktrace?: Array<string> | null }> };
 
 
 export const AllTerminalsDocument = gql`
@@ -432,3 +438,40 @@ export function useAllTerminalsSubscription(baseOptions?: Apollo.SubscriptionHoo
       }
 export type AllTerminalsSubscriptionHookResult = ReturnType<typeof useAllTerminalsSubscription>;
 export type AllTerminalsSubscriptionResult = Apollo.SubscriptionResult<AllTerminalsSubscription>;
+export const JobsDocument = gql`
+    subscription Jobs {
+  jobs {
+    name
+    id
+    attemptsMade
+    processedOn
+    finishedOn
+    timestamp
+    data
+    failedReason
+    stacktrace
+  }
+}
+    `;
+
+/**
+ * __useJobsSubscription__
+ *
+ * To run a query within a React component, call `useJobsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useJobsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useJobsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useJobsSubscription(baseOptions?: Apollo.SubscriptionHookOptions<JobsSubscription, JobsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<JobsSubscription, JobsSubscriptionVariables>(JobsDocument, options);
+      }
+export type JobsSubscriptionHookResult = ReturnType<typeof useJobsSubscription>;
+export type JobsSubscriptionResult = Apollo.SubscriptionResult<JobsSubscription>;

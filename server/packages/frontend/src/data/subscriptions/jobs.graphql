@@ -1,0 +1,13 @@
+subscription Jobs {
+    jobs {
+        name
+        id
+        attemptsMade
+        processedOn
+        finishedOn
+        timestamp
+        data
+        failedReason
+        stacktrace
+    }
+}
