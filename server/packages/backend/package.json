@@ -14,7 +14,7 @@
     "migrations:run": "npm run build && npx mikro-orm migration:up",
     "migrations:check": "mikro-orm migration:check",
     "seed": "mikro-orm seeder:run",
-    "initialize": "rimraf data/packet-run.db && npm run migrations:run && npm run seed"
+    "initialize": "rimraf data/packet-run.db && npm run migrations:run && npm run seed && redis-cli KEYS \"bull:default*\" | xargs redis-cli DEL"
   },
   "dependencies": {
     "@apollo/server": "^4.9.0",
