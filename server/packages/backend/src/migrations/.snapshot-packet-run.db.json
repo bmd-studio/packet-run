@@ -378,7 +378,8 @@
             "previous",
             "alternative",
             "recommended",
-            "invalid"
+            "invalid",
+            "wormhole"
           ],
           "mappedType": "enum"
         },
