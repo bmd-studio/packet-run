@@ -367,6 +367,22 @@ export type TracerouteHop = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type CreateRunMutationVariables = Exact<{
+  url: Scalars['String']['input'];
+  nfcId: Scalars['String']['input'];
+}>;
+
+
+export type CreateRunMutation = { __typename?: 'Mutation', createRun: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, imagePath?: string | null } };
+
+export type ScanNfcForTerminalMutationVariables = Exact<{
+  terminalId: Scalars['Float']['input'];
+  nfcId: Scalars['String']['input'];
+}>;
+
+
+export type ScanNfcForTerminalMutation = { __typename?: 'Mutation', scanNfcForTerminal?: boolean | null };
+
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -385,6 +401,77 @@ export type RegisterTerminalSubscriptionVariables = Exact<{
 export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any } | null };
 
 
+export const CreateRunDocument = gql`
+    mutation CreateRun($url: String!, $nfcId: String!) {
+  createRun(url: $url, nfcId: $nfcId) {
+    id
+    nfcId
+    url
+    createdAt
+    updatedAt
+    imagePath
+  }
+}
+    `;
+export type CreateRunMutationFn = Apollo.MutationFunction<CreateRunMutation, CreateRunMutationVariables>;
+
+/**
+ * __useCreateRunMutation__
+ *
+ * To run a mutation, you first call `useCreateRunMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRunMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRunMutation, { data, loading, error }] = useCreateRunMutation({
+ *   variables: {
+ *      url: // value for 'url'
+ *      nfcId: // value for 'nfcId'
+ *   },
+ * });
+ */
+export function useCreateRunMutation(baseOptions?: Apollo.MutationHookOptions<CreateRunMutation, CreateRunMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRunMutation, CreateRunMutationVariables>(CreateRunDocument, options);
+      }
+export type CreateRunMutationHookResult = ReturnType<typeof useCreateRunMutation>;
+export type CreateRunMutationResult = Apollo.MutationResult<CreateRunMutation>;
+export type CreateRunMutationOptions = Apollo.BaseMutationOptions<CreateRunMutation, CreateRunMutationVariables>;
+export const ScanNfcForTerminalDocument = gql`
+    mutation ScanNfcForTerminal($terminalId: Float!, $nfcId: String!) {
+  scanNfcForTerminal(terminalId: $terminalId, nfcId: $nfcId)
+}
+    `;
+export type ScanNfcForTerminalMutationFn = Apollo.MutationFunction<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>;
+
+/**
+ * __useScanNfcForTerminalMutation__
+ *
+ * To run a mutation, you first call `useScanNfcForTerminalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useScanNfcForTerminalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [scanNfcForTerminalMutation, { data, loading, error }] = useScanNfcForTerminalMutation({
+ *   variables: {
+ *      terminalId: // value for 'terminalId'
+ *      nfcId: // value for 'nfcId'
+ *   },
+ * });
+ */
+export function useScanNfcForTerminalMutation(baseOptions?: Apollo.MutationHookOptions<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>(ScanNfcForTerminalDocument, options);
+      }
+export type ScanNfcForTerminalMutationHookResult = ReturnType<typeof useScanNfcForTerminalMutation>;
+export type ScanNfcForTerminalMutationResult = Apollo.MutationResult<ScanNfcForTerminalMutation>;
+export type ScanNfcForTerminalMutationOptions = Apollo.BaseMutationOptions<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>;
 export const AllTerminalsDocument = gql`
     subscription AllTerminals {
   allTerminals {

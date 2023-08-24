@@ -1,0 +1,10 @@
+mutation CreateRun($url: String!, $nfcId: String!) {
+    createRun(url: $url, nfcId: $nfcId) {
+        id
+        nfcId
+        url
+        createdAt
+        updatedAt
+        imagePath
+    }
+}

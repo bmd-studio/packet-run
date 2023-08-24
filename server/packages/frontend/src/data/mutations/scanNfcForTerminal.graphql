@@ -1,0 +1,3 @@
+mutation ScanNfcForTerminal($terminalId: Float!, $nfcId: String!) {
+    scanNfcForTerminal(terminalId: $terminalId, nfcId: $nfcId)
+}

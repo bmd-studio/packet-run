@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DestinationBar from "@/components/DestinationBar";
-import { useRegisterTerminalSubscription } from "@/data/generated";
+import { useCreateRunMutation, useRegisterTerminalSubscription, useScanNfcForTerminalMutation } from "@/data/generated";
 import { useRouter } from "next/router";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useMutation } from '@apollo/client';
 
-function TerminalSubscription({ id }: {id: number}) {
+function TerminalSubscription({ terminalId }: {terminalId: number}) {
     useRegisterTerminalSubscription({
-        variables: { id: id },
+        variables: { id: terminalId },
     });
+    return null;
+}
 
-    return null; // The Subscription component doesn't need to render anything
+function ScanNfc({ terminalId }: { terminalId: number}) {
+    const [ nfcId, setNfcId ] = useState<string>('');
+
+    const [scnNfc] = useScanNfcForTerminalMutation();
+
+    const scanNfc = () => {
+        scnNfc({
+            variables: {
+                terminalId: terminalId,
+                nfcId: nfcId
+            }
+        })
+    }
+
+    return (
+        <div className='flex gap-x-4'>
+            <p>NFC ID:</p>
+            <Input onChange={(event) => setNfcId(event.target.value)}></Input>
+            <Button onClick={scanNfc}>
+                    Submit
+            </Button>
+        </div>
+    )
 }
 
 export default function Router() {
     const { query } = useRouter();
-    const id = parseFloat(query.id as string);
+    const terminalId = parseFloat(query.id as string);
+    
 
     if (!query.id) {
         return <div>No ID provided</div>;
@@ -21,9 +49,9 @@ export default function Router() {
 
     return (
         <>
-            <TerminalSubscription id={id} />
+            <TerminalSubscription terminalId={terminalId} />
             <DestinationBar />
-            {/* input field with scan NFC */}
+            <ScanNfc terminalId={terminalId}/>
         </>
     );
 }
