@@ -1,0 +1,10 @@
+subscription RegisterTerminal($id: Float!) {
+    registerTerminal(id: $id) {
+        id
+        type
+        status
+        payload
+        createdAt
+        updatedAt
+    }
+}

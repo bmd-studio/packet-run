@@ -367,6 +367,13 @@ export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name: string, id?: string | null, attemptsMade: number, processedOn?: number | null, finishedOn?: number | null, timestamp: number, data: string, failedReason?: string | null, stacktrace?: Array<string> | null }> };
 
+export type RegisterTerminalSubscriptionVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any } | null };
+
 
 export const AllTerminalsDocument = gql`
     subscription AllTerminals {
@@ -476,3 +483,38 @@ export function useJobsSubscription(baseOptions?: Apollo.SubscriptionHookOptions
       }
 export type JobsSubscriptionHookResult = ReturnType<typeof useJobsSubscription>;
 export type JobsSubscriptionResult = Apollo.SubscriptionResult<JobsSubscription>;
+export const RegisterTerminalDocument = gql`
+    subscription RegisterTerminal($id: Float!) {
+  registerTerminal(id: $id) {
+    id
+    type
+    status
+    payload
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useRegisterTerminalSubscription__
+ *
+ * To run a query within a React component, call `useRegisterTerminalSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRegisterTerminalSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegisterTerminalSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRegisterTerminalSubscription(baseOptions: Apollo.SubscriptionHookOptions<RegisterTerminalSubscription, RegisterTerminalSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RegisterTerminalSubscription, RegisterTerminalSubscriptionVariables>(RegisterTerminalDocument, options);
+      }
+export type RegisterTerminalSubscriptionHookResult = ReturnType<typeof useRegisterTerminalSubscription>;
+export type RegisterTerminalSubscriptionResult = Apollo.SubscriptionResult<RegisterTerminalSubscription>;
