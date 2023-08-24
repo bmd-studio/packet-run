@@ -81,10 +81,15 @@ export default class RoutingService {
         // Retrieve the relevant hops
         const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }});
 
+        // Retrieve the right terminals that are connected to the gateway
+        const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo']});
+        const internetTerminal = gateway.connectionsTo.getItems().find((t) => t.type === TerminalType.ROUTER);
+        const receiverTerminal = gateway.connectionsTo.getItems().find((t) => t.type === TerminalType.RECEIVER);
+
         // This is the hop to the internet
         this.orm.em.create(RunHop, {
             run,
-            terminal: 6,
+            terminal: internetTerminal,
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.RECOMMENDED
                 : RunHopType.PREVIOUS,
@@ -95,7 +100,7 @@ export default class RoutingService {
         // This is the hop back to the computer
         this.orm.em.create(RunHop, {
             run,
-            terminal: 12,
+            terminal: receiverTerminal,
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.PREVIOUS
                 : RunHopType.RECOMMENDED,

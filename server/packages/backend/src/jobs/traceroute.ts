@@ -74,12 +74,12 @@ export default async function (runId: string, orm: MikroORM) {
 
             // GUARD: Wait for the first hop to come in 
             if (hopNumber === 1) {
-                const sender = await orm.em.findOneOrFail(Terminal, { type: TerminalType.SENDER });
+                const gateway = await orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY });
 
                 // Then create the first RunHop
                 orm.em.create(RunHop, {
                     run,
-                    terminal: sender,
+                    terminal: gateway,
                     type: RunHopType.RECOMMENDED,
                     address,
                     hop: 2,
@@ -121,18 +121,22 @@ export default async function (runId: string, orm: MikroORM) {
             const hop = orm.em.create(TracerouteHop, { address, hop: 1 });
             run.tracerouteHops.add(hop);
 
-            // Retrieve the gateway
-            const gateway = await orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY });
+            // Retrieve the sender
+            const sender = await orm.em.findOneOrFail(Terminal, { type: TerminalType.SENDER });
 
             // Also create the first RunHop
             orm.em.create(RunHop, {
                 run,
-                terminal: gateway,
+                terminal: sender,
                 type: RunHopType.RECOMMENDED,
                 status: RunHopStatus.ACTUAL,
                 address,
                 hop: 1,
             });
+
+            // Since we've marked this hop as actual, we need to increase the
+            // hop index
+            run.currentHopIndex += 1;
 
             // Save to database
             await orm.em.flush();
