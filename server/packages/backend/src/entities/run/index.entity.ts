@@ -31,7 +31,7 @@ export default class Run {
     @OneToOne(() => Address, { nullable: true })
     destination!: Rel<Address>;
 
-    @OneToOne(() => Terminal, { nullable: true, inversedBy: 'run' })
+    @OneToOne(() => Terminal, (terminal) => terminal.run)
     terminal?: Rel<Terminal>;
 
     @ManyToOne(() => Terminal)

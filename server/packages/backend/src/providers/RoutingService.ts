@@ -88,7 +88,7 @@ export default class RoutingService {
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.RECOMMENDED
                 : RunHopType.PREVIOUS,
-            address: internet.address,
+            address: internet?.address,
             hop: run.currentHopIndex + 1,
         });
 
@@ -99,7 +99,7 @@ export default class RoutingService {
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.PREVIOUS
                 : RunHopType.RECOMMENDED,
-            address: client.address,
+            address: client?.address,
             hop: run.currentHopIndex + 1,
         });
 

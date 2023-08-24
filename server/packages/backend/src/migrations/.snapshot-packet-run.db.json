@@ -120,6 +120,15 @@
           "nullable": true,
           "mappedType": "text"
         },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",
@@ -144,6 +153,15 @@
       "name": "terminal",
       "indexes": [
         {
+          "columnNames": [
+            "run_id"
+          ],
+          "composite": false,
+          "keyName": "terminal_run_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "primary",
           "columnNames": [
             "id"
@@ -154,7 +172,21 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {
+        "terminal_run_id_foreign": {
+          "constraintName": "terminal_run_id_foreign",
+          "columnNames": [
+            "run_id"
+          ],
+          "localTableName": "terminal",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "run",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
     },
     {
       "columns": {
@@ -193,15 +225,6 @@
           "primary": false,
           "nullable": true,
           "mappedType": "text"
-        },
-        "terminal_id": {
-          "name": "terminal_id",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
         },
         "server_id": {
           "name": "server_id",
@@ -289,15 +312,6 @@
         },
         {
           "columnNames": [
-            "terminal_id"
-          ],
-          "composite": false,
-          "keyName": "run_terminal_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "columnNames": [
             "server_id"
           ],
           "composite": false,
@@ -327,19 +341,6 @@
             "ip"
           ],
           "referencedTableName": "address",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
-        "run_terminal_id_foreign": {
-          "constraintName": "run_terminal_id_foreign",
-          "columnNames": [
-            "terminal_id"
-          ],
-          "localTableName": "run",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "terminal",
           "deleteRule": "set null",
           "updateRule": "cascade"
         },
@@ -374,7 +375,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "type": {
@@ -498,6 +499,7 @@
             "ip"
           ],
           "referencedTableName": "address",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         },
         "run_hop_terminal_id_foreign": {
@@ -721,7 +723,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "run_id": {
@@ -796,6 +798,7 @@
             "ip"
           ],
           "referencedTableName": "address",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         },
         "traceroute_hop_run_id_foreign": {

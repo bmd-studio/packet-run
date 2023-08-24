@@ -11,7 +11,7 @@ import Terminal, { TerminalType } from '../entities/terminal/index.entity';
  * A convenience function that either finds an address by its IP, or
  * alternatively creates it and inserts it into the database.
  */
-async function findOrCreateAddress(ip: string, orm: MikroORM) {
+async function findOrCreateAddress(ip: string, orm: MikroORM): Promise<Address | null> {
     // GUARD: We cannot save '*' IPs, as they indicate unresponsive routers
     if (ip === '*') {
         return null;
@@ -27,7 +27,7 @@ async function findOrCreateAddress(ip: string, orm: MikroORM) {
 
     // Make sure we change the updatedAt column so we trigger the events
     address.updatedAt = new Date();
-    orm.em.flush();
+    await orm.em.flush();
 
     return address;
 }

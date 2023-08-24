@@ -39,8 +39,8 @@ export default class Terminal {
     @ManyToMany(() => Terminal, 'connectionsTo')
     connectionsFrom = new Collection<Terminal>(this);
 
-    @OneToOne(() => Run, (run) => run.terminal)
-    run: Rel<Run>;
+    @OneToOne(() => Run, { nullable: true, inversedBy: 'terminal'})
+    run?: Rel<Run>;
 
     @OneToMany(() => Presence, (presence) => presence.terminal)
     presences = new Collection<Presence>(this);
