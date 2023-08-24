@@ -32,17 +32,20 @@ export default class RunHop {
     @Field(() => Address)
     address: Address;
 
+    @Field(() => RunHopType)
+    type: RunHopType;
+
     @Field(() => Terminal)
     terminal: Rel<Terminal>;
 
     @Field(() => Run)
     run: Rel<Run>;
 
-    @Field(() => RunHopType)
-    type: RunHopType;
-
     @Field(() => RunHopStatus)
     status: RunHopStatus;
+
+    @Field()
+    mayPerformTransformation: boolean;
     
     @Field()
     hop: number;

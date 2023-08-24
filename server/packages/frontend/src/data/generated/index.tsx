@@ -25,6 +25,7 @@ export type Address = {
   createdAt: Scalars['DateTime']['output'];
   info?: Maybe<IpInfo>;
   ip: Scalars['String']['output'];
+  isInAltNetwork: Scalars['Boolean']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -224,7 +225,10 @@ export type Run = {
   hops: Array<RunHop>;
   id: Scalars['String']['output'];
   imagePath?: Maybe<Scalars['String']['output']>;
+  isTracerouteFinished: Scalars['Boolean']['output'];
   nfcId?: Maybe<Scalars['String']['output']>;
+  packetType: RunPacketType;
+  server: Terminal;
   terminal?: Maybe<Terminal>;
   /**
    * The internet hops a packet would actually take when transmitted in real life. NOTE: Look at the `hops` field if you want the hops that pertain specifically to the installation
@@ -242,6 +246,7 @@ export type RunHop = {
   createdAt: Scalars['DateTime']['output'];
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
+  mayPerformTransformation: Scalars['Boolean']['output'];
   run: Run;
   status: RunHopStatus;
   terminal: Terminal;
@@ -267,6 +272,11 @@ export enum RunHopType {
   /** The hop takes the user in the recommended direction */
   Recommended = 'RECOMMENDED',
   Wormhole = 'WORMHOLE'
+}
+
+export enum RunPacketType {
+  Request = 'REQUEST',
+  Response = 'RESPONSE'
 }
 
 export type Security = {

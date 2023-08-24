@@ -128,6 +128,7 @@ type TimeZone {
 type Address {
   ip: String!
   info: IpInfo
+  isInAltNetwork: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -155,10 +156,11 @@ This describes an hop in the context of the installation. It is either a previou
 type RunHop {
   id: Float!
   address: Address!
+  type: RunHopType!
   terminal: Terminal!
   run: Run!
-  type: RunHopType!
   status: RunHopStatus!
+  mayPerformTransformation: Boolean!
   hop: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -195,6 +197,8 @@ type Run {
   url: String!
   destination: Address!
   terminal: Terminal
+  server: Terminal!
+  isTracerouteFinished: Boolean!
 
   """
   The internet hops a packet would actually take when transmitted in real life. NOTE: Look at the `hops` field if you want the hops that pertain specifically to the installation
@@ -205,12 +209,18 @@ type Run {
   The hops that have been identified for this route in the context of the installation.
   """
   hops: [RunHop!]!
+  packetType: RunPacketType!
 
   """The index of the RunHop where the run is currently at"""
   currentHopIndex: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
   imagePath: String
+}
+
+enum RunPacketType {
+  REQUEST
+  RESPONSE
 }
 
 type Presence {

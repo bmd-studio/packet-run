@@ -10,6 +10,9 @@ export default class Address {
     info?: IpInfo;
 
     @Field()
+    isInAltNetwork: boolean;
+
+    @Field()
     createdAt: Date;
 
     @Field()
