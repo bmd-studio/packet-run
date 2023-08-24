@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import 'reflect-metadata';
 import { Entity, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { IpInfo } from '@ipregistry/client';
@@ -11,8 +12,11 @@ export default class Address {
     info?: Rel<IpInfo>;
 
     @Property()
+    isInAltNetwork: boolean = false;
+
+    @Property()
     createdAt: Date = new Date();
 
     @Property({ onUpdate: () => new Date() })
     updatedAt: Date = new Date();
-} 
+}

@@ -62,10 +62,10 @@ import RunHop from './entities/runHop/index.entity';
     controllers: [AppController],
     providers: [
         /** Providers */
-        PresenceManager,
-        PubSubManager,
         AutoMigrationService,
         DatabasePragmasService,
+        PresenceManager,
+        PubSubManager,
         /** Resolvers */
         AddressesResolver,
         TerminalsResolver,

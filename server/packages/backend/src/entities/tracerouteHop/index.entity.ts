@@ -8,7 +8,7 @@ export default class TracerouteHop {
     @PrimaryKey()
     id!: number;
 
-    @OneToOne(() => Address, { unique: false })
+    @OneToOne(() => Address, { unique: false, nullable: true })
     address: Rel<Address>;
 
     @ManyToOne(() => Run)

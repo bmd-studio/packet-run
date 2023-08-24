@@ -75,26 +75,6 @@ export default class RoutingService {
     }
 
     /**
-     * 
-     * @param run 
-     */
-    async insertFirstHop(run: Run) {
-        // Retrieve the relevant hops
-        const [, gateway] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 2 }});
-
-        this.orm.em.create(RunHop, {
-            run,
-            terminal: 1,
-            type: RunHopType.RECOMMENDED,
-            address: gateway.address,
-            hop: 1,
-        });
-
-        // Save to the database
-        await this.orm.em.flush();
-    }
-
-    /**
      * This will generate hop options for the last hop. This is the hop that is
      * supposed to travel from the `gateway` to the `receiver`
      */

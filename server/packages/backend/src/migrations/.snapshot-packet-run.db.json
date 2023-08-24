@@ -21,6 +21,16 @@
           "nullable": true,
           "mappedType": "text"
         },
+        "is_in_alt_network": {
+          "name": "is_in_alt_network",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "integer"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",

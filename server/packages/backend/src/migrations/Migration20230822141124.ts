@@ -21,7 +21,7 @@ export class Migration20230822141124 extends Migration {
         this.addSql('create index `terminal_connections_to_from_terminal_id_index` on `terminal_connections_to` (`from_terminal_id`);');
         this.addSql('create index `terminal_connections_to_to_terminal_id_index` on `terminal_connections_to` (`to_terminal_id`);');
 
-        this.addSql('create table `traceroute_hop` (`id` integer not null primary key autoincrement, `address_ip` text not null, `run_id` text not null, `hop` integer not null, `created_at` datetime not null, `updated_at` datetime not null, constraint `traceroute_hop_address_ip_foreign` foreign key(`address_ip`) references `address`(`ip`) on update cascade, constraint `traceroute_hop_run_id_foreign` foreign key(`run_id`) references `run`(`id`) on update cascade);');
+        this.addSql('create table `traceroute_hop` (`id` integer not null primary key autoincrement, `address_ip` text null, `run_id` text not null, `hop` integer not null, `created_at` datetime not null, `updated_at` datetime not null, constraint `traceroute_hop_address_ip_foreign` foreign key(`address_ip`) references `address`(`ip`) on update cascade, constraint `traceroute_hop_run_id_foreign` foreign key(`run_id`) references `run`(`id`) on update cascade);');
         this.addSql('create index `traceroute_hop_run_id_index` on `traceroute_hop` (`run_id`);');
     }
 
