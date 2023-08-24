@@ -1,5 +1,5 @@
 import { Loaded, MikroORM } from '@mikro-orm/core';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { random, sample } from 'lodash';
 import Address from '../entities/address/index.entity';
 import Run, { RunPacketType } from '../entities/run/index.entity';
@@ -14,8 +14,7 @@ import { getPreviousHop, getTerminalWithShortestPath } from '../lib/RoutingUtils
  */
 @Injectable()
 export default class RoutingService {
-    terminals: Loaded<Terminal, "connectionsTo">[];
-    logger = new Logger(RoutingService.name);
+    // private logger = new Logger(RoutingService.name);
 
     constructor(
         private orm: MikroORM
@@ -62,7 +61,7 @@ export default class RoutingService {
      * Insert a hop that points to the previously visited terminal. 
      * NOTE: Don't forget to call `await this.em.flush()` after calling this function.
      */
-    async insertPreviousHop(run: Run) {
+    private async insertPreviousHop(run: Run) {
         const previousHop = await getPreviousHop(run);
 
         this.orm.em.create(RunHop, {
@@ -187,13 +186,16 @@ export default class RoutingService {
             otherRouters = otherRouters.filter((t) => t.id !== recommendedTerminal.id);
         }
 
+        // Get the right address for the recommended hop
+        const address = await this.retrieveAddressForHop(run, recommendedTerminal, route.length - 1);
+
         // Create the recommended hop
         this.orm.em.create(RunHop, {
             run,
             terminal: recommendedTerminal,
             type: RunHopType.RECOMMENDED,
             // TODO: Retrieve next address
-            address: await this.orm.em.upsert(Address, { ip: '0.0.0.0' }),
+            address,
             hop: run.currentHopIndex + 1,
         });
 
@@ -208,5 +210,43 @@ export default class RoutingService {
                 hop: run.currentHopIndex + 1,
             });
         }));
+    }
+
+    /**
+     * Give a particular run and destination terminal, retrieve an address that
+     * should be used for the recommended router.
+     */
+    private async retrieveAddressForHop(run: Run, terminal: Terminal, distanceToDestination: number) {
+        // GUARD: If this is the final hop to either the server or the receiver
+        if (distanceToDestination === 1) {
+            if (run.packetType === RunPacketType.REQUEST) {
+                // Return the server address for requests
+                return run.destination;
+            } else if (run.packetType === RunPacketType.RESPONSE) {
+                // Return the client address for responses
+                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run, hop: 1 });
+                return hop.address
+            }
+        // GUARD: Check whether this is the last router before the destination
+        } else if (distanceToDestination === 2) {
+            if (run.packetType === RunPacketType.REQUEST) {
+                // Return the last hop
+                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run }, { orderBy: [{ hop: 'DESC' }]});
+                return hop.address
+            } else if (run.packetType === RunPacketType.RESPONSE) {
+                // Return the gateway address
+                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run, hop: 1 });
+                return hop.address
+            }
+        // GUARD: In other cases, dynamically pick a hop that represents the
+        // distance well
+        } else {
+            const hops = await this.orm.em.find(
+                TracerouteHop,
+                { run },
+                { orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' } }
+            );
+            return hops[Math.floor(distanceToDestination)];
+        }
     }
 }   

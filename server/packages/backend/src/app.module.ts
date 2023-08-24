@@ -27,6 +27,7 @@ import { JobsResolver } from './entities/job/resolver';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import TracerouteHop from './entities/tracerouteHop/index.entity';
 import RunHop from './entities/runHop/index.entity';
+import RoutingService from './providers/RoutingService';
 
 @Global()
 @Module({
@@ -66,6 +67,7 @@ import RunHop from './entities/runHop/index.entity';
         DatabasePragmasService,
         PresenceManager,
         PubSubManager,
+        RoutingService,
         /** Resolvers */
         AddressesResolver,
         TerminalsResolver,

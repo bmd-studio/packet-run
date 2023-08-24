@@ -11,6 +11,7 @@ import PresenceManager from '../../providers/PresenceManager';
 import { EntityManager } from '@mikro-orm/core';
 import Run, { RunPacketType } from '../run/index.entity';
 import RunHop, { RunHopStatus } from '../runHop/index.entity';
+import RoutingService from '../../providers/RoutingService';
 
 @Resolver(() => Terminal)
 export default class TerminalsResolver {
@@ -20,6 +21,7 @@ export default class TerminalsResolver {
         private readonly em: EntityManager,
         private readonly pubsub: PubSubManager,
         private readonly presence: PresenceManager,
+        private readonly routing: RoutingService,
     ) {}
 
     @Query(() => Terminal, { nullable: true })
@@ -102,6 +104,9 @@ export default class TerminalsResolver {
                 ],
             }
         );
+
+        // Generate new hops for the terminal
+        await this.routing.process(run, terminal);
 
         // Set the terminal to the desired state
         terminal.status = TerminalStatus.SCANNING_NFC;

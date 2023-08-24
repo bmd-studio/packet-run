@@ -1,6 +1,6 @@
-import Run from 'src/entities/run/index.entity';
-import { RunHopStatus } from 'src/entities/runHop/index.entity';
-import Terminal, { TerminalType } from 'src/entities/terminal/index.entity';
+import Run from '../entities/run/index.entity';
+import { RunHopStatus } from '../entities/runHop/index.entity';
+import Terminal, { TerminalType } from '../entities/terminal/index.entity';
 
 /**
  * Retrieve the previously taken hop for a given run
