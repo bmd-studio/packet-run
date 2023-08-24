@@ -13,7 +13,8 @@
     "migrations:generate": "npm run build && npx mikro-orm migration:create",
     "migrations:run": "npm run build && npx mikro-orm migration:up",
     "migrations:check": "mikro-orm migration:check",
-    "seed": "mikro-orm seeder:run"
+    "seed": "mikro-orm seeder:run",
+    "initialize": "rimraf data/packet-run.db && npm run migrations:run && npm run seed"
   },
   "dependencies": {
     "@apollo/server": "^4.9.0",
@@ -44,6 +45,7 @@
     "nodejs-traceroute": "^2.0.1",
     "puppeteer": "^21.1.0",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.1",
     "rxjs": "^8.0.0-alpha.10"
   },
   "devDependencies": {
