@@ -97,6 +97,9 @@ export default class TerminalsResolver {
                     'server',
                     'server.id',
                 ],
+                orderBy: [
+                    { createdAt: 'DESC' },
+                ],
             }
         );
 
