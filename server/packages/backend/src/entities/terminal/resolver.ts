@@ -111,6 +111,7 @@ export default class TerminalsResolver {
         // Set the terminal to the desired state
         terminal.status = TerminalStatus.SCANNING_NFC;
         terminal.run = run;
+        await this.em.flush();
 
         return true;
     }
