@@ -393,6 +393,13 @@ export type CreateRunMutationVariables = Exact<{
 
 export type CreateRunMutation = { __typename?: 'Mutation', createRun: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, createdAt: any, updatedAt: any, imagePath?: string | null } };
 
+export type ResetTerminalMutationVariables = Exact<{
+  terminalId: Scalars['Float']['input'];
+}>;
+
+
+export type ResetTerminalMutation = { __typename?: 'Mutation', setTerminalToIdle?: boolean | null };
+
 export type ScanNfcForTerminalMutationVariables = Exact<{
   terminalId: Scalars['Float']['input'];
   nfcId: Scalars['String']['input'];
@@ -458,6 +465,37 @@ export function useCreateRunMutation(baseOptions?: Apollo.MutationHookOptions<Cr
 export type CreateRunMutationHookResult = ReturnType<typeof useCreateRunMutation>;
 export type CreateRunMutationResult = Apollo.MutationResult<CreateRunMutation>;
 export type CreateRunMutationOptions = Apollo.BaseMutationOptions<CreateRunMutation, CreateRunMutationVariables>;
+export const ResetTerminalDocument = gql`
+    mutation ResetTerminal($terminalId: Float!) {
+  setTerminalToIdle(terminalId: $terminalId)
+}
+    `;
+export type ResetTerminalMutationFn = Apollo.MutationFunction<ResetTerminalMutation, ResetTerminalMutationVariables>;
+
+/**
+ * __useResetTerminalMutation__
+ *
+ * To run a mutation, you first call `useResetTerminalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetTerminalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetTerminalMutation, { data, loading, error }] = useResetTerminalMutation({
+ *   variables: {
+ *      terminalId: // value for 'terminalId'
+ *   },
+ * });
+ */
+export function useResetTerminalMutation(baseOptions?: Apollo.MutationHookOptions<ResetTerminalMutation, ResetTerminalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ResetTerminalMutation, ResetTerminalMutationVariables>(ResetTerminalDocument, options);
+      }
+export type ResetTerminalMutationHookResult = ReturnType<typeof useResetTerminalMutation>;
+export type ResetTerminalMutationResult = Apollo.MutationResult<ResetTerminalMutation>;
+export type ResetTerminalMutationOptions = Apollo.BaseMutationOptions<ResetTerminalMutation, ResetTerminalMutationVariables>;
 export const ScanNfcForTerminalDocument = gql`
     mutation ScanNfcForTerminal($terminalId: Float!, $nfcId: String!) {
   scanNfcForTerminal(terminalId: $terminalId, nfcId: $nfcId)

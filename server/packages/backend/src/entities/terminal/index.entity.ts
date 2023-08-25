@@ -16,7 +16,6 @@ export enum TerminalStatus {
     SCANNING_NFC = 'scanning_nfc',
     CREATING_PACKET = 'creating_packet',
     CREATED_PACKET = 'created_packet',
-    OFFLINE = 'offline',
 }
 
 @Entity()
@@ -28,7 +27,7 @@ export default class Terminal {
     type!: TerminalType;
 
     @Enum(() => TerminalStatus)
-    status: TerminalStatus = TerminalStatus.OFFLINE;
+    status: TerminalStatus = TerminalStatus.IDLE;
 
     @Property({ nullable: true })
     payload?: string;
@@ -65,6 +64,7 @@ export class TerminalConnection {
 }
 
 export async function fetchAllTerminals(em: EntityManager) {
+    console.log('REFERCH ALL TERMINALS');
     return em.find(Terminal, {}, { 
         populate: [
             'connectionsFrom',
@@ -74,5 +74,6 @@ export async function fetchAllTerminals(em: EntityManager) {
             'run.hops',
             'presences',
         ],
+        cache: false,
     });
 }

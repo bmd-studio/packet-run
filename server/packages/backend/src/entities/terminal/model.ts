@@ -16,7 +16,6 @@ registerEnumType(TerminalStatus, { name: 'TerminalStatus', valuesMap: {
     SCANNING_NFC: { description: 'A packet is currently being scanned using the NFC reader' },
     CREATING_PACKET: { description: 'A packet is actively being created or transformed on the terminal' },
     CREATED_PACKET: { description: 'A packet has been transformed, but is still actively being scanned' },
-    OFFLINE: { description: 'The terminal has failed its heartbeats and is considered offline' },
 } });
 
 @ObjectType()

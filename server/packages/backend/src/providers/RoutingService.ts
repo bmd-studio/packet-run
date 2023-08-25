@@ -82,7 +82,7 @@ export default class RoutingService {
         const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }});
 
         // Retrieve the right terminals that are connected to the gateway
-        const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo']});
+        const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo.to']});
         const internetTerminal = gateway.connectionsTo.getItems()
             .find((c) => c.to.type === TerminalType.ROUTER);
         const receiverTerminal = gateway.connectionsTo.getItems()

@@ -1,0 +1,3 @@
+mutation ResetTerminal($terminalId: Float!) {
+    setTerminalToIdle(terminalId: $terminalId)
+}

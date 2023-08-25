@@ -1,6 +1,7 @@
-import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, from, split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { RetryLink } from '@apollo/client/link/retry';
 import { createClient } from 'graphql-ws';
 
 /** The HTTP link for regular queries and mutations */
@@ -8,6 +9,18 @@ const httpLink = new HttpLink({ uri: 'http://localhost:8080/graphql' });
 
 /** The WS link for subcsriptions */
 const wsLink = new GraphQLWsLink(createClient({ url: 'ws://localhost:8080/graphql' }));
+
+/** A link that retries when any network errors occur */
+const retryLink = new RetryLink({
+    delay: {
+        initial: 200,
+        max: Infinity,
+        jitter: true,
+    },
+    attempts: {
+        max: Infinity,
+    },
+});
 
 /**
  * Split out the links so that only subscriptions are routed over websockets
@@ -25,7 +38,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-    link: splitLink,
+    link: from([ retryLink, splitLink, ]),
     cache: new InMemoryCache(),
 });
 

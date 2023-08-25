@@ -58,8 +58,12 @@ export default function TerminalGraph() {
                         ...terminal,
                         id: terminal.id.toString(),
                         label: `${terminal.id}`,
-                        backgroundColor: mapTerminalStatusToColor[terminal.status].background,
-                        borderColor: mapTerminalStatusToColor[terminal.status].border,
+                        backgroundColor: terminal.presences.length
+                            ? mapTerminalStatusToColor[terminal.status].background
+                            : mapTerminalStatusToColor['OFFLINE'].background,
+                        borderColor: terminal.presences.length
+                            ? mapTerminalStatusToColor[terminal.status].border
+                            : mapTerminalStatusToColor['OFFLINE'].border,
                         shape: mapTerminalTypeToShape[terminal.type],
                     },
                 } as NodeDefinition
@@ -161,10 +165,10 @@ export default function TerminalGraph() {
     }, []);
 
     return (
-        <div className="grow flex flex-col flex-shrink min-w-0">
+        <div className="grow flex flex-col flex-shrink min-w-0 w-md">
             <div className="flex-auto" ref={graphRef} />
             <Popover open={!!activeTerminal} onOpenChange={closePopover}>
-                <PopoverContent className='w-48 left-4 top-4 whitespace-pre bg-white shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">
+                <PopoverContent className='w-48 left-4 top-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">
                     {activeTerminal && (
                         <div className="grid grid-colrs-1 divide-y max-h-screen">
                             <h1 className="text-lg p-4 flex items-center">

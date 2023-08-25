@@ -279,9 +279,6 @@ enum TerminalStatus {
 
   """A packet has been transformed, but is still actively being scanned"""
   CREATED_PACKET
-
-  """The terminal has failed its heartbeats and is considered offline"""
-  OFFLINE
 }
 
 type TerminalConnection {

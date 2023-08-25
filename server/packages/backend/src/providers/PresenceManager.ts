@@ -2,7 +2,6 @@ import { MikroORM } from '@mikro-orm/core';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import Presence from '../entities/presence/index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
-import Terminal, { TerminalStatus } from '../entities/terminal/index.entity';
 
 /**
  * This class manages presence for the individual terminal subscriptions. 
@@ -47,16 +46,6 @@ export default class PresenceManager implements OnModuleInit {
 
         // Flush any outstanding transactions
         await this.orm.em.flush();
-
-        // Then, find the terminal that is supposed to be associated with the
-        // terminal id.
-        const terminal = await this.orm.em.findOne(Terminal, { id: terminalId });
-
-        // GUARD: If it is offline, set the status to idle
-        if (terminal.status === TerminalStatus.OFFLINE) {
-            terminal.status = TerminalStatus.IDLE;
-            await this.orm.em.flush();
-        }
     }
 
     /**
@@ -89,15 +78,6 @@ export default class PresenceManager implements OnModuleInit {
         }
 
         // Then, delete it
-        await this.repository.nativeDelete({ websocketId });
-
-        // Retrieve the remaining count of presences for the associated terminal id
-        const count = await this.repository.count({ terminal: presence.terminal.id });
-
-        // GUARD: If there are no presences left, set the terminal status to offline
-        if (count === 0) {
-            await this.orm.em.getRepository(Terminal)
-                .nativeUpdate({ id: presence.terminal.id }, { status: TerminalStatus.OFFLINE })
-        }
+        await this.orm.em.removeAndFlush(presence);
     }
 }

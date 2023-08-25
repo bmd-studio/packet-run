@@ -42,7 +42,7 @@ export default function JobsTable() {
     return (
         <div className="h-full border-l">
             <Table className="border-b">
-                <TableHeader className="sticky top-0 bg-white">
+                <TableHeader className="sticky top-0 bg-background">
                     <TableRow>
                         <TableHead>Time</TableHead>
                         <TableHead>Id</TableHead>
