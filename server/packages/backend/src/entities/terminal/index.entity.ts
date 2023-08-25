@@ -64,7 +64,6 @@ export class TerminalConnection {
 }
 
 export async function fetchAllTerminals(em: EntityManager) {
-    console.log('REFERCH ALL TERMINALS');
     return em.find(Terminal, {}, { 
         populate: [
             'connectionsFrom',
