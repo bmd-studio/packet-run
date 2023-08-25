@@ -53,10 +53,10 @@ export default function JobsTable() {
                     </TableRow>
                 </TableHeader>
                 <TableBody className="overflow-auto">
-                    {data?.jobs.sort((a, b) => b.timestamp - a.timestamp).map(job => {
+                    {data?.jobs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0)).map(job => {
                         return(
                             <TableRow key={`${job.timestamp}-${job.id}`}>
-                                <TableCell>{new Date(job.timestamp).toLocaleTimeString()}</TableCell>
+                                <TableCell>{job.timestamp && new Date(job.timestamp).toLocaleTimeString()}</TableCell>
                                 <TableCell>{job.id}</TableCell>
                                 <TableCell>{job.name}</TableCell>
                                 <TableCell>{job.data}</TableCell>

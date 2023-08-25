@@ -117,8 +117,8 @@ export type IpInfo = {
 
 export type Job = {
   __typename?: 'Job';
-  attemptsMade: Scalars['Float']['output'];
-  data: Scalars['String']['output'];
+  attemptsMade?: Maybe<Scalars['Float']['output']>;
+  data?: Maybe<Scalars['String']['output']>;
   failedReason?: Maybe<Scalars['String']['output']>;
   finishedOn?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['String']['output']>;
@@ -126,7 +126,7 @@ export type Job = {
   processedOn?: Maybe<Scalars['Float']['output']>;
   stacktrace?: Maybe<Array<Scalars['String']['output']>>;
   status: JobStatus;
-  timestamp: Scalars['Float']['output'];
+  timestamp?: Maybe<Scalars['Float']['output']>;
 };
 
 export enum JobStatus {
@@ -401,7 +401,7 @@ export type AllTerminalsSubscription = { __typename?: 'Subscription', allTermina
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade: number, processedOn?: number | null, finishedOn?: number | null, timestamp: number, data: string, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
+export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade?: number | null, processedOn?: number | null, finishedOn?: number | null, timestamp?: number | null, data?: string | null, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
 
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
