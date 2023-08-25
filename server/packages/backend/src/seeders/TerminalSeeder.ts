@@ -1,6 +1,6 @@
 import type { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
-import Terminal, { TerminalType } from '../entities/terminal/index.entity';
+import Terminal, { TerminalConnection, TerminalType } from '../entities/terminal/index.entity';
 
 export class TerminalSeeder extends Seeder {
 
@@ -29,18 +29,42 @@ export class TerminalSeeder extends Seeder {
         const server2 = terminals[9];
         const receiver = terminals[12];
 
-        sender.connectionsTo.add([ gateway ]);
-        gateway.connectionsTo.add([ receiver, terminals[6] ]);
-        server1.connectionsTo.add([ gateway, terminals[4] ]);
-        server2.connectionsTo.add([ terminals[10], gateway ]);
+        em.create(TerminalConnection, { from: sender, to: gateway, slot: 1 });
+        
+        em.create(TerminalConnection, { from: gateway, to: receiver, slot: 1 });
+        em.create(TerminalConnection, { from: gateway, to: terminals[6], slot: 2 });
+        
+        em.create(TerminalConnection, { from: server1, to: gateway, slot: 1 });
+        em.create(TerminalConnection, { from: server1, to: terminals[4], slot: 2 });
 
-        terminals[3].connectionsTo.add([ terminals[6], terminals[8], terminals[11] ]);
-        terminals[4].connectionsTo.add([ server1, terminals[7], terminals[11] ]);
-        terminals[6].connectionsTo.add([ terminals[10], gateway, terminals[3] ]);
-        terminals[7].connectionsTo.add([ terminals[10], terminals[4] ]);
-        terminals[8].connectionsTo.add([ terminals[11], terminals[3] ]);
-        terminals[10].connectionsTo.add([ terminals[6], terminals[7], server2 ]);
-        terminals[11].connectionsTo.add([ terminals[3], terminals[4], terminals[8] ]);
+        em.create(TerminalConnection, { from: server2, to: terminals[10], slot: 1 });
+        em.create(TerminalConnection, { from: server2, to: gateway, slot: 2 });
+
+        em.create(TerminalConnection, { from: terminals[3], to: terminals[6], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[3], to: terminals[8], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[3], to: terminals[11], slot: 3 });
+
+        em.create(TerminalConnection, { from: terminals[4], to: server1, slot: 1 });
+        em.create(TerminalConnection, { from: terminals[4], to: terminals[7], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[4], to: terminals[11], slot: 3 });
+
+        em.create(TerminalConnection, { from: terminals[6], to: terminals[10], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[6], to: gateway, slot: 2 });
+        em.create(TerminalConnection, { from: terminals[6], to: terminals[3], slot: 3 });
+
+        em.create(TerminalConnection, { from: terminals[7], to: terminals[10], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[7], to: terminals[4], slot: 2 });
+
+        em.create(TerminalConnection, { from: terminals[8], to: terminals[11], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[8], to: terminals[3], slot: 2 });
+
+        em.create(TerminalConnection, { from: terminals[10], to: terminals[6], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[10], to: terminals[7], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[10], to: server2, slot: 3 });
+
+        em.create(TerminalConnection, { from: terminals[11], to: terminals[3], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[11], to: terminals[4], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[11], to: terminals[8], slot: 3 });
 
         await em.flush();
     }

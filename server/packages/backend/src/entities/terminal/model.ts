@@ -33,11 +33,11 @@ export default class Terminal {
     @Field({ nullable: true })
     payload?: string;
 
-    @Field(() => [Terminal])
-    connectionsTo: Terminal[];
+    @Field(() => [TerminalConnection])
+    connectionsTo: TerminalConnection[];
 
-    @Field(() => [Terminal])
-    connectionsFrom: Terminal[];
+    @Field(() => [TerminalConnection])
+    connectionsFrom: TerminalConnection[];
 
     @Field(() => Run, { nullable: true })
     run?: Rel<Run>;
@@ -50,4 +50,16 @@ export default class Terminal {
 
     @Field()
     updatedAt: Date;
+}
+
+@ObjectType()
+export class TerminalConnection {
+    @Field()
+    from: Terminal;
+
+    @Field()
+    to: Terminal;
+
+    @Field()
+    slot: number;
 }

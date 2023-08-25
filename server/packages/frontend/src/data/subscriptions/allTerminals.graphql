@@ -5,7 +5,10 @@ subscription AllTerminals {
         status
         payload
         connectionsTo {
-            id
+            slot
+            to {
+                id
+            }
         }
         run {
             id

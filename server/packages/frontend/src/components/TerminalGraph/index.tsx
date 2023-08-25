@@ -68,9 +68,9 @@ export default function TerminalGraph() {
                 return terminal.connectionsTo.map((connection) => {
                     return {
                         data: {
-                            id: `e_${terminal.id}_${connection.id}`,
+                            id: `e_${terminal.id}_${connection.to.id}`,
                             source: terminal.id.toString(),
-                            target: connection.id.toString(),
+                            target: connection.to.id.toString(),
                         },
                     } as EdgeDefinition
                 });

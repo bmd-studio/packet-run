@@ -93,7 +93,7 @@ export default class TerminalsResolver {
                     'hops.terminal',
                     'terminal',
                     'terminal.connectionsTo',
-                    'terminal.connectionsTo.id',
+                    'terminal.connectionsTo.to.id',
                     'tracerouteHops',
                     'tracerouteHops.id',
                     'server',

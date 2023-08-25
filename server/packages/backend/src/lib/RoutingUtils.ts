@@ -28,7 +28,7 @@ export async function getTerminalWithShortestPath(run: Run, destinationType: Ter
     // This variable tracks which terminals still need to be processed.
     // Whenever the destination is not found, all toConnections are added to
     // the queue for that terminal
-    let queue: [number, Terminal][] = run.terminal.connectionsTo.getItems().map((t) => [run.terminal.id, t]);
+    let queue: [number, Terminal][] = run.terminal.connectionsTo.getItems().map((t) => [run.terminal.id, t.to]);
 
     // Track which terminals we've seen, so that we don't track routes
     // multiple times
@@ -59,16 +59,16 @@ export async function getTerminalWithShortestPath(run: Run, destinationType: Ter
             // Loop through all available connections from here
             terminal.connectionsTo.getItems()
                 // Filter any connection we've already handled
-                .filter((t) => !seen.has(t.id))
-                .forEach((t) => {
+                .filter((c) => !seen.has(c.to.id))
+                .forEach((c) => {
                     // Mark the connection as seen
-                    seen.add(t.id);
+                    seen.add(c.to.id);
 
                     // Save the route from the current terminal to this connection
-                    routes.set(t.id, [...routes.get(previous), t.id]);
+                    routes.set(c.to.id, [...routes.get(previous), c.to.id]);
 
                     // Add the connection to the queue
-                    queue.push([terminal.id, t]);
+                    queue.push([terminal.id, c.to]);
                 });
         }
     }

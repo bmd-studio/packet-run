@@ -237,8 +237,8 @@ type Terminal {
   type: TerminalType!
   status: TerminalStatus!
   payload: String
-  connectionsTo: [Terminal!]!
-  connectionsFrom: [Terminal!]!
+  connectionsTo: [TerminalConnection!]!
+  connectionsFrom: [TerminalConnection!]!
   run: Run
   presences: [Presence!]!
   createdAt: DateTime!
@@ -281,6 +281,12 @@ enum TerminalStatus {
 
   """The terminal has failed its heartbeats and is considered offline"""
   OFFLINE
+}
+
+type TerminalConnection {
+  from: Terminal!
+  to: Terminal!
+  slot: Float!
 }
 
 type Job {

@@ -318,8 +318,8 @@ export type SubscriptionRegisterTerminalArgs = {
 
 export type Terminal = {
   __typename?: 'Terminal';
-  connectionsFrom: Array<Terminal>;
-  connectionsTo: Array<Terminal>;
+  connectionsFrom: Array<TerminalConnection>;
+  connectionsTo: Array<TerminalConnection>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Float']['output'];
   payload?: Maybe<Scalars['String']['output']>;
@@ -328,6 +328,13 @@ export type Terminal = {
   status: TerminalStatus;
   type: TerminalType;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type TerminalConnection = {
+  __typename?: 'TerminalConnection';
+  from: Terminal;
+  slot: Scalars['Float']['output'];
+  to: Terminal;
 };
 
 export enum TerminalStatus {
@@ -396,7 +403,7 @@ export type ScanNfcForTerminalMutation = { __typename?: 'Mutation', scanNfcForTe
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'Terminal', id: number }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -490,7 +497,10 @@ export const AllTerminalsDocument = gql`
     status
     payload
     connectionsTo {
-      id
+      slot
+      to {
+        id
+      }
     }
     run {
       id

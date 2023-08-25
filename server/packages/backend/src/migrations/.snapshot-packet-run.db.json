@@ -626,8 +626,8 @@
     },
     {
       "columns": {
-        "from_terminal_id": {
-          "name": "from_terminal_id",
+        "from_id": {
+          "name": "from_id",
           "type": "integer",
           "unsigned": false,
           "autoincrement": false,
@@ -635,8 +635,17 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "to_terminal_id": {
-          "name": "to_terminal_id",
+        "to_id": {
+          "name": "to_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "slot": {
+          "name": "slot",
           "type": "integer",
           "unsigned": false,
           "autoincrement": false,
@@ -645,31 +654,31 @@
           "mappedType": "integer"
         }
       },
-      "name": "terminal_connections_to",
+      "name": "terminal_connection",
       "indexes": [
         {
           "columnNames": [
-            "from_terminal_id"
+            "from_id"
           ],
           "composite": false,
-          "keyName": "terminal_connections_to_from_terminal_id_index",
+          "keyName": "terminal_connection_from_id_index",
           "primary": false,
           "unique": false
         },
         {
           "columnNames": [
-            "to_terminal_id"
+            "to_id"
           ],
           "composite": false,
-          "keyName": "terminal_connections_to_to_terminal_id_index",
+          "keyName": "terminal_connection_to_id_index",
           "primary": false,
           "unique": false
         },
         {
           "keyName": "primary",
           "columnNames": [
-            "from_terminal_id",
-            "to_terminal_id"
+            "from_id",
+            "to_id"
           ],
           "composite": true,
           "primary": true,
@@ -678,30 +687,28 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "terminal_connections_to_from_terminal_id_foreign": {
-          "constraintName": "terminal_connections_to_from_terminal_id_foreign",
+        "terminal_connection_from_id_foreign": {
+          "constraintName": "terminal_connection_from_id_foreign",
           "columnNames": [
-            "from_terminal_id"
+            "from_id"
           ],
-          "localTableName": "terminal_connections_to",
+          "localTableName": "terminal_connection",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "terminal",
-          "deleteRule": "cascade",
           "updateRule": "cascade"
         },
-        "terminal_connections_to_to_terminal_id_foreign": {
-          "constraintName": "terminal_connections_to_to_terminal_id_foreign",
+        "terminal_connection_to_id_foreign": {
+          "constraintName": "terminal_connection_to_id_foreign",
           "columnNames": [
-            "to_terminal_id"
+            "to_id"
           ],
-          "localTableName": "terminal_connections_to",
+          "localTableName": "terminal_connection",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "terminal",
-          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       }

@@ -83,13 +83,15 @@ export default class RoutingService {
 
         // Retrieve the right terminals that are connected to the gateway
         const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo']});
-        const internetTerminal = gateway.connectionsTo.getItems().find((t) => t.type === TerminalType.ROUTER);
-        const receiverTerminal = gateway.connectionsTo.getItems().find((t) => t.type === TerminalType.RECEIVER);
+        const internetTerminal = gateway.connectionsTo.getItems()
+            .find((c) => c.to.type === TerminalType.ROUTER);
+        const receiverTerminal = gateway.connectionsTo.getItems()
+            .find((c) => c.to.type === TerminalType.RECEIVER);
 
         // This is the hop to the internet
         this.orm.em.create(RunHop, {
             run,
-            terminal: internetTerminal,
+            terminal: internetTerminal.to,
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.RECOMMENDED
                 : RunHopType.PREVIOUS,
@@ -100,7 +102,7 @@ export default class RoutingService {
         // This is the hop back to the computer
         this.orm.em.create(RunHop, {
             run,
-            terminal: receiverTerminal,
+            terminal: receiverTerminal.to,
             type: run.packetType === RunPacketType.REQUEST 
                 ? RunHopType.PREVIOUS
                 : RunHopType.RECOMMENDED,
@@ -155,6 +157,7 @@ export default class RoutingService {
 
         // Determine all options that don't route to the previous hop
         const terminals = run.terminal.connectionsTo.getItems()
+            .map((c) => c.to)
             .filter((t) => t.id !== previousHop.terminal.id);
 
         // Calculate the shortest path to the destination terminal

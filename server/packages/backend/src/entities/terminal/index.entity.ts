@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Collection, Entity, EntityManager, Enum, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
+import { Collection, Entity, EntityManager, Enum, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import Run from '../run/index.entity';
 import Presence from '../presence/index.entity';
 
@@ -33,11 +33,11 @@ export default class Terminal {
     @Property({ nullable: true })
     payload?: string;
 
-    @ManyToMany(() => Terminal, null, { joinColumn: 'from_terminal_id', inverseJoinColumn: 'to_terminal_id' })
-    connectionsTo = new Collection<Terminal>(this);
+    @OneToMany(() => TerminalConnection, (connection) => connection.from)
+    connectionsTo = new Collection<TerminalConnection>(this);
 
-    @ManyToMany(() => Terminal, 'connectionsTo')
-    connectionsFrom = new Collection<Terminal>(this);
+    @OneToMany(() => TerminalConnection, (connection) => connection.to)
+    connectionsFrom = new Collection<TerminalConnection>(this);
 
     @OneToOne(() => Run, { nullable: true, inversedBy: 'terminal'})
     run?: Rel<Run>;
@@ -50,6 +50,18 @@ export default class Terminal {
 
     @Property({ onUpdate: () => new Date() })
     updatedAt: Date = new Date();
+}
+
+@Entity()
+export class TerminalConnection {
+    @ManyToOne(() => Terminal, { primary: true })
+    from: Terminal;
+
+    @ManyToOne(() => Terminal, { primary: true })
+    to: Terminal;
+
+    @Property()
+    slot: number;
 }
 
 export async function fetchAllTerminals(em: EntityManager) {
