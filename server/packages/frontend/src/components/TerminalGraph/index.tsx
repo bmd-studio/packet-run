@@ -37,10 +37,14 @@ const mapTerminalTypeToShape: Record<TerminalType, cytoscape.Css.NodeShape> = {
 };
 
 export default function TerminalGraph() {
-    const { data } = useAllTerminalsSubscription();
+    const { data, error } = useAllTerminalsSubscription();
     const graphRef = useRef<HTMLDivElement | null>(null);
     const graph = useRef<cytoscape.Core | null>(null);
     const [activeTerminal, setActiveTerminal] = useState<Terminal | null>(null);
+
+    if (error) {
+        console.error(error);
+    }
 
     const elements = useMemo(() => {
         if (!data?.allTerminals.length) {
@@ -157,7 +161,7 @@ export default function TerminalGraph() {
     }, []);
 
     return (
-        <div className="grow flex flex-col">
+        <div className="grow flex flex-col flex-shrink min-w-0">
             <div className="flex-auto" ref={graphRef} />
             <Popover open={!!activeTerminal} onOpenChange={closePopover}>
                 <PopoverContent className='w-48 left-4 top-4 whitespace-pre bg-white shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">

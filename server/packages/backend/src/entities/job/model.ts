@@ -1,14 +1,25 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+
+export enum JobStatus {
+    ACTIVE = 'active',
+    WAITING = 'waiting',
+    DELAYED = 'delayed',
+    FAILED = 'failed',
+    COMPLETED = 'completed',
+    OTHER = 'other',
+}
+
+registerEnumType(JobStatus, { name: 'JobStatus' });
 
 @ObjectType()
 export class Job {
-    @Field()
+    @Field({ nullable: true })
     name: string;
 
     @Field({ nullable: true })
     id?: string;
 
-    @Field()
+    @Field({ nullable: true })
     attemptsMade: number;
 
     @Field({ nullable: true })
@@ -23,9 +34,12 @@ export class Job {
     @Field(() => [String], { nullable: true })
     stacktrace?: string[];
 
-    @Field()
+    @Field({ nullable: true})
     timestamp: number;
 
-    @Field()
+    @Field(() => JobStatus)
+    status: JobStatus;
+
+    @Field({ nullable: true })
     data: string;
 }

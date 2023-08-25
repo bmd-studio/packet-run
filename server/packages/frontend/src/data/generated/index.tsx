@@ -122,11 +122,21 @@ export type Job = {
   failedReason?: Maybe<Scalars['String']['output']>;
   finishedOn?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   processedOn?: Maybe<Scalars['Float']['output']>;
   stacktrace?: Maybe<Array<Scalars['String']['output']>>;
+  status: JobStatus;
   timestamp: Scalars['Float']['output'];
 };
+
+export enum JobStatus {
+  Active = 'ACTIVE',
+  Completed = 'COMPLETED',
+  Delayed = 'DELAYED',
+  Failed = 'FAILED',
+  Other = 'OTHER',
+  Waiting = 'WAITING'
+}
 
 export type LanguagesEntityOrLanguage = {
   __typename?: 'LanguagesEntityOrLanguage';
@@ -391,7 +401,7 @@ export type AllTerminalsSubscription = { __typename?: 'Subscription', allTermina
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name: string, id?: string | null, attemptsMade: number, processedOn?: number | null, finishedOn?: number | null, timestamp: number, data: string, failedReason?: string | null, stacktrace?: Array<string> | null }> };
+export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade: number, processedOn?: number | null, finishedOn?: number | null, timestamp: number, data: string, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
 
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
@@ -555,6 +565,7 @@ export const JobsDocument = gql`
     data
     failedReason
     stacktrace
+    status
   }
 }
     `;

@@ -54,6 +54,13 @@ import RoutingService from './providers/RoutingService';
         BullModule.forRoot({}),
         BullModule.registerQueue({
             name: 'default',
+            defaultJobOptions: {
+                attempts: 10,
+                backoff: {
+                    type: 'exponential',
+                    delay: 2500,
+                },
+            },
         }),
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'data', 'images'),

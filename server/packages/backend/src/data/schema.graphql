@@ -284,15 +284,25 @@ enum TerminalStatus {
 }
 
 type Job {
-  name: String!
+  name: String
   id: String
-  attemptsMade: Float!
+  attemptsMade: Float
   processedOn: Float
   finishedOn: Float
   failedReason: String
   stacktrace: [String!]
-  timestamp: Float!
-  data: String!
+  timestamp: Float
+  status: JobStatus!
+  data: String
+}
+
+enum JobStatus {
+  ACTIVE
+  WAITING
+  DELAYED
+  FAILED
+  COMPLETED
+  OTHER
 }
 
 type Query {
