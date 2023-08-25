@@ -31,12 +31,12 @@ function NfcScanner({ terminalId }: { terminalId: number }) {
     )
 }
 
-function ResetTerminal() {
+function ResetTerminal({ terminalId }: { terminalId: number }) {
     const [mutate] = useResetTerminalMutation();
 
     const handleClick = useCallback(() => {
-        mutate();
-    }, [mutate]);
+        mutate({ variables: { terminalId }});
+    }, [mutate, terminalId]);
 
     return (
         <Button onClick={handleClick}>Reset</Button>
@@ -84,7 +84,7 @@ export default function Router() {
             {terminal.status === TerminalStatus.ScanningNfc && (
                 <>
                     <DestinationBar />
-                    <ResetTerminal />
+                    <ResetTerminal terminalId={terminal.id} />
                 </>
             )}
             {terminal.status === TerminalStatus.Idle && (
