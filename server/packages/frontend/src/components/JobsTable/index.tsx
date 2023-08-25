@@ -4,7 +4,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "../ui/table"
 
 export default function JobsTable() {
     const { data } = useJobsSubscription();
-    console.log(data);
+
     return (
         <div className="h-full">
             <Table className="h-full">
