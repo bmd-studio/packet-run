@@ -1,10 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import RunModel from './model';
 import Run from './index.entity';
 import { EntityManager, EntityRepository } from '@mikro-orm/core';
 import Terminal, { TerminalType } from '../terminal/index.entity';
 import { sample } from 'lodash';
+import RunHop from '../runHop/model';
 
 @Resolver(() => RunModel)
 export default class RunsResolver {
@@ -37,5 +38,11 @@ export default class RunsResolver {
         await this.repository.flush();
 
         return run;
+    }
+
+    @ResolveField(() => [RunHop])
+    async currentHops(@Parent() run: Run) {
+        const hops = await run.hops.loadItems();
+        return hops.filter((h) => h.hop === run.currentHopIndex);
     }
 }

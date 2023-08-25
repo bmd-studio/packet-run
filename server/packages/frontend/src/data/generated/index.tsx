@@ -230,6 +230,7 @@ export type Run = {
   createdAt: Scalars['DateTime']['output'];
   /** The index of the RunHop where the run is currently at */
   currentHopIndex: Scalars['Float']['output'];
+  currentHops: Array<RunHop>;
   destination: Address;
   /** The hops that have been identified for this route in the context of the installation. */
   hops: Array<RunHop>;
