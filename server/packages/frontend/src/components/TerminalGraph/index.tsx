@@ -5,8 +5,8 @@ import cytoscape, { EdgeDefinition, NodeDefinition } from 'cytoscape';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import colors from 'tailwindcss/colors';
 
-const mapTerminalStatusToColor: Record<TerminalStatus, { background: string, border: string }> = {
-    [TerminalStatus.Offline]: {
+const mapTerminalStatusToColor: Record<TerminalStatus | 'OFFLINE', { background: string, border: string }> = {
+    'OFFLINE': {
         background: colors.red[500],
         border: colors.red[200],
     },

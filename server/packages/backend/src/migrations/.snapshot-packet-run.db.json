@@ -101,13 +101,12 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "'offline'",
+          "default": "'idle'",
           "enumItems": [
             "idle",
             "scanning_nfc",
             "creating_packet",
-            "created_packet",
-            "offline"
+            "created_packet"
           ],
           "mappedType": "enum"
         },

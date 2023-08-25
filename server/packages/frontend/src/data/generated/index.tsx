@@ -345,8 +345,6 @@ export enum TerminalStatus {
   CreatingPacket = 'CREATING_PACKET',
   /** The terminal is active and operational, but not currently in use by a user */
   Idle = 'IDLE',
-  /** The terminal has failed its heartbeats and is considered offline */
-  Offline = 'OFFLINE',
   /** A packet is currently being scanned using the NFC reader */
   ScanningNfc = 'SCANNING_NFC'
 }
