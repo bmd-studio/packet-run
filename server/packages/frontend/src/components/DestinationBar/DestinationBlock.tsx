@@ -21,7 +21,7 @@ const Banner = styled.div<{banner: RunHopType}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.banner === RunHopType.Recommended ? 'var(--yellow)' : 'var(--light-gray)'}
+  background-color: ${(props) => props.banner === RunHopType.Recommended ? 'var(--yellow)' : 'var(--light-gray)'};
 `;
 
 export default function DestinationBlock(props: Props) {

@@ -406,6 +406,13 @@ export type ScanNfcForTerminalMutationVariables = Exact<{
 
 export type ScanNfcForTerminalMutation = { __typename?: 'Mutation', scanNfcForTerminal?: boolean | null };
 
+export type GetTerminalTypeQueryVariables = Exact<{
+  terminalId: Scalars['Float']['input'];
+}>;
+
+
+export type GetTerminalTypeQuery = { __typename?: 'Query', terminal?: { __typename?: 'Terminal', id: number, type: TerminalType } | null };
+
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -416,14 +423,33 @@ export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade?: number | null, processedOn?: number | null, finishedOn?: number | null, timestamp?: number | null, data?: string | null, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
 
+export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null };
+
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
 
 
-export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any } | null };
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null }, currentHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }> } | null } | null };
 
-
+export const AddressWithInfoFragmentDoc = gql`
+    fragment AddressWithInfo on Address {
+  ip
+  info {
+    type
+    hostname
+    carrier {
+      name
+    }
+    company {
+      domain
+      name
+      type
+    }
+  }
+  isInAltNetwork
+}
+    `;
 export const CreateRunDocument = gql`
     mutation CreateRun($url: String!, $nfcId: String!) {
   createRun(url: $url, nfcId: $nfcId) {
@@ -526,6 +552,42 @@ export function useScanNfcForTerminalMutation(baseOptions?: Apollo.MutationHookO
 export type ScanNfcForTerminalMutationHookResult = ReturnType<typeof useScanNfcForTerminalMutation>;
 export type ScanNfcForTerminalMutationResult = Apollo.MutationResult<ScanNfcForTerminalMutation>;
 export type ScanNfcForTerminalMutationOptions = Apollo.BaseMutationOptions<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>;
+export const GetTerminalTypeDocument = gql`
+    query getTerminalType($terminalId: Float!) {
+  terminal(id: $terminalId) {
+    id
+    type
+  }
+}
+    `;
+
+/**
+ * __useGetTerminalTypeQuery__
+ *
+ * To run a query within a React component, call `useGetTerminalTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTerminalTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTerminalTypeQuery({
+ *   variables: {
+ *      terminalId: // value for 'terminalId'
+ *   },
+ * });
+ */
+export function useGetTerminalTypeQuery(baseOptions: Apollo.QueryHookOptions<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>(GetTerminalTypeDocument, options);
+      }
+export function useGetTerminalTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>(GetTerminalTypeDocument, options);
+        }
+export type GetTerminalTypeQueryHookResult = ReturnType<typeof useGetTerminalTypeQuery>;
+export type GetTerminalTypeLazyQueryHookResult = ReturnType<typeof useGetTerminalTypeLazyQuery>;
+export type GetTerminalTypeQueryResult = Apollo.QueryResult<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>;
 export const AllTerminalsDocument = gql`
     subscription AllTerminals {
   allTerminals {
@@ -645,11 +707,35 @@ export const RegisterTerminalDocument = gql`
     type
     status
     payload
+    run {
+      id
+      nfcId
+      url
+      imagePath
+      packetType
+      destination {
+        ...AddressWithInfo
+      }
+      currentHops {
+        address {
+          ...AddressWithInfo
+        }
+        type
+        terminal {
+          id
+          status
+        }
+        mayPerformTransformation
+        hop
+      }
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
-    `;
+    ${AddressWithInfoFragmentDoc}`;
 
 /**
  * __useRegisterTerminalSubscription__

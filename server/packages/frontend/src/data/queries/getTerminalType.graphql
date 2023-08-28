@@ -1,0 +1,6 @@
+query getTerminalType($terminalId: Float!) {
+    terminal(id: $terminalId) {
+        id
+        type
+    }
+}

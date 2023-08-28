@@ -1,3 +1,4 @@
+import RegisterTerminal from '@/components/RegisterTerminal';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,36 +41,9 @@ function CreateRunWithNFC() {
 }
 
 export default function Sender() {
-    const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: 1 }});
-    
-    if (error) {
-        console.error(error);
-
-        return (
-            <div className="w-screen h-screen flex">
-                <Alert className="m-8 max-w-sm h-fit">
-                    <AlertTitle>An error occurred while loading this terminal</AlertTitle>
-                    <AlertDescription>
-                        <code>{error.message}</code>
-                    </AlertDescription>
-                </Alert>
-            </div>
-        );
-    }
-
-    if (loading || !data?.registerTerminal) {
-        return (
-            <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
-                <Loader2 className="w-16 h-16 animate-spin" />
-            </div>
-        );
-    }
-
-    // const terminal = data.registerTerminal;
-
     return(
-        <>
+        <RegisterTerminal>
             <CreateRunWithNFC />
-        </>
+        </RegisterTerminal>
     )
 }

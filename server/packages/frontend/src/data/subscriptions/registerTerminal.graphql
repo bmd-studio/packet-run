@@ -1,9 +1,51 @@
+fragment AddressWithInfo on Address {
+    ip
+    info {
+        type
+        hostname
+        carrier {
+            name
+        }
+        company {
+            domain
+            name
+            type
+        }
+    }
+    isInAltNetwork
+}
+
 subscription RegisterTerminal($id: Float!) {
     registerTerminal(id: $id) {
         id
         type
         status
         payload
+        run {
+            id
+            nfcId
+            url
+            imagePath
+            packetType
+            destination {
+                ...AddressWithInfo
+            }
+            currentHops {
+                address {
+                    ...AddressWithInfo
+                }
+                type
+                terminal {
+                    id
+                    status
+                }
+                mayPerformTransformation
+                hop
+            }
+
+            createdAt
+            updatedAt
+        }
         createdAt
         updatedAt
     }
