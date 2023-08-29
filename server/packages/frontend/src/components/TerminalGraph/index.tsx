@@ -168,7 +168,7 @@ export default function TerminalGraph() {
         <div className="grow flex flex-col flex-shrink min-w-0 w-md">
             <div className="flex-auto" ref={graphRef} />
             <Popover open={!!activeTerminal} onOpenChange={closePopover}>
-                <PopoverContent className='w-48 left-4 top-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">
+                <PopoverContent className='w-[384px] m-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">
                     {activeTerminal && (
                         <div className="grid grid-colrs-1 divide-y max-h-screen">
                             <h1 className="text-lg p-4 flex items-center">

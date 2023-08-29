@@ -28,5 +28,4 @@ h1 {
   line-height: 30px;
 }
 
-
-
+[data-radix-popper-content-wrapper] { transform: none !important; min-width: auto; } 
