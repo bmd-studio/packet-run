@@ -1,0 +1,100 @@
+diff --git a/node_modules/nodejs-traceroute/lib/process.js b/node_modules/nodejs-traceroute/lib/process.js
+index 0fea080..c169df8 100644
+--- a/node_modules/nodejs-traceroute/lib/process.js
++++ b/node_modules/nodejs-traceroute/lib/process.js
+@@ -25,24 +25,28 @@ class Process extends events_1.default.EventEmitter {
+         });
+         this.emit('pid', process.pid);
+         let isDestinationCaptured = false;
++        const parseLine = (line) => {
++            if (!isDestinationCaptured) {
++                const destination = this.parseDestination(line);
++                if (destination !== null) {
++                    this.emit('destination', destination);
++                    isDestinationCaptured = true;
++                }
++            }
++            const hop = this.parseHop(line);
++            if (hop !== null) {
++                this.emit('hop', hop);
++            }
++        };
+         if (process.pid) {
+             readline_1.default.createInterface({
+                 input: process.stdout,
+                 terminal: false
+-            })
+-                .on('line', (line) => {
+-                if (!isDestinationCaptured) {
+-                    const destination = this.parseDestination(line);
+-                    if (destination !== null) {
+-                        this.emit('destination', destination);
+-                        isDestinationCaptured = true;
+-                    }
+-                }
+-                const hop = this.parseHop(line);
+-                if (hop !== null) {
+-                    this.emit('hop', hop);
+-                }
+-            });
++            }).on('line', parseLine);
++            readline_1.default.createInterface({
++                input: process.stderr,
++                terminal: false
++            }).on('line', parseLine);
+         }
+     }
+     isValidDomainName(domainName) {
+diff --git a/node_modules/nodejs-traceroute/src/process.ts b/node_modules/nodejs-traceroute/src/process.ts
+index 9843c83..d494ca5 100644
+--- a/node_modules/nodejs-traceroute/src/process.ts
++++ b/node_modules/nodejs-traceroute/src/process.ts
+@@ -32,26 +32,32 @@ export abstract class Process extends events.EventEmitter {
+         this.emit('pid', process.pid);
+ 
+         let isDestinationCaptured = false;
++
++        const parseLine = (line: string) => {
++            if (!isDestinationCaptured) {
++                const destination = this.parseDestination(line);
++                if (destination !== null) {
++                    this.emit('destination', destination);
++
++                    isDestinationCaptured = true;
++                }
++            }
++
++            const hop = this.parseHop(line);
++            if (hop !== null) {
++                this.emit('hop', hop);
++            }
++        }
++
+         if (process.pid) {
+             readline.createInterface({
+                     input: process.stdout,
+                     terminal: false
+-                })
+-                .on('line', (line) => {
+-                    if (!isDestinationCaptured) {
+-                        const destination = this.parseDestination(line);
+-                        if (destination !== null) {
+-                            this.emit('destination', destination);
+-
+-                            isDestinationCaptured = true;
+-                        }
+-                    }
+-
+-                    const hop = this.parseHop(line);
+-                    if (hop !== null) {
+-                        this.emit('hop', hop);
+-                    }
+-                });
++            }).on('line', parseLine);
++            readline.createInterface({
++                input: process.stderr,
++                terminal: false
++            }).on('line', parseLine);
+         }
+     }
+ 

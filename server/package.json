@@ -7,7 +7,8 @@
     "start": "turbo run start",
     "build": "turbo build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "postinstall": "patch-package"
   },
   "author": "Bureau Moeilijke Dingen",
   "license": "MIT",
@@ -15,6 +16,7 @@
     "./packages/*"
   ],
   "dependencies": {
+    "patch-package": "^8.0.0",
     "turbo": "^1.10.12"
   }
 }
