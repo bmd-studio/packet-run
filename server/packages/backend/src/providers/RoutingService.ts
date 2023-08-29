@@ -34,7 +34,20 @@ export default class RoutingService {
         // GUARD: Check that the receiving terminal is actually a valid
         // destination for this particular run
         if (!hop) {
-            throw new Error(`StateError: invalid terminal. The terminal with id "${receivingTerminal.id}" is not currently a destination for this run`);
+            // In case not at the current hop, check if we're at least at the
+            // previous hop
+            const previousHop = await this.orm.em.findOne(RunHop, {
+                run, hop: run.currentHopIndex - 1, terminal: receivingTerminal, status: RunHopStatus.ACTUAL,
+            });
+
+            if (previousHop) {
+                // If so, we've already done the processing and need to do no further
+                return;
+            } else {
+                // If not, the user is at the wrong terminal
+                throw new Error(`StateError: invalid terminal. The terminal with id "${receivingTerminal.id}" is not currently a destination for this run`);
+            }
+
         }
 
         // Update the hop to signify this was the path that is actually taken

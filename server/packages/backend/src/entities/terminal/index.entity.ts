@@ -32,13 +32,13 @@ export default class Terminal {
     @Property({ nullable: true })
     payload?: string;
 
-    @OneToMany(() => TerminalConnection, (connection) => connection.from)
+    @OneToMany(() => TerminalConnection, (connection) => connection.from, { eager: true })
     connectionsTo = new Collection<TerminalConnection>(this);
 
-    @OneToMany(() => TerminalConnection, (connection) => connection.to)
+    @OneToMany(() => TerminalConnection, (connection) => connection.to, { eager: true })
     connectionsFrom = new Collection<TerminalConnection>(this);
 
-    @OneToOne(() => Run, { nullable: true, inversedBy: 'terminal'})
+    @OneToOne(() => Run, { nullable: true, inversedBy: 'terminal'}, { eager: true })
     run?: Rel<Run>;
 
     @OneToMany(() => Presence, (presence) => presence.terminal)
@@ -71,6 +71,8 @@ export async function fetchAllTerminals(em: EntityManager) {
             'run',
             'run.tracerouteHops',
             'run.hops',
+            'run.hops.address',
+            'run.destination',
             'presences',
         ],
         cache: false,

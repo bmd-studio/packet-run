@@ -23,7 +23,7 @@ export default class RunHop {
     @PrimaryKey()
     id!: number;
 
-    @OneToOne(() => Address, { unique: false, nullable: true })
+    @OneToOne(() => Address, { unique: false, nullable: true, eager: true })
     address: Rel<Address>;
 
     @Enum(() => RunHopType)

@@ -59,7 +59,7 @@ export default class TerminalsResolver {
         return this.pubsub.subscribe(
             TerminalEntity,
             id,
-            () => this.repository.findOne({ id }),
+            () => this.repository.findOne({ id }, { populate: true }),
             subscriptionId,
             'registerTerminal',
         );
@@ -91,6 +91,7 @@ export default class TerminalsResolver {
                 populate: [
                     'hops',
                     'hops.terminal',
+                    'destination',
                     'terminal',
                     'terminal.connectionsTo',
                     'terminal.connectionsTo.to.id',

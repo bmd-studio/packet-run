@@ -28,7 +28,7 @@ export default class Run {
     @Property()
     url!: string;
 
-    @ManyToOne(() => Address, { nullable: true, unique: false })
+    @ManyToOne(() => Address, { nullable: true, unique: false, eager: true })
     destination!: Rel<Address>;
 
     @OneToOne(() => Terminal, (terminal) => terminal.run)
@@ -43,7 +43,7 @@ export default class Run {
     @OneToMany(() => TracerouteHop, hop => hop.run)
     tracerouteHops = new Collection<Rel<TracerouteHop>>(this);
 
-    @OneToMany(() => RunHop, hop => hop.run)
+    @OneToMany(() => RunHop, hop => hop.run, { eager: true })
     hops = new Collection<Rel<RunHop>>(this);
 
     @Enum(() => RunPacketType)
