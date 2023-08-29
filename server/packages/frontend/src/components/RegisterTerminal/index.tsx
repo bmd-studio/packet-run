@@ -39,8 +39,6 @@ export const DynamicDebugBar = DEBUG
     ? dynamic(() => import('@/components/DebugBar'))
     : () => null;
 
-console.log(DEBUG);
-
 export type RegisterTerminalProps = PropsWithChildren | { children: ((data: TerminalSubscriptionData) => ReactNode | undefined) };
 
 /**
