@@ -217,6 +217,7 @@ type Run {
   updatedAt: DateTime!
   imagePath: String
   currentHops: [RunHop!]!
+  origin: Address
 }
 
 enum RunPacketType {

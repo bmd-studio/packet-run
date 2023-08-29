@@ -6,6 +6,7 @@ import { EntityManager, EntityRepository } from '@mikro-orm/core';
 import Terminal, { TerminalType } from '../terminal/index.entity';
 import { sample } from 'lodash';
 import RunHop from '../runHop/model';
+import Address from '../address/model';
 
 @Resolver(() => RunModel)
 export default class RunsResolver {
@@ -44,5 +45,11 @@ export default class RunsResolver {
     async currentHops(@Parent() run: Run) {
         const hops = await run.hops.loadItems();
         return hops.filter((h) => h.hop === run.currentHopIndex);
+    }
+
+    @ResolveField(() => Address, { nullable: true })
+    async origin(@Parent() run: Run) {
+        const hop = await run.tracerouteHops.loadItems({ where: { hop: { $eq: 1 }}})
+        return hop[0]?.address ?? null;
     }
 }
