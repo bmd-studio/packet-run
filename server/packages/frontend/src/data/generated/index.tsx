@@ -416,7 +416,7 @@ export type GetTerminalTypeQuery = { __typename?: 'Query', terminal?: { __typena
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null } | null, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null } | null, currentHops: Array<{ __typename?: 'RunHop', id: number, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }>, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, hop: number, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -430,7 +430,7 @@ export type RegisterTerminalSubscriptionVariables = Exact<{
 }>;
 
 
-export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } | null, currentHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }> } | null } | null };
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } | null, currentHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }> } | null, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number, status: TerminalStatus, type: TerminalType } }> } | null };
 
 export const AddressWithInfoFragmentDoc = gql`
     fragment AddressWithInfo on Address {
@@ -627,6 +627,17 @@ export const AllTerminalsDocument = gql`
           }
         }
       }
+      currentHops {
+        id
+        address {
+          ip
+        }
+        terminal {
+          id
+        }
+        mayPerformTransformation
+        hop
+      }
       hops {
         id
         address {
@@ -637,6 +648,7 @@ export const AllTerminalsDocument = gql`
         }
         status
         type
+        hop
       }
       currentHopIndex
       createdAt
@@ -744,6 +756,14 @@ export const RegisterTerminalDocument = gql`
       }
       createdAt
       updatedAt
+    }
+    connectionsTo {
+      to {
+        id
+        status
+        type
+      }
+      slot
     }
     createdAt
     updatedAt

@@ -22,6 +22,17 @@ subscription AllTerminals {
                     }
                 }
             }
+            currentHops {
+                id
+                address {
+                    ip
+                }
+                terminal {
+                    id
+                }
+                mayPerformTransformation
+                hop
+            }
             hops {
                 id,
                 address {
@@ -32,6 +43,7 @@ subscription AllTerminals {
                 }
                 status
                 type
+                hop
             }
             currentHopIndex
             createdAt

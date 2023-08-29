@@ -59,6 +59,14 @@ subscription RegisterTerminal($id: Float!) {
             createdAt
             updatedAt
         }
+        connectionsTo {
+            to {
+                id
+                status
+                type
+            }
+            slot
+        }
         createdAt
         updatedAt
     }

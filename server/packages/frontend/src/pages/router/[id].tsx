@@ -4,10 +4,11 @@ import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import RegisterTerminal from '@/components/RegisterTerminal';
+import { useRouter } from 'next/router';
 
 function NfcScanner({ terminalId }: { terminalId: number }) {
-    const [ nfcId, setNfcId ] = useState<string>('');
-
+    const { query } = useRouter();
+    const [ nfcId, setNfcId ] = useState<string>(query.nfcId && !Array.isArray(query.nfcId) ? query.nfcId : '');
     const [mutate] = useScanNfcForTerminalMutation();
 
     const handleSubmit = () => {
@@ -21,7 +22,7 @@ function NfcScanner({ terminalId }: { terminalId: number }) {
 
     return (
         <div className='flex gap-x-4'>
-            <Input placeholder="NFC ID" onChange={(event) => setNfcId(event.target.value)}></Input>
+            <Input placeholder="NFC ID" onChange={(event) => setNfcId(event.target.value)} value={nfcId} />
             <Button onClick={handleSubmit}>
                     Submit
             </Button>

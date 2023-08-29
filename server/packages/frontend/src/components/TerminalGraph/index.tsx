@@ -1,9 +1,10 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Popover, PopoverContent } from '@/components/ui/popover';
-import { Terminal, TerminalStatus, TerminalType, useAllTerminalsSubscription } from '@/data/generated';
+import { Terminal, TerminalStatus, TerminalType, useAllTerminalsSubscription, useResetTerminalMutation } from '@/data/generated';
 import cytoscape, { EdgeDefinition, NodeDefinition } from 'cytoscape';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import colors from 'tailwindcss/colors';
+import { Button } from '../ui/button';
 
 const mapTerminalStatusToColor: Record<TerminalStatus | 'OFFLINE', { background: string, border: string }> = {
     'OFFLINE': {
@@ -41,6 +42,7 @@ export default function TerminalGraph() {
     const graphRef = useRef<HTMLDivElement | null>(null);
     const graph = useRef<cytoscape.Core | null>(null);
     const [activeTerminal, setActiveTerminal] = useState<Terminal | null>(null);
+    const [mutate] = useResetTerminalMutation();
 
     if (error) {
         console.error(error);
@@ -164,6 +166,26 @@ export default function TerminalGraph() {
         setActiveTerminal(null);
     }, []);
 
+    const resetTerminal = useCallback(() => {
+        if (activeTerminal) {
+            mutate({ variables: { terminalId: Number.parseInt(activeTerminal.id as unknown as string) }});
+        }
+    }, [mutate, activeTerminal]);
+
+    useEffect(() => {
+        if (!data?.allTerminals.length) {
+            return;
+        } 
+
+        setActiveTerminal((currentValue) => {
+            if (!currentValue) {
+                return null;
+            } else {
+                return data.allTerminals.find((t) => t.id == currentValue.id) as Terminal|| null;
+            }
+        });
+    }, [data]);
+
     return (
         <div className="grow flex flex-col flex-shrink min-w-0 w-md">
             <div className="flex-auto" ref={graphRef} />
@@ -177,10 +199,13 @@ export default function TerminalGraph() {
                                     {activeTerminal.type}
                                 </span>
                             </h1>
-                            <div className="p-4">
+                            <div className="p-4 flex space-between items-center">
                                 <span className="text-sm text-white font-bold p-1 px-2 rounded" style={{ backgroundColor: mapTerminalStatusToColor[activeTerminal.status].background}}>
                                     {activeTerminal?.status}
                                 </span>
+                                <Button className="ml-auto" variant="outline" onClick={resetTerminal}>
+                                    Reset
+                                </Button>
                             </div>
                             <Accordion type="single" collapsible className="max-w-full overflow-hidden">
                                 <AccordionItem value="json" className="border-none px-4">
