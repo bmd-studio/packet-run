@@ -6,6 +6,7 @@ import RegisterTerminal from '@/components/RegisterTerminal';
 import NfcScanner from '@/components/NfcScanner';
 import { styled } from 'styled-components';
 import PacketInfo from '@/components/PacketInfo';
+import Map from '@/components/Map';
 
 const Grid = styled.div`
     display: grid;
@@ -33,9 +34,7 @@ export default function Router() {
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <Grid>
                             <DestinationBar />
-                            <div>
-                                <ResetTerminal terminalId={terminal.id} />
-                            </div>
+                            <Map />
                             <PacketInfo />
                         </Grid>
                     )}
