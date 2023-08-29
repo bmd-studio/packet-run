@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
-import { config } from '@/config';
+import { theme, DEBUG } from '@/config';
 import { RunHopType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
-import { DEBUG } from '@/lib/config';
 import Link from 'next/link';
 
 const UNKNOWN = '???';
@@ -10,16 +9,16 @@ const UNKNOWN = '???';
 const Fixed = styled.div`
     position: fixed;
     top: 0;
-    left: ${config.destinationBar.spaceLeft}px;
+    left: ${theme.destinationBar.spaceLeft}px;
 `;
 
 const Container = styled.div`
     display: flex;
     flex-direction: row;
-    gap: ${config.destinationBar.blockSpacer}px;
+    gap: ${theme.destinationBar.blockSpacer}px;
 `
 const Destination = styled.div`
-    width: ${config.destinationBar.destinationBlock.width}px;
+    width: ${theme.destinationBar.destinationBlock.width}px;
 `;
         
 const Content = styled.div`
@@ -60,7 +59,7 @@ const Banner = styled.h2<{ highlighted: boolean }>`
 export default function DestinationBar() {
     const { connectionsTo, run } = useTerminal();
 
-    if (!run?.currentHops) {
+    if (!run?.availableHops) {
         return null;
     }
 
@@ -78,7 +77,7 @@ export default function DestinationBar() {
                 </Container>
             )}
             <Container>
-                {run.currentHops.map((hop) => (
+                {run.availableHops.map((hop) => (
                     <Destination key={hop.address.ip}>
                         <Content>
                             <h1>

@@ -1,10 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import DestinationBar from "@/components/DestinationBar";
-import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation } from "@/data/generated";
-import { Input } from '@/components/ui/input';
+import { TerminalStatus, useResetTerminalMutation } from "@/data/generated";
 import { Button } from '@/components/ui/button';
 import RegisterTerminal from '@/components/RegisterTerminal';
-import { useRouter } from 'next/router';
 import NfcScanner from '@/components/NfcScanner';
 import { styled } from 'styled-components';
 import PacketInfo from '@/components/PacketInfo';

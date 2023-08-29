@@ -47,7 +47,7 @@ subscription RegisterTerminal($id: Float!) {
             origin {
                 ...AddressWithInfo
             }
-            currentHops {
+            availableHops {
                 address {
                     ...AddressWithInfo
                 }
@@ -56,6 +56,14 @@ subscription RegisterTerminal($id: Float!) {
                     id
                     status
                 }
+                mayPerformTransformation
+                hop
+            }
+            currentHop {
+                address {
+                    ...AddressWithInfo
+                }
+                type
                 mayPerformTransformation
                 hop
             }

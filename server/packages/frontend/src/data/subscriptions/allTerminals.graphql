@@ -22,7 +22,7 @@ subscription AllTerminals {
                     }
                 }
             }
-            currentHops {
+            availableHops {
                 id
                 address {
                     ip
@@ -32,6 +32,11 @@ subscription AllTerminals {
                 }
                 mayPerformTransformation
                 hop
+            }
+            currentHop {
+                address {
+                    ip
+                }
             }
             hops {
                 id,

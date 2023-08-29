@@ -216,7 +216,8 @@ type Run {
   createdAt: DateTime!
   updatedAt: DateTime!
   imagePath: String
-  currentHops: [RunHop!]!
+  availableHops: [RunHop!]!
+  currentHop: RunHop!
   origin: Address
 }
 

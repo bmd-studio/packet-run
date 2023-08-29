@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { PropsWithChildren, ReactNode, createContext, useContext, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';
-import { DEBUG } from '@/lib/config';
+import { DEBUG } from '@/config';
 
 export const terminalContext = createContext<RegisterTerminalSubscription['registerTerminal']>(undefined);
 

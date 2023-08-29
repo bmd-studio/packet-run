@@ -7,6 +7,7 @@ import Terminal, { TerminalType } from '../terminal/index.entity';
 import { sample } from 'lodash';
 import RunHop from '../runHop/model';
 import Address from '../address/model';
+import { RunHopStatus } from '../runHop/index.entity';
 
 @Resolver(() => RunModel)
 export default class RunsResolver {
@@ -42,9 +43,17 @@ export default class RunsResolver {
     }
 
     @ResolveField(() => [RunHop])
-    async currentHops(@Parent() run: Run) {
+    async availableHops(@Parent() run: Run) {
         const hops = await run.hops.loadItems();
         return hops.filter((h) => h.hop === run.currentHopIndex);
+    }
+
+    @ResolveField(() => RunHop)
+    async currentHop(@Parent() run: Run) {
+        const hops = await run.hops.loadItems();
+        return hops.find((h) => (
+            h.hop === run.currentHopIndex - 1 && h.status === RunHopStatus.ACTUAL)
+        );
     }
 
     @ResolveField(() => Address, { nullable: true })
