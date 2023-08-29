@@ -92,7 +92,7 @@ export default class RoutingService {
      */
     private async generateGatewayHop(run: Run) {
         // Retrieve the relevant hops
-        const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }});
+        const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }}, { orderBy: [{ hop: 'ASC' }]});
 
         // Retrieve the right terminals that are connected to the gateway
         const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo.to']});

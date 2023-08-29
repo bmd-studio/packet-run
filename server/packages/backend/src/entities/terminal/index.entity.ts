@@ -53,10 +53,10 @@ export default class Terminal {
 
 @Entity()
 export class TerminalConnection {
-    @ManyToOne(() => Terminal, { primary: true })
+    @ManyToOne(() => Terminal, { primary: true, eager: true })
     from: Terminal;
 
-    @ManyToOne(() => Terminal, { primary: true })
+    @ManyToOne(() => Terminal, { primary: true, eager: true })
     to: Terminal;
 
     @Property()
