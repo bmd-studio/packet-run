@@ -4,7 +4,6 @@ import AddressModel from './model';
 import Address from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
 import PubSubManager from '../../providers/PubSubManager';
-// import WebsocketId from '../../lib/WebsocketId';
 
 @Resolver(() => AddressModel)
 export default class AddressesResolver {
@@ -13,11 +12,6 @@ export default class AddressesResolver {
         private readonly repository: EntityRepository<Address>,
         private readonly pubsub: PubSubManager,
     ) {}
-
-    // @Query(() => AddressModel, { nullable: true })
-    // async address(@Args('ip') ip: string) {
-    //     return this.repository.findOneOrFail({ ip });
-    // }
 
     // @Subscription(() => AddressModel, { nullable: true })
     // async listen(

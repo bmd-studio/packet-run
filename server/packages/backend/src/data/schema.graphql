@@ -195,7 +195,7 @@ type Run {
   id: String!
   nfcId: String
   url: String!
-  destination: Address!
+  destination: Address
   terminal: Terminal
   server: Terminal!
   isTracerouteFinished: Boolean!

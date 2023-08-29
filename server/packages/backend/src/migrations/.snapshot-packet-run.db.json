@@ -305,9 +305,9 @@
             "destination_ip"
           ],
           "composite": false,
-          "keyName": "run_destination_ip_unique",
+          "keyName": "run_destination_ip_index",
           "primary": false,
-          "unique": true
+          "unique": false
         },
         {
           "columnNames": [

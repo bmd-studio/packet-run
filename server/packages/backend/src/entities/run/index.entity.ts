@@ -28,7 +28,7 @@ export default class Run {
     @Property()
     url!: string;
 
-    @OneToOne(() => Address, { nullable: true })
+    @ManyToOne(() => Address, { nullable: true, unique: false })
     destination!: Rel<Address>;
 
     @OneToOne(() => Terminal, (terminal) => terminal.run)

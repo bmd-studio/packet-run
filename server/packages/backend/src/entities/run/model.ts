@@ -19,7 +19,7 @@ export default class Run {
     @Field()
     url: string;
 
-    @Field(() => Address)
+    @Field(() => Address, { nullable: true })
     destination: Address;
 
     @Field(() => Terminal, { nullable: true })
