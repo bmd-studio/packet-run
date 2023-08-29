@@ -231,7 +231,7 @@ export type Run = {
   /** The index of the RunHop where the run is currently at */
   currentHopIndex: Scalars['Float']['output'];
   currentHops: Array<RunHop>;
-  destination: Address;
+  destination?: Maybe<Address>;
   /** The hops that have been identified for this route in the context of the installation. */
   hops: Array<RunHop>;
   id: Scalars['String']['output'];
@@ -416,21 +416,21 @@ export type GetTerminalTypeQuery = { __typename?: 'Query', terminal?: { __typena
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null } | null, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade?: number | null, processedOn?: number | null, finishedOn?: number | null, timestamp?: number | null, data?: string | null, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
 
-export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null };
+export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null };
 
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
 
 
-export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null }, currentHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }> } | null } | null };
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } | null, currentHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }> } | null } | null };
 
 export const AddressWithInfoFragmentDoc = gql`
     fragment AddressWithInfo on Address {
@@ -445,6 +445,20 @@ export const AddressWithInfoFragmentDoc = gql`
       domain
       name
       type
+    }
+    location {
+      city
+      country {
+        name
+        area
+        tld
+        code
+        flag {
+          emoji
+        }
+      }
+      latitude
+      longitude
     }
   }
   isInAltNetwork

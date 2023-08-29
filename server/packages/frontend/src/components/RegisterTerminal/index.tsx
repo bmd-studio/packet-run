@@ -3,6 +3,8 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { PropsWithChildren, ReactNode, createContext, useContext, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
+import dynamic from 'next/dynamic';
+import { DEBUG } from '@/lib/config';
 
 export const terminalContext = createContext<RegisterTerminalSubscription['registerTerminal']>(undefined);
 
@@ -11,7 +13,9 @@ export type TerminalSubscriptionData = NonNullable<RegisterTerminalSubscription[
 /**
  * Retrieve some data from the terminal subscription
  */
-export function useTerminal<T>(memoFunction: (terminal: TerminalSubscriptionData) => T): T {
+export function useTerminal<T = TerminalSubscriptionData>(
+    memoFunction: (terminal: TerminalSubscriptionData) => T = (t) => t as T,
+): T {
     // Retrieve the terminal from the context
     const terminal = useContext(terminalContext) ;
 
@@ -26,6 +30,17 @@ export function useTerminal<T>(memoFunction: (terminal: TerminalSubscriptionData
     ), [memoFunction, terminal]);
 }
 
+
+/**
+ * A dynamic wrapper that only loads the debug bar when the NEXTJS_PUBLIC_DEBUG
+ * environment variable is set to true.
+ */
+export const DynamicDebugBar = DEBUG
+    ? dynamic(() => import('@/components/DebugBar'))
+    : () => null;
+
+console.log(DEBUG);
+
 export type RegisterTerminalProps = PropsWithChildren | { children: ((data: TerminalSubscriptionData) => ReactNode | undefined) };
 
 /**
@@ -36,12 +51,13 @@ export type RegisterTerminalProps = PropsWithChildren | { children: ((data: Term
  * using the context.
  */
 export default function RegisterTerminal({ children }: RegisterTerminalProps) {
-    const { query } = useRouter();
+    const { query, pathname, push } = useRouter();
     const terminalId = parseInt(query.id as string);
+    const pageSlug = useMemo(() => pathname.split('/')[1], [pathname]);
     const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: terminalId }, skip: !terminalId });
     
     if (error) {
-        console.error(error);
+        console.error(error, error.graphQLErrors, data);
     }
 
     // GUARD: Check if an error was encountered
@@ -70,14 +86,19 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
         );
     }
 
-    // GUARD: Check if we're using the render props API
-    if (typeof children === 'function') {
-        return children(data.registerTerminal);
+    // GUARD: Verify that we're on the right type of page for this terminal type
+    if (pageSlug !== data.registerTerminal.type.toLowerCase()) {
+        push(`/${data.registerTerminal.type.toLowerCase()}/${terminalId}`);
+        return null;
     }
     
     return (
         <terminalContext.Provider value={data.registerTerminal}>
-            {children}
+            {typeof children === 'function'
+                ? children(data.registerTerminal)
+                : children
+            }
+            <DynamicDebugBar />
         </terminalContext.Provider>
     )
 }

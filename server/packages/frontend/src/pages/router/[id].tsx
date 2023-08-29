@@ -46,7 +46,6 @@ export default function Router() {
         <RegisterTerminal>
             {(terminal) => (
                 <>
-                    <div>Terminal {terminal.id}</div>
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <>
                             <DestinationBar />

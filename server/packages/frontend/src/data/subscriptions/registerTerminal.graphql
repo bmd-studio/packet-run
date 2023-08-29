@@ -11,6 +11,20 @@ fragment AddressWithInfo on Address {
             name
             type
         }
+        location {
+            city
+            country {
+                name
+                area
+                tld
+                code
+                flag {
+                    emoji
+                }
+            }
+            latitude
+            longitude
+        }
     }
     isInAltNetwork
 }
@@ -42,7 +56,6 @@ subscription RegisterTerminal($id: Float!) {
                 mayPerformTransformation
                 hop
             }
-
             createdAt
             updatedAt
         }
