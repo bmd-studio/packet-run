@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { config } from '@/config';
 import { RunHopType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
@@ -7,11 +7,16 @@ import Link from 'next/link';
 
 const UNKNOWN = '???';
 
+const Fixed = styled.div`
+    position: fixed;
+    top: 0;
+    left: ${config.destinationBar.spaceLeft}px;
+`;
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     gap: ${config.destinationBar.blockSpacer}px;
-    margin-left: ${config.destinationBar.spaceLeft}px;
 `
 const Destination = styled.div`
     width: ${config.destinationBar.destinationBlock.width}px;
@@ -21,6 +26,10 @@ const Content = styled.div`
     background-color: var(--dark-gray);
     padding: 32px;
     color: var(--light-gray);
+
+    p {
+        font-size: 14px;
+    }
 `;
 
 const TerminalConnection = styled(Content).attrs({ 
@@ -34,12 +43,18 @@ const TerminalConnection = styled(Content).attrs({
     }
 `;
 
-const Banner = styled.div<{ highlighted: boolean }>`
+const Banner = styled.h2<{ highlighted: boolean }>`
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
   background-color: ${(props) => props.highlighted ? 'var(--yellow)' : 'var(--light-gray)'};
+
+  ${(props) => props.highlighted && css`
+    background-color: var(--yellow);
+    color: black;
+  `};
 `;
 
 export default function DestinationBar() {
@@ -50,7 +65,7 @@ export default function DestinationBar() {
     }
 
     return (
-        <>
+        <Fixed>
             {DEBUG && (
                 <Container>
                     {connectionsTo.sort((a, b) => a.slot - b.slot).map((c) => (
@@ -72,10 +87,10 @@ export default function DestinationBar() {
                                     : UNKNOWN
                                 }
                             </h1>
-                            <p>IP ADRESS: {hop.address.ip}</p>
-                            <p>OWNER: {hop.address.info?.carrier.name || UNKNOWN}</p>
-                            <p>DISTANCE: {UNKNOWN}</p>
-                            <p>CARBON FOOTPRINT: {UNKNOWN}</p>
+                            <p>IP address: {hop.address.ip}</p>
+                            <p>Owner: {hop.address.info?.carrier.name || UNKNOWN}</p>
+                            <p>Distance: {UNKNOWN}</p>
+                            <p>Carbon footprint: {UNKNOWN}</p>
                         </Content>
                         <Banner highlighted={hop.type === RunHopType.Recommended}>
                             {hop.type}
@@ -83,6 +98,6 @@ export default function DestinationBar() {
                     </Destination>
                 ))}
             </Container>
-        </>
+        </Fixed>
     )
 }
