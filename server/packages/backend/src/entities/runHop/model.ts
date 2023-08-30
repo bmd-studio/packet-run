@@ -29,7 +29,7 @@ export default class RunHop {
     @Field()
     id!: number;
 
-    @Field(() => Address)
+    @Field(() => Address, { nullable: true })
     address: Address;
 
     @Field(() => RunHopType)

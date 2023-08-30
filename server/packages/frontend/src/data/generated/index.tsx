@@ -38,61 +38,61 @@ export type Carrier = {
 
 export type Company = {
   __typename?: 'Company';
-  domain: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  domain?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type Connection = {
   __typename?: 'Connection';
-  asn: Scalars['Float']['output'];
-  domain: Scalars['String']['output'];
-  organization: Scalars['String']['output'];
-  route: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  asn?: Maybe<Scalars['Float']['output']>;
+  domain?: Maybe<Scalars['String']['output']>;
+  organization?: Maybe<Scalars['String']['output']>;
+  route?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContinentOrRegion = {
   __typename?: 'ContinentOrRegion';
-  code: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  code?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type Country = {
   __typename?: 'Country';
   area: Scalars['Float']['output'];
   borders: Array<Scalars['String']['output']>;
-  calling_code: Scalars['String']['output'];
-  capital: Scalars['String']['output'];
-  code: Scalars['String']['output'];
+  calling_code?: Maybe<Scalars['String']['output']>;
+  capital?: Maybe<Scalars['String']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
   flag: Flag;
   languages?: Maybe<Array<LanguagesEntityOrLanguage>>;
-  name: Scalars['String']['output'];
-  population: Scalars['Float']['output'];
-  population_density: Scalars['Float']['output'];
-  tld: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  population?: Maybe<Scalars['Float']['output']>;
+  population_density?: Maybe<Scalars['Float']['output']>;
+  tld?: Maybe<Scalars['String']['output']>;
 };
 
 export type Currency = {
   __typename?: 'Currency';
-  code: Scalars['String']['output'];
+  code?: Maybe<Scalars['String']['output']>;
   format: Format;
-  name: Scalars['String']['output'];
-  name_native: Scalars['String']['output'];
-  plural: Scalars['String']['output'];
-  plural_native: Scalars['String']['output'];
-  symbol: Scalars['String']['output'];
-  symbol_native: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  name_native?: Maybe<Scalars['String']['output']>;
+  plural?: Maybe<Scalars['String']['output']>;
+  plural_native?: Maybe<Scalars['String']['output']>;
+  symbol?: Maybe<Scalars['String']['output']>;
+  symbol_native?: Maybe<Scalars['String']['output']>;
 };
 
 export type Flag = {
   __typename?: 'Flag';
-  emoji: Scalars['String']['output'];
-  emoji_unicode: Scalars['String']['output'];
-  emojitwo: Scalars['String']['output'];
-  noto: Scalars['String']['output'];
-  twemoji: Scalars['String']['output'];
-  wikimedia: Scalars['String']['output'];
+  emoji?: Maybe<Scalars['String']['output']>;
+  emoji_unicode?: Maybe<Scalars['String']['output']>;
+  emojitwo?: Maybe<Scalars['String']['output']>;
+  noto?: Maybe<Scalars['String']['output']>;
+  twemoji?: Maybe<Scalars['String']['output']>;
+  wikimedia?: Maybe<Scalars['String']['output']>;
 };
 
 export type Format = {
@@ -140,21 +140,21 @@ export enum JobStatus {
 
 export type LanguagesEntityOrLanguage = {
   __typename?: 'LanguagesEntityOrLanguage';
-  code: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  native: Scalars['String']['output'];
+  code?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  native?: Maybe<Scalars['String']['output']>;
 };
 
 export type Location = {
   __typename?: 'Location';
-  city: Scalars['String']['output'];
+  city?: Maybe<Scalars['String']['output']>;
   continent: ContinentOrRegion;
   country: Country;
   in_eu: Scalars['Boolean']['output'];
   language: LanguagesEntityOrLanguage;
-  latitude: Scalars['Float']['output'];
-  longitude: Scalars['Float']['output'];
-  postal: Scalars['String']['output'];
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
+  postal?: Maybe<Scalars['String']['output']>;
   region: ContinentOrRegion;
 };
 
@@ -194,8 +194,8 @@ export type MutationSetTerminalToIdleArgs = {
 
 export type NegativeOrPositive = {
   __typename?: 'NegativeOrPositive';
-  prefix: Scalars['String']['output'];
-  suffix: Scalars['String']['output'];
+  prefix?: Maybe<Scalars['String']['output']>;
+  suffix?: Maybe<Scalars['String']['output']>;
 };
 
 export type Presence = {
@@ -255,7 +255,7 @@ export type Run = {
 /** This describes an hop in the context of the installation. It is either a previous hop that has been taken by the user, or it is an option for the user in the future. */
 export type RunHop = {
   __typename?: 'RunHop';
-  address: Address;
+  address?: Maybe<Address>;
   createdAt: Scalars['DateTime']['output'];
   hop: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
@@ -366,11 +366,11 @@ export enum TerminalType {
 
 export type TimeZone = {
   __typename?: 'TimeZone';
-  abbreviation: Scalars['String']['output'];
-  current_time: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  abbreviation?: Maybe<Scalars['String']['output']>;
+  current_time?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   in_daylight_saving: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   offset: Scalars['Float']['output'];
 };
 
@@ -418,21 +418,21 @@ export type GetTerminalTypeQuery = { __typename?: 'Query', terminal?: { __typena
 export type AllTerminalsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name: string } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', id: number, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }>, currentHop: { __typename?: 'RunHop', address: { __typename?: 'Address', ip: string } }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, hop: number, address: { __typename?: 'Address', ip: string }, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
+export type AllTerminalsSubscription = { __typename?: 'Subscription', allTerminals: Array<{ __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number } }>, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, currentHopIndex: number, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, info?: { __typename?: 'IpInfo', company: { __typename?: 'Company', name?: string | null } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', id: number, mayPerformTransformation: boolean, hop: number, address?: { __typename?: 'Address', ip: string } | null, terminal: { __typename?: 'Terminal', id: number } }>, currentHop: { __typename?: 'RunHop', address?: { __typename?: 'Address', ip: string } | null }, hops: Array<{ __typename?: 'RunHop', id: number, status: RunHopStatus, type: RunHopType, hop: number, address?: { __typename?: 'Address', ip: string } | null, terminal: { __typename?: 'Terminal', id: number } }> } | null, presences: Array<{ __typename?: 'Presence', id: number, ip: string, websocketId: string, connectedAt: any, lastSeenAt: any }> }> };
 
 export type JobsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __typename?: 'Job', name?: string | null, id?: string | null, attemptsMade?: number | null, processedOn?: number | null, finishedOn?: number | null, timestamp?: number | null, data?: string | null, failedReason?: string | null, stacktrace?: Array<string> | null, status: JobStatus }> };
 
-export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null };
+export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null };
 
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
 
 
-export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } | null, origin?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null }, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }>, currentHop: { __typename?: 'RunHop', type: RunHopType, mayPerformTransformation: boolean, hop: number, address: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain: string, name: string, type: string }, location: { __typename?: 'Location', city: string, latitude: number, longitude: number, country: { __typename?: 'Country', name: string, area: number, tld: string, code: string, flag: { __typename?: 'Flag', emoji: string } } } } | null } } } | null, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number, status: TerminalStatus, type: TerminalType } }> } | null };
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, origin?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }>, currentHop: { __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null } } | null, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number, status: TerminalStatus, type: TerminalType } }> } | null };
 
 export const AddressWithInfoFragmentDoc = gql`
     fragment AddressWithInfo on Address {
@@ -753,6 +753,7 @@ export const RegisterTerminalDocument = gql`
         ...AddressWithInfo
       }
       availableHops {
+        id
         address {
           ...AddressWithInfo
         }
@@ -765,6 +766,7 @@ export const RegisterTerminalDocument = gql`
         hop
       }
       currentHop {
+        id
         address {
           ...AddressWithInfo
         }

@@ -22,27 +22,27 @@ type Carrier {
 }
 
 type Company {
-  domain: String!
-  name: String!
-  type: String!
+  domain: String
+  name: String
+  type: String
 }
 
 type Connection {
-  asn: Float!
-  domain: String!
-  organization: String!
-  route: String!
-  type: String!
+  asn: Float
+  domain: String
+  organization: String
+  route: String
+  type: String
 }
 
 type Currency {
-  code: String!
-  name: String!
-  name_native: String!
-  plural: String!
-  plural_native: String!
-  symbol: String!
-  symbol_native: String!
+  code: String
+  name: String
+  name_native: String
+  plural: String
+  plural_native: String
+  symbol: String
+  symbol_native: String
   format: Format!
 }
 
@@ -52,54 +52,54 @@ type Format {
 }
 
 type NegativeOrPositive {
-  prefix: String!
-  suffix: String!
+  prefix: String
+  suffix: String
 }
 
 type Location {
   continent: ContinentOrRegion!
   country: Country!
   region: ContinentOrRegion!
-  city: String!
-  postal: String!
-  latitude: Float!
-  longitude: Float!
+  city: String
+  postal: String
+  latitude: Float
+  longitude: Float
   language: LanguagesEntityOrLanguage!
   in_eu: Boolean!
 }
 
 type ContinentOrRegion {
-  code: String!
-  name: String!
+  code: String
+  name: String
 }
 
 type Country {
   area: Float!
   borders: [String!]!
-  calling_code: String!
-  capital: String!
-  code: String!
-  name: String!
-  population: Float!
-  population_density: Float!
+  calling_code: String
+  capital: String
+  code: String
+  name: String
+  population: Float
+  population_density: Float
   flag: Flag!
   languages: [LanguagesEntityOrLanguage!]
-  tld: String!
+  tld: String
 }
 
 type Flag {
-  emoji: String!
-  emoji_unicode: String!
-  emojitwo: String!
-  noto: String!
-  twemoji: String!
-  wikimedia: String!
+  emoji: String
+  emoji_unicode: String
+  emojitwo: String
+  noto: String
+  twemoji: String
+  wikimedia: String
 }
 
 type LanguagesEntityOrLanguage {
-  code: String!
-  name: String!
-  native: String!
+  code: String
+  name: String
+  native: String
 }
 
 type Security {
@@ -117,10 +117,10 @@ type Security {
 }
 
 type TimeZone {
-  id: String!
-  abbreviation: String!
-  current_time: String!
-  name: String!
+  id: String
+  abbreviation: String
+  current_time: String
+  name: String
   offset: Float!
   in_daylight_saving: Boolean!
 }
@@ -155,7 +155,7 @@ This describes an hop in the context of the installation. It is either a previou
 """
 type RunHop {
   id: Float!
-  address: Address!
+  address: Address
   type: RunHopType!
   terminal: Terminal!
   run: Run!

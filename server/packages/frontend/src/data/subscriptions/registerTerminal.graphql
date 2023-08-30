@@ -48,6 +48,7 @@ subscription RegisterTerminal($id: Float!) {
                 ...AddressWithInfo
             }
             availableHops {
+                id
                 address {
                     ...AddressWithInfo
                 }
@@ -60,6 +61,7 @@ subscription RegisterTerminal($id: Float!) {
                 hop
             }
             currentHop {
+                id
                 address {
                     ...AddressWithInfo
                 }

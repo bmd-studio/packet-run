@@ -44,13 +44,13 @@ export default class RunsResolver {
 
     @ResolveField(() => [RunHop])
     async availableHops(@Parent() run: Run) {
-        const hops = await run.hops.loadItems();
+        const hops = await run.hops.loadItems({ populate: ['address' ]});
         return hops.filter((h) => h.hop === run.currentHopIndex);
     }
 
     @ResolveField(() => RunHop)
     async currentHop(@Parent() run: Run) {
-        const hops = await run.hops.loadItems();
+        const hops = await run.hops.loadItems({ populate: ['address']});
         return hops.find((h) => (
             h.hop === run.currentHopIndex - 1 && h.status === RunHopStatus.ACTUAL)
         );
@@ -58,7 +58,7 @@ export default class RunsResolver {
 
     @ResolveField(() => Address, { nullable: true })
     async origin(@Parent() run: Run) {
-        const hop = await run.tracerouteHops.loadItems({ where: { hop: { $eq: 1 }}})
+        const hop = await run.tracerouteHops.loadItems({ where: { hop: { $eq: 1 } }, populate: ['address' ]})
         return hop[0]?.address ?? null;
     }
 }

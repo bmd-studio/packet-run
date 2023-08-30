@@ -39,7 +39,7 @@ import RoutingService from './providers/RoutingService';
             dbName: './data/packet-run.db',
             type: 'better-sqlite',
             allowGlobalContext: true,
-            debug: true,
+            debug: false,
         }),
         MikroOrmModule.forFeature([Address, TracerouteHop, RunHop, Run, Terminal]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -51,7 +51,11 @@ import RoutingService from './providers/RoutingService';
                 },
             },
         }),
-        BullModule.forRoot({}),
+        BullModule.forRoot({
+            connection: {
+                host: '127.0.0.1',
+            },
+        }),
         BullModule.registerQueue({
             name: 'default',
             defaultJobOptions: {

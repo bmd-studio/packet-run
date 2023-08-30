@@ -8,7 +8,7 @@ export default class IpInfo {
     ip: string;
     
     @Field()
-    type: string;
+    type: 'IPv4' | 'IPv6';
     
     @Field({ nullable: true })
     hostname?: string;
@@ -49,56 +49,56 @@ export class Carrier {
 
 @ObjectType()
 export class Company {
-    @Field()
-    domain: string;
+    @Field({ nullable: true })
+    domain?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
     
-    @Field()
-    type: string;
+    @Field({ nullable: true })
+    type?: string;
 }
 
 @ObjectType()
 export class Connection {
-    @Field()
-    asn: number;
+    @Field({ nullable: true })
+    asn?: number;
     
-    @Field()
-    domain: string;
+    @Field({ nullable: true })
+    domain?: string;
     
-    @Field()
-    organization: string;
+    @Field({ nullable: true })
+    organization?: string;
     
-    @Field()
-    route: string;
+    @Field({ nullable: true })
+    route?: string;
     
-    @Field()
-    type: string;
+    @Field({ nullable: true })
+    type?: 'business' | 'education' | 'government' | 'inactive' | 'isp' | 'hosting';
 }
 
 @ObjectType()
 export class Currency {
-    @Field()
-    code: string;
+    @Field({ nullable: true })
+    code?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
     
-    @Field()
-    name_native: string;
+    @Field({ nullable: true })
+    name_native?: string;
     
-    @Field()
-    plural: string;
+    @Field({ nullable: true })
+    plural?: string;
     
-    @Field()
-    plural_native: string;
+    @Field({ nullable: true })
+    plural_native?: string;
     
-    @Field()
-    symbol: string;
+    @Field({ nullable: true })
+    symbol?: string;
     
-    @Field()
-    symbol_native: string;
+    @Field({ nullable: true })
+    symbol_native?: string;
     
     @Field(() => Format)
     format: Rel<Format>;
@@ -115,11 +115,11 @@ export class Format {
 
 @ObjectType()
 export class NegativeOrPositive {
-    @Field()
-    prefix: string;
+    @Field({ nullable: true })
+    prefix?: string;
     
-    @Field()
-    suffix: string;
+    @Field({ nullable: true })
+    suffix?: string;
 }
 
 @ObjectType()
@@ -133,17 +133,17 @@ export class Location {
     @Field(() => ContinentOrRegion)
     region: Rel<ContinentOrRegion>;
     
-    @Field()
-    city: string;
+    @Field({ nullable: true })
+    city?: string;
     
-    @Field()
-    postal: string;
+    @Field({ nullable: true })
+    postal?: string;
     
-    @Field()
-    latitude: number;
+    @Field({ nullable: true })
+    latitude?: number;
     
-    @Field()
-    longitude: number;
+    @Field({ nullable: true })
+    longitude?: number;
     
     @Field(() => LanguagesEntityOrLanguage)
     language: Rel<LanguagesEntityOrLanguage>;
@@ -154,11 +154,11 @@ export class Location {
 
 @ObjectType()
 export class ContinentOrRegion {
-    @Field()
-    code: string;
+    @Field({ nullable: true })
+    code?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
 }
 
 @ObjectType()
@@ -169,23 +169,23 @@ export class Country {
     @Field(() => [String])
     borders: string[];
     
-    @Field()
-    calling_code: string;
+    @Field({ nullable: true })
+    calling_code?: string;
     
-    @Field()
-    capital: string;
+    @Field({ nullable: true })
+    capital?: string;
     
-    @Field()
-    code: string;
+    @Field({ nullable: true })
+    code?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
     
-    @Field()
-    population: number;
+    @Field({ nullable: true })
+    population?: number;
     
-    @Field()
-    population_density: number;
+    @Field({ nullable: true })
+    population_density?: number;
     
     @Field(() => Flag)
     flag: Rel<Flag>;
@@ -193,41 +193,41 @@ export class Country {
     @Field(() => [LanguagesEntityOrLanguage], { nullable: true })
     languages?: Rel<LanguagesEntityOrLanguage>[];
     
-    @Field()
-    tld: string;
+    @Field({ nullable: true })
+    tld?: string;
 }
 
 @ObjectType()
 export class Flag {
-    @Field()
-    emoji: string;
+    @Field({ nullable: true })
+    emoji?: string;
     
-    @Field()
-    emoji_unicode: string;
+    @Field({ nullable: true })
+    emoji_unicode?: string;
     
-    @Field()
-    emojitwo: string;
+    @Field({ nullable: true })
+    emojitwo?: string;
     
-    @Field()
-    noto: string;
+    @Field({ nullable: true })
+    noto?: string;
     
-    @Field()
-    twemoji: string;
+    @Field({ nullable: true })
+    twemoji?: string;
     
-    @Field()
-    wikimedia: string;
+    @Field({ nullable: true })
+    wikimedia?: string;
 }
 
 @ObjectType()
 export class LanguagesEntityOrLanguage {
-    @Field()
-    code: string;
+    @Field({ nullable: true })
+    code?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
     
-    @Field()
-    native: string;
+    @Field({ nullable: true })
+    native?: string;
 }
 
 @ObjectType()
@@ -268,17 +268,17 @@ export class Security {
 
 @ObjectType()
 export class TimeZone {
-    @Field()
-    id: string;
+    @Field({ nullable: true })
+    id?: string;
     
-    @Field()
-    abbreviation: string;
+    @Field({ nullable: true })
+    abbreviation?: string;
     
-    @Field()
-    current_time: string;
+    @Field({ nullable: true })
+    current_time?: string;
     
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
     
     @Field()
     offset: number;

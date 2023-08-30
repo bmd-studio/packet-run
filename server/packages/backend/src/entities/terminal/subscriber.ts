@@ -31,15 +31,19 @@ export default class TerminalSubscriber implements EventSubscriber<Terminal | Pr
     }
 
     async afterUpdate({ entity, meta }: EventArgs<Terminal | Presence>) {
+        const allTerminals = await fetchAllTerminals(this.em);
         if (meta.class === Terminal) {
-            this.pubSub.publish(Terminal, entity.id, entity);
+            const data = allTerminals.find((t) => t.id === entity.id);
+            this.pubSub.publish(Terminal, entity.id, data);
         }
         terminalsObservable.next(await fetchAllTerminals(this.em));
     }
 
     async afterUpsert({ entity, meta }: EventArgs<Terminal | Presence>) {
+        const allTerminals = await fetchAllTerminals(this.em);
         if (meta.class === Terminal) {
-            this.pubSub.publish(Terminal, entity.id, entity);
+            const data = allTerminals.find((t) => t.id === entity.id);
+            this.pubSub.publish(Terminal, entity.id, data);
         }
         terminalsObservable.next(await fetchAllTerminals(this.em));
     }

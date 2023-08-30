@@ -78,16 +78,16 @@ export default function DestinationBar() {
             )}
             <Container>
                 {run.availableHops.map((hop) => (
-                    <Destination key={hop.address.ip}>
+                    <Destination key={hop.id}>
                         <Content>
                             <h1>
-                                {hop.address.info
+                                {hop.address?.info
                                     ? <>{hop.address.info?.location.city} ({hop.address.info?.location.country.code})</>
                                     : UNKNOWN
                                 }
                             </h1>
-                            <p>IP address: {hop.address.ip}</p>
-                            <p>Owner: {hop.address.info?.carrier.name || UNKNOWN}</p>
+                            <p>IP address: {hop.address?.ip || UNKNOWN}</p>
+                            <p>Owner: {hop.address?.info?.carrier.name || UNKNOWN}</p>
                             <p>Distance: {UNKNOWN}</p>
                             <p>Carbon footprint: {UNKNOWN}</p>
                         </Content>
