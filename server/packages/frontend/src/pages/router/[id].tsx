@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import DestinationBar from "@/components/DestinationBar";
-import { TerminalStatus, useResetTerminalMutation } from "@/data/generated";
-import { Button } from '@/components/ui/button';
+import { TerminalStatus } from "@/data/generated";
 import RegisterTerminal from '@/components/RegisterTerminal';
 import NfcScanner from '@/components/NfcScanner';
 import { styled } from 'styled-components';
@@ -13,18 +12,6 @@ const Grid = styled.div`
     grid-template-columns: 60% 40%;
     height: 100vh;
 `;
-
-function ResetTerminal({ terminalId }: { terminalId: number }) {
-    const [mutate] = useResetTerminalMutation();
-
-    const handleClick = useCallback(() => {
-        mutate({ variables: { terminalId }});
-    }, [mutate, terminalId]);
-
-    return (
-        <Button onClick={handleClick}>Reset</Button>
-    )
-}
 
 export default function Router() {
     return (

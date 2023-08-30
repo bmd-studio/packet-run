@@ -1,9 +1,8 @@
 import RegisterTerminal from '@/components/RegisterTerminal';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCreateRunMutation, useRegisterTerminalSubscription } from "@/data/generated";
-import { Loader, Loader2 } from 'lucide-react';
+import { useCreateRunMutation } from "@/data/generated";
+import { Loader2 } from 'lucide-react';
 import { useCallback, useState } from "react";
 
 function CreateRunWithNFC() {

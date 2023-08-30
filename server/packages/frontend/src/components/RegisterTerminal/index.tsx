@@ -1,4 +1,4 @@
-import { RegisterTerminalSubscription, RegisterTerminalSubscriptionResult, Terminal, useRegisterTerminalSubscription } from '@/data/generated';
+import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { PropsWithChildren, ReactNode, createContext, useContext, useMemo } from 'react';
@@ -14,7 +14,7 @@ export type TerminalSubscriptionData = NonNullable<RegisterTerminalSubscription[
  * Retrieve some data from the terminal subscription
  */
 export function useTerminal<T = TerminalSubscriptionData>(
-    memoFunction: (terminal: TerminalSubscriptionData) => T = (t) => t as T,
+    memoFunction: (t: TerminalSubscriptionData) => T = (t) => t as T,
 ): T {
     // Retrieve the terminal from the context
     const terminal = useContext(terminalContext) ;
