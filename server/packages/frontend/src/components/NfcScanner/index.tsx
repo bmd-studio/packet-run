@@ -32,7 +32,7 @@ export default function NfcScanner({ terminalId }: { terminalId: number }) {
         <Container className='flex gap-x-4 h-screen'>
             <h1>Place your packet on the scanner</h1>
             <div className="flex gap-2">
-                <Input placeholder="NFC ID" onChange={(event) => setNfcId(event.target.value)} value={nfcId} />
+                <Input placeholder="NFC ID" className="text-white" onChange={(event) => setNfcId(event.target.value)} value={nfcId} />
                 <Button onClick={handleSubmit}>
                         Submit
                 </Button>
