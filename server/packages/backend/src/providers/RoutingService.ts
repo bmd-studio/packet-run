@@ -1,10 +1,10 @@
 import { Loaded, MikroORM } from '@mikro-orm/core';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { random, sample } from 'lodash';
 import Address from '../entities/address/index.entity';
 import Run, { RunPacketType } from '../entities/run/index.entity';
 import RunHop, { RunHopStatus, RunHopType } from '../entities/runHop/index.entity';
-import Terminal, { TerminalType } from '../entities/terminal/index.entity';
+import Terminal, { TerminalStatus, TerminalType } from '../entities/terminal/index.entity';
 import TracerouteHop from '../entities/tracerouteHop/index.entity';
 import { getPreviousHop, getTerminalWithShortestPath } from '../lib/RoutingUtils';
 
@@ -14,7 +14,7 @@ import { getPreviousHop, getTerminalWithShortestPath } from '../lib/RoutingUtils
  */
 @Injectable()
 export default class RoutingService {
-    // private logger = new Logger(RoutingService.name);
+    private logger = new Logger(RoutingService.name);
 
     constructor(
         private orm: MikroORM
@@ -52,8 +52,17 @@ export default class RoutingService {
 
         // Update the hop to signify this was the path that is actually taken
         hop.status = RunHopStatus.ACTUAL;
-        await this.orm.em.flush();
+        
+        // Also update the past and present terminals
+        if (run.terminal) {
+            run.terminal.status = TerminalStatus.IDLE;
+            run.terminal.run = null;
+        }
+        receivingTerminal.run = run;
 
+        // Update the database
+        await this.orm.em.flush();
+        
         // ...now, generate some routes
         if (hop.terminal.type === TerminalType.GATEWAY) {
             await this.generateGatewayHop(run);
@@ -93,6 +102,11 @@ export default class RoutingService {
     private async generateGatewayHop(run: Run) {
         // Retrieve the relevant hops
         const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }}, { orderBy: [{ hop: 'ASC' }]});
+
+        // GUARD: Check that traceroute has progressed far enough
+        if (!internet) {
+            throw new Error('Could not find internet hop. Please try again when the internet hop is resolved.');
+        }
 
         // Retrieve the right terminals that are connected to the gateway
         const gateway = await this.orm.em.findOneOrFail(Terminal, { type: TerminalType.GATEWAY }, { populate: ['connectionsTo.to']});
@@ -176,17 +190,20 @@ export default class RoutingService {
         // Calculate the shortest path to the destination terminal
         const { terminalId, route } = await getTerminalWithShortestPath(
             run,
-            run.packetType === RunPacketType.RESPONSE ? TerminalType.RECEIVER : TerminalType.SERVER
+            run.packetType === RunPacketType.RESPONSE ? TerminalType.RECEIVER : TerminalType.SERVER,
+            this.orm,
         );
 
         // Pick a single router and make it the recommended router
         const index = run.currentHopIndex > 3 && route.length > 4
             ? terminals.findIndex((r) => r.id === terminalId)
-            : random(terminals.length);
+            : random(terminals.length - 1);
 
         // Extract the recommended router from the array
         let recommendedTerminal = terminals[index];
         let otherRouters = terminals.filter((t, i) => i !== index);
+
+        console.log('Determining recommended terminal', { terminalId, route, index, recommendedTerminal, otherRouters });
 
         // GUARD: Check if the selected recommended terminal is actually valid
         if ((recommendedTerminal.type === TerminalType.SERVER && previousHop.type !== RunHopType.RECOMMENDED)
@@ -198,7 +215,7 @@ export default class RoutingService {
                 terminal: recommendedTerminal,
                 type: RunHopType.INVALID,
                 // TODO: Retrieve next address
-                address: await this.orm.em.upsert(Address, { ip: '0.0.0.0' }),
+                address: null,
                 hop: run.currentHopIndex + 1,
             });
 
@@ -208,7 +225,7 @@ export default class RoutingService {
         }
 
         // Get the right address for the recommended hop
-        const address = await this.retrieveAddressForHop(run, recommendedTerminal, route.length - 1);
+        const address = await this.retrieveAddressForHop(run, route.length - 1);
 
         // Create the recommended hop
         this.orm.em.create(RunHop, {
@@ -227,7 +244,7 @@ export default class RoutingService {
                 terminal,
                 type: RunHopType.ALTERNATIVE,
                 // TODO: Retrieve alt address
-                address: await this.orm.em.upsert(Address, { ip: '0.0.0.0' }),
+                address: null,
                 hop: run.currentHopIndex + 1,
             });
         }));
@@ -237,7 +254,7 @@ export default class RoutingService {
      * Give a particular run and destination terminal, retrieve an address that
      * should be used for the recommended router.
      */
-    private async retrieveAddressForHop(run: Run, terminal: Terminal, distanceToDestination: number) {
+    private async retrieveAddressForHop(run: Run, distanceToDestination: number) {
         // GUARD: If this is the final hop to either the server or the receiver
         if (distanceToDestination === 1) {
             if (run.packetType === RunPacketType.REQUEST) {
@@ -267,7 +284,8 @@ export default class RoutingService {
                 { run },
                 { orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' } }
             );
-            return hops[Math.floor(distanceToDestination)];
+
+            return hops[Math.floor((hops.length - 1) / distanceToDestination)].address;
         }
     }
 }   
