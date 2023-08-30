@@ -1,0 +1,3 @@
+mutation ValidateHost($host: String!) {
+    validateHost(host: $host)
+}

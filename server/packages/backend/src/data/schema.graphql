@@ -337,6 +337,9 @@ type Mutation {
 
   """Restore a particular terminal to the `IDLE` status"""
   setTerminalToIdle(terminalId: Float!): Boolean
+
+  """Check whether an URL is valid and reachable"""
+  validateHost(host: String!): Boolean
   createRun(url: String!, nfcId: String!): Run!
 }
 

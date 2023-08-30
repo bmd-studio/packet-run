@@ -167,6 +167,8 @@ export type Mutation = {
   scanNfcForTerminal?: Maybe<Scalars['Boolean']['output']>;
   /** Restore a particular terminal to the `IDLE` status */
   setTerminalToIdle?: Maybe<Scalars['Boolean']['output']>;
+  /** Check whether an URL is valid and reachable */
+  validateHost?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
@@ -190,6 +192,11 @@ export type MutationScanNfcForTerminalArgs = {
 
 export type MutationSetTerminalToIdleArgs = {
   terminalId: Scalars['Float']['input'];
+};
+
+
+export type MutationValidateHostArgs = {
+  host: Scalars['String']['input'];
 };
 
 export type NegativeOrPositive = {
@@ -408,6 +415,13 @@ export type ScanNfcForTerminalMutationVariables = Exact<{
 
 export type ScanNfcForTerminalMutation = { __typename?: 'Mutation', scanNfcForTerminal?: boolean | null };
 
+export type ValidateHostMutationVariables = Exact<{
+  host: Scalars['String']['input'];
+}>;
+
+
+export type ValidateHostMutation = { __typename?: 'Mutation', validateHost?: boolean | null };
+
 export type GetTerminalTypeQueryVariables = Exact<{
   terminalId: Scalars['Float']['input'];
 }>;
@@ -568,6 +582,37 @@ export function useScanNfcForTerminalMutation(baseOptions?: Apollo.MutationHookO
 export type ScanNfcForTerminalMutationHookResult = ReturnType<typeof useScanNfcForTerminalMutation>;
 export type ScanNfcForTerminalMutationResult = Apollo.MutationResult<ScanNfcForTerminalMutation>;
 export type ScanNfcForTerminalMutationOptions = Apollo.BaseMutationOptions<ScanNfcForTerminalMutation, ScanNfcForTerminalMutationVariables>;
+export const ValidateHostDocument = gql`
+    mutation ValidateHost($host: String!) {
+  validateHost(host: $host)
+}
+    `;
+export type ValidateHostMutationFn = Apollo.MutationFunction<ValidateHostMutation, ValidateHostMutationVariables>;
+
+/**
+ * __useValidateHostMutation__
+ *
+ * To run a mutation, you first call `useValidateHostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateHostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [validateHostMutation, { data, loading, error }] = useValidateHostMutation({
+ *   variables: {
+ *      host: // value for 'host'
+ *   },
+ * });
+ */
+export function useValidateHostMutation(baseOptions?: Apollo.MutationHookOptions<ValidateHostMutation, ValidateHostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ValidateHostMutation, ValidateHostMutationVariables>(ValidateHostDocument, options);
+      }
+export type ValidateHostMutationHookResult = ReturnType<typeof useValidateHostMutation>;
+export type ValidateHostMutationResult = Apollo.MutationResult<ValidateHostMutation>;
+export type ValidateHostMutationOptions = Apollo.BaseMutationOptions<ValidateHostMutation, ValidateHostMutationVariables>;
 export const GetTerminalTypeDocument = gql`
     query getTerminalType($terminalId: Float!) {
   terminal(id: $terminalId) {
