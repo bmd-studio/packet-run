@@ -95,5 +95,6 @@ export async function getTerminalWithShortestPath(
     return {
         terminalId: route[1],
         route,
+        destination,
     }
 }
