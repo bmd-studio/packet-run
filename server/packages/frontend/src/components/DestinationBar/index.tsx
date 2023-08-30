@@ -3,6 +3,7 @@ import { theme, DEBUG } from '@/config';
 import { RunHopType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 const UNKNOWN = '???';
 
@@ -58,6 +59,14 @@ const Banner = styled.h2<{ highlighted: boolean }>`
 
 export default function DestinationBar() {
     const { connectionsTo, run } = useTerminal();
+    const sortedConnections = useMemo(() => (
+        connectionsTo.sort((a, b) => a.slot - b.slot)
+    ), [connectionsTo]);
+    const sortedHops = useMemo(() => (
+        sortedConnections.map(({ to }) => (
+            run?.availableHops.find((h) => h.terminal.id === to.id) || null
+        ))
+    ), [sortedConnections, run]);
 
     if (!run?.availableHops) {
         return null;
@@ -67,7 +76,7 @@ export default function DestinationBar() {
         <Fixed>
             {DEBUG && (
                 <Container>
-                    {connectionsTo.sort((a, b) => a.slot - b.slot).map((c) => (
+                    {sortedConnections.map((c) => (
                         <Destination key={c.to.id}>
                             <TerminalConnection href={`/${c.to.type.toLowerCase()}/${c.to.id}?nfcId=${run.nfcId}`}>
                                 TO TERMINAL {c.to.id} (SLOT #{c.slot})
@@ -77,7 +86,7 @@ export default function DestinationBar() {
                 </Container>
             )}
             <Container>
-                {run.availableHops.map((hop) => (
+                {sortedHops.map((hop) => hop && (
                     <Destination key={hop.id}>
                         <Content>
                             <h1>
