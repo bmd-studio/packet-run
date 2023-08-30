@@ -7,14 +7,28 @@ import Terminal, { TerminalType } from '../entities/terminal/index.entity';
  * Retrieve the previously taken hop for a given run
  */
 export async function getPreviousHop(run: Run) {
-    const [previousHop] = await run.hops.loadItems({ 
+    const [terminalHop] = await run.hops.matching({ 
         where: {
             hop: run.currentHopIndex - 1,
             status: RunHopStatus.ACTUAL,
         },
     });
+    const [addressHop] = await run.hops.matching({ 
+        where: {
+            hop: run.currentHopIndex,
+            status: RunHopStatus.ACTUAL,
+        },
+    });
 
-    return previousHop;
+    // GUARD: Check if the previous hop was actually found
+    if (!terminalHop || !addressHop) {
+        throw new Error('PreviousHopNotFound');
+    }
+
+    return {
+        hop: addressHop,
+        from: terminalHop.terminal,
+    };
 }
 
 /**
@@ -53,14 +67,9 @@ export async function getTerminalWithShortestPath(
 
         // GUARD: Check if this is the destination we're looking for
         if (terminal.id === destination) {
-            // Add the path to the terminal and exit
-            seen.add(terminal.id);
-
-            // Add the route
-            routes.set(destination, [...routes.get(terminal.id), destination]);
-
-            // Clear the queue
+            // We've found the result, end the loop
             queue = [];
+            break;
         } else {
             // Loop through all available connections from here
             terminal.connectionsTo.getItems()
@@ -69,7 +78,7 @@ export async function getTerminalWithShortestPath(
                 .forEach((c) => {
                     // Mark the connection as seen
                     seen.add(c.to.id);
-                    
+
                     // Save the route from the current terminal to this connection
                     routes.set(c.to.id, [...routes.get(terminal.id), c.to.id]);
 

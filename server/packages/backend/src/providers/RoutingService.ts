@@ -1,7 +1,6 @@
 import { Loaded, MikroORM } from '@mikro-orm/core';
 import { Injectable, Logger } from '@nestjs/common';
 import { random, sample } from 'lodash';
-import Address from '../entities/address/index.entity';
 import Run, { RunPacketType } from '../entities/run/index.entity';
 import RunHop, { RunHopStatus, RunHopType } from '../entities/runHop/index.entity';
 import Terminal, { TerminalStatus, TerminalType } from '../entities/terminal/index.entity';
@@ -88,11 +87,13 @@ export default class RoutingService {
 
         this.orm.em.create(RunHop, {
             run,
-            terminal: previousHop.terminal,
+            terminal: previousHop.from,
             type: RunHopType.PREVIOUS,
-            address: previousHop.address,
+            address: previousHop.hop.address,
             hop: run.currentHopIndex + 1,
         });
+
+        return previousHop;
     }
 
     /**
@@ -171,13 +172,10 @@ export default class RoutingService {
      * the next recommended hop and a set of alternative hops.
      */
     private async generateNextHops(run: Run) {
-        // Retrieve the previous hop
-        const previousHop = await getPreviousHop(run);
-
         // Create the previous hop
         // TODO: Only insert this after we can conclude that the previous hop is
         // not the recommended hop
-        this.insertPreviousHop(run);
+        const { hop: previousHop, from: previousTerminal } = await this.insertPreviousHop(run);
 
         // TODO: Check in the history of runhops for earlier occurences of the
         // next recommended hops so we can copy them.
@@ -185,7 +183,7 @@ export default class RoutingService {
         // Determine all options that don't route to the previous hop
         const terminals = run.terminal.connectionsTo.getItems()
             .map((c) => c.to)
-            .filter((t) => t.id !== previousHop.terminal.id);
+            .filter((t) => t.id !== previousTerminal.id);
 
         // Calculate the shortest path to the destination terminal
         const { terminalId, route } = await getTerminalWithShortestPath(
@@ -195,15 +193,13 @@ export default class RoutingService {
         );
 
         // Pick a single router and make it the recommended router
-        const index = run.currentHopIndex > 3 && route.length > 4
+        const index = run.currentHopIndex > 3 && route.length >= 4
             ? terminals.findIndex((r) => r.id === terminalId)
             : random(terminals.length - 1);
 
         // Extract the recommended router from the array
         let recommendedTerminal = terminals[index];
         let otherRouters = terminals.filter((t, i) => i !== index);
-
-        console.log('Determining recommended terminal', { terminalId, route, index, recommendedTerminal, otherRouters });
 
         // GUARD: Check if the selected recommended terminal is actually valid
         if ((recommendedTerminal.type === TerminalType.SERVER && previousHop.type !== RunHopType.RECOMMENDED)
@@ -281,7 +277,7 @@ export default class RoutingService {
         } else {
             const hops = await this.orm.em.find(
                 TracerouteHop,
-                { run },
+                { run, hop: { $gte: 4 } },
                 { orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' } }
             );
 
