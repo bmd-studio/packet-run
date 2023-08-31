@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components'
+import { css, styled } from 'styled-components'
 
 const Ellipse = styled.ellipse<{ highlighted: boolean }>`
     stroke: ${({ highlighted }) => highlighted ? 'var(--yellow)' : 'black'};
     stroke-width: 8px;
     fill: none;
+    transition: stroke 0.2s ease-out;
+
+    ${({ highlighted }) => highlighted && css`
+        transition: none;
+    `}
 `;
 
 export default function ScannerAnimation() {
