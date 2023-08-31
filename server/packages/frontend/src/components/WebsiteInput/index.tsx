@@ -1,14 +1,15 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import validUrl from 'valid-url';
 import psl from 'psl';
 import { useValidateHostMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 const Input = styled.input`
     background-color: var(--light-gray);
     font-size: 64px;
-    line-height: 48px;
+    line-height: 32px;
     padding: 48px;
     text-transform: uppercase;
     font-family: var(--font-vt323);
@@ -38,6 +39,7 @@ const Inverse = styled.span`
 `;
 
 export default function WebsiteInput() {
+    const { replace, query } = useRouter();
     const [host, setHost] = useState("");
     const [isValidated, setIsValidated] = useState(false);
     const [validateHost, { loading }] = useValidateHostMutation();
@@ -46,6 +48,17 @@ export default function WebsiteInput() {
         const text = e.currentTarget.value;
         setHost(text.replace(/[^a-z0-9.]+/gi, ""));
     }, []);
+
+    const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
+        // Prevent form from submitting
+        e.preventDefault();
+
+        // GUARD: The host must be valid
+        if (isValidated) {
+            // Append the host as a search param to the current page
+            replace({ query: { ...query, host }});
+        }
+    }, [isValidated, host, replace, query]);
 
     useEffect(() => {
         // Construct an abort signal we can pass to fetch
@@ -77,7 +90,7 @@ export default function WebsiteInput() {
     }, [host, validateHost]);
 
     return (
-        <div>
+        <form onSubmit={handleSubmit}>
             <Input
                 value={host}
                 placeholder="www.ddw.nl"
@@ -90,16 +103,13 @@ export default function WebsiteInput() {
                         Press <Inverse>Enter ⏎</Inverse> to continue!
                     </Message>
                 ) : (
-                    loading ? (
-                        <Message>
-                            Checking whether you&apos;ve entered a valid domain...
-                            <Loader2 className="animate-spin w-4 h-4" />
-                        </Message>
-                    ) : (
-                        <Message>Type a valid domain name first...</Message>
-                    )
+
+                    <Message>
+                        Type a valid domain name first...
+                        {loading && <Loader2 className="animate-spin w-4 h-4" />}
+                    </Message>
                 )}
             </h2>
-        </div>
+        </form>
     );
 }
