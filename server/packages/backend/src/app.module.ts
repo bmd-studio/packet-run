@@ -46,9 +46,7 @@ import RoutingService from './providers/RoutingService';
             driver: CustomApolloDriver,
             autoSchemaFile: join(process.cwd(), 'src/data/schema.graphql'),
             subscriptions: {
-                'graphql-ws': {
-                    
-                },
+                'graphql-ws': true,
             },
         }),
         BullModule.forRoot({
