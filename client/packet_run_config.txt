@@ -1,0 +1,5 @@
+# This is the id for this terminal
+PACKET_RUN_TERMINAL_ID=1
+
+# This is the IP for the server that is hosting the backend and frontend
+PACKET_RUN_SERVER_IP=10.13.39.205
