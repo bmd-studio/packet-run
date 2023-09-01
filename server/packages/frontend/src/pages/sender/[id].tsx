@@ -5,8 +5,12 @@ import { DEBUG } from '@/config';
 import { styled } from 'styled-components';
 import WebsiteInput from '@/components/WebsiteInput';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
+import useNFCReader from '@/lib/useNFCReader';
+import { Button } from '@/components/ui/button';
+import { useCreateRunMutation } from '@/data/generated';
+import { Loader2 } from 'lucide-react';
 
 const Container = styled(PatternedBackground)`
     width: 100vw;
@@ -24,25 +28,43 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
     font-size: 32px;
+    font-weight: 800;
 `;
 
-
-
 export default function Sender() {
-    const { query } = useRouter();
+    const { query, replace } = useRouter();
     const host = useMemo(() => (
         query.host && !Array.isArray(query.host) ? query.host : null
     ), [query.host]);
+    const nfcId = useNFCReader();
+    const [createRunMutation, { loading }] = useCreateRunMutation();
+
+    const handleCreatePacket = useCallback(async () => {
+        if (nfcId && host) {
+            await createRunMutation({ variables: { nfcId, url: `https://${host}`} });
+            replace({ query: { id: query.id } });
+        }
+    }, [nfcId, host, createRunMutation, replace, query]);
 
     return(
         <RegisterTerminal>
             {DEBUG && <CreateRunWithNFC />}
             <Container>
                 {host ? (
-                    <>
-                        <Title>Place your ball on the scanner...</Title>
-                        <ScannerAnimation />
-                    </>
+                    nfcId ? (
+                        <>
+                            <Title>Create your packet</Title>
+                            <Button onClick={handleCreatePacket} disabled={loading}>
+                                CREATE PACKET
+                                {loading && (<Loader2 className="w-4 h-4 animate-spin" />)}
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Title>Place your ball on the scanner...</Title>
+                            <ScannerAnimation />
+                        </>
+                    )
                 ) : (
                     <>
                         <Title>Welcome to Packet Run!</Title>
