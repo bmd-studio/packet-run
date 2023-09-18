@@ -11,10 +11,13 @@ All files for 3d printing can be found inside the stl directory. Double check wi
 
 | completed | amount | filename | ready for production | design by |
 | --- | --- | --- | --- | --- |
-| :white_large_square: | 30 | rope_hold | - [x] | Tijs |
-| - [ ] | 24 | arrival | - [ ] | Tijs |
-| - [ ] | 30 | drop | - [ ] | Tijs |
-| - [ ] | 30 | drop | - [ ] | Tijs |
+| :white_large_square: | 30 | rope_hold | - :white_check_mark: | Tijs |
+| :white_large_square: | 24 | arrival | :white_large_square: | Tijs |
+| :white_large_square: | 30 | drop | :white_large_square: | Tijs |
+| :white_large_square: | 24 | drop | :white_large_square: | Tijs |
+| :white_large_square: | 50 | peg | :white_large_square: | Nils |
+| :white_large_square: | 1 | desk_departure | :white_large_square: | Nils |
+| :white_large_square: | 1 | packet_handout | :white_large_square: | t.b.d. |
 
 <!-- - [ ] 30x ––– rope_hold 
 - [ ] 24x ––– arrival
