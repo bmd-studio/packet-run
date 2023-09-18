@@ -11,7 +11,7 @@ All files for 3d printing can be found inside the stl directory. Double check wi
 
 | completed | amount | filename | ready for production | design by |
 | --- | --- | --- | --- | --- |
-| - [ ] | 30 | rope_hold | - [x] | Tijs |
+| :white_large_square | 30 | rope_hold | - :white_check_mark | Tijs |
 | - [ ] | 24 | arrival | - [ ] | Tijs |
 | - [ ] | 30 | drop | - [ ] | Tijs |
 | - [ ] | 30 | drop | - [ ] | Tijs |
