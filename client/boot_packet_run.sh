@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 printf '  ____   _    ____ _  _______ _____   ____  _   _ _   _ \n'
 printf ' |  _ \ / \  / ___| |/ / ____|_   _| |  _ \| | | | \ | |\n'
 printf ' | |_) / _ \| |   | '\'' /|  _|   | |   | |_) | | | |  \| |\n'
@@ -30,5 +32,5 @@ chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \
     --test-type &> /dev/null &
-node ./hall-sensor-server/src/index.js &
+node $0/hall-sensor-server/src/index.js &
 wait
