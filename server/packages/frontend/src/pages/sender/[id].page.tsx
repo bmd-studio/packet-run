@@ -19,16 +19,22 @@ const Container = styled(PatternedBackground)`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 32px;
+    gap: 64px;
 `;
 
 const Title = styled.h1`
     font-size: 80px;
 `;
 
-const Subtitle = styled.p`
-    font-size: 32px;
-    font-weight: 800;
+const Subtitle = styled.h2`
+    font-size: 40px;
+    font-weight: 400;
+`;
+
+const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export default function Sender() {
@@ -67,8 +73,10 @@ export default function Sender() {
                     )
                 ) : (
                     <>
-                        <Title>Welcome to Packet Run!</Title>
-                        <Subtitle>Please enter the website you wish to navigate to...</Subtitle>
+                        <TextContainer>
+                            <Title>Welcome to Packet Run!</Title>
+                            <Subtitle>Which website would you like to visit today?</Subtitle>
+                        </TextContainer>
                         <WebsiteInput />
                     </>
                 )}
