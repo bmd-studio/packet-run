@@ -1,0 +1,15 @@
+{
+  "name": "hall-sensor-server",
+  "version": "1.0.0",
+  "description": "This directory shall contain a script that converts a hall sensor that is connected to a Raspberry Pi 4 GPIO pin to a discrete signal that is output via WebMIDI, to be later picked up by the front-end software.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bureau Moeilijke Dingen",
+  "license": "ISC",
+  "dependencies": {
+    "onoff": "^6.0.3"
+  }
+}
