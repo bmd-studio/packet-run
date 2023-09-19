@@ -3,15 +3,10 @@ import DestinationBar from "@/components/DestinationBar";
 import { TerminalStatus } from "@/data/generated";
 import RegisterTerminal from '@/components/RegisterTerminal';
 import NfcScanner from '@/components/NfcScanner';
-import { styled } from 'styled-components';
 import PacketInfo from '@/components/PacketInfo';
 import Map from '@/components/Map';
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 60% 40%;
-    height: 100vh;
-`;
+import { Grid } from 'lucide-react';
+import { Title } from '@/components/Typography';
 
 export default function Router() {
     return (
@@ -22,7 +17,9 @@ export default function Router() {
                         <Grid>
                             <DestinationBar />
                             <Map />
-                            <PacketInfo />
+                            <PacketInfo>
+                                <Title>Send your packet to the next destination</Title>
+                            </PacketInfo>
                         </Grid>
                     )}
                     {terminal.status === TerminalStatus.Idle && (

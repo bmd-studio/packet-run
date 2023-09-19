@@ -9,8 +9,9 @@ import useNFCReader from '@/lib/useNFCReader';
 import { useCreateRunMutation } from '@/data/generated';
 import useHallSensor from '@/lib/useHallSensor';
 import WebsiteInput from '@/components/WebsiteInput';
+import { TextContainer, Title, Subtitle } from '@/components/Typography';
 
-export const Container = styled(PatternedBackground)`
+const Container = styled(PatternedBackground)`
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -18,21 +19,6 @@ export const Container = styled(PatternedBackground)`
     justify-content: center;
     flex-direction: column;
     gap: 64px;
-`;
-
-export const Title = styled.h1`
-    font-size: 80px;
-`;
-
-export const Subtitle = styled.h2`
-    font-size: 40px;
-    font-weight: 400;
-`;
-
-export const TextContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
 `;
 
 export default function Sender() {

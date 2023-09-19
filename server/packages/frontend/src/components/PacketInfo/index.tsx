@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import PatternedBackground from '../PatternedBackground';
 import { useTerminal } from '../RegisterTerminal';
+import { PropsWithChildren } from 'react';
 
 const Container = styled(PatternedBackground)`
     width: 40vw;
@@ -35,12 +36,7 @@ const Text = styled.h2`
     line-height: 28px;
 `;
 
-const Title = styled.h1`
-    font-size: 64px;
-    line-height: 44px;
-`;
-
-export default function PacketInfo() {
+export default function PacketInfo({ children }: PropsWithChildren) {
     const { run } = useTerminal();
 
     if (!run) {
@@ -50,7 +46,7 @@ export default function PacketInfo() {
     return (
         <Container>
             <InnerContainer>
-                <Title>Send your packet to <br />the next destination</Title>
+                {children}
                 <Card>
                     <div>
                         <Label>Packet ID</Label>
