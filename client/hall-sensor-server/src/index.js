@@ -22,7 +22,7 @@ async function main() {
     const server = http.createServer((req, res) => {
         // Return the state
         res.writeHead(200);
-        res.end(state);
+        res.end(state.toString());
     });
 
     // Start the server
