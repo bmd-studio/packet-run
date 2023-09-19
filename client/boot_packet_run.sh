@@ -32,5 +32,5 @@ chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \
     --test-type &> /dev/null &
-node $0/hall-sensor-server/src/index.js &
+node $(dirname $0)/hall-sensor-server/src/index.js &
 wait
