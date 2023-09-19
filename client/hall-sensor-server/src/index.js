@@ -14,7 +14,7 @@ async function main() {
     // Watch the gpio pin for changes
     sensor.watch((err, value) => {
         // If the pin changes, push it to the state
-        console.log('Received new value: ', value);
+        console.log('Received new hall sensor value: ', !value);
         state = !value;
     });
 
@@ -27,7 +27,7 @@ async function main() {
 
     // Start the server
     server.listen(PORT, '127.0.0.1');
-    console.log(`Server is running on http://127.0.0.1:${PORT}`);
+    console.log(`Hall-sensor server is running on http://127.0.0.1:${PORT}`);
 }
 
 main();
