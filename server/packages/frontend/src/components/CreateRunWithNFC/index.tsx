@@ -1,6 +1,6 @@
 import { useCreateRunMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, MouseEvent } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
@@ -10,7 +10,8 @@ export default function CreateRunWithNFC() {
 
     const [createRunMutation, { loading }] = useCreateRunMutation();
 
-    const createRun = useCallback(async () => {
+    const createRun = useCallback(async (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         await createRunMutation({
             variables: {
                 url: url,

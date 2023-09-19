@@ -4,7 +4,6 @@ import validUrl from 'valid-url';
 import psl from 'psl';
 import { useValidateHostMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/router';
 
 const Input = styled.input`
     background-color: var(--light-gray);
@@ -38,8 +37,11 @@ const Inverse = styled.span`
     padding: 4px 12px;
 `;
 
-export default function WebsiteInput() {
-    const { replace, query } = useRouter();
+export interface WebsiteInputProps {
+    onHost: (host: string) => void;
+}
+
+export default function WebsiteInput({ onHost }: WebsiteInputProps) {
     const [host, setHost] = useState("");
     const [isValidated, setIsValidated] = useState(false);
     const [validateHost, { loading }] = useValidateHostMutation();
@@ -55,10 +57,9 @@ export default function WebsiteInput() {
 
         // GUARD: The host must be valid
         if (isValidated) {
-            // Append the host as a search param to the current page
-            replace({ query: { ...query, host }});
+            onHost(host);
         }
-    }, [isValidated, host, replace, query]);
+    }, [isValidated, host, onHost]);
 
     useEffect(() => {
         // Construct an abort signal we can pass to fetch
