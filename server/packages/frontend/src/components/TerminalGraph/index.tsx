@@ -69,7 +69,7 @@ export default function TerminalGraph() {
                         shape: mapTerminalTypeToShape[terminal.type],
                     },
                 } as NodeDefinition
-            }),
+            }).reverse(),
             edges: data.allTerminals.flatMap((terminal) => {
                 return terminal.connectionsTo.map((connection) => {
                     return {
