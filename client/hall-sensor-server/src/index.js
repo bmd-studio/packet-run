@@ -6,7 +6,7 @@ const PORT = 8000;
 
 async function main() {
     // Create a new Gpio input that listens to the state of hall sensor 
-    const sensor = new Gpio(2, 'low', 'both', { debounceTimeout: 50 });
+    const sensor = new Gpio(2, 'high', 'both', { debounceTimeout: 50 });
     
     // Keep the state in a variable as a boolean
     let state = false;
@@ -14,7 +14,8 @@ async function main() {
     // Watch the gpio pin for changes
     sensor.watch((err, value) => {
         // If the pin changes, push it to the state
-        state = !!value;
+        console.log('Received new value: ', value);
+        state = !value;
     });
 
     // Create a webserver
