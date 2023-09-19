@@ -29,4 +29,4 @@ chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
     --start-fullscreen \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \
-    --test-type > /dev/null
+    --test-type &> /dev/null
