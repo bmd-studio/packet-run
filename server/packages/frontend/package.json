@@ -30,6 +30,7 @@
     "cytoscape": "^3.26.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "framer-motion": "^10.16.4",
     "graphql": "^16.7.1",
     "graphql-ws": "^5.14.0",
     "lucide-react": "^0.265.0",

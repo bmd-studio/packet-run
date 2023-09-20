@@ -4,8 +4,11 @@ import PacketInfo from '@/components/PacketInfo';
 import PatternedBackground from '@/components/PatternedBackground';
 import RegisterTerminal, { useTerminal } from '@/components/RegisterTerminal';
 import { Title } from '@/components/Typography';
+import { TerminalStatus } from '@/data/generated';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import NfcScanner from '@/components/NfcScanner';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
@@ -35,35 +38,18 @@ const ImageContainer = styled.div`
     min-height: 0px;
 `;
 
-const Banner = styled.h1`
+const Banner = styled(motion.h1)`
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
     background-color: var(--dark-gray);
     padding: 24px 32px;
 `;
 
 
-function Browser() {
+function ReceiverView() {
     const terminal = useTerminal();
 
-    return (
-        <BrowserContainer>
-            <div>
-                <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
-            </div>
-            <ImageContainer>
-                <Image
-                    src={terminal.run?.imagePath || `http://${window.location.hostname}:8080/images/9nEJ2hwiUk8Q.png`}
-                    alt="Website preview"
-                />
-            </ImageContainer>
-        </BrowserContainer>
-    )
-}
-
-export default function Receiver() {
     const [index, setIndex] = useState(0);
 
     const next = useCallback(() => {
@@ -81,9 +67,19 @@ export default function Receiver() {
     }, [next]);
 
     return (
-        <RegisterTerminal>
+        <>
             {index === 0 && (
-                <Browser />
+                <BrowserContainer>
+                    <div>
+                        <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
+                    </div>
+                    <ImageContainer>
+                        <Image
+                            src={terminal.run?.imagePath || `http://${window.location.hostname}:8080/images/9nEJ2hwiUk8Q.png`}
+                            alt="Website preview"
+                        />
+                    </ImageContainer>
+                </BrowserContainer>
             )}
             {index === 1 && (
                 <Grid>
@@ -93,7 +89,30 @@ export default function Receiver() {
                     </PacketInfo>
                 </Grid>
             )}
-            <Banner>Press [any key] to continue...</Banner>
+            <Banner
+                initial={{ x: '-50%', y: 400 }}
+                animate={{ x: '-50%', y: 0 }}
+                transition={{ delay: 5 }}
+            >
+                Press [any key] to continue...
+            </Banner>
+        </>
+    )
+}
+
+export default function Receiver() {
+    return (
+        <RegisterTerminal>
+            {(terminal) => (
+                <>
+                    {terminal.status === TerminalStatus.Idle && (
+                        <NfcScanner terminalId={terminal.id} />
+                    )}
+                    {terminal.status === TerminalStatus.ScanningNfc && (
+                        <ReceiverView />
+                    )}
+                </>
+            )}
         </RegisterTerminal>
     )
 }
