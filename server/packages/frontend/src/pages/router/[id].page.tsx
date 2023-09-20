@@ -8,6 +8,7 @@ import Grid from '@/components/Grid';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import { DEBUG } from '@/config';
 import { AnimatePresence } from 'framer-motion';
+import Journey from '@/components/Journey';
 
 export default function Router() {
     return (
@@ -17,8 +18,9 @@ export default function Router() {
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             <>
-                                <DestinationBar />
-                                <Map />
+                                <DestinationBar key="destination-bar" />
+                                <Map key="map" />
+                                <Journey key="journey" />
                             </>
                         )}
                         <PacketScanner />

@@ -100,7 +100,6 @@ export default function DestinationBar() {
                             <p>IP address: {hop.address?.ip || UNKNOWN}</p>
                             <p>Owner: {hop.address?.info?.carrier.name || UNKNOWN}</p>
                             <p>Distance: {UNKNOWN}</p>
-                            <p>Carbon footprint: {UNKNOWN}</p>
                         </Content>
                         <Banner highlighted={hop.type === RunHopType.Recommended}>
                             {hop.type}
