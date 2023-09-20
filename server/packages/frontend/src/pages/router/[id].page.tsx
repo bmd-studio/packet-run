@@ -23,8 +23,8 @@ export default function Router() {
                                 <Journey key="journey" />
                             </>
                         )}
-                        <PacketScanner />
-                        {DEBUG && <LoadNFCForTerminal />}
+                        <PacketScanner key="packet-scanner" />
+                        {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
                     </AnimatePresence>
                 </Grid>
             )}

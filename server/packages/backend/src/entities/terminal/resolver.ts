@@ -133,11 +133,11 @@ export default class TerminalsResolver {
 
         // GUARD: Check whether the terminal is in the right state
         if (isPacketCreated) {
-            if (terminal.status !== TerminalStatus.SCANNING_NFC) {
+            if (terminal.status !== TerminalStatus.CREATING_PACKET) {
                 throw new Error(`StateError: Cannot transition terminal with id "${terminalId}" to new state "CREATING_PACKET", because terminal status is not "SCANNING_NFC" (status given: ${terminal.status})`);
             }
         } else {
-            if (terminal.status !== TerminalStatus.CREATING_PACKET) {
+            if (terminal.status !== TerminalStatus.SCANNING_NFC) {
                 throw new Error(`StateError: Cannot transition terminal with id "${terminalId}" to new state "CREATED_PACKET", because terminal status is not "CREATING_PACKET" (status given: ${terminal.status})`);
             }
         }
@@ -149,8 +149,9 @@ export default class TerminalsResolver {
 
         // GUARD: Check whether the run may actually perform transformations
         const hop = await this.em.findOneOrFail(RunHop, {
-            hop: terminal.run.currentHopIndex,
+            hop: terminal.run.currentHopIndex - 1,
             status: RunHopStatus.ACTUAL,
+            run: terminal.run,
         });
         if (!hop.mayPerformTransformation) {
             throw new Error('StateError: cannot transform packet before reaching a server in a valid manner');

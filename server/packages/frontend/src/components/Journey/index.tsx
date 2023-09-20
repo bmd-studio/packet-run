@@ -71,7 +71,7 @@ export default function Journey() {
             </GraphicContainer>
             <TextContainer>
                 <Label>You are now here:</Label>
-                <Text>Eindhoven (NL)</Text>
+                <Text>{terminal.run.currentHop.address?.info?.location.city || '???'} {terminal.run.currentHop.address?.info?.location.country.code && `(${terminal.run.currentHop.address.info.location.country.code})`}</Text>
                 <Label>Your home computer</Label>
             </TextContainer>
         </Container>

@@ -69,6 +69,15 @@ subscription RegisterTerminal($id: Float!) {
                 mayPerformTransformation
                 hop
             }
+            hops {
+                id
+                address {
+                    ...AddressWithInfo
+                }
+                type
+                hop
+                status
+            }
             createdAt
             updatedAt
         }

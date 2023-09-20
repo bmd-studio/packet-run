@@ -1,6 +1,6 @@
 import { Loaded, MikroORM, RequiredEntityData } from '@mikro-orm/core';
 import { Injectable, Logger } from '@nestjs/common';
-import { random, sample } from 'lodash';
+import { sample } from 'lodash';
 import Run, { RunPacketType } from '../entities/run/index.entity';
 import RunHop, { RunHopStatus, RunHopType } from '../entities/runHop/index.entity';
 import Terminal, { TerminalStatus, TerminalType } from '../entities/terminal/index.entity';
@@ -270,8 +270,8 @@ export default class RoutingService {
             run,
             terminal: recommendedTerminal,
             type: RunHopType.RECOMMENDED,
-            // TODO: Retrieve next address
             address,
+            mayPerformTransformation: recommendedTerminal.type === TerminalType.SERVER,
             hop: run.currentHopIndex + 1,
         });
 

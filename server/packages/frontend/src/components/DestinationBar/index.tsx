@@ -45,16 +45,16 @@ const TerminalConnection = styled(Content).attrs({
     }
 `;
 
-const Banner = styled.h2<{ highlighted: boolean }>`
+const Banner = styled.h2<{ $highlighted: boolean }>`
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  background-color: ${(props) => props.highlighted ? 'var(--yellow)' : 'var(--light-gray)'};
+  background-color: ${(props) => props.$highlighted ? 'var(--yellow)' : 'var(--light-gray)'};
   color: black;
 
-  ${(props) => props.highlighted && css`
+  ${(props) => props.$highlighted && css`
     background-color: var(--yellow);
   `};
 `;
@@ -101,7 +101,7 @@ export default function DestinationBar() {
                             <p>Owner: {hop.address?.info?.carrier.name || UNKNOWN}</p>
                             <p>Distance: {UNKNOWN}</p>
                         </Content>
-                        <Banner highlighted={hop.type === RunHopType.Recommended}>
+                        <Banner $highlighted={hop.type === RunHopType.Recommended}>
                             {hop.type}
                         </Banner>
                     </Destination>

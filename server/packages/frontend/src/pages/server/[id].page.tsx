@@ -10,8 +10,14 @@ import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import { DEBUG } from '@/config';
 import { Title } from '@/components/Typography';
 import ForgeManager from './manager';
-// import useHallSensor from '@/lib/useHallSensor';
-// import useNFCReader from '@/lib/useNFCReader';
+import styled from 'styled-components';
+
+const Centered = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 128px;
+`;
 
 export default function Server() {
     return (
@@ -21,18 +27,26 @@ export default function Server() {
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.Idle && (
                             <>
-                                <PacketScanner />
+                                <PacketScanner key="packet-scanner" />
+                            </>
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && (
+                            <>
+                                <Centered key="centered">
+                                    <Title>
+                                        Your package has arrived at {terminal.run?.url}. <br /><br />
+                                        Now, answer the request by creating a response packet.
+                                    </Title>
+                                </Centered>
+                                <PacketScanner key="packet-scanner">
+                                    <Title>Use the handle to forge a new packet</Title>
+                                </PacketScanner>
                             </>
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
                             <>
-                                <div>
-                                    <Title>
-                                        Your package has arrived at {terminal.run?.url}. Now, answer the request by creating a response packet.
-                                    </Title>
-                                </div>
-                                <PacketScanner>
-                                    <Title>Use the handle to forge a new packet</Title>
+                                <PacketScanner key="packet-scanner">
+                                    Your packet is being created now!
                                 </PacketScanner>
                             </>
                         )}
@@ -41,13 +55,13 @@ export default function Server() {
                                 <DestinationBar key="destination-bar" />
                                 <Map key="map" />
                                 <Journey key="journey" />
-                                <PacketScanner>
+                                <PacketScanner key="packet-scanner">
                                     <Title>Now, navigate back to the home PC</Title>
                                 </PacketScanner>
                             </>
                         )}
-                        {DEBUG && <LoadNFCForTerminal />}
-                        <ForgeManager />
+                        {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
+                        <ForgeManager key="forge-manager" />
                     </AnimatePresence>
                 </Grid>
             )}

@@ -4,53 +4,111 @@ import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
+import 'mapbox-gl/dist/mapbox-gl.css'; 
 
-const MapContainer = styled(motion.div)`
+const MapContainer = styled.div`
     height: 100vh;
     overflow: hidden;
+    position: relative;
 `;
 
 export default function Map() {
-    const { run } = useTerminal();
+    const terminal = useTerminal();
+    const { run } = terminal;
 
     const mapContainer = useRef<HTMLDivElement | null>(null);
     const map = useRef<MapboxMap | null>(null);
 
     useEffect(() => {
-        if (map.current || !mapContainer.current) {
+        if (!mapContainer.current || !run?.currentHop) {
             return;
         }
+
+        // Determine where the center of the map should be
+        const center = [
+            (run?.currentHop?.address?.info?.location.longitude || 0),
+            (run?.currentHop?.address?.info?.location.latitude || 0) + 0.15,
+        ] as [number, number];
 
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946',
             accessToken: MAPBOX_TOKEN,
             zoom: 9,
-            center: [
-                run?.currentHop?.address?.info?.location.latitude || 0,
-                run?.currentHop?.address?.info?.location.longitude || 0,
-            ],
-            interactive: false,
+            center,
+            interactive: true,
         });
-    }, [run?.currentHop?.address?.info]);
 
-    useEffect(() => {
-        if (!map.current) {
+        console.log(run.hops);
+
+        // Determine the coordinates for other hops that should be visible
+        const coords = run.hops.filter((h) => (
+            !!h.address?.info?.location.longitude
+        )).map((hop) => [
+            hop.address?.info?.location.longitude || 0,
+            hop.address?.info?.location.latitude || 0,
+        ] as [number, number]);
+
+        if (!coords.length) {
             return;
         }
 
-        map.current.panTo([
-            run?.currentHop.address?.info?.location.latitude || 0,
-            run?.currentHop.address?.info?.location.longitude || 0,
-        ]);
-    }, [run?.currentHop.address?.info]);
+        // Then, create a new bound from all coordinates
+        const bounds = coords.reduce((bounds, coord) => {
+            return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coords[0], coords[0]));
+
+        // Fit the map to the resulting bounds
+        map.current?.fitBounds(bounds, { 
+            padding: { top: 340, left: 200, bottom: 200, right: 100 }, 
+        });
+       
+        map.current.on('load', () => {
+            // Create a marker for each coordinate
+            coords.forEach((coord, i) => {
+                new mapboxgl.Marker({ color: 'var(--yellow)', scale: 1.5 })
+                    .setLngLat(coord)
+                    .addTo(map.current as mapboxgl.Map);
+    
+                const previous = coords[i - 1];
+                if (previous) {
+                    map.current?.addLayer({
+                        type: 'line',
+                        id: 'line-' + i,
+                        source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: [
+                                        previous,
+                                        coord
+                                    ]
+                                }
+                            }
+                        },
+                        paint: {
+                            "line-color": '#F0EA00',
+                            "line-width": 8,
+                            'line-dasharray': [4, 4],
+                        }
+                    });
+                }
+            });
+        })
+    }, [run]);
 
     return (
-        <MapContainer
-            ref={mapContainer}
+        <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             transition={{ duration: 2 }}
-        />
+        >
+            <MapContainer
+                ref={mapContainer}
+            />
+        </motion.div>
     );
 }
