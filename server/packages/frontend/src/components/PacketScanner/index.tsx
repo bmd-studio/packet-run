@@ -2,7 +2,7 @@ import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
-import { useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
 import { Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
@@ -55,7 +55,7 @@ const Text = styled.h2`
     line-height: 28px;
 `;
 
-export default function PacketScanner() {
+export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
     const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
     const [scanNfcForTerminal, { loading: loadingNfc }] = useScanNfcForTerminalMutation();
@@ -79,7 +79,7 @@ export default function PacketScanner() {
     return (
         <Container>
             <RestContainer>
-                <Title>Place your packet <br /> on the scanner</Title>
+                {children || <Title>Place your packet <br /> on the scanner</Title>}
                 <ScannerAnimation variant={terminal.status === TerminalStatus.ScanningNfc ? 'scanned' : (nfcId ? 'scanning' : 'empty')} />
             </RestContainer>
             <Card>

@@ -1,0 +1,3 @@
+mutation CreateReturnPacket($terminalId: Float!, $isPacketCreated: Boolean!) {
+    createReturnPacketForTerminal(terminalId: $terminalId, isPacketCreated: $isPacketCreated)
+}

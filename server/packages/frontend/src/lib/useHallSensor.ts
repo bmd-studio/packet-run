@@ -11,10 +11,17 @@ const POLL_FREQUENCY_MS = 250;
  * connected hall sensor. It will return a boolean that indicates whether a
  * magnet is near to the hook or not.
  */
-export default function useHallSensor() {
+export default function useHallSensor(skip = false) {
     const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
+        if (skip) {
+            if (isActive) {
+                setIsActive(false);
+            }
+            return;
+        }
+
         // Start an interval
         const interval = setInterval(async () => {
             try {

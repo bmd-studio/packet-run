@@ -392,6 +392,14 @@ export type TracerouteHop = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type CreateReturnPacketMutationVariables = Exact<{
+  terminalId: Scalars['Float']['input'];
+  isPacketCreated: Scalars['Boolean']['input'];
+}>;
+
+
+export type CreateReturnPacketMutation = { __typename?: 'Mutation', createReturnPacketForTerminal?: boolean | null };
+
 export type CreateRunMutationVariables = Exact<{
   url: Scalars['String']['input'];
   nfcId: Scalars['String']['input'];
@@ -480,6 +488,41 @@ export const AddressWithInfoFragmentDoc = gql`
   isInAltNetwork
 }
     `;
+export const CreateReturnPacketDocument = gql`
+    mutation CreateReturnPacket($terminalId: Float!, $isPacketCreated: Boolean!) {
+  createReturnPacketForTerminal(
+    terminalId: $terminalId
+    isPacketCreated: $isPacketCreated
+  )
+}
+    `;
+export type CreateReturnPacketMutationFn = Apollo.MutationFunction<CreateReturnPacketMutation, CreateReturnPacketMutationVariables>;
+
+/**
+ * __useCreateReturnPacketMutation__
+ *
+ * To run a mutation, you first call `useCreateReturnPacketMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReturnPacketMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReturnPacketMutation, { data, loading, error }] = useCreateReturnPacketMutation({
+ *   variables: {
+ *      terminalId: // value for 'terminalId'
+ *      isPacketCreated: // value for 'isPacketCreated'
+ *   },
+ * });
+ */
+export function useCreateReturnPacketMutation(baseOptions?: Apollo.MutationHookOptions<CreateReturnPacketMutation, CreateReturnPacketMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReturnPacketMutation, CreateReturnPacketMutationVariables>(CreateReturnPacketDocument, options);
+      }
+export type CreateReturnPacketMutationHookResult = ReturnType<typeof useCreateReturnPacketMutation>;
+export type CreateReturnPacketMutationResult = Apollo.MutationResult<CreateReturnPacketMutation>;
+export type CreateReturnPacketMutationOptions = Apollo.BaseMutationOptions<CreateReturnPacketMutation, CreateReturnPacketMutationVariables>;
 export const CreateRunDocument = gql`
     mutation CreateRun($url: String!, $nfcId: String!) {
   createRun(url: $url, nfcId: $nfcId) {

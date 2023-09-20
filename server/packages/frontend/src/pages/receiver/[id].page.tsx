@@ -8,7 +8,7 @@ import { TerminalStatus } from '@/data/generated';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import NfcScanner from '@/pages/router/scanner';
+import NfcScanner from '@/components/PacketScanner';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
