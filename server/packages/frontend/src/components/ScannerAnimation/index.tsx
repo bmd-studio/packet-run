@@ -32,7 +32,7 @@ export default function ScannerAnimation({ variant }: ScannerAnimationProps) {
                     rx="25"
                     ry="6.25"
                     initial={{ stroke: '#000' }}
-                    animate={variant === 'empty' ? ringAnimate : {}}
+                    animate={variant === 'empty' ? ringAnimate : { stroke: '#000'}}
                     transition={{ ...ringTransition, delay: 0 }}
                 />
                 <Ring
@@ -40,8 +40,7 @@ export default function ScannerAnimation({ variant }: ScannerAnimationProps) {
                     cy="460"
                     rx="100"
                     ry="25"
-                    initial={{ stroke: '#000' }}
-                    animate={variant === 'empty' ? ringAnimate : {}}
+                    animate={variant === 'empty' ? ringAnimate : { stroke: '#000'}}
                     transition={{ ...ringTransition, delay: 0.5 }}
                 />
                 <Ring
@@ -50,7 +49,7 @@ export default function ScannerAnimation({ variant }: ScannerAnimationProps) {
                     rx="175"
                     ry="43.75"
                     initial={{ stroke: '#000' }}
-                    animate={variant === 'empty' ? ringAnimate : {}}
+                    animate={variant === 'empty' ? ringAnimate : { stroke: '#000'}}
                     transition={{ ...ringTransition, delay: 1 }}
                 />
                 <Ring
@@ -59,13 +58,13 @@ export default function ScannerAnimation({ variant }: ScannerAnimationProps) {
                     rx="200"
                     ry="50"
                     initial={{ stroke: '#000' }}
-                    animate={variant === 'empty' ? ringAnimate : {}}
+                    animate={variant === 'empty' ? ringAnimate : { stroke: '#000'}}
                     transition={{ ...ringTransition, delay: 1.5 }}
                 />
             </motion.g>
             <motion.g 
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                animate={variant === 'empty' ? { y: [-25, 25, -25] } : {}}
+                animate={variant === 'empty' ? { y: [-25, 25, -25] } : { y: 0 }}
             >
                 <ellipse
                     stroke={variant === 'scanned' ? 'var(--yellow)' : 'black'}

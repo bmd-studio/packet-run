@@ -3,8 +3,9 @@ import { useTerminal } from '../RegisterTerminal';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
+import { motion } from 'framer-motion';
 
-const MapContainer = styled.div`
+const MapContainer = styled(motion.div)`
     height: 100vh;
     overflow: hidden;
 `;
@@ -45,6 +46,11 @@ export default function Map() {
     }, [run?.currentHop.address?.info]);
 
     return (
-        <MapContainer ref={mapContainer} />
+        <MapContainer
+            ref={mapContainer}
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            transition={{ duration: 2 }}
+        />
     );
 }

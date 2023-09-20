@@ -4,13 +4,15 @@ import { RunHopType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { motion } from 'framer-motion';
 
 const UNKNOWN = '???';
 
-const Fixed = styled.div`
+const Fixed = styled(motion.div)`
     position: fixed;
     top: 0;
     left: ${theme.destinationBar.spaceLeft}px;
+    z-index: 3;
 `;
 
 const Container = styled.div`
@@ -73,7 +75,7 @@ export default function DestinationBar() {
     }
 
     return (
-        <Fixed>
+        <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
             {DEBUG && (
                 <Container>
                     {sortedConnections.map((c) => (
