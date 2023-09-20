@@ -45,14 +45,18 @@ export default function useNFCReader() {
 
         async function setup() {
             // Initialize the pn532 plugins
-            await pn532.current.use(new Pn532WebserialAdapter());
-            await pn532.current.use(new Pn532Hf14a());
+            try {
+                await pn532.current.use(new Pn532WebserialAdapter());
+                await pn532.current.use(new Pn532Hf14a());
 
-            // Signal that we're ready for the state
-            state.current.ready = true;
-            
-            // Then kick off the scan loop
-            scheduleScan();
+                // Signal that we're ready for the state
+                state.current.ready = true;
+                
+                // Then kick off the scan loop
+                scheduleScan();
+            } catch {
+                console.error('Failed to initialize NFC scanner...');
+            }
         }
 
         async function handleScan() {
@@ -87,6 +91,10 @@ export default function useNFCReader() {
 
                 // GUARD: Check if the error is for the timeout
                 if (e instanceof Error) {
+                    if (e.message.startsWith('user canceled')) {
+                        console.error('Failed to initialize NFC scanner');
+                        return;
+                    }
                     if (!e.message.startsWith('readRespTimeout')) {
                         // If it isn't throw the resulting error
                         // NOTE: This will end the scanning loop...

@@ -8,7 +8,7 @@ import { TerminalStatus } from '@/data/generated';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import NfcScanner from '@/components/NfcScanner';
+import NfcScanner from '@/pages/router/scanner';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
@@ -104,14 +104,12 @@ export default function Receiver() {
     return (
         <RegisterTerminal>
             {(terminal) => (
-                <>
-                    {terminal.status === TerminalStatus.Idle && (
-                        <NfcScanner terminalId={terminal.id} />
-                    )}
+                <Grid>
+                    <NfcScanner terminalId={terminal.id} />
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
                     )}
-                </>
+                </Grid>
             )}
         </RegisterTerminal>
     )

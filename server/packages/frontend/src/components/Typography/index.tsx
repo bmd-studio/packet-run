@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Title = styled.h1`
     font-size: 80px;
+    line-height: 68px;
 `;
 
 export const Subtitle = styled.h2`
