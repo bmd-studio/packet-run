@@ -2,9 +2,10 @@ import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
 import { Title } from '@/components/Typography';
+import { motion } from 'framer-motion';
 
 const Container = styled.div`
     display: flex;
@@ -36,14 +37,24 @@ const CardHeader = styled.h4`
     font-size: 24px;
 `;
 
-const CardInnerContainer = styled.div`
+const CardInnerContainer = styled(motion.div)`
     background-color: var(--light-gray);
     padding: 32px;
     font-size: 32px;
 `;
 
+const Label = styled.p`
+
+`;
+
+const Text = styled.h2`
+    font-size: 30px;
+    line-height: 28px;
+`;
+
 export default function PacketScanner() {
     const terminal = useTerminal();
+    const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
     const [scanNfcForTerminal, { loading: loadingNfc }] = useScanNfcForTerminalMutation();
     const [resetTerminal, { loading: loadingIdle }] = useResetTerminalMutation();
     const nfcId = useNFCReader();
@@ -55,11 +66,12 @@ export default function PacketScanner() {
                     terminalId: terminal.id,
                     nfcId,
                 }
-            })
-        } else if (!nfcId && !loadingIdle && !terminal.run) {
+            });
+            setScannedViaNFCReader(true);
+        } else if (!nfcId && !loadingIdle && !!terminal.run && wasScannedViaNfcReader) {
             resetTerminal({ variables: { terminalId: terminal.id }});
         }
-    }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run]);
+    }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run, wasScannedViaNfcReader]);
     
     return (
         <Container>
@@ -72,7 +84,29 @@ export default function PacketScanner() {
                     Terminal {terminal.id} ({terminal.type})
                 </CardHeader>
                 <CardInnerContainer>
-                    <h3>No packet detected</h3>
+                    {terminal.status === TerminalStatus.Idle && (
+                        <h3>No packet detected</h3>
+                    )}
+                    {terminal.status === TerminalStatus.ScanningNfc && terminal.run && (
+                        <>
+                            <div>
+                                <Label>Packet ID</Label>
+                                <Text>{terminal.run.id}</Text>
+                            </div>
+                            {/* <div>
+                                <Label>Owner</Label>
+                                <Text>BMD Studio</Text>
+                            </div> */}
+                            <div>
+                                <Label>Source IP address</Label>
+                                <Text>{terminal.run.origin?.ip || '???'}</Text>
+                            </div>
+                            <div>
+                                <Label>Destination IP address</Label>
+                                <Text>{terminal.run.destination?.ip || '???'}</Text>
+                            </div>
+                        </>
+                    )}
                 </CardInnerContainer>
             </Card>
         </Container>

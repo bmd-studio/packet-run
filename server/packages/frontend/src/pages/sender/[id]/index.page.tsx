@@ -61,7 +61,7 @@ export default function Sender() {
                         ) : (
                             <>
                                 <Title>Place your ball on the scanner...</Title>
-                                <ScannerAnimation />
+                                <ScannerAnimation variant="empty" />
                             </>
                         )
                     ) : (
@@ -69,12 +69,12 @@ export default function Sender() {
                             <>
                                 <Title>Now, we&apos;re going to make your packet!</Title>
                                 <Subtitle>Take the handle and close the mold onto the packet...</Subtitle>
-                                <ScannerAnimation />
+                                <ScannerAnimation variant="scanned" />
                             </>
                         ) : (
                             <>
                                 <Title>Your packet is being forged!</Title>
-                                <ScannerAnimation />
+                                <ScannerAnimation variant="scanned" />
                             </>
                         )
                     )

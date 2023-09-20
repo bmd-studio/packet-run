@@ -4,6 +4,10 @@ import { useState, useCallback, MouseEvent } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
+/**
+ * A convenience component that allows creating a new run using a form with
+ * buttons. It should only be used when DEBUG is set to true.
+ */
 export default function CreateRunWithNFC() {
     const [ nfcId, setNfcId ] = useState<string>('');
     const [ url, setUrl ] = useState<string>('');

@@ -3,10 +3,10 @@ import DestinationBar from "@/components/DestinationBar";
 import { TerminalStatus } from "@/data/generated";
 import RegisterTerminal from '@/components/RegisterTerminal';
 import PacketScanner from '@/pages/router/scanner';
-import PacketInfo from '@/components/PacketInfo';
 import Map from '@/components/Map';
-import { Title } from '@/components/Typography';
 import Grid from '@/components/Grid';
+import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
+import { DEBUG } from '@/config';
 
 export default function Router() {
     return (
@@ -17,12 +17,10 @@ export default function Router() {
                         <>
                             <DestinationBar />
                             <Map />
-                            <PacketInfo>
-                                <Title>Send your packet to the next destination</Title>
-                            </PacketInfo>
                         </>
                     )}
                     <PacketScanner />
+                    {DEBUG && <LoadNFCForTerminal />}
                 </Grid>
             )}
         </RegisterTerminal>
