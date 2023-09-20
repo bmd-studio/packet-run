@@ -23,7 +23,7 @@ const Container = styled(PatternedBackground)`
 
 export default function Sender() {
     const nfcId = useNFCReader();
-    const isPacketPressed = useHallSensor();
+    const isPacketPressed = useHallSensor(!nfcId);
     const [createRunMutation, { loading, data, reset }] = useCreateRunMutation();
     const [host, setHost] = useState<null | string>(null);
 
