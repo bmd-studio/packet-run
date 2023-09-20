@@ -37,7 +37,8 @@ export async function getPreviousHop(run: Run) {
 export async function getTerminalWithShortestPath(
     run: Run,
     destinationType: TerminalType.SERVER | TerminalType.RECEIVER,
-    orm: MikroORM
+    orm: MikroORM,
+    ignoreTerminal?: Terminal,
 ) {    
     // Base the destination on whether the server has been visited
     const destination = destinationType === TerminalType.RECEIVER
@@ -47,8 +48,9 @@ export async function getTerminalWithShortestPath(
     // This variable tracks which terminals still need to be processed.
     // Whenever the destination is not found, all toConnections are added to
     // the queue for that terminal
-    let queue: Terminal[] =
-        run.terminal.connectionsTo.getItems().map((t) => t.to);
+    let queue: Terminal[] = run.terminal.connectionsTo.getItems()
+        .map((t) => t.to)
+        .filter((t) => t.id !== ignoreTerminal.id);
 
     // Track which terminals we've seen, so that we don't track routes
     // multiple times

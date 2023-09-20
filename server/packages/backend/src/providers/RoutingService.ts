@@ -171,7 +171,7 @@ export default class RoutingService {
         this.logger.debug('Generating hops for server-type terminal...');
 
         // GUARD: Check that we're at the destination server
-        if (currentHop.address.ip === run.destination.ip) { 
+        if (currentHop.address?.ip === run.destination?.ip) { 
             this.logger.debug('Currently at the destination server for this route.');
             const gateway = await this.orm.em.findOneOrFail(TracerouteHop, { run, hop: 2 });
 
@@ -219,6 +219,7 @@ export default class RoutingService {
             run,
             run.packetType === RunPacketType.RESPONSE ? TerminalType.RECEIVER : TerminalType.SERVER,
             this.orm,
+            previousTerminal
         );
 
         this.logger.debug(`Calculated shortest path to destination "${destination}". Recommending terminal "${terminalId}" via route "${JSON.stringify(route)}"`)
@@ -262,7 +263,7 @@ export default class RoutingService {
         // Get the right address for the recommended hop
         const address = await this.retrieveAddressForHop(run, route.length - 1);
 
-        this.logger.debug(`Assigning address "${address.ip}" to recommended hop`);
+        this.logger.debug(`Assigning address "${address?.ip}" to recommended hop`);
 
         // Create the recommended hop
         await this.createHop({
@@ -335,7 +336,7 @@ export default class RoutingService {
      * Helper function that automatically logs whenever new hops are being created.
      */
     private async createHop(data: RequiredEntityData<RunHop>) {
-        const terminalId = 'id' in (data.terminal as Terminal) ? (data.terminal as Terminal).id : data.terminal;
+        const terminalId = typeof data.terminal === 'object' ? (data.terminal as Terminal).id : data.terminal;
         this.logger.debug(`Creating hop to terminal "${terminalId}", address "${data.address?.ip || null}" and type "${data.type}"`);
         return this.orm.em.create(RunHop, data);
     }
