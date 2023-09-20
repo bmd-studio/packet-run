@@ -41,10 +41,13 @@ const CardInnerContainer = styled(motion.div)`
     background-color: var(--light-gray);
     padding: 32px;
     font-size: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 `;
 
 const Label = styled.p`
-
+    font-size: 20px;
 `;
 
 const Text = styled.h2`

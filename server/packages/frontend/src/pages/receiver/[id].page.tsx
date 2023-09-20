@@ -105,7 +105,7 @@ export default function Receiver() {
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    <NfcScanner terminalId={terminal.id} />
+                    <NfcScanner />
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
                     )}
