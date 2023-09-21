@@ -11,15 +11,18 @@ All files for 3d printing can be found inside the stl directory. Double check wi
 
 | completed | amount | filename | ready for production | design by |
 | --- | --- | --- | --- | --- |
-| :white_large_square: | 30 | rope_hold | :white_check_mark: | Tijs |
+| :white_large_square: | 60 | rope_hold | :white_check_mark: | Tijs |
 | :white_large_square: | 24 | arrival | :white_large_square: | Tijs |
-| :white_large_square: | 30 | drop | :white_large_square: | Tijs |
 | :white_large_square: | 24 | drop | :white_large_square: | Tijs |
-| :white_large_square: | 50 | peg | :white_check_mark: | Nils |
+| :white_large_square: | 96 | peg | :white_check_mark: | Nils |
 | :white_large_square: | 1 | desk_departure | :white_large_square: | Nils |
 | :white_large_square: | 1 | packet_handout | :white_large_square: | t.b.d. |
-| :white_large_square: | 1 | drill_guide_lid | :white_check_mark: | Tijs |
-| :white_large_square: | 30 | drill_guide_body | :white_check_mark: | Tijs |
+| :white_check_mark: | 1 | drill_guide_lid | :white_check_mark: | Tijs |
+| :white_check_mark: | 1 | drill_guide_body | :white_check_mark: | Tijs |
+| :white_large_square: | 12 | nfc_cup | :white_large_square: | Bart |
+| :white_large_square: | 3 | packet_press | :white_large_square: | Bart |
+| :white_large_square: | 3 | packet_press_container | :white_large_square: | Bart |
+| :white_large_square: | 9 | nfc_container | :white_large_square: | Bart |
 
 <!-- - [ ] 30x ––– rope_hold 
 - [ ] 24x ––– arrival
