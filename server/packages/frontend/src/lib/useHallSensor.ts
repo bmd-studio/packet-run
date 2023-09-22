@@ -44,7 +44,7 @@ export default function useHallSensor(skip = false) {
 
         // Clean up the interval whenever the effect fires
         return () => clearInterval(interval);
-    }, [isActive]);
+    }, [isActive, skip]);
     
     return isActive;
 }

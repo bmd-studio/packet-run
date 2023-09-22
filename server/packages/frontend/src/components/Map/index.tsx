@@ -68,7 +68,7 @@ export default function Map() {
        
         map.current.on('load', () => {
             // Create a marker for each coordinate
-            markers.forEach((coord, i) => {
+            markers.forEach((coord) => {
                 new mapboxgl.Marker({ color: 'var(--yellow)', scale: 1.5 })
                     .setLngLat(coord)
                     .addTo(map.current as mapboxgl.Map);
