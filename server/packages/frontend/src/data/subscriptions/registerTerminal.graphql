@@ -30,6 +30,17 @@ fragment AddressWithInfo on Address {
     isInternalIP
 }
 
+fragment RegisterTerminalRunHop on RunHop {
+    id
+    address {
+        ...AddressWithInfo
+    }
+    type
+    mayPerformTransformation
+    hop
+    status
+}
+
 subscription RegisterTerminal($id: Float!) {
     registerTerminal(id: $id) {
         id
@@ -49,35 +60,19 @@ subscription RegisterTerminal($id: Float!) {
                 ...AddressWithInfo
             }
             availableHops {
-                id
-                address {
-                    ...AddressWithInfo
-                }
-                type
+                ...RegisterTerminalRunHop
                 terminal {
                     id
                     status
                 }
                 mayPerformTransformation
-                hop
             }
             currentHop {
-                id
-                address {
-                    ...AddressWithInfo
-                }
-                type
+                ...RegisterTerminalRunHop
                 mayPerformTransformation
-                hop
             }
             hops {
-                id
-                address {
-                    ...AddressWithInfo
-                }
-                type
-                hop
-                status
+                ...RegisterTerminalRunHop
             }
             createdAt
             updatedAt

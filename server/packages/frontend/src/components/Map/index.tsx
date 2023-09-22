@@ -5,6 +5,8 @@ import { LOCATION_LAT, LOCATION_LNG, MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
+import { RegisterTerminalRunHopFragment, RunHopStatus } from '@/data/generated';
+import runHopToCoords from '@/lib/runHopToCoords';
 
 const MapContainer = styled.div`
     height: 100vh;
@@ -44,25 +46,17 @@ export default function Map() {
             interactive: true,
         });
 
-        // Determine the coordinates for other hops that should be visible
-        const coords: [number,  number][] = run.hops.filter((h) => (
-            !!h.address?.info?.location.longitude || h.address?.isInternalIP
-        )).map((hop) => hop.address?.isInternalIP ? [
-            LOCATION_LNG,
-            LOCATION_LAT,
-        ] : [
-            hop.address?.info?.location.longitude || 0,
-            hop.address?.info?.location.latitude || 0,
-        ]);
+        const previousRoutes = run.hops.filter((h) => (
+            h.address && h.status === RunHopStatus.Actual
+        )).sort((a, b) => a.hop - b.hop);
 
-        if (!coords.length) {
-            return;
-        }
+        const markers = [...previousRoutes, ...run.availableHops]
+            .map(runHopToCoords);
 
         // Then, create a new bound from all coordinates
-        const bounds = coords.reduce((bounds, coord) => {
+        const bounds = markers.reduce((bounds, coord) => {
             return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(coords[0], coords[0]));
+        }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
 
         // Fit the map to the resulting bounds
         map.current?.fitBounds(bounds, { 
@@ -74,16 +68,17 @@ export default function Map() {
        
         map.current.on('load', () => {
             // Create a marker for each coordinate
-            coords.forEach((coord, i) => {
+            markers.forEach((coord, i) => {
                 new mapboxgl.Marker({ color: 'var(--yellow)', scale: 1.5 })
                     .setLngLat(coord)
                     .addTo(map.current as mapboxgl.Map);
-    
-                const previous = coords[i - 1];
-                if (previous) {
+            });
+
+            previousRoutes.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
+                if (prev) {
                     map.current?.addLayer({
                         type: 'line',
-                        id: 'line-' + i,
+                        id: `line-${hop.hop}`,
                         source: {
                             type: 'geojson',
                             data: {
@@ -92,8 +87,8 @@ export default function Map() {
                                 geometry: {
                                     type: 'LineString',
                                     coordinates: [
-                                        previous,
-                                        coord
+                                        runHopToCoords(hop),
+                                        runHopToCoords(prev),
                                     ]
                                 }
                             }
@@ -105,7 +100,38 @@ export default function Map() {
                         }
                     });
                 }
-            });
+
+                return hop;
+            }, null);
+
+            run.availableHops.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
+                if (prev) {
+                    map.current?.addLayer({
+                        type: 'line',
+                        id: `line-${hop.hop}`,
+                        source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: [
+                                        runHopToCoords(hop),
+                                        runHopToCoords(prev),
+                                    ]
+                                }
+                            }
+                        },
+                        paint: {
+                            "line-color": '#F0EA00',
+                            "line-width": 8,
+                        }
+                    });
+                }
+
+                return hop;
+            }, null);
         })
     }, [run]);
 

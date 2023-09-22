@@ -450,12 +450,14 @@ export type JobsSubscription = { __typename?: 'Subscription', jobs: Array<{ __ty
 
 export type AddressWithInfoFragment = { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null };
 
+export type RegisterTerminalRunHopFragment = { __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, status: RunHopStatus, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null };
+
 export type RegisterTerminalSubscriptionVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
 
 
-export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, origin?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus } }>, currentHop: { __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null }, hops: Array<{ __typename?: 'RunHop', id: number, type: RunHopType, hop: number, status: RunHopStatus, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null }> } | null, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number, status: TerminalStatus, type: TerminalType } }> } | null };
+export type RegisterTerminalSubscription = { __typename?: 'Subscription', registerTerminal?: { __typename?: 'Terminal', id: number, type: TerminalType, status: TerminalStatus, payload?: string | null, createdAt: any, updatedAt: any, run?: { __typename?: 'Run', id: string, nfcId?: string | null, url: string, imagePath?: string | null, packetType: RunPacketType, createdAt: any, updatedAt: any, destination?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, origin?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null, availableHops: Array<{ __typename?: 'RunHop', mayPerformTransformation: boolean, id: number, type: RunHopType, hop: number, status: RunHopStatus, terminal: { __typename?: 'Terminal', id: number, status: TerminalStatus }, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null }>, currentHop: { __typename?: 'RunHop', mayPerformTransformation: boolean, id: number, type: RunHopType, hop: number, status: RunHopStatus, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null }, hops: Array<{ __typename?: 'RunHop', id: number, type: RunHopType, mayPerformTransformation: boolean, hop: number, status: RunHopStatus, address?: { __typename?: 'Address', ip: string, isInAltNetwork: boolean, isInternalIP: boolean, info?: { __typename?: 'IpInfo', type: string, hostname?: string | null, carrier: { __typename?: 'Carrier', name?: string | null }, company: { __typename?: 'Company', domain?: string | null, name?: string | null, type?: string | null }, location: { __typename?: 'Location', city?: string | null, latitude?: number | null, longitude?: number | null, country: { __typename?: 'Country', name?: string | null, area: number, tld?: string | null, code?: string | null, flag: { __typename?: 'Flag', emoji?: string | null } } } } | null } | null }> } | null, connectionsTo: Array<{ __typename?: 'TerminalConnection', slot: number, to: { __typename?: 'Terminal', id: number, status: TerminalStatus, type: TerminalType } }> } | null };
 
 export const AddressWithInfoFragmentDoc = gql`
     fragment AddressWithInfo on Address {
@@ -490,6 +492,18 @@ export const AddressWithInfoFragmentDoc = gql`
   isInternalIP
 }
     `;
+export const RegisterTerminalRunHopFragmentDoc = gql`
+    fragment RegisterTerminalRunHop on RunHop {
+  id
+  address {
+    ...AddressWithInfo
+  }
+  type
+  mayPerformTransformation
+  hop
+  status
+}
+    ${AddressWithInfoFragmentDoc}`;
 export const CreateReturnPacketDocument = gql`
     mutation CreateReturnPacket($terminalId: Float!, $isPacketCreated: Boolean!) {
   createReturnPacketForTerminal(
@@ -843,35 +857,19 @@ export const RegisterTerminalDocument = gql`
         ...AddressWithInfo
       }
       availableHops {
-        id
-        address {
-          ...AddressWithInfo
-        }
-        type
+        ...RegisterTerminalRunHop
         terminal {
           id
           status
         }
         mayPerformTransformation
-        hop
       }
       currentHop {
-        id
-        address {
-          ...AddressWithInfo
-        }
-        type
+        ...RegisterTerminalRunHop
         mayPerformTransformation
-        hop
       }
       hops {
-        id
-        address {
-          ...AddressWithInfo
-        }
-        type
-        hop
-        status
+        ...RegisterTerminalRunHop
       }
       createdAt
       updatedAt
@@ -888,7 +886,8 @@ export const RegisterTerminalDocument = gql`
     updatedAt
   }
 }
-    ${AddressWithInfoFragmentDoc}`;
+    ${AddressWithInfoFragmentDoc}
+${RegisterTerminalRunHopFragmentDoc}`;
 
 /**
  * __useRegisterTerminalSubscription__
