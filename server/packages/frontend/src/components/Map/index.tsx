@@ -31,8 +31,8 @@ export default function Map() {
             LOCATION_LNG,
             LOCATION_LAT,
         ] : [
-            (run?.currentHop?.address?.info?.location.longitude || 0),
-            (run?.currentHop?.address?.info?.location.latitude || 0) + 0.15,
+            (run?.currentHop?.address?.info?.location.longitude || LOCATION_LNG),
+            (run?.currentHop?.address?.info?.location.latitude || LOCATION_LAT) + 0.15,
         ];
 
         map.current = new mapboxgl.Map({
@@ -69,6 +69,7 @@ export default function Map() {
             padding: { top: 340, left: 200, bottom: 200, right: 100 }, 
             minZoom: 7,
             maxZoom: 12,
+            animate: false,
         });
        
         map.current.on('load', () => {
