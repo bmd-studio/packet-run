@@ -32,8 +32,6 @@ export default function LoadNFCForTerminal() {
         )
     }
 
-    console.log(terminal.run);
-
     return (
         <div className='p-4 max-w-sm absolute'>
             {!terminal.run ? (

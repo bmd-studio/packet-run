@@ -106,12 +106,16 @@ export default class PubSubManager {
 
         // GUARD: Check whether an observable already exists for this particular entity
         if (this.observables.has(key)) {
+            // For good measure, also push a new value to the existing observable
+            const value = await retriever();
+            this.observables.get(key).next({ [eventName]: value });
+
             // If it does, return it
             return this.observables.get(key) as BehaviorSubject<{ [key: string]: T }>;
         } else {
             // If it doesn't retrieve the value for this entity
             const value = await retriever();
-
+            
             // Then, pack the value in an observable
             const subject = new BehaviorSubject({ [eventName]: value });
             

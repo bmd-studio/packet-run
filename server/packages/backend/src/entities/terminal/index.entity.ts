@@ -63,18 +63,20 @@ export class TerminalConnection {
     slot: number;
 }
 
+export const defaultTerminalRelations = [
+    'connectionsFrom',
+    'connectionsTo',
+    'run',
+    'run.tracerouteHops',
+    'run.hops',
+    'run.hops.address',
+    'run.destination',
+    'presences',
+] as const;
+
 export async function fetchAllTerminals(em: EntityManager) {
     return em.find(Terminal, {}, { 
-        populate: [
-            'connectionsFrom',
-            'connectionsTo',
-            'run',
-            'run.tracerouteHops',
-            'run.hops',
-            'run.hops.address',
-            'run.destination',
-            'presences',
-        ],
+        populate: defaultTerminalRelations,
         cache: false,
     });
 }

@@ -39,8 +39,6 @@ export default function Map() {
             interactive: true,
         });
 
-        console.log(run.hops);
-
         // Determine the coordinates for other hops that should be visible
         const coords = run.hops.filter((h) => (
             !!h.address?.info?.location.longitude

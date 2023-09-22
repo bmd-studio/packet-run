@@ -1,7 +1,7 @@
 import { Args, Context, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import Terminal from './model';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import TerminalEntity, { TerminalStatus, TerminalType, fetchAllTerminals } from './index.entity';
+import TerminalEntity, { TerminalStatus, TerminalType, defaultTerminalRelations, fetchAllTerminals } from './index.entity';
 import { EntityRepository } from '@mikro-orm/better-sqlite';
 import PubSubManager from '../../providers/PubSubManager';
 import WebsocketId, { GraphQLContext } from '../../lib/WebsocketId';
@@ -59,7 +59,7 @@ export default class TerminalsResolver {
         return this.pubsub.subscribe(
             TerminalEntity,
             id,
-            () => this.repository.findOne({ id }, { populate: true }),
+            () => this.repository.findOne({ id }, { populate: defaultTerminalRelations, cache: false, disableIdentityMap: true }),
             subscriptionId,
             'registerTerminal',
         );
