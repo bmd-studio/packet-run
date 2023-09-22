@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useTerminal } from '../RegisterTerminal';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
-import { MAPBOX_TOKEN } from '@/config';
+import { LOCATION_LAT, LOCATION_LNG, MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
@@ -24,11 +24,16 @@ export default function Map() {
             return;
         }
 
+        const address = run.currentHop.address;
+
         // Determine where the center of the map should be
-        const center = [
+        const center: [number, number] = address?.isInternalIP ? [
+            LOCATION_LNG,
+            LOCATION_LAT,
+        ] : [
             (run?.currentHop?.address?.info?.location.longitude || 0),
             (run?.currentHop?.address?.info?.location.latitude || 0) + 0.15,
-        ] as [number, number];
+        ];
 
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
@@ -40,12 +45,15 @@ export default function Map() {
         });
 
         // Determine the coordinates for other hops that should be visible
-        const coords = run.hops.filter((h) => (
-            !!h.address?.info?.location.longitude
-        )).map((hop) => [
+        const coords: [number,  number][] = run.hops.filter((h) => (
+            !!h.address?.info?.location.longitude || h.address?.isInternalIP
+        )).map((hop) => hop.address?.isInternalIP ? [
+            LOCATION_LNG,
+            LOCATION_LAT,
+        ] : [
             hop.address?.info?.location.longitude || 0,
             hop.address?.info?.location.latitude || 0,
-        ] as [number, number]);
+        ]);
 
         if (!coords.length) {
             return;
@@ -59,6 +67,8 @@ export default function Map() {
         // Fit the map to the resulting bounds
         map.current?.fitBounds(bounds, { 
             padding: { top: 340, left: 200, bottom: 200, right: 100 }, 
+            minZoom: 7,
+            maxZoom: 12,
         });
        
         map.current.on('load', () => {

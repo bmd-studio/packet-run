@@ -31,6 +31,16 @@
           "default": "false",
           "mappedType": "integer"
         },
+        "is_internal_ip": {
+          "name": "is_internal_ip",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "integer"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",

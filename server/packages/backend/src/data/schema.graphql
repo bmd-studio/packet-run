@@ -129,6 +129,7 @@ type Address {
   ip: String!
   info: IpInfo
   isInAltNetwork: Boolean!
+  isInternalIP: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

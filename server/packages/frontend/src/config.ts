@@ -16,3 +16,7 @@ export const theme = {
 export const DEBUG = process.env.NEXT_PUBLIC_DEBUG === 'true';
 
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+export const LOCATION_NAME = process.env.NEXT_PUBLIC_LOCATION_NAME || '???';
+export const LOCATION_LAT = Number.parseFloat(process.env.NEXT_PUBLIC_LOCATION_LAT || '0');
+export const LOCATION_LNG = Number.parseFloat(process.env.NEXT_PUBLIC_LOCATION_LNG || '0');

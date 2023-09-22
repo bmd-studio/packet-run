@@ -13,6 +13,9 @@ export default class Address {
     isInAltNetwork: boolean;
 
     @Field()
+    isInternalIP: boolean;
+
+    @Field()
     createdAt: Date;
 
     @Field()

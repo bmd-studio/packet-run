@@ -15,6 +15,9 @@ export default class Address {
     isInAltNetwork: boolean = false;
 
     @Property()
+    isInternalIP: boolean = false;
+
+    @Property()
     createdAt: Date = new Date();
 
     @Property({ onUpdate: () => new Date() })

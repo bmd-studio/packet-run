@@ -27,6 +27,7 @@ fragment AddressWithInfo on Address {
         }
     }
     isInAltNetwork
+    isInternalIP
 }
 
 subscription RegisterTerminal($id: Float!) {

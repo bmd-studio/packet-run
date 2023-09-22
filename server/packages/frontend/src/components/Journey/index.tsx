@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useTerminal } from '../RegisterTerminal';
+import { LOCATION_NAME } from '@/config';
 
 const Container = styled(motion.div)`
     position: absolute;
@@ -62,6 +63,8 @@ export default function Journey() {
         return;
     }
 
+    const address =  terminal.run.currentHop.address;
+
     return (
         <Container initial={{ y: '150%' }} animate={{ y: 0 }} transition={{ duration: 1, delay: 1, ease: 'easeOut' }}>
             <GraphicContainer>
@@ -71,7 +74,15 @@ export default function Journey() {
             </GraphicContainer>
             <TextContainer>
                 <Label>You are now here:</Label>
-                <Text>{terminal.run.currentHop.address?.info?.location.city || '???'} {terminal.run.currentHop.address?.info?.location.country.code && `(${terminal.run.currentHop.address.info.location.country.code})`}</Text>
+                {address?.isInternalIP ? (
+                    <Text>{LOCATION_NAME}</Text>
+                ): (
+                    <Text>
+                        {address?.info?.location.city || '???'}
+                        {' '}
+                        {address?.info?.location.country.code && `(${address.info.location.country.code})`}
+                    </Text>
+                )}
                 <Label>Your home computer</Label>
             </TextContainer>
         </Container>
