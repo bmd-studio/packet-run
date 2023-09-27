@@ -9,6 +9,8 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import NfcScanner from '@/components/PacketScanner';
+import { DEBUG } from '@/config';
+import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
@@ -44,6 +46,7 @@ const Banner = styled(motion.h1)`
     left: 50%;
     background-color: var(--dark-gray);
     padding: 24px 32px;
+    color: white;
 `;
 
 
@@ -109,6 +112,7 @@ export default function Receiver() {
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
                     )}
+                    {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
                 </Grid>
             )}
         </RegisterTerminal>
