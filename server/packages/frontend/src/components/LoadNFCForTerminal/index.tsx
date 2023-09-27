@@ -1,4 +1,4 @@
-import { useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
+import { TerminalStatus, TerminalType, useCreateReturnPacketMutation, useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import { useCallback, useState } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -16,6 +16,7 @@ export default function LoadNFCForTerminal() {
 
     const [scanNfcForTerminal, { loading: loadingNfc }] = useScanNfcForTerminalMutation();
     const [resetTerminal, { loading: loadingIdle }] = useResetTerminalMutation();
+    const [createReturnPacket, { loading: loadingReturnPacket}] = useCreateReturnPacketMutation();
 
     const handleSetNfc = useCallback(() => {
         scanNfcForTerminal({ variables: { terminalId: terminal.id, nfcId }});
@@ -26,7 +27,16 @@ export default function LoadNFCForTerminal() {
         resetTerminal({ variables: { terminalId: terminal.id }});
     }, [terminal, resetTerminal]); 
 
-    if (loadingNfc || loadingIdle) {
+    const handleCreateReturnPacket = useCallback(() => {
+        createReturnPacket({
+            variables: {
+                terminalId: terminal.id,
+                isPacketCreated: terminal.status === TerminalStatus.CreatingPacket 
+            }
+        });
+    }, [terminal, createReturnPacket]);
+
+    if (loadingNfc || loadingIdle || loadingReturnPacket) {
         return (
             <Loader2 className="w-4 h-4 p-4 animate-spin" />
         )
@@ -45,14 +55,17 @@ export default function LoadNFCForTerminal() {
                     </Button>
                 </form>
             ) : (
-                <form
-                    className="flex gap-2 flex-col"
-                    onSubmit={(e) => { e.preventDefault(); handleResetTerminal(); }}
-                >
-                    <Button onClick={handleResetTerminal}>
-                        Reset
-                    </Button>
-                </form>
+                <Button onClick={handleResetTerminal}>
+                    Reset
+                </Button>
+            )}
+            {terminal.type === TerminalType.Server
+                && (terminal.status === TerminalStatus.ScanningNfc || terminal.status === TerminalStatus.CreatingPacket)
+                && 
+            (
+                <Button className="ml-2" onClick={handleCreateReturnPacket}>
+                    Create return packet
+                </Button>
             )}
         </div>
     );
