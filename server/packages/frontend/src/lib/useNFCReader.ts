@@ -95,6 +95,10 @@ export default function useNFCReader() {
                         console.error('Failed to initialize NFC scanner');
                         return;
                     }
+                    if (e.message.startsWith('WebSerial not supported')) {
+                        console.error('WebSerial is not supported on this device...');
+                        return;
+                    }
                     if (!e.message.startsWith('readRespTimeout')) {
                         // If it isn't throw the resulting error
                         // NOTE: This will end the scanning loop...
