@@ -21,8 +21,8 @@ use the pin naming that is bound on the bottom of the board (GND/VCC/TXD/RXD).
 The pins should be connected as such (board => RPI):
 * GND => GND (pin 6)
 * VCC => 5V (pin 4)
-* TXD => UART 1 RX (pin 10)
-* RXD => UART 1 TX (pin 8)
+* SDA/TXD => UART 1 RX (pin 10)
+* SCL/RXD => UART 1 TX (pin 8)
 
 ### Hall effect sensor
 The hall effect sensor is read through a NodeJS webserver, the code for which
