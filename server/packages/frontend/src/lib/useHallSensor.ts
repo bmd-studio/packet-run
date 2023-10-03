@@ -34,7 +34,9 @@ export default function useHallSensor(skip = false) {
                 if (state !== isActive) {
                     setIsActive(state.valueOf());
                 }
-            } catch {
+            } catch (e) {
+                console.error('Encountered error while reading hall sensor: ', e);
+
                 // GUARD: If anything fails, default to a false state
                 if (isActive) {
                     setIsActive(false);
