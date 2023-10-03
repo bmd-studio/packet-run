@@ -54,8 +54,9 @@ export default function useNFCReader() {
                 
                 // Then kick off the scan loop
                 scheduleScan();
-            } catch {
+            } catch(e) {
                 console.error('Failed to initialize NFC scanner...');
+                console.error(e);
             }
         }
 
