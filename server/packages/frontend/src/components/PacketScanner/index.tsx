@@ -6,6 +6,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
 import { Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
+import usePrevious from '@/lib/usePrevious';
 
 const Container = styled.div`
     display: flex;
@@ -58,11 +59,18 @@ const Text = styled.h2`
 export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
     const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
-    const [scanNfcForTerminal, { loading: loadingNfc }] = useScanNfcForTerminalMutation();
+    const [scanNfcForTerminal, { loading: loadingNfc, error }] = useScanNfcForTerminalMutation();
     const [resetTerminal, { loading: loadingIdle }] = useResetTerminalMutation();
     const nfcId = useNFCReader();
+    const previousNfcId = usePrevious(nfcId);
 
     useEffect(() => {
+        // GUARD: Only execute actions if there is a new nfcId
+        if (nfcId === previousNfcId) {
+            return;
+        }
+
+        // GUARD: Check that all is in place to send the id to the back-end
         if (nfcId && !loadingNfc && !terminal.run?.id) {
             scanNfcForTerminal({
                 variables: {
@@ -74,7 +82,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
         } else if (!nfcId && !loadingIdle && !!terminal.run && wasScannedViaNfcReader) {
             resetTerminal({ variables: { terminalId: terminal.id }});
         }
-    }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run, wasScannedViaNfcReader]);
+    }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run, wasScannedViaNfcReader, previousNfcId]);
     
     return (
         <Container>
@@ -88,7 +96,11 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 </CardHeader>
                 <CardInnerContainer>
                     {terminal.status === TerminalStatus.Idle && (
-                        <h3>No packet detected</h3>
+                        error ? (
+                            <h3>Invalid packet detected</h3>
+                        ) : (
+                            <h3>No packet detected</h3>
+                        )
                     )}
                     {terminal.status === TerminalStatus.ScanningNfc && terminal.run && (
                         <>
