@@ -78,6 +78,8 @@ export default class Pn532WebserialAdapter {
                 const serial = getSerial()
                 const ports = await serial.getPorts();
 
+                console.log(`Retrieved ${ports} ports`, ports);
+
                 // Loop through all ports
                 for await (let port of ports) {
                     try {
