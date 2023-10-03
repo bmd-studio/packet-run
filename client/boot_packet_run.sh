@@ -18,6 +18,10 @@ export $(grep -v '^#' /boot/packet_run_config.txt | xargs)
 # Generate the origin
 ORIGIN="http://$PACKET_RUN_SERVER_IP:3000"
 
+# Create a Chrome policy that allows access to the serial ports
+POLICY="{\"SerialAllowAllPortsForUrls\":[\"$ORIGIN\"]}"
+echo "$POLICY" > sudo tee /etc/chromium/policies/managed/policy.json
+
 # Wait for the origin to become available
 printf 'Waiting for network connection'
 until $(curl --output /dev/null --silent --head --fail $ORIGIN); do
