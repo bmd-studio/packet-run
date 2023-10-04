@@ -80,7 +80,11 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             });
             setScannedViaNFCReader(true);
         } else if (!nfcId && !loadingIdle && !!terminal.run && wasScannedViaNfcReader) {
-            resetTerminal({ variables: { terminalId: terminal.id }});
+            const timeout = setTimeout(() => {
+                resetTerminal({ variables: { terminalId: terminal.id }});
+            }, 20_000);
+
+            return () => clearTimeout(timeout);
         }
     }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run, wasScannedViaNfcReader, previousNfcId]);
     
