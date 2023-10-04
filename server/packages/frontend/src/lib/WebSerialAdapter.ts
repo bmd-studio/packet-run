@@ -78,16 +78,21 @@ export default class Pn532WebserialAdapter {
                 const serial = getSerial()
                 const ports = await serial.getPorts();
 
+                console.log(`Retrieved ${ports} ports`, ports);
+
                 // Loop through all ports
                 for await (let port of ports) {
                     try {
+                        console.log('Attempting to open port', port);
                         // Attemp to open port
                         await port.open({ baudRate: 115200 });
 
                         // Assign the port and exit the loop if it succeeds
                         me.port = port;
                         break;
-                    } catch {
+                    } catch(e) {
+                        console.error('Failed to open port', port);
+
                         // If not, continue with the next port
                         continue;
                     }

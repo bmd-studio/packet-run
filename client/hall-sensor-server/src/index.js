@@ -21,6 +21,7 @@ async function main() {
     // Create a webserver
     const server = http.createServer((req, res) => {
         // Return the state
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.writeHead(200);
         res.end(state.toString());
     });
