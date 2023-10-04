@@ -78,7 +78,7 @@ function ReceiverView() {
                     </div>
                     <ImageContainer>
                         <Image
-                            src={terminal.run?.imagePath || `http://${window.location.hostname}:8080/images/9nEJ2hwiUk8Q.png`}
+                            src={`/${terminal.run?.imagePath}` || `http://${window.location.hostname}:8080/images/9nEJ2hwiUk8Q.png`}
                             alt="Website preview"
                         />
                     </ImageContainer>
