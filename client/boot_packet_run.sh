@@ -20,7 +20,7 @@ ORIGIN="http://$PACKET_RUN_SERVER_IP:3000"
 
 # Create a Chrome policy that allows access to the serial ports
 POLICY="{\"SerialAllowAllPortsForUrls\":[\"$ORIGIN\"]}"
-echo "$POLICY" | sudo tee /etc/chromium/policies/managed/policy.json
+echo "$POLICY" | sudo tee /etc/chromium/policies/managed/policy.json >/dev/null
 
 # Wait for the origin to become available
 printf 'Waiting for network connection'
