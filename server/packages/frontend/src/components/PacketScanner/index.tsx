@@ -96,7 +96,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 </CardHeader>
                 <CardInnerContainer>
                     {terminal.status === TerminalStatus.Idle && (
-                        error ? (
+                        error && nfcId ? (
                             <h3>Invalid packet detected</h3>
                         ) : (
                             <h3>No packet detected</h3>
