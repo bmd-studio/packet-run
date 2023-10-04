@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import NfcScanner from '@/components/PacketScanner';
-import { DEBUG } from '@/config';
+import { BACKEND_URL, DEBUG } from '@/config';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 
 const BrowserContainer = styled(PatternedBackground)`
@@ -78,7 +78,7 @@ function ReceiverView() {
                     </div>
                     <ImageContainer>
                         <Image
-                            src={`/${terminal.run?.imagePath}` || `http://${window.location.hostname}:8080/images/9nEJ2hwiUk8Q.png`}
+                            src={`${BACKEND_URL}/${terminal.run?.imagePath}`}
                             alt="Website preview"
                         />
                     </ImageContainer>

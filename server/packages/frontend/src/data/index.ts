@@ -3,12 +3,10 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { RetryLink } from '@apollo/client/link/retry';
 import { createClient } from 'graphql-ws';
-
-/** The host for origin. We infer this based on the URL the user is using. */
-const origin = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
+import { BACKEND_URL } from '@/config';
 
 /** The HTTP link for regular queries and mutations */
-const httpLink = new HttpLink({ uri: `http://${origin}:8080/graphql` });
+const httpLink = new HttpLink({ uri: `${BACKEND_URL}/graphql` });
 
 /** The WS link for subcsriptions */
 const wsLink = new GraphQLWsLink(createClient({ url: `ws://${origin}:8080/graphql` }));

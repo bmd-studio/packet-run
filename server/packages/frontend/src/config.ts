@@ -20,3 +20,6 @@ export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 export const LOCATION_NAME = process.env.NEXT_PUBLIC_LOCATION_NAME || '???';
 export const LOCATION_LAT = Number.parseFloat(process.env.NEXT_PUBLIC_LOCATION_LAT || '0');
 export const LOCATION_LNG = Number.parseFloat(process.env.NEXT_PUBLIC_LOCATION_LNG || '0');
+
+export const ORIGIN = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
+export const BACKEND_URL = `http://${ORIGIN}:8080`;
