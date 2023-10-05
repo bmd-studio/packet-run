@@ -31,40 +31,40 @@ export class TerminalSeeder extends Seeder {
 
         em.create(TerminalConnection, { from: sender, to: gateway, slot: 1 });
         
-        em.create(TerminalConnection, { from: gateway, to: terminals[6], slot: 1 });
-        em.create(TerminalConnection, { from: gateway, to: receiver, slot: 2 });
+        em.create(TerminalConnection, { from: gateway, to: receiver, slot: 1 });
+        em.create(TerminalConnection, { from: gateway, to: terminals[6], slot: 2 });
         
-        em.create(TerminalConnection, { from: server1, to: gateway, slot: 1 });
-        em.create(TerminalConnection, { from: server1, to: terminals[4], slot: 2 });
+        em.create(TerminalConnection, { from: server1, to: terminals[4], slot: 1 });
+        em.create(TerminalConnection, { from: server1, to: gateway, slot: 2 });
 
-        em.create(TerminalConnection, { from: server2, to: terminals[10], slot: 1 });
-        em.create(TerminalConnection, { from: server2, to: gateway, slot: 2 });
+        em.create(TerminalConnection, { from: server2, to: gateway, slot: 1 });
+        em.create(TerminalConnection, { from: server2, to: terminals[10], slot: 2 });
 
-        em.create(TerminalConnection, { from: terminals[3], to: terminals[6], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[3], to: terminals[11], slot: 1 });
         em.create(TerminalConnection, { from: terminals[3], to: terminals[8], slot: 2 });
-        em.create(TerminalConnection, { from: terminals[3], to: terminals[11], slot: 3 });
+        em.create(TerminalConnection, { from: terminals[3], to: terminals[6], slot: 3 });
 
-        em.create(TerminalConnection, { from: terminals[4], to: server1, slot: 1 });
+        em.create(TerminalConnection, { from: terminals[4], to: terminals[11], slot: 1 });
         em.create(TerminalConnection, { from: terminals[4], to: terminals[7], slot: 2 });
-        em.create(TerminalConnection, { from: terminals[4], to: terminals[11], slot: 3 });
+        em.create(TerminalConnection, { from: terminals[4], to: server1, slot: 3 });
 
-        em.create(TerminalConnection, { from: terminals[6], to: terminals[10], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[6], to: terminals[3], slot: 1 });
         em.create(TerminalConnection, { from: terminals[6], to: gateway, slot: 2 });
-        em.create(TerminalConnection, { from: terminals[6], to: terminals[3], slot: 3 });
+        em.create(TerminalConnection, { from: terminals[6], to: terminals[10], slot: 3 });
 
-        em.create(TerminalConnection, { from: terminals[7], to: terminals[10], slot: 1 });
-        em.create(TerminalConnection, { from: terminals[7], to: terminals[4], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[7], to: terminals[4], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[7], to: terminals[10], slot: 2 });
 
-        em.create(TerminalConnection, { from: terminals[8], to: terminals[11], slot: 1 });
-        em.create(TerminalConnection, { from: terminals[8], to: terminals[3], slot: 2 });
+        em.create(TerminalConnection, { from: terminals[8], to: terminals[3], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[8], to: terminals[11], slot: 2 });
 
-        em.create(TerminalConnection, { from: terminals[10], to: terminals[6], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[10], to: server2, slot: 1 });
         em.create(TerminalConnection, { from: terminals[10], to: terminals[7], slot: 2 });
-        em.create(TerminalConnection, { from: terminals[10], to: server2, slot: 3 });
+        em.create(TerminalConnection, { from: terminals[10], to: terminals[6], slot: 3 });
 
-        em.create(TerminalConnection, { from: terminals[11], to: terminals[3], slot: 1 });
+        em.create(TerminalConnection, { from: terminals[11], to: terminals[8], slot: 1 });
         em.create(TerminalConnection, { from: terminals[11], to: terminals[4], slot: 2 });
-        em.create(TerminalConnection, { from: terminals[11], to: terminals[8], slot: 3 });
+        em.create(TerminalConnection, { from: terminals[11], to: terminals[3], slot: 3 });
 
         await em.flush();
     }
