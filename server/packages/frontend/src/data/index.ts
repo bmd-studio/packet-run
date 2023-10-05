@@ -3,13 +3,13 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { RetryLink } from '@apollo/client/link/retry';
 import { createClient } from 'graphql-ws';
-import { BACKEND_URL } from '@/config';
+import { BACKEND_URL, ORIGIN } from '@/config';
 
 /** The HTTP link for regular queries and mutations */
 const httpLink = new HttpLink({ uri: `${BACKEND_URL}/graphql` });
 
 /** The WS link for subcsriptions */
-const wsLink = new GraphQLWsLink(createClient({ url: `ws://${origin}:8080/graphql` }));
+const wsLink = new GraphQLWsLink(createClient({ url: `ws://${ORIGIN}:8080/graphql` }));
 
 /** A link that retries when any network errors occur */
 const retryLink = new RetryLink({
