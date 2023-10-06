@@ -24,6 +24,7 @@ All files for 3d printing can be found inside the stl directory. Double check wi
 | :white_large_square: | 3 | packet_press_container | :white_large_square: | Bart |
 | :white_large_square: | 9 | nfc_container | :white_large_square: | Bart |
 | :white_large_square: | 1 | arrival_desk | :white_check_mark: | Tijs |
+| :white_large_square: | 40 | track_end_hook | :white_check_mark: | Tijs |
 
 <!-- - [ ] 30x ––– rope_hold 
 - [ ] 24x ––– arrival
