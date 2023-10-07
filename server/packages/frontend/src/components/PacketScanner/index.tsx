@@ -7,6 +7,11 @@ import ScannerAnimation from '@/components/ScannerAnimation';
 import { TextContainer, Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
 import usePrevious from '@/lib/usePrevious';
+import ScannerTimeoutBar from '../ScannerTimeoutBar';
+
+/** The amount of milliseconds between the scanner failing to detect an NFC tag
+ * and the terminal being reset. */
+const NFC_READER_TIMEOUT = 20_000;
 
 const Container = styled.div`
     display: flex;
@@ -58,11 +63,14 @@ const Text = styled.h2`
 
 export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
-    const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
-    const [scanNfcForTerminal, { loading: loadingNfc, error }] = useScanNfcForTerminalMutation();
-    const [resetTerminal, { loading: loadingIdle }] = useResetTerminalMutation();
     const nfcId = useNFCReader();
     const previousNfcId = usePrevious(nfcId);
+
+    const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
+    const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
+
+    const [scanNfcForTerminal, { loading: loadingNfc, error }] = useScanNfcForTerminalMutation();
+    const [resetTerminal, { loading: loadingIdle }] = useResetTerminalMutation();
 
     useEffect(() => {
         // GUARD: Only execute actions if there is a new nfcId
@@ -80,16 +88,28 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             });
             setScannedViaNFCReader(true);
         } else if (!nfcId && !loadingIdle && !!terminal.run && wasScannedViaNfcReader) {
+            const now = new Date().getTime();
+            setScannerTimeout([
+                new Date(now + 1_000),
+                new Date(now + 20_000),
+            ]);
             const timeout = setTimeout(() => {
                 resetTerminal({ variables: { terminalId: terminal.id }});
-            }, 20_000);
+                setScannerTimeout(null);
+            }, NFC_READER_TIMEOUT);
 
-            return () => clearTimeout(timeout);
+            return () => {
+                clearTimeout(timeout);
+                setScannerTimeout(null);
+            };
         }
     }, [terminal.id, nfcId, scanNfcForTerminal, loadingNfc, loadingIdle, resetTerminal, terminal.run, wasScannedViaNfcReader, previousNfcId]);
     
     return (
         <Container>
+            {scannerTimeout && (
+                <ScannerTimeoutBar start={scannerTimeout[0]} end={scannerTimeout[1]} />
+            )}
             <RestContainer>
                 {children || [
                     terminal.status === TerminalStatus.Idle && (
