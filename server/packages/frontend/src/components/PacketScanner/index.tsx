@@ -119,7 +119,11 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                             <h3>No packet detected</h3>
                         )
                     )}
-                    {terminal.status === TerminalStatus.ScanningNfc && terminal.run && (
+                    {terminal.run && (
+                        terminal.status === TerminalStatus.ScanningNfc
+                        || terminal.status === TerminalStatus.CreatingPacket
+                        || terminal.status === TerminalStatus.CreatedPacket
+                    ) && (
                         <>
                             <div>
                                 <Label>Packet ID</Label>
