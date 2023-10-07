@@ -34,7 +34,7 @@ export default function Server() {
                             <>
                                 <Centered key="centered">
                                     <Title>
-                                        Your package has arrived at {terminal.run?.url}. <br /><br />
+                                        Your packet has arrived at {terminal.run?.url}. <br /><br />
                                         Now, answer the request by creating a response packet.
                                     </Title>
                                 </Centered>
