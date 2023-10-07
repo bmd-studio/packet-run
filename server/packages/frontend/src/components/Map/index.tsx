@@ -75,7 +75,36 @@ export default function Map() {
             });
 
             previousRoutes.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
-                if (prev) {
+                if (prev && hop.address && prev.address) {
+                    map.current?.addLayer({
+                        type: 'line',
+                        id: `line-${hop.hop}`,
+                        source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: [
+                                        runHopToCoords(hop),
+                                        runHopToCoords(prev),
+                                    ]
+                                }
+                            }
+                        },
+                        paint: {
+                            "line-color": '#F0EA00',
+                            "line-width": 8,
+                        }
+                    });
+                }
+
+                return hop;
+            }, null);
+
+            run.availableHops.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
+                if (prev && prev.address && hop.address) {
                     map.current?.addLayer({
                         type: 'line',
                         id: `line-${hop.hop}`,
@@ -97,35 +126,6 @@ export default function Map() {
                             "line-color": '#F0EA00',
                             "line-width": 8,
                             'line-dasharray': [4, 4],
-                        }
-                    });
-                }
-
-                return hop;
-            }, null);
-
-            run.availableHops.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
-                if (prev) {
-                    map.current?.addLayer({
-                        type: 'line',
-                        id: `line-${hop.hop}`,
-                        source: {
-                            type: 'geojson',
-                            data: {
-                                type: 'Feature',
-                                properties: {},
-                                geometry: {
-                                    type: 'LineString',
-                                    coordinates: [
-                                        runHopToCoords(hop),
-                                        runHopToCoords(prev),
-                                    ]
-                                }
-                            }
-                        },
-                        paint: {
-                            "line-color": '#F0EA00',
-                            "line-width": 8,
                         }
                     });
                 }
