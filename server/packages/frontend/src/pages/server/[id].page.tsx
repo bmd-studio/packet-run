@@ -8,15 +8,17 @@ import Journey from '@/components/Journey';
 import Map from '@/components/Map';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import { DEBUG } from '@/config';
-import { Title } from '@/components/Typography';
+import { TextContainer, Title } from '@/components/Typography';
 import ForgeManager from './manager';
 import styled from 'styled-components';
 
 const Centered = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 128px;
+    gap: 8px;
 `;
 
 export default function Server() {
@@ -33,20 +35,29 @@ export default function Server() {
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             <>
                                 <Centered key="centered">
-                                    <Title>
-                                        Your packet has arrived at {terminal.run?.url}. <br /><br />
-                                        Now, answer the request by creating a response packet.
-                                    </Title>
+                                    <Title>YOUR PACKET HAS ARRIVED AT</Title>
+                                    <Title>{terminal.run?.url}</Title>
+                                    <Title></Title>
+                                    <Title>NOW, ANSWER THE REQUEST BY </Title>
+                                    <Title>CREATING A RESPONSE PACKET.</Title>
                                 </Centered>
                                 <PacketScanner key="packet-scanner">
-                                    <Title>Use the handle to forge a new packet</Title>
+                                    <TextContainer>
+                                        <Title>USE THE HANDLE TO</Title>
+                                        <Title>FORGE A NEW PACKET</Title>
+                                    </TextContainer>
+                                    {/* <ArrowWithLabel position="bottom-right">HANDLE</ArrowWithLabel> */}
                                 </PacketScanner>
                             </>
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
                             <>
+                                <Centered key="centered">
+                                    <Title>YOUR NEW PACKET</Title>
+                                    <Title>HAS BEEN CREATED!</Title>
+                                </Centered>
                                 <PacketScanner key="packet-scanner">
-                                    Your packet is being created now!
+                                    <Title>LIFT THE HANDLE</Title> 
                                 </PacketScanner>
                             </>
                         )}
@@ -56,7 +67,10 @@ export default function Server() {
                                 <Map key="map" />
                                 <Journey key="journey" />
                                 <PacketScanner key="packet-scanner">
-                                    <Title>Now, navigate back to the home PC</Title>
+                                    <TextContainer>
+                                        <Title>NOW, NAVIGATE BACK</Title>
+                                        <Title>TO THE HOME PC</Title>
+                                    </TextContainer>
                                 </PacketScanner>
                             </>
                         )}

@@ -70,6 +70,6 @@ export function TextWithStroke({ children, height, stroke, strokeWidth, ...rest 
 export const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     align-items: center;
 `;
