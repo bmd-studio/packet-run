@@ -133,8 +133,10 @@ export default function Receiver() {
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    {terminal.status === TerminalStatus.ScanningNfc && (
+                    {terminal.status === TerminalStatus.ScanningNfc ? (
                         <ReceiverView />
+                    ) : (
+                        <NfcScanner />
                     )}
                     {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
                 </Grid>
