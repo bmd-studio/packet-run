@@ -102,10 +102,15 @@ export default function DestinationBar() {
                                 </h1>
                             )}
                             <p>IP address: {hop.address?.ip || UNKNOWN}</p>
-                            <p>Owner: {hop.address?.info?.carrier.name || UNKNOWN}</p>
+                            <p>Owner: {hop.address?.info?.carrier.name || hop.address?.info?.company.name || UNKNOWN}</p>
                             <p>Distance: {UNKNOWN}</p>
                         </Content>
-                        <Banner $highlighted={hop.type === RunHopType.Recommended}>
+                        <Banner
+                            $highlighted={
+                                hop.type === RunHopType.Recommended
+                                || hop.type === RunHopType.Wormhole
+                            }
+                        >
                             {hop.type}
                         </Banner>
                     </Destination>
