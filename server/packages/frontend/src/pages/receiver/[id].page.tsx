@@ -95,12 +95,6 @@ function ReceiverView() {
             {index === 1 && (
                 <>
                     <Map />
-                    <NfcScanner>
-                        <TextContainer>
-                            <Title>THIS IS THE JOURNEY</Title>
-                            <Title>YOU&apos;VE MADE</Title>
-                        </TextContainer>
-                    </NfcScanner>
                 </>
             )}
             {index === 2 && (
@@ -113,7 +107,6 @@ function ReceiverView() {
                             <Subtitle>packet in the top right corner. Thanks :)</Subtitle>
                         </TextContainer>
                     </Centered>
-                    <NfcScanner><></></NfcScanner>
                     <ArrowWithLabel position="top-right">DEPOSIT BALL</ArrowWithLabel>
                 </>
             )}
@@ -133,10 +126,9 @@ export default function Receiver() {
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    {terminal.status === TerminalStatus.ScanningNfc ? (
+                    <NfcScanner><></></NfcScanner>
+                    {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
-                    ) : (
-                        <NfcScanner />
                     )}
                     {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
                 </Grid>
