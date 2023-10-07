@@ -1,9 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
 import Grid from '@/components/Grid';
 import Map from '@/components/Map';
-import PacketInfo from '@/components/PacketInfo';
 import PatternedBackground from '@/components/PatternedBackground';
 import RegisterTerminal, { useTerminal } from '@/components/RegisterTerminal';
-import { Title } from '@/components/Typography';
+import { Subtitle, TextContainer, Title } from '@/components/Typography';
 import { TerminalStatus } from '@/data/generated';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import NfcScanner from '@/components/PacketScanner';
 import { BACKEND_URL, DEBUG } from '@/config';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
+import ArrowWithLabel from '@/components/ArrowWithLabel';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
@@ -33,6 +34,7 @@ const Image = styled.img`
     width: 100%;
     object-fit: cover;
     object-position: top center;
+    background-color: var(--light-gray);
 `;
 
 const ImageContainer = styled.div`
@@ -49,6 +51,13 @@ const Banner = styled(motion.h1)`
     color: white;
 `;
 
+const Centered = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+`;
 
 function ReceiverView() {
     const terminal = useTerminal();
@@ -72,25 +81,41 @@ function ReceiverView() {
     return (
         <>
             {index === 0 && (
-                <BrowserContainer>
-                    <div>
-                        <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
-                    </div>
-                    <ImageContainer>
-                        <Image
-                            src={`${BACKEND_URL}/${terminal.run?.imagePath}`}
-                            alt="Website preview"
-                        />
-                    </ImageContainer>
-                </BrowserContainer>
+                <>
+                    <BrowserContainer>
+                        <div>
+                            <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
+                        </div>
+                        <ImageContainer>
+                            <Image src={`${BACKEND_URL}/${terminal.run?.imagePath}`} />
+                        </ImageContainer>
+                    </BrowserContainer>
+                </>
             )}
             {index === 1 && (
-                <Grid>
+                <>
                     <Map />
-                    <PacketInfo>
-                        <Title>This is the route you&apos;ve travelled</Title>
-                    </PacketInfo>
-                </Grid>
+                    <NfcScanner>
+                        <TextContainer>
+                            <Title>THIS IS THE JOURNEY</Title>
+                            <Title>YOU&apos;VE MADE</Title>
+                        </TextContainer>
+                    </NfcScanner>
+                </>
+            )}
+            {index === 2 && (
+                <>
+                    <Centered>
+                        <TextContainer>
+                            <Title>THANKS FOR TAKING A</Title>
+                            <Title>RIDE WITH PACKET RUN!</Title>
+                            <Subtitle>Before you leave, please deposit your</Subtitle>
+                            <Subtitle>packet in the top right corner. Thanks :)</Subtitle>
+                        </TextContainer>
+                    </Centered>
+                    <NfcScanner><></></NfcScanner>
+                    <ArrowWithLabel position="top-right">DEPOSIT BALL</ArrowWithLabel>
+                </>
             )}
             <Banner
                 initial={{ x: '-50%', y: 400 }}
@@ -108,7 +133,6 @@ export default function Receiver() {
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    <NfcScanner />
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
                     )}
