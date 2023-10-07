@@ -61,7 +61,7 @@ export default function Sender() {
                     ) : (
                         !nfcId ? (
                             <>
-                                <Title>Place your ball on the scanner...</Title>
+                                <Title>PLACE YOUR BALL ON THE SCANNER...</Title>
                                 <Subtitle>Take a ball from the left and place it on the scanner</Subtitle>
                                 <ScannerAnimation variant="empty" />
                                 <ArrowWithLabel position='bottom-left'>BALL</ArrowWithLabel>
@@ -70,14 +70,14 @@ export default function Sender() {
                         ) : (
                             !loading ? (
                                 <>
-                                    <Title>Now, we&apos;re going to make your packet!</Title>
+                                    <Title>NOW, WE&apos;RE GOING TO MAKE YOUR PACKET!</Title>
                                     <Subtitle>Take the handle and close the mold onto the packet...</Subtitle>
                                     <ScannerAnimation variant="scanned" />
                                     <ArrowWithLabel position='bottom-right'>PRESS</ArrowWithLabel>
                                 </>
                             ) : (
                                 <>
-                                    <Title>Your packet is being forged!</Title>
+                                    <Title>YOUR PACKET IS BEING CREATED!</Title>
                                     <ScannerAnimation variant="scanned" />
                                 </>
                             )
@@ -85,7 +85,7 @@ export default function Sender() {
                     )
                 ) : (
                     <>
-                        <Title>Your packet has been created!</Title>
+                        <Title>YOUR PACKET HAS BEEN CREATED!</Title>
                         <Subtitle>Send your packet off on the right.</Subtitle>
                         <ArrowWithLabel position='top-right'>EXIT</ArrowWithLabel>
                     </>
