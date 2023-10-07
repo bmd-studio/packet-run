@@ -1,20 +1,71 @@
+import { PropsWithChildren, SVGTextElementAttributes, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-export const Title = styled.h1`
-    font-size: 80px;
-    line-height: 68px;
-    -webkit-text-stroke: 8px var(--light-gray);
-    paint-order: stroke fill;
-    color: black;
-`;
+export type TextWithStrokeProps = PropsWithChildren
+    & SVGTextElementAttributes<SVGTextElement>;
 
-export const Subtitle = styled.h2`
-    font-size: 40px;
-    font-weight: 400;
-    -webkit-text-stroke: 8px var(--light-gray);
-    paint-order: stroke fill;
-    color: black;
-`;
+export function Title({ children, ...rest }: TextWithStrokeProps) {
+    return (
+        <TextWithStroke
+            fontSize="80"
+            height={68}
+            stroke="var(--light-gray)"
+            fontFamily="var(--font-vt323)"
+            strokeWidth={8}
+            {...rest}
+        >
+            {children}
+        </TextWithStroke>
+    );
+}
+
+export function Subtitle({ children, ...rest }: TextWithStrokeProps) {
+    return (
+        <TextWithStroke
+            fontSize="40"
+            height={32}
+            stroke="var(--light-gray)"
+            fontFamily="var(--font-vt323)"
+            strokeWidth={8}
+            {...rest}
+        >
+            {children}
+        </TextWithStroke>
+    );
+}
+
+export function TextWithStroke({ children, height, stroke, strokeWidth, ...rest }: TextWithStrokeProps) {
+    const [width, setWidth] = useState(0);
+    const textRef = useRef<SVGTextElement | null>(null);
+
+    useEffect(() => {
+        setWidth(textRef.current?.getComputedTextLength() || 0);
+    }, [children]);
+
+    return (
+        <svg width={width} height={height}>
+            <text
+                x="0"
+                y="0"
+                dominantBaseline="hanging"
+                stroke={stroke}
+                strokeWidth={strokeWidth}
+                {...rest}
+                ref={textRef}
+            >
+                {children}
+            </text>
+            <text
+                x="0"
+                y="0"
+                dominantBaseline="hanging"
+                {...rest}
+            >
+                {children}
+            </text>
+        </svg>
+    )
+}
 
 export const TextContainer = styled.div`
     display: flex;

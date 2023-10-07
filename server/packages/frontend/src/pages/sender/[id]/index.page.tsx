@@ -10,7 +10,7 @@ import { useCreateRunMutation } from '@/data/generated';
 import useHallSensor from '@/lib/useHallSensor';
 import WebsiteInput from '@/components/WebsiteInput';
 import { TextContainer, Title, Subtitle } from '@/components/Typography';
-import { motion } from 'framer-motion';
+import ArrowWithLabel from '@/components/ArrowWithLabel';
 
 const Container = styled(PatternedBackground)`
     width: 100vw;
@@ -20,21 +20,6 @@ const Container = styled(PatternedBackground)`
     justify-content: center;
     flex-direction: column;
     gap: 64px;
-`;
-
-const Hint = styled.div`
-    position: absolute;
-    font-size: 96px;
-    line-height: 120px;
-    font-family: var(--font-vt323);
-    color: var(--yellow);
-    -webkit-text-stroke: 8px black;
-    paint-order: stroke fill;
-`;
-
-const Arrow = styled(motion.span)`
-    font-size: 144px;
-    display: inline-block;
 `;
 
 export default function Sender() {
@@ -68,10 +53,11 @@ export default function Sender() {
                     !host ? (
                         <>
                             <TextContainer>
-                                <Title>Welcome to Packet Run!</Title>
+                                <Title>WELCOME TO PACKET RUN!</Title>
                                 <Subtitle>Which website would you like to visit today?</Subtitle>
                             </TextContainer>
                             <WebsiteInput onHost={setHost} />
+                            <ArrowWithLabel position='bottom-left'>BALL</ArrowWithLabel>
                         </> 
                     ) : (
                         !nfcId ? (
@@ -79,28 +65,8 @@ export default function Sender() {
                                 <Title>Place your ball on the scanner...</Title>
                                 <Subtitle>Take a ball from the left and place it on the scanner</Subtitle>
                                 <ScannerAnimation variant="empty" />
-                                <Hint style={{ bottom: 32, right: 32 }}>
-                                    SCANNER
-                                    {' '}
-                                    <Arrow
-                                        initial={{ scaleX: 1.25 }}
-                                        transition={{ repeat: Infinity, duration: 1 }}
-                                        animate={{ x: [0, -48, 0], scaleX: 1.25 }}
-                                    >
-                                        &gt;
-                                    </Arrow>
-                                </Hint>
-                                <Hint style={{ bottom: 32, left: 32 }}>
-                                    <Arrow
-                                        initial={{ scaleX: 1.25 }}
-                                        transition={{ repeat: Infinity, duration: 1 }}
-                                        animate={{ x: [0, 48, 0], scaleX: 1.25 }}
-                                    >
-                                        &lt;
-                                    </Arrow>
-                                    {' '}
-                                    BALL
-                                </Hint>
+                                <ArrowWithLabel position='bottom-left'>BALL</ArrowWithLabel>
+                                <ArrowWithLabel position='bottom-right'>SCANNER</ArrowWithLabel>
                             </>
                         ) : (
                             !loading ? (
@@ -108,17 +74,7 @@ export default function Sender() {
                                     <Title>Now, we&apos;re going to make your packet!</Title>
                                     <Subtitle>Take the handle and close the mold onto the packet...</Subtitle>
                                     <ScannerAnimation variant="scanned" />
-                                    <Hint style={{ bottom: 32, right: 32 }}>
-                                        PRESS
-                                        &nbsp;
-                                        <Arrow
-                                            initial={{ scaleX: 1.25 }}
-                                            transition={{ repeat: Infinity, duration: 1 }}
-                                            animate={{ x: [0, -48, 0], scaleX: 1.25 }}
-                                        >
-                                            &gt;
-                                        </Arrow>
-                                    </Hint>
+                                    <ArrowWithLabel position='bottom-right'>PRESS</ArrowWithLabel>
                                 </>
                             ) : (
                                 <>
@@ -132,17 +88,7 @@ export default function Sender() {
                     <>
                         <Title>Your packet has been created!</Title>
                         <Subtitle>Send your packet off on the right.</Subtitle>
-                        <Hint style={{ top: 32, right: 32 }}>
-                            EXIT
-                            {' '}
-                            <Arrow
-                                initial={{ scaleX: 1.25 }}
-                                transition={{ repeat: Infinity, duration: 1 }}
-                                animate={{ x: [0, -48, 0], scaleX: 1.25 }}
-                            >
-                                &gt;
-                            </Arrow>
-                        </Hint>
+                        <ArrowWithLabel position='top-right'>EXIT</ArrowWithLabel>
                     </>
                 )}
             </Container>
