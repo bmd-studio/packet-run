@@ -27,14 +27,14 @@ export default function Map() {
         }
 
         const address = run.currentHop.address;
+        const lng = (address?.info?.location.longitude || LOCATION_LNG);
+        const lat = (address?.info?.location.latitude || LOCATION_LAT);
 
         // Determine where the center of the map should be
         const center: [number, number] = address?.isInternalIP ? [
-            LOCATION_LNG,
-            LOCATION_LAT,
+            LOCATION_LNG, LOCATION_LAT,
         ] : [
-            (run?.currentHop?.address?.info?.location.longitude || LOCATION_LNG),
-            (run?.currentHop?.address?.info?.location.latitude || LOCATION_LAT) + 0.15,
+            lng, lat + 0.15
         ];
 
         map.current = new mapboxgl.Map({
@@ -69,8 +69,10 @@ export default function Map() {
         map.current.on('load', () => {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
-                new mapboxgl.Marker({ color: 'var(--yellow)', scale: 1.5 })
-                    .setLngLat(coord)
+                new mapboxgl.Marker({ 
+                    color: coord[0] === lng ? 'var(--yellow)' : '#666',
+                    scale: 1.5
+                }).setLngLat(coord)
                     .addTo(map.current as mapboxgl.Map);
             });
 
