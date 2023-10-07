@@ -49,33 +49,33 @@ export default function Sender() {
             {DEBUG && <CreateRunWithNFC />}
             <Container>
                 {!data?.createRun ? (
-                    !nfcId ? (
-                        !host ? (
-                            <>
-                                <TextContainer>
-                                    <Title>Welcome to Packet Run!</Title>
-                                    <Subtitle>Which website would you like to visit today?</Subtitle>
-                                </TextContainer>
-                                <WebsiteInput onHost={setHost} />
-                            </>
-                        ) : (
+                    !host ? (
+                        <>
+                            <TextContainer>
+                                <Title>Welcome to Packet Run!</Title>
+                                <Subtitle>Which website would you like to visit today?</Subtitle>
+                            </TextContainer>
+                            <WebsiteInput onHost={setHost} />
+                        </> 
+                    ) : (
+                        !nfcId ? (
                             <>
                                 <Title>Place your ball on the scanner...</Title>
-                                <ScannerAnimation variant="empty" />
-                            </>
-                        )
-                    ) : (
-                        !loading ? (
-                            <>
-                                <Title>Now, we&apos;re going to make your packet!</Title>
-                                <Subtitle>Take the handle and close the mold onto the packet...</Subtitle>
-                                <ScannerAnimation variant="scanned" />
+                                <ScannerAnimation variant="empty" />``
                             </>
                         ) : (
-                            <>
-                                <Title>Your packet is being forged!</Title>
-                                <ScannerAnimation variant="scanned" />
-                            </>
+                            !loading ? (
+                                <>
+                                    <Title>Now, we&apos;re going to make your packet!</Title>
+                                    <Subtitle>Take the handle and close the mold onto the packet...</Subtitle>
+                                    <ScannerAnimation variant="scanned" />
+                                </>
+                            ) : (
+                                <>
+                                    <Title>Your packet is being forged!</Title>
+                                    <ScannerAnimation variant="scanned" />
+                                </>
+                            )
                         )
                     )
                 ) : (
