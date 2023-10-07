@@ -105,7 +105,14 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                         </TextContainer>
                     )
                 ]}
-                <ScannerAnimation variant={terminal.status === TerminalStatus.ScanningNfc ? 'scanned' : (nfcId ? 'scanning' : 'empty')} />
+                <ScannerAnimation
+                    variant={
+                        terminal.status === TerminalStatus.ScanningNfc 
+                            || terminal.status === TerminalStatus.CreatingPacket
+                            || terminal.status === TerminalStatus.CreatedPacket
+                            ? 'scanned' 
+                            : (nfcId ? 'scanning' : 'empty')}
+                />
             </RestContainer>
             <Card>
                 <CardHeader>
