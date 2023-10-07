@@ -4,7 +4,7 @@ import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
-import { Title } from '@/components/Typography';
+import { TextContainer, Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
 import usePrevious from '@/lib/usePrevious';
 
@@ -91,7 +91,20 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     return (
         <Container>
             <RestContainer>
-                {children || <Title>Place your packet <br /> on the scanner</Title>}
+                {children || [
+                    terminal.status === TerminalStatus.Idle && (
+                        <TextContainer>
+                            <Title>PLACE YOUR PACKET</Title>
+                            <Title> ON THE SCANNER</Title>
+                        </TextContainer>
+                    ),
+                    terminal.status === TerminalStatus.ScanningNfc && (
+                        <TextContainer>
+                            <Title>GUIDE YOUR</Title>
+                            <Title>PACKET ONWARDS</Title>
+                        </TextContainer>
+                    )
+                ]}
                 <ScannerAnimation variant={terminal.status === TerminalStatus.ScanningNfc ? 'scanned' : (nfcId ? 'scanning' : 'empty')} />
             </RestContainer>
             <Card>
