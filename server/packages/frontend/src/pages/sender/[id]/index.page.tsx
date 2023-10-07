@@ -28,11 +28,8 @@ const Hint = styled.div`
     line-height: 120px;
     font-family: var(--font-vt323);
     color: var(--yellow);
-    text-shadow:
-        8px 8px 0 var(--light-gray),
-        -8px 8px 0 var(--light-gray),
-        -8px -8px 0 var(--light-gray),
-        8px -8px 0 var(--light-gray);
+    -webkit-text-stroke: 8px black;
+    paint-order: stroke fill;
 `;
 
 const Arrow = styled(motion.span)`
