@@ -57,7 +57,7 @@ export default function Sender() {
                                 <Subtitle>Which website would you like to visit today?</Subtitle>
                             </TextContainer>
                             <WebsiteInput onHost={setHost} />
-                            <ArrowWithLabel position='bottom-left'>BALL</ArrowWithLabel>
+                            <ArrowWithLabel position='bottom-right'>SCANNER</ArrowWithLabel>
                         </> 
                     ) : (
                         !nfcId ? (
