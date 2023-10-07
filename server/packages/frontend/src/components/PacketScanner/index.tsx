@@ -14,7 +14,7 @@ const Container = styled.div`
     flex-direction: column;
     gap: 32px;
     grid-area: packet;
-    padding: 32px 32px 0 32px;
+    padding: 64px 32px 0 32px;
 `;
 
 const RestContainer = styled.div`
@@ -95,7 +95,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                     terminal.status === TerminalStatus.Idle && (
                         <TextContainer>
                             <Title>PLACE YOUR PACKET</Title>
-                            <Title> ON THE SCANNER</Title>
+                            <Title>ON THE SCANNER</Title>
                         </TextContainer>
                     ),
                     terminal.status === TerminalStatus.ScanningNfc && (
