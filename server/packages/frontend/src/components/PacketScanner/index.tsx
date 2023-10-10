@@ -66,7 +66,6 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     const nfcId = useNFCReader();
     const previousNfcId = usePrevious(nfcId);
 
-    const [wasScannedViaNfcReader, setScannedViaNFCReader] = useState(false);
     const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
 
     const [scanNfcForTerminal, { error }] = useScanNfcForTerminalMutation();
@@ -86,8 +85,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                     nfcId,
                 }
             });
-            setScannedViaNFCReader(true);
-        } else if (!nfcId && !!terminal.run && wasScannedViaNfcReader) {
+        } else if (!nfcId && !!terminal.run) {
             const now = new Date().getTime();
             setScannerTimeout([
                 new Date(now + 1_000),
@@ -103,7 +101,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 setScannerTimeout(null);
             };
         }
-    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run, wasScannedViaNfcReader, previousNfcId]);
+    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run, previousNfcId]);
     
     return (
         <Container>
