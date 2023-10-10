@@ -6,6 +6,10 @@ import RunHop, { RunHopStatus, RunHopType } from '../entities/runHop/index.entit
 import Terminal, { TerminalStatus, TerminalType } from '../entities/terminal/index.entity';
 import TracerouteHop from '../entities/tracerouteHop/index.entity';
 import { getPreviousHop, getTerminalWithShortestPath } from '../lib/RoutingUtils';
+import altHops from '../data/altHops';
+import haversine, { LatLng } from '../lib/haversine';
+import Address from '../entities/address/index.entity';
+import { IpregistryClient } from '@ipregistry/client';
 
 /**
  * This contains all logic that determines how packets are routed across our
@@ -16,7 +20,8 @@ export default class RoutingService {
     private logger = new Logger(RoutingService.name);
 
     constructor(
-        private orm: MikroORM
+        private orm: MikroORM,
+        private client: IpregistryClient,
     ) {}
 
     /**
@@ -275,14 +280,39 @@ export default class RoutingService {
             hop: run.currentHopIndex + 1,
         });
 
+        // Attempt to retrieve the coordinates for the recommended hop
+        const adressLocation = address?.info?.location || null;
+        const recommendedLatLng: LatLng | null = adressLocation && [
+            adressLocation.latitude, adressLocation.longitude,
+        ];
+
+        // If the coordinates are available, sort the alt hops based on distance
+        const sortedAltHops = recommendedLatLng && altHops.sort((a, b) => (
+            haversine(a.location, recommendedLatLng) - haversine(b.location, recommendedLatLng)
+        ));
+
         // All other routes become alternative routes
-        await Promise.all(otherRouters.map(async (terminal) => {
+        await Promise.all(otherRouters.map(async (terminal, i) => {
+            // Retrieve the closest alternative hop
+            const altHop = sortedAltHops ? sortedAltHops[i] : null;
+
+            // Then, insert it as an address
+            const address = sortedAltHops
+                ? this.orm.em.create(Address, { 
+                    ip: altHop.ip,
+                    info: (await this.client.lookup(altHop.ip)).data,
+                })
+                : this.orm.em.create(Address, {
+                    ip: sample(altHops).ip,
+                    isInAltNetwork: true,
+                });
+
+            // Create the alternative hop
             await this.createHop({
                 run,
                 terminal,
                 type: RunHopType.ALTERNATIVE,
-                // TODO: Retrieve alt address
-                address: null,
+                address: address,
                 hop: run.currentHopIndex + 1,
             });
         }));

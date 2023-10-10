@@ -16,8 +16,11 @@ export default async function whois(ip: string, orm: MikroORM, client: Ipregistr
         // If it is, flag it and handle it in the frontend
         address.isInternalIP = true;
     } else {
-        // Add the info to the address and save
-        address.info = (await client.lookup(ip)).data;
+        // GUARD: Only load data for non-alt addresses
+        if (!address.isInAltNetwork) {
+            // Add the info to the address and save
+            address.info = (await client.lookup(ip)).data;
+        }
     }
 
     // Flush result to database
