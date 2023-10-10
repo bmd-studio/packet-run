@@ -6,13 +6,13 @@ type IpInfo {
   ip: String!
   type: String!
   hostname: String
-  carrier: Carrier!
+  carrier: Carrier
   company: Company!
-  connection: Connection!
-  currency: Currency!
-  location: Location!
-  security: Security!
-  time_zone: TimeZone!
+  connection: Connection
+  currency: Currency
+  location: Location
+  security: Security
+  time_zone: TimeZone
 }
 
 type Carrier {
@@ -65,7 +65,7 @@ type Location {
   latitude: Float
   longitude: Float
   language: LanguagesEntityOrLanguage!
-  in_eu: Boolean!
+  in_eu: Boolean
 }
 
 type ContinentOrRegion {
@@ -74,15 +74,15 @@ type ContinentOrRegion {
 }
 
 type Country {
-  area: Float!
-  borders: [String!]!
+  area: Float
+  borders: [String!]
   calling_code: String
   capital: String
   code: String
   name: String
   population: Float
   population_density: Float
-  flag: Flag!
+  flag: Flag
   languages: [LanguagesEntityOrLanguage!]
   tld: String
 }

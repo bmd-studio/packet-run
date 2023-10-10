@@ -10,6 +10,7 @@ import altHops from '../data/altHops';
 import haversine, { LatLng } from '../lib/haversine';
 import Address from '../entities/address/index.entity';
 import { IpregistryClient } from '@ipregistry/client';
+import { Location } from '../entities/address/ipinfo.model';
 
 /**
  * This contains all logic that determines how packets are routed across our
@@ -18,6 +19,7 @@ import { IpregistryClient } from '@ipregistry/client';
 @Injectable()
 export default class RoutingService {
     private logger = new Logger(RoutingService.name);
+    protected defaultLocation: Location = JSON.parse(process.env.DEFAULT_LOCATION);
 
     constructor(
         private orm: MikroORM,

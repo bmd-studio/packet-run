@@ -101,13 +101,13 @@ export default function DestinationBar() {
                                     ): (
                                         <h1>
                                             {hop.address?.info
-                                                ? <>{hop.address.info?.location.city} ({hop.address.info?.location.country.code})</>
+                                                ? <>{hop.address.info?.location?.city} ({hop.address.info?.location?.country.code})</>
                                                 : UNKNOWN
                                             }
                                         </h1>
                                     )}
                                     <p>IP address: {hop.address?.ip || UNKNOWN}</p>
-                                    <p>Owner: {hop.address?.info?.carrier.name || hop.address?.info?.company.name || UNKNOWN}</p>
+                                    <p>Owner: {hop.address?.info?.carrier?.name || hop.address?.info?.company.name || UNKNOWN}</p>
                                     <p>
                                         Distance:
                                         {' '}

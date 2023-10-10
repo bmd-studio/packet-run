@@ -13,26 +13,26 @@ export default class IpInfo {
     @Field({ nullable: true })
     hostname?: string;
     
-    @Field(() => Carrier)
-    carrier: Rel<Carrier>;
+    @Field(() => Carrier, { nullable: true })
+    carrier?: Rel<Carrier>;
     
     @Field(() => Company)
     company: Rel<Company>;
     
-    @Field(() => Connection)
-    connection: Rel<Connection>;
+    @Field(() => Connection, { nullable: true })
+    connection?: Rel<Connection>;
     
-    @Field(() => Currency)
-    currency: Rel<Currency>;
+    @Field(() => Currency, { nullable: true })
+    currency?: Rel<Currency>;
     
-    @Field(() => Location)
-    location: Rel<Location>;
+    @Field(() => Location, { nullable: true })
+    location?: Rel<Location>;
     
-    @Field(() => Security)
-    security: Rel<Security>;
+    @Field(() => Security, { nullable: true })
+    security?: Rel<Security>;
     
-    @Field(() => TimeZone)
-    time_zone: Rel<TimeZone>;
+    @Field(() => TimeZone, { nullable: true })
+    time_zone?: Rel<TimeZone>;
 }
 
 @ObjectType()
@@ -148,8 +148,8 @@ export class Location {
     @Field(() => LanguagesEntityOrLanguage)
     language: Rel<LanguagesEntityOrLanguage>;
     
-    @Field()
-    in_eu: boolean;
+    @Field({ nullable: true })
+    in_eu?: boolean;
 }
 
 @ObjectType()
@@ -163,11 +163,11 @@ export class ContinentOrRegion {
 
 @ObjectType()
 export class Country {
-    @Field()
-    area: number;
+    @Field({ nullable: true })
+    area?: number;
     
-    @Field(() => [String])
-    borders: string[];
+    @Field(() => [String], { nullable: true })
+    borders?: string[];
     
     @Field({ nullable: true })
     calling_code?: string;
@@ -187,8 +187,8 @@ export class Country {
     @Field({ nullable: true })
     population_density?: number;
     
-    @Field(() => Flag)
-    flag: Rel<Flag>;
+    @Field(() => Flag, { nullable: true })
+    flag?: Rel<Flag>;
     
     @Field(() => [LanguagesEntityOrLanguage], { nullable: true })
     languages?: Rel<LanguagesEntityOrLanguage>[];
