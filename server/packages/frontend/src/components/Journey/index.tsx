@@ -78,9 +78,9 @@ export default function Journey() {
                     <Text>{LOCATION_NAME}</Text>
                 ): (
                     <Text>
-                        {address?.info?.location.city || '???'}
+                        {address?.info?.location?.city || '???'}
                         {' '}
-                        {address?.info?.location.country.code && `(${address.info.location.country.code})`}
+                        {address?.info?.location?.country.code && `(${address.info.location.country.code})`}
                     </Text>
                 )}
                 <Label>Your computer</Label>

@@ -10,7 +10,7 @@ interface PartialRun {
  */
 export default function retrieveLatestKnownHop(run: PartialRun | null | undefined) {
     // GUARD: If the current hop has a location, return it immediately
-    if (run?.currentHop?.address?.info?.location.longitude) {
+    if (run?.currentHop?.address?.info?.location?.longitude) {
         return run.currentHop;
     }
 
@@ -20,7 +20,7 @@ export default function retrieveLatestKnownHop(run: PartialRun | null | undefine
         .find((hop) => {
             return hop.status === RunHopStatus.Actual
                 && (
-                    hop.address?.info?.location.longitude
+                    hop.address?.info?.location?.longitude
                     || hop.address?.isInternalIP
                 )
         });

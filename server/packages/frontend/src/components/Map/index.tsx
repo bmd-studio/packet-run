@@ -31,8 +31,8 @@ export default function Map() {
 
         const latestKnownHop = retrieveLatestKnownHop(run);
         const address = latestKnownHop?.address;
-        const lng = (address?.info?.location.longitude || LOCATION_LNG);
-        const lat = (address?.info?.location.latitude || LOCATION_LAT);
+        const lng = (address?.info?.location?.longitude || LOCATION_LNG);
+        const lat = (address?.info?.location?.latitude || LOCATION_LAT);
 
         // Determine where the center of the map should be
         const center: [number, number] = address?.isInternalIP ? [

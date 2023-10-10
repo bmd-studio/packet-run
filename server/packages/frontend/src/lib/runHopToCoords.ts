@@ -10,7 +10,7 @@ export default function runHopToCoords(hop: RegisterTerminalRunHopFragment): [nu
     }
 
     return [
-        hop.address?.info?.location.longitude || LOCATION_LNG,
-        hop.address?.info?.location.latitude || LOCATION_LAT,
+        hop.address?.info?.location?.longitude || LOCATION_LNG,
+        hop.address?.info?.location?.latitude || LOCATION_LAT,
     ];
 }
