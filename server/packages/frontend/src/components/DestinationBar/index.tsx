@@ -88,31 +88,35 @@ export default function DestinationBar() {
                 </Container>
             )}
             <Container>
-                {sortedHops.map((hop) => hop && (
-                    <Destination key={hop.id}>
-                        <Content>
-                            {hop.address?.isInternalIP ? (
-                                <h1>{LOCATION_NAME}</h1>
-                            ): (
-                                <h1>
-                                    {hop.address?.info
-                                        ? <>{hop.address.info?.location.city} ({hop.address.info?.location.country.code})</>
-                                        : UNKNOWN
+                {sortedHops.map((hop, i) => (
+                    <Destination key={hop?.id || i}>
+                        {hop && (
+                            <>
+                                <Content>
+                                    {hop.address?.isInternalIP ? (
+                                        <h1>{LOCATION_NAME}</h1>
+                                    ): (
+                                        <h1>
+                                            {hop.address?.info
+                                                ? <>{hop.address.info?.location.city} ({hop.address.info?.location.country.code})</>
+                                                : UNKNOWN
+                                            }
+                                        </h1>
+                                    )}
+                                    <p>IP address: {hop.address?.ip || UNKNOWN}</p>
+                                    <p>Owner: {hop.address?.info?.carrier.name || hop.address?.info?.company.name || UNKNOWN}</p>
+                                    <p>Distance: {UNKNOWN}</p>
+                                </Content>
+                                <Banner
+                                    $highlighted={
+                                        hop.type === RunHopType.Recommended
+                                        || hop.type === RunHopType.Wormhole
                                     }
-                                </h1>
-                            )}
-                            <p>IP address: {hop.address?.ip || UNKNOWN}</p>
-                            <p>Owner: {hop.address?.info?.carrier.name || hop.address?.info?.company.name || UNKNOWN}</p>
-                            <p>Distance: {UNKNOWN}</p>
-                        </Content>
-                        <Banner
-                            $highlighted={
-                                hop.type === RunHopType.Recommended
-                                || hop.type === RunHopType.Wormhole
-                            }
-                        >
-                            {hop.type}
-                        </Banner>
+                                >
+                                    {hop.type}
+                                </Banner>
+                            </>
+                        )}
                     </Destination>
                 ))}
             </Container>
