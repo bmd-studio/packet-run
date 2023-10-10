@@ -20,11 +20,20 @@ const Bar = styled(motion.div)`
  * start and an end date
  */
 export default function ScannerTimeoutBar({ start, end }: { start?: Date, end?: Date }) {
+    // GUARD: Don't display the bar if one of the dates is missing
     if (!start || !end) {
         return null;
     }
 
+    // Fetch the current time
     const now = new Date().getTime();
+
+    // GUARD: Only render the bar if we're within the duration zone
+    if (now < start.getTime() || now > end.getTime()) {
+        return null;
+    }
+
+    // Calculate the reminaing duration and progress
     const remainingDuration = Math.max(end.getTime() - now, 0);
     const startProgression = (now - start.getTime()) / (end.getTime() - start.getTime());
 
