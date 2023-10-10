@@ -11,6 +11,7 @@ import { DEBUG } from '@/config';
 import { TextContainer, Title } from '@/components/Typography';
 import ForgeManager from './manager';
 import styled from 'styled-components';
+import ArrowWithLabel from '@/components/ArrowWithLabel';
 
 const Centered = styled.div`
     display: flex;
@@ -46,7 +47,7 @@ export default function Server() {
                                         <Title>USE THE HANDLE TO</Title>
                                         <Title>FORGE A NEW PACKET</Title>
                                     </TextContainer>
-                                    {/* <ArrowWithLabel position="bottom-right">HANDLE</ArrowWithLabel> */}
+                                    <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
                                 </PacketScanner>
                             </>
                         )}

@@ -17,6 +17,11 @@ const Arrow = styled(motion.span)`
 
 export type ArrowPlacement = 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right';
 
+export interface ArrowWithLabelProps extends PropsWithChildren {
+    position: ArrowPlacement;
+    rotate?: 90 | -90;
+}
+
 const mapPlacementToStyles: Record<ArrowPlacement, CSSProperties> = {
     'top-left': { top: 64, left: 64 },
     'bottom-left': { bottom: 64, left: 64 },
@@ -24,15 +29,31 @@ const mapPlacementToStyles: Record<ArrowPlacement, CSSProperties> = {
     'bottom-right': { bottom: 64, right: 64, flexDirection: 'row-reverse' },
 };
 
-export default function ArrowWithLabel({ children, position }: PropsWithChildren<{ position: ArrowPlacement }>) {
+export default function ArrowWithLabel({ children, position, rotate }: ArrowWithLabelProps) {
     const isLeft = useMemo(() => position === 'top-left' || position === 'bottom-left', [position]);
 
     return (
         <Hint style={mapPlacementToStyles[position]}> 
             <Arrow
-                initial={{ scaleX: 1.25 }}
+                initial={{ 
+                    ...(rotate ? {
+                        scaleX: 1.25, 
+                    } : {
+                        scaleY: 1.25, 
+                    }),
+                    rotate,
+                }}
                 transition={{ repeat: Infinity, duration: 1 }}
-                animate={{ x: isLeft ? [0, 48, 0] : [0, -48, 0], scaleX: 1.25 }}
+                animate={{ 
+                    ...(rotate ? {
+                        y: isLeft ? [0, -48, 0] : [0, 48, 0],
+                        scaleY: 1.25, 
+                    } : {
+                        x: isLeft ? [0, 48, 0] : [0, -48, 0],
+                        scaleX: 1.25, 
+                    }),
+                    rotate,
+                }}
             >
                 <Title
                     stroke="var(--yellow)"

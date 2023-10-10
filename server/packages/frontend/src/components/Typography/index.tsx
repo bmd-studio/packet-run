@@ -11,7 +11,7 @@ export function Title({ children, ...rest }: TextWithStrokeProps) {
             height={68}
             stroke="var(--light-gray)"
             fontFamily="var(--font-vt323)"
-            strokeWidth={8}
+            strokeWidth={12}
             {...rest}
         >
             {children}
@@ -26,7 +26,7 @@ export function Subtitle({ children, ...rest }: TextWithStrokeProps) {
             height={32}
             stroke="var(--light-gray)"
             fontFamily="var(--font-vt323)"
-            strokeWidth={8}
+            strokeWidth={12}
             {...rest}
         >
             {children}
