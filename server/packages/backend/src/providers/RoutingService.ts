@@ -301,10 +301,14 @@ export default class RoutingService {
                 ? await this.orm.em.upsert(Address, { 
                     ip: altHop.ip,
                     info: (await this.client.lookup(altHop.ip)).data,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
                 })
                 : await this.orm.em.upsert(Address, {
                     ip: sample(altHops).ip,
                     isInAltNetwork: true,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
                 });
 
             // Create the alternative hop
