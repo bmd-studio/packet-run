@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
 import { RegisterTerminalRunHopFragment, RunHopStatus } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
+import generatePulsingDot from './pulsingDot';
+import curvedLine from './curvedLine';
 
 const MapContainer = styled.div`
     height: 100vh;
@@ -46,6 +48,10 @@ export default function Map() {
             interactive: true,
         });
 
+        // Add the pulsing dot as an
+        const pulsingDot = generatePulsingDot(map.current);
+        map.current.addImage('pulsing-dot', pulsingDot)
+
         const previousRoutes = run.hops.filter((h) => (
             h.address && h.status === RunHopStatus.Actual
         )).sort((a, b) => a.hop - b.hop);
@@ -69,11 +75,35 @@ export default function Map() {
         map.current.on('load', () => {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
-                new mapboxgl.Marker({ 
-                    color: coord[0] === lng ? 'var(--yellow)' : '#666',
-                    scale: 1.5
-                }).setLngLat(coord)
-                    .addTo(map.current as mapboxgl.Map);
+                if (coord[0] === lng) {
+                    map.current?.addLayer({
+                        id: 'layer-with-pulsing-dot',
+                        type: 'symbol',
+                        source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'FeatureCollection',
+                                features: [{
+                                    type: 'Feature',
+                                    geometry: {
+                                        type: 'Point',
+                                        coordinates: coord,
+                                    },
+                                    properties: {},
+                                }]
+                            }
+                        },
+                        layout: {
+                            "icon-image": 'pulsing-dot',
+                        }
+                    })
+                } else {
+                    new mapboxgl.Marker({ 
+                        color: coord[0] === lng ? 'var(--yellow)' : '#666',
+                        scale: 1.5
+                    }).setLngLat(coord)
+                        .addTo(map.current as mapboxgl.Map);
+                }
             });
 
             previousRoutes.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
@@ -83,21 +113,11 @@ export default function Map() {
                         id: `line-${hop.hop}`,
                         source: {
                             type: 'geojson',
-                            data: {
-                                type: 'Feature',
-                                properties: {},
-                                geometry: {
-                                    type: 'LineString',
-                                    coordinates: [
-                                        runHopToCoords(hop),
-                                        runHopToCoords(prev),
-                                    ]
-                                }
-                            }
+                            data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
                         },
                         paint: {
                             "line-color": '#F0EA00',
-                            "line-width": 8,
+                            "line-width": 6,
                         }
                     });
                 }
@@ -109,24 +129,26 @@ export default function Map() {
                 if (prev && prev.address && hop.address) {
                     map.current?.addLayer({
                         type: 'line',
-                        id: `line-${hop.hop}`,
+                        id: `line-${hop.hop}-background`,
                         source: {
                             type: 'geojson',
-                            data: {
-                                type: 'Feature',
-                                properties: {},
-                                geometry: {
-                                    type: 'LineString',
-                                    coordinates: [
-                                        runHopToCoords(hop),
-                                        runHopToCoords(prev),
-                                    ]
-                                }
-                            }
+                            data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
+                        },
+                        paint: {
+                            "line-color": '#5b5800',
+                            "line-width": 6,
+                        }
+                    });
+                    map.current?.addLayer({
+                        type: 'line',
+                        id: `line-${hop.hop}-foreground`,
+                        source: {
+                            type: 'geojson',
+                            data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
                         },
                         paint: {
                             "line-color": '#F0EA00',
-                            "line-width": 8,
+                            "line-width": 6,
                             'line-dasharray': [4, 4],
                         }
                     });

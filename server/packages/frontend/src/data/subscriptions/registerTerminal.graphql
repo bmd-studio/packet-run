@@ -39,6 +39,9 @@ fragment RegisterTerminalRunHop on RunHop {
     mayPerformTransformation
     hop
     status
+    terminal {
+        id
+    }
 }
 
 subscription RegisterTerminal($id: Float!) {

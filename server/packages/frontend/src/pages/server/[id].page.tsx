@@ -34,22 +34,36 @@ export default function Server() {
                             </>
                         )}
                         {terminal.status === TerminalStatus.ScanningNfc && (
-                            <>
-                                <Centered key="centered">
-                                    <Title>YOUR PACKET HAS ARRIVED AT</Title>
-                                    <Title>{terminal.run?.url}</Title>
-                                    <Title></Title>
-                                    <Title>NOW, ANSWER THE REQUEST BY </Title>
-                                    <Title>CREATING A RESPONSE PACKET.</Title>
-                                </Centered>
-                                <PacketScanner key="packet-scanner">
-                                    <TextContainer>
-                                        <Title>USE THE HANDLE TO</Title>
-                                        <Title>FORGE A NEW PACKET</Title>
-                                    </TextContainer>
-                                    <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
-                                </PacketScanner>
-                            </>
+                            terminal.run?.currentHop.mayPerformTransformation ? (
+                                <>
+                                    <Centered key="centered">
+                                        <Title>YOUR PACKET HAS ARRIVED AT</Title>
+                                        <Title>{terminal.run?.url}</Title>
+                                        <Title></Title>
+                                        <Title>NOW, ANSWER THE REQUEST BY </Title>
+                                        <Title>CREATING A RESPONSE PACKET.</Title>
+                                    </Centered>
+                                    <PacketScanner key="packet-scanner">
+                                        <TextContainer>
+                                            <Title>USE THE HANDLE TO</Title>
+                                            <Title>FORGE A NEW PACKET</Title>
+                                        </TextContainer>
+                                        <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
+                                    </PacketScanner>
+                                </>
+                            ) : (
+                                <>
+                                    <DestinationBar />
+                                    <Map />
+                                    <Journey />
+                                    <PacketScanner key="packet-scanner">
+                                        <TextContainer>
+                                            <Title>GUIDE YOUR</Title>
+                                            <Title>PACKET ONWARDS</Title>
+                                        </TextContainer>
+                                    </PacketScanner>
+                                </>
+                            )
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
                             <>
