@@ -298,11 +298,11 @@ export default class RoutingService {
 
             // Then, insert it as an address
             const address = sortedAltHops
-                ? this.orm.em.create(Address, { 
+                ? await this.orm.em.upsert(Address, { 
                     ip: altHop.ip,
                     info: (await this.client.lookup(altHop.ip)).data,
                 })
-                : this.orm.em.create(Address, {
+                : await this.orm.em.upsert(Address, {
                     ip: sample(altHops).ip,
                     isInAltNetwork: true,
                 });
