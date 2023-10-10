@@ -193,8 +193,19 @@ export default class TerminalsResolver {
     async validateHost(
         @Args('host') host: string,
     ) {
+        const url = `https://${host}`;
+
         try {
-            const response = await fetch(`https://${host}`, { method: 'HEAD', mode: 'no-cors', redirect: 'manual' });
+            // Attempt a HEAD request fisrt
+            const response = await fetch(url, { method: 'HEAD', mode: 'no-cors', redirect: 'manual' });
+
+            // GUARD: Check for error messages
+            if (response.status >= 400) {
+                // Request again using GET, as some servers block HEAD requests
+                const response = await fetch(url, { mode: 'no-cors', redirect: 'manual' });
+                return response.status >= 200 && response.status < 400; 
+            }
+
             return response.status >= 200 && response.status < 400;
         } catch(e) {
             return false;
