@@ -104,13 +104,13 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             <RestContainer>
                 {children || [
                     terminal.status === TerminalStatus.Idle && (
-                        <TextContainer>
+                        <TextContainer key="idle">
                             <Title>PLACE YOUR PACKET</Title>
                             <Title>ON THE SCANNER</Title>
                         </TextContainer>
                     ),
                     terminal.status === TerminalStatus.ScanningNfc && (
-                        <TextContainer>
+                        <TextContainer key="scanning-nfc">
                             <Title>GUIDE YOUR</Title>
                             <Title>PACKET ONWARDS</Title>
                         </TextContainer>
