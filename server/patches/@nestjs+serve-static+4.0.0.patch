@@ -1,0 +1,29 @@
+diff --git a/node_modules/@nestjs/serve-static/dist/loaders/fastify.loader.js b/node_modules/@nestjs/serve-static/dist/loaders/fastify.loader.js
+index f1587bb..8ac8e42 100644
+--- a/node_modules/@nestjs/serve-static/dist/loaders/fastify.loader.js
++++ b/node_modules/@nestjs/serve-static/dist/loaders/fastify.loader.js
+@@ -25,22 +25,15 @@ let FastifyLoader = class FastifyLoader extends abstract_loader_1.AbstractLoader
+                 app.register(fastifyStatic, {
+                     root: clientPath,
+                     ...(options.serveStaticOptions || {}),
+-                    wildcard: false,
++                    wildcard: true,
+                     prefix: options.serveRoot
+                 });
+-                const renderPath = typeof options.serveRoot === 'string'
+-                    ? options.serveRoot + (0, validate_path_util_1.validatePath)(options.renderPath)
+-                    : options.serveRoot;
+-                app.get(renderPath, (req, res) => {
+-                    const stream = fs.createReadStream(indexFilePath);
+-                    res.type('text/html').send(stream);
+-                });
+             }
+             else {
+                 app.register(fastifyStatic, {
+                     root: clientPath,
+                     ...(options.serveStaticOptions || {}),
+-                    wildcard: false
++                    wildcard: true
+                 });
+                 app.get(options.renderPath, (req, res) => {
+                     const stream = fs.createReadStream(indexFilePath);
