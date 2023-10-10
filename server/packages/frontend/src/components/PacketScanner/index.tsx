@@ -6,7 +6,6 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
 import { TextContainer, Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
-import usePrevious from '@/lib/usePrevious';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
@@ -64,7 +63,6 @@ const Text = styled.h2`
 export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
-    const previousNfcId = usePrevious(nfcId);
 
     const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
 
@@ -72,11 +70,6 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     const [resetTerminal] = useResetTerminalMutation();
 
     useEffect(() => {
-        // GUARD: Only execute actions if there is a new nfcId
-        if (nfcId === previousNfcId) {
-            return;
-        }
-
         // GUARD: Check that all is in place to send the id to the back-end
         if (nfcId && !terminal.run?.id) {
             scanNfcForTerminal({
@@ -101,7 +94,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 setScannerTimeout(null);
             };
         }
-    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run, previousNfcId]);
+    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run]);
     
     return (
         <Container>
