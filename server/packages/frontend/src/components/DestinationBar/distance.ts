@@ -1,4 +1,5 @@
 import { RegisterTerminalRunHopFragment } from '@/data/generated';
+import runHopToCoords from '@/lib/runHopToCoords';
 import { distance } from '@turf/turf';
 
 const UNKNOWN = '???';
@@ -7,25 +8,24 @@ const UNKNOWN = '???';
  * Helper function to display the distance between two hops
  */
 export default function displayDistance(
-    from: RegisterTerminalRunHopFragment,
-    to: RegisterTerminalRunHopFragment,
+    from: RegisterTerminalRunHopFragment | undefined,
+    to: RegisterTerminalRunHopFragment | undefined,
 ) {
-    const fromLocation = from.address?.info?.location;
-    const toLocation = to.address?.info?.location;
-    
+    const fromLocation = from?.address?.info?.location;
+    const toLocation = to?.address?.info?.location;
+
     // GUARD: Check that all coordinates are present on both hops
-    if (!fromLocation?.latitude
-        || !fromLocation.longitude
-        || !toLocation?.latitude
-        || !toLocation.longitude) 
-    {
+    if (!from || !to
+        || (!fromLocation?.latitude && !fromLocation?.longitude && !from.address?.isInternalIP) 
+        || (!toLocation?.latitude && !toLocation?.longitude && !to.address?.isInternalIP)
+    ) {
         return UNKNOWN;
     }
 
     // Then, calculate the raw distance
     const d = distance(
-        [fromLocation.longitude, fromLocation.latitude],
-        [toLocation.longitude, toLocation.latitude],
+        runHopToCoords(from),
+        runHopToCoords(to),
         { units: 'kilometers' }
     );
 

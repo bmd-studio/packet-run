@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import displayDistance from './distance';
+import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 
 const UNKNOWN = '???';
 
@@ -70,6 +71,7 @@ export default function DestinationBar() {
             run?.availableHops.find((h) => h.terminal.id === to.id) || null
         ))
     ), [sortedConnections, run]);
+    const latestKnownHop = retrieveLatestKnownHop(run);
 
     if (!run?.availableHops) {
         return null;
@@ -109,7 +111,7 @@ export default function DestinationBar() {
                                     <p>
                                         Distance:
                                         {' '}
-                                        {displayDistance(run.currentHop, hop)}
+                                        {displayDistance(latestKnownHop, hop)}
                                     </p>
                                 </Content>
                                 <Banner

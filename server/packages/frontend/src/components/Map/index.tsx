@@ -9,6 +9,7 @@ import { RegisterTerminalRunHopFragment, RunHopStatus } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
 import generatePulsingDot from './pulsingDot';
 import curvedLine from './curvedLine';
+import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 
 const MapContainer = styled.div`
     height: 100vh;
@@ -28,7 +29,8 @@ export default function Map() {
             return;
         }
 
-        const address = run.currentHop.address;
+        const latestKnownHop = retrieveLatestKnownHop(run);
+        const address = latestKnownHop?.address;
         const lng = (address?.info?.location.longitude || LOCATION_LNG);
         const lat = (address?.info?.location.latitude || LOCATION_LAT);
 
