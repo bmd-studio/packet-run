@@ -5,6 +5,7 @@ import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import displayDistance from './distance';
 
 const UNKNOWN = '???';
 
@@ -105,7 +106,11 @@ export default function DestinationBar() {
                                     )}
                                     <p>IP address: {hop.address?.ip || UNKNOWN}</p>
                                     <p>Owner: {hop.address?.info?.carrier.name || hop.address?.info?.company.name || UNKNOWN}</p>
-                                    <p>Distance: {UNKNOWN}</p>
+                                    <p>
+                                        Distance:
+                                        {' '}
+                                        {displayDistance(run.currentHop, hop)}
+                                    </p>
                                 </Content>
                                 <Banner
                                     $highlighted={

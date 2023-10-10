@@ -83,7 +83,7 @@ export default function Journey() {
                         {address?.info?.location.country.code && `(${address.info.location.country.code})`}
                     </Text>
                 )}
-                <Label>Your home computer</Label>
+                <Label>Your computer</Label>
             </TextContainer>
         </Container>
     );
