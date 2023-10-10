@@ -17,7 +17,7 @@ export default function curvedLine(start: [lng: number, lat: number], end: [lng:
     const midpoint = tMidpoint(start, end);
     const bearing = tBearing(start, end);
     const rightSideArc = bearing - 90 > 180 ? 180 + (bearing + 90 - 180) : bearing - 90;
-    const destination = tDestination(midpoint, distance / 5, rightSideArc, { units: 'kilometers' });
+    const destination = tDestination(midpoint, distance / 7, rightSideArc, { units: 'kilometers' });
 
     const curvedLine = bezierSpline(
         lineString([start, destination.geometry.coordinates, end]),
