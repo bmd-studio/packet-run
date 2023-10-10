@@ -34,8 +34,8 @@ export class TerminalSeeder extends Seeder {
         em.create(TerminalConnection, { from: gateway, to: receiver, slot: 1 });
         em.create(TerminalConnection, { from: gateway, to: terminals[6], slot: 2 });
         
-        em.create(TerminalConnection, { from: server1, to: terminals[4], slot: 1 });
-        em.create(TerminalConnection, { from: server1, to: gateway, slot: 2 });
+        em.create(TerminalConnection, { from: server1, to: gateway, slot: 1 });
+        em.create(TerminalConnection, { from: server1, to: terminals[4], slot: 2 });
 
         em.create(TerminalConnection, { from: server2, to: gateway, slot: 1 });
         em.create(TerminalConnection, { from: server2, to: terminals[10], slot: 2 });
