@@ -9,6 +9,7 @@ import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import { DEBUG } from '@/config';
 import { AnimatePresence } from 'framer-motion';
 import Journey from '@/components/Journey';
+import Stars from '@/components/Stars';
 
 export default function Router() {
     return (
@@ -19,7 +20,11 @@ export default function Router() {
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             <>
                                 <DestinationBar key="destination-bar" />
-                                <Map key="map" />
+                                {terminal.run?.currentHop.address ? (
+                                    <Map key="map" />
+                                ) : (
+                                    <Stars key="stars" />
+                                )}
                                 <Journey key="journey" />
                             </>
                         )}
