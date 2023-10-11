@@ -128,7 +128,7 @@ export default function Map() {
             }, null);
 
             run.availableHops.forEach((hop) => {
-                if (latestKnownHop && address && hop.address) {
+                if (latestKnownHop && address && hop.address && hop.address.info?.location?.longitude) {
                     map.current?.addLayer({
                         type: 'line',
                         id: `line-${hop.id}-background`,
