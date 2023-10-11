@@ -8,6 +8,7 @@ import { sample } from 'lodash';
 const Container = styled.div`
     grid-area: main;
     position: relative;
+    overflow: hidden;
 `;
 
 const Box = styled(motion.div)` 
