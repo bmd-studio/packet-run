@@ -67,7 +67,7 @@ export default function Stars() {
 
     return (
         <motion.div
-            style={{ position: 'relative', overflow: 'hidden' }}
+            style={{ position: 'relative', overflow: 'hidden', gridArea: 'main' }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             transition={{ duration: 2 }}
