@@ -127,14 +127,14 @@ export default function Map() {
                 return hop;
             }, null);
 
-            run.availableHops.reduce<RegisterTerminalRunHopFragment | null>((prev, hop) => {
-                if (prev && prev.address && hop.address) {
+            run.availableHops.forEach((hop) => {
+                if (latestKnownHop && address && hop.address) {
                     map.current?.addLayer({
                         type: 'line',
-                        id: `line-${hop.hop}-background`,
+                        id: `line-${hop.id}-background`,
                         source: {
                             type: 'geojson',
-                            data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
+                            data: curvedLine(runHopToCoords(hop), runHopToCoords(latestKnownHop)),
                         },
                         paint: {
                             "line-color": '#5b5800',
@@ -143,10 +143,10 @@ export default function Map() {
                     });
                     map.current?.addLayer({
                         type: 'line',
-                        id: `line-${hop.hop}-foreground`,
+                        id: `line-${hop.id}-foreground`,
                         source: {
                             type: 'geojson',
-                            data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
+                            data: curvedLine(runHopToCoords(hop), runHopToCoords(latestKnownHop)),
                         },
                         paint: {
                             "line-color": '#F0EA00',
@@ -155,10 +155,10 @@ export default function Map() {
                         }
                     });
                 }
+            });
+        });
 
-                return hop;
-            }, null);
-        })
+        return () => map.current?.remove();
     }, [run]);
 
     return (
