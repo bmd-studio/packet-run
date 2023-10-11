@@ -5,7 +5,7 @@ import { LOCATION_LAT, LOCATION_LNG, MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
-import { RegisterTerminalRunHopFragment, RunHopStatus } from '@/data/generated';
+import { RegisterTerminalRunHopFragment, RunHopStatus, TerminalType } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
 import generatePulsingDot from './pulsingDot';
 import curvedLine from './curvedLine';
@@ -29,6 +29,7 @@ export default function Map() {
             return;
         }
 
+        // Retrieve the latest known hop (that was not null or unknown)
         const latestKnownHop = retrieveLatestKnownHop(run);
         const address = latestKnownHop?.address;
         const lng = (address?.info?.location?.longitude || LOCATION_LNG);
@@ -41,6 +42,7 @@ export default function Map() {
             lng, lat + 0.15
         ];
 
+        // Initialize map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946',
@@ -50,7 +52,7 @@ export default function Map() {
             interactive: true,
         });
 
-        // Add the pulsing dot as an
+        // Add the pulsing dot as an image
         const pulsingDot = generatePulsingDot(map.current);
         map.current.addImage('pulsing-dot', pulsingDot)
 
@@ -58,8 +60,10 @@ export default function Map() {
             h.address && h.status === RunHopStatus.Actual
         )).sort((a, b) => a.hop - b.hop);
 
-        const markers = [...previousRoutes, ...run.availableHops]
-            .map(runHopToCoords);
+        const markers = (terminal.type === TerminalType.Receiver
+            ? [...previousRoutes, ...run.availableHops]
+            : [...(latestKnownHop ? [latestKnownHop] : []), ...run.availableHops]
+        ).map(runHopToCoords);
 
         // Then, create a new bound from all coordinates
         const bounds = markers.reduce((bounds, coord) => {
