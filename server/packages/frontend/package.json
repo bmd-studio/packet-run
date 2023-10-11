@@ -35,6 +35,7 @@
     "framer-motion": "^10.16.4",
     "graphql": "^16.7.1",
     "graphql-ws": "^5.14.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.265.0",
     "mapbox-gl": "^2.15.0",
     "next": "^13.5.2",

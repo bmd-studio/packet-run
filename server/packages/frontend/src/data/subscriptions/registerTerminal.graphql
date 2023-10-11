@@ -78,6 +78,7 @@ subscription RegisterTerminal($id: Float!) {
             hops {
                 ...RegisterTerminalRunHop
             }
+            currentHopIndex
             createdAt
             updatedAt
         }

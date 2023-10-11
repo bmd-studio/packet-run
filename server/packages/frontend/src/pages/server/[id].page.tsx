@@ -12,6 +12,7 @@ import { TextContainer, Title } from '@/components/Typography';
 import ForgeManager from './manager';
 import styled from 'styled-components';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
+import InfoBox from '@/components/InfoBox';
 
 const Centered = styled.div`
     display: flex;
@@ -84,12 +85,13 @@ export default function Server() {
                                 <PacketScanner key="packet-scanner">
                                     <TextContainer>
                                         <Title>NOW, NAVIGATE BACK</Title>
-                                        <Title>TO THE HOME PC</Title>
+                                        <Title>TO YOUR COMPUTER</Title>
                                     </TextContainer>
                                 </PacketScanner>
                             </>
                         )}
                         {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
+                        <InfoBox />
                         <ForgeManager key="forge-manager" />
                     </AnimatePresence>
                 </Grid>

@@ -163,10 +163,11 @@ export default function Map() {
         });
 
         return () => map.current?.remove();
-    }, [run]);
+    }, [run, terminal.type]);
 
     return (
         <motion.div
+            style={{ gridArea: 'main' }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             transition={{ duration: 2 }}

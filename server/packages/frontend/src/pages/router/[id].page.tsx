@@ -10,6 +10,7 @@ import { DEBUG } from '@/config';
 import { AnimatePresence } from 'framer-motion';
 import Journey from '@/components/Journey';
 import Stars from '@/components/Stars';
+import InfoBox from '@/components/InfoBox';
 
 export default function Router() {
     return (
@@ -28,6 +29,7 @@ export default function Router() {
                                 <Journey key="journey" />
                             </>
                         )}
+                        <InfoBox />
                         <PacketScanner key="packet-scanner" />
                         {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
                     </AnimatePresence>
