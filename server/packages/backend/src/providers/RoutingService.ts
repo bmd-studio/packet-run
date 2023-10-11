@@ -288,6 +288,9 @@ export default class RoutingService {
             adressLocation.latitude, adressLocation.longitude,
         ];
 
+        this.logger.debug(`Attempting to geolocate alternative hops for address [${adressLocation?.longitude},${adressLocation?.latitude}]`);
+        console.log(address, address?.info?.location);
+
         // If the coordinates are available, sort the alt hops based on distance
         const sortedAltHops = recommendedLatLng && altHops.sort((a, b) => (
             haversine(a.location, recommendedLatLng) - haversine(b.location, recommendedLatLng)
@@ -339,7 +342,11 @@ export default class RoutingService {
                 return run.destination;
             } else if (run.packetType === RunPacketType.RESPONSE) {
                 // Return the client address for responses
-                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run, hop: 1 });
+                const hop = await this.orm.em.findOneOrFail(
+                    TracerouteHop,
+                    { run, hop: 1 },
+                    { populate: ['address.info'] },
+                );
                 return hop.address
             }
         // GUARD: Check whether this is the last router before the destination
@@ -347,11 +354,19 @@ export default class RoutingService {
             this.logger.debug(`Currently at second-to-final hop. Returning gateway or gateway router addresses...`);
             if (run.packetType === RunPacketType.REQUEST) {
                 // Return the last hop
-                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run }, { orderBy: [{ hop: 'DESC' }]});
+                const hop = await this.orm.em.findOneOrFail(
+                    TracerouteHop,
+                    { run },
+                    { orderBy: [{ hop: 'DESC' }], populate: ['address.info'] }
+                );
                 return hop.address
             } else if (run.packetType === RunPacketType.RESPONSE) {
                 // Return the gateway address
-                const hop = await this.orm.em.findOneOrFail(TracerouteHop, { run, hop: 1 });
+                const hop = await this.orm.em.findOneOrFail(
+                    TracerouteHop,
+                    { run, hop: 1 },
+                    { populate: ['address.info'] }
+                );
                 return hop.address
             }
         // GUARD: In other cases, dynamically pick a hop that represents the
@@ -361,7 +376,10 @@ export default class RoutingService {
             const hops = await this.orm.em.find(
                 TracerouteHop,
                 { run, hop: { $gte: 4 } },
-                { orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' } }
+                { 
+                    orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' },
+                    populate: ['address.info'],
+                }
             );
 
             return hops[Math.floor((hops.length - 1) / distanceToDestination)].address;
