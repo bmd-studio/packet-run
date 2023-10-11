@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { theme, DEBUG, LOCATION_NAME } from '@/config';
-import { RunHopType } from '@/data/generated';
+import { RunHopType, TerminalType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -55,14 +55,21 @@ const Banner = styled.h2<{ $highlighted: boolean }>`
   font-size: 20px;
   background-color: ${(props) => props.$highlighted ? 'var(--yellow)' : 'var(--light-gray)'};
   color: black;
+  gap: 12px;
 
   ${(props) => props.$highlighted && css`
     background-color: var(--yellow);
   `};
 `;
 
+const Icon = styled.img`
+    width: 18px;
+    height: auto;
+    image-rendering: pixelated;
+`;
+
 export default function DestinationBar() {
-    const { connectionsTo, run } = useTerminal();
+    const { connectionsTo, run, type } = useTerminal();
     const sortedConnections = useMemo(() => (
         connectionsTo.sort((a, b) => a.slot - b.slot)
     ), [connectionsTo]);
@@ -120,6 +127,22 @@ export default function DestinationBar() {
                                         || hop.type === RunHopType.Wormhole
                                     }
                                 >
+                                    {hop.terminal.type === TerminalType.Gateway && (
+                                        <Icon src="/house.png" />
+                                    )}
+                                    {hop.terminal.type === TerminalType.Server && (
+                                        <Icon src="/cloud.png" />
+                                    )}
+                                    {(hop.terminal.type === TerminalType.Receiver
+                                        || hop.terminal.type === TerminalType.Sender) && 
+                                    (
+                                        <Icon src="/computer.png" />
+                                    )}
+                                    {hop.terminal.type === TerminalType.Router
+                                        && type === TerminalType.Gateway && 
+                                    (
+                                        <Icon src="/globe.png" />
+                                    )}
                                     {hop.type}
                                 </Banner>
                             </>

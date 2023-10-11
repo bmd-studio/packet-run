@@ -67,6 +67,7 @@ subscription RegisterTerminal($id: Float!) {
                 terminal {
                     id
                     status
+                    type
                 }
                 mayPerformTransformation
             }
