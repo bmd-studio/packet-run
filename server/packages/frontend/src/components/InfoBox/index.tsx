@@ -91,7 +91,7 @@ export default function InfoBox() {
         ];
 
         if (terminal.run?.currentHopIndex) {
-            facts.push(`So far, you've burned about ${terminal.run?.currentHopIndex * 5 * (70 / 1000)} kcal routing this packet.`)
+            facts.push(`So far, you've burned about ${(terminal.run?.currentHopIndex * 5 * (70 / 1000)).toFixed(2)} kcal routing this packet.`)
         }
 
         return (
