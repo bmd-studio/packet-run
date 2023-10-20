@@ -12,6 +12,7 @@ import { EntityManager } from '@mikro-orm/core';
 import Run, { RunPacketType } from '../run/index.entity';
 import RunHop, { RunHopStatus } from '../runHop/index.entity';
 import RoutingService from '../../providers/RoutingService';
+import UrlFiliterProvider from '../../providers/UrlFilterProvider';
 
 @Resolver(() => Terminal)
 export default class TerminalsResolver {
@@ -22,6 +23,7 @@ export default class TerminalsResolver {
         private readonly pubsub: PubSubManager,
         private readonly presence: PresenceManager,
         private readonly routing: RoutingService,
+        private readonly filter: UrlFiliterProvider,
     ) {}
 
     @Query(() => Terminal, { nullable: true })
@@ -194,6 +196,11 @@ export default class TerminalsResolver {
         @Args('host') host: string,
     ) {
         const url = `https://${host}`;
+
+        // GUARD: Check if the domain is on our blocklist
+        if (this.filter.isUrlBlocked(host)) {
+            return false;
+        }
 
         try {
             // Attempt a HEAD request fisrt
