@@ -29,6 +29,7 @@ import TracerouteHop from './entities/tracerouteHop/index.entity';
 import RunHop from './entities/runHop/index.entity';
 import RoutingService from './providers/RoutingService';
 import UrlFiliterProvider from './providers/UrlFilterProvider';
+import InitTerminalProvider from './providers/InitTerminalProvider';
 
 @Global()
 @Module({
@@ -79,6 +80,7 @@ import UrlFiliterProvider from './providers/UrlFilterProvider';
         PubSubManager,
         RoutingService,
         UrlFiliterProvider,
+        InitTerminalProvider,
         /** Resolvers */
         AddressesResolver,
         TerminalsResolver,
