@@ -122,8 +122,6 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             setScannerTimeout(null);
         };
     }, [nfcId, terminal.run, resetTerminal, terminal.id]);
-
-    console.log({ scannerTimeout });
     
     return (
         <Container>
