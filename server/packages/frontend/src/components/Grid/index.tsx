@@ -6,6 +6,7 @@ const Grid = styled(PatternedBackground)`
     grid-template-columns: 60% 40%;
     grid-template-areas: "main packet";
     height: 100vh;
+    overflow: hidden;
 `;
 
 export default Grid;

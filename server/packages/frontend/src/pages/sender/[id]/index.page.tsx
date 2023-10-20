@@ -15,6 +15,7 @@ import ArrowWithLabel from '@/components/ArrowWithLabel';
 const Container = styled(PatternedBackground)`
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
