@@ -12,6 +12,7 @@
 /* body family */
 body {
   font-family: var(--font-inter);
+  overflow: hidden;
 }
 
 p {
