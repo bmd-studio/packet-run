@@ -58,6 +58,9 @@ const Label = styled.p`
 const Text = styled.h2`
     font-size: 30px;
     line-height: 28px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export default function PacketScanner({ children }: PropsWithChildren) {
@@ -147,10 +150,11 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                                 <Label>Packet ID</Label>
                                 <Text>{terminal.run.id}</Text>
                             </div>
-                            {/* <div>
-                                <Label>Owner</Label>
-                                <Text>BMD Studio</Text>
-                            </div> */}
+                            <div>
+                                <Label>Destination</Label>
+                                {/* <Text>{terminal.run.url}</Text> */}
+                                <Text>https://ditiseenkeilangeurldiesowiesogaatoverflowenenmijncssvernueken.nl/blah</Text>
+                            </div>
                             <div>
                                 <Label>Source IP address</Label>
                                 <Text>{terminal.run.origin?.ip || '???'}</Text>

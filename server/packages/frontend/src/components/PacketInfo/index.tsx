@@ -34,6 +34,9 @@ const Label = styled.p`
 const Text = styled.h2`
     font-size: 30px;
     line-height: 28px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export default function PacketInfo({ children }: PropsWithChildren) {
@@ -52,10 +55,10 @@ export default function PacketInfo({ children }: PropsWithChildren) {
                         <Label>Packet ID</Label>
                         <Text>{run.id}</Text>
                     </div>
-                    {/* <div>
-                        <Label>Owner</Label>
-                        <Text>BMD Studio</Text>
-                    </div> */}
+                    <div>
+                        <Label>Destination</Label>
+                        <Text>{run.url}</Text>
+                    </div>
                     <div>
                         <Label>Source IP address</Label>
                         <Text>{run.origin?.ip || '???'}</Text>
