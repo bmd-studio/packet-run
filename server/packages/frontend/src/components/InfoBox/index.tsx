@@ -81,6 +81,14 @@ export default function InfoBox() {
     if (terminal.type === TerminalType.Router
         && terminal.status === TerminalStatus.ScanningNfc
     ) {
+        if (!terminal.run?.currentHop.address) {
+            return (
+                <InfoBoxWrapper>
+                    The current router hasn&apos;t responded. We have no idea where or whose it is.
+                </InfoBoxWrapper>
+            );
+        }
+
         const facts: ReactNode[] = [
             'Any router along can see the origin, destination and website you\'re visiting in the packet. Most other contents are secret nowadays, thanks to encryption.',
             // Source: https://httparchive.org/reports/state-of-the-web#pctHttps
@@ -88,7 +96,7 @@ export default function InfoBox() {
             'The average website returns about 4000 response packets before the website can be displayed.',
             'Your packet is about 98% data and about 2% headers. The headers make up the addressing information that helps the routers transfer your packet.',
             'A router only takes a couple microseconds to process a single packet.',
-            'Your packet nearly all of its time being transmitted as light particles across glass fiber cables.'
+            'Your packet spends nearly all of its time being transmitted as light particles across glass fiber cables.'
         ];
 
         if (terminal.run?.currentHopIndex) {
