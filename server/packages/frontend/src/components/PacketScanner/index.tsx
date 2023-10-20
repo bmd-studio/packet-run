@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
@@ -61,6 +63,12 @@ const Text = styled.h2`
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+`;
+
+const IPs = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 export default function PacketScanner({ children }: PropsWithChildren) {
@@ -178,14 +186,19 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                                 <Label>Destination</Label>
                                 <Text>{terminal.run.url}</Text>
                             </div>
-                            <div>
-                                <Label>Source IP address</Label>
-                                <Text>{terminal.run.origin?.ip || '???'}</Text>
-                            </div>
-                            <div>
-                                <Label>Destination IP address</Label>
-                                <Text>{terminal.run.destination?.ip || '???'}</Text>
-                            </div>
+                            <IPs>
+                                <div>
+                                    <Label>Source IP</Label>
+                                    <Text>{terminal.run.origin?.ip || '???'}</Text>
+                                </div>
+                                <div>
+                                    <Text><img src="/arrow-right.png" /></Text>
+                                </div>
+                                <div>
+                                    <Label>Destination IP</Label>
+                                    <Text>{terminal.run.destination?.ip || '???'}</Text>
+                                </div>
+                            </IPs>
                         </>
                     )}
                 </CardInnerContainer>
