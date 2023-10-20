@@ -73,31 +73,57 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     const [resetTerminal] = useResetTerminalMutation();
 
     useEffect(() => {
-        // GUARD: Check that all is in place to send the id to the back-end
-        if (nfcId && !terminal.run?.id) {
+        // GUARD: Don't do anything when there isn't any NFC that is being
+        // scanned currently. Resetting happens in the other hook
+        if (!nfcId) {
+            return;
+        }
+
+        async function sendNfcToTerminal() {
+            // GUARD: If the terminal is currently set to another nfcId, reset
+            // the terminal first.
+            if (terminal.run?.nfcId !== nfcId) {
+                await resetTerminal({ variables: { terminalId: terminal.id }});
+            }
+    
+            // Scan the NFC for the terminal
             scanNfcForTerminal({
                 variables: {
                     terminalId: terminal.id,
-                    nfcId,
+                    nfcId: nfcId as string,
                 }
             });
-        } else if (!nfcId && !!terminal.run) {
-            const now = new Date().getTime();
-            setScannerTimeout([
-                new Date(now + 1_000),
-                new Date(now + 20_000),
-            ]);
-            const timeout = setTimeout(() => {
-                resetTerminal({ variables: { terminalId: terminal.id }});
-                setScannerTimeout(null);
-            }, NFC_READER_TIMEOUT);
-
-            return () => {
-                clearTimeout(timeout);
-                setScannerTimeout(null);
-            };
         }
+
+        sendNfcToTerminal();
     }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run]);
+
+    useEffect(() => {
+        // GUARD: Wait for nfcId to become null and a run to be set
+        if (nfcId || !terminal.run) {
+            return;
+        }
+
+        // Set a timeout for the terminal to be reset. Also, store the date for
+        // this in state, so we can display a bar at the top of the screen
+        const now = new Date().getTime();
+        setScannerTimeout([
+            new Date(now + 1_000),
+            new Date(now + 20_000),
+        ]);
+        const timeout = setTimeout(() => {
+            resetTerminal({ variables: { terminalId: terminal.id }});
+            setScannerTimeout(null);
+        }, NFC_READER_TIMEOUT);
+
+        return () => {
+            // If anything changes, clear the timeouts
+            clearTimeout(timeout);
+            setScannerTimeout(null);
+        };
+    }, [nfcId, terminal.run, resetTerminal, terminal.id]);
+
+    console.log({ scannerTimeout });
     
     return (
         <Container>
@@ -152,8 +178,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                             </div>
                             <div>
                                 <Label>Destination</Label>
-                                {/* <Text>{terminal.run.url}</Text> */}
-                                <Text>https://ditiseenkeilangeurldiesowiesogaatoverflowenenmijncssvernueken.nl/blah</Text>
+                                <Text>{terminal.run.url}</Text>
                             </div>
                             <div>
                                 <Label>Source IP address</Label>
