@@ -43,10 +43,10 @@ export default function Stars() {
                     translateX,
                     translateY,
                 }}
-                animate={{
-                    scale: Math.random() / 3 + 0.5,
-                    opacity: Math.random() / 5 + 0.2,
-                }}
+                // animate={{
+                //     scale: Math.random() / 3 + 0.5,
+                //     opacity: Math.random() / 5 + 0.2,
+                // }}
                 transition={{ repeat: Infinity, duration, repeatType: 'reverse'  }}
             >
                 <path
