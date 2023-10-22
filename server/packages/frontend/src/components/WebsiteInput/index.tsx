@@ -48,7 +48,7 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
 
     const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value;
-        setHost(text.replace(/[^a-z0-9.]+/gi, ""));
+        setHost(text.replace(/[^a-z0-9.-]+/gi, ""));
     }, []);
 
     const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
