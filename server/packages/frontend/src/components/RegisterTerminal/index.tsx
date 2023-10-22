@@ -1,7 +1,7 @@
 import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, ReactNode, createContext, useContext, useMemo } from 'react';
+import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';
 import { DEBUG } from '@/config';
@@ -57,6 +57,17 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     if (error) {
         console.error(error, error.graphQLErrors, data);
     }
+
+    // Reload the page whenever an error is encountered
+    useEffect(() => {
+        if (!error) return;
+
+        const timeout = setTimeout(() => {
+            window.location.reload();
+        }, 5_000);
+
+        return () => clearTimeout(timeout);
+    }, [error]);
 
     // GUARD: Check if an error was encountered
     if (!terminalId || error) {
