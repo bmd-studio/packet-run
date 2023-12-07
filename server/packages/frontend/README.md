@@ -1,34 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Packet Run — Front-end
+This package contains the front-end for Packet Run. It's a React-based frontend
+powered by [NextJS](https://nextjs.org). It features Apollo for data fetching,
+Styled Components for styling and mapbox-gl for map rendering.
 
-## Getting Started
+## Requirements
+This package requires a relatively recent version of NodeJS (v20+
+recommended). 
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## Usage
+1. In order to start the front-end, first install all NPM packages:
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Then, create a `.env` file from the default example:
+```
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. (OPTIONAL) Set your [Mapbox API
+   Token](https://account.mapbox.com/access-tokens/) in the `.env` file. If you
+   don't maps will not work
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Start the development server
+```
+npm run dev
+```
 
-## Learn More
+Follow the link provided in your CLI and the application should be work. This
+codebase assumes the back-end will be running on the same host on port `8080`.
+Please refer to the [back-end documentation](../backend/) for information on
+setting up the back-end.
 
-To learn more about Next.js, take a look at the following resources:
+A dashboard is available on the root route (http://localhost:3000/) that
+displays the back-end status for the full system.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
+This codebase is structured so that the Raspberry Pi clients connect to the
+back-end through a URL that is formatted according to their id (e.g.
+`http://localhost:3000/terminal/8`). Depending on the terminal type, they are redirected
+to their respective pages (e.g. `http://localhost:3000/router/8`). These various
+pages handle functionalities specific to their terminal type. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+In these pages, the front-end will make a connection to the back-end over
+Websockets. Any time an update is issued, all data is updated and the page
+re-renders. The philosophy for this codebase is that any and all changes are
+send to the back-end, after which the back-end updates its data, updates are
+sent over websocket the front-end and the front-end re-renders. As little data
+is stored on-client as possible to mitigate risks of crashes.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The front-end attempts to connect to required peripherals, such as NFC readers
+(connected via WebSerial) or Hall Sensors (connected over the [HTTP API hosted
+by the client](../../../client/hall-sensor-server/)). The logic for these
+connections is abstracted using the hooks in the `./src/lib` directory.

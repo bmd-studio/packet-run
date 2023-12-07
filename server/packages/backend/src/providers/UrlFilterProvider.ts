@@ -6,8 +6,8 @@ import path from 'path';
  * Will load a blocklist from a text file and make it available for checking.
  */
 @Injectable()
-export default class UrlFiliterProvider implements OnModuleInit {
-    private readonly logger = new Logger(UrlFiliterProvider.name);
+export default class UrlFilterProvider implements OnModuleInit {
+    private readonly logger = new Logger(UrlFilterProvider.name);
     private blockList = new Set<string>();
 
     async onModuleInit() {

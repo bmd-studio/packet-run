@@ -28,7 +28,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import TracerouteHop from './entities/tracerouteHop/index.entity';
 import RunHop from './entities/runHop/index.entity';
 import RoutingService from './providers/RoutingService';
-import UrlFiliterProvider from './providers/UrlFilterProvider';
+import UrlFilterProvider from './providers/UrlFilterProvider';
 import InitTerminalProvider from './providers/InitTerminalProvider';
 
 @Global()
@@ -79,7 +79,7 @@ import InitTerminalProvider from './providers/InitTerminalProvider';
         PresenceManager,
         PubSubManager,
         RoutingService,
-        UrlFiliterProvider,
+        UrlFilterProvider,
         InitTerminalProvider,
         /** Resolvers */
         AddressesResolver,

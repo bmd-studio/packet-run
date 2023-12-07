@@ -1,73 +1,90 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Packet Run — Back-end
+This package contains the back-end code for Packet Run. It's a NestJS-based Node
+back-end that is almost exclusively accessed through its GraphQL-based API,
+powered by Apollo Server. It features a Worker Queue powered by BullMQ.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Requirements
+This package requires a relatively recent version of NodeJS (v20+
+recommended). You will also need redis (v7+ recommended) for the event queue.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+## Usage
+1. In order to start the front-end, first install all NPM packages:
+```
+npm install
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+2. Then, create a `.env` file from the default example:
+```
+cp .env.example .env
 ```
 
-## Test
+3. (OPTIONAL) Set your [IPRegistry API
+   Token](https://dashboard.ipregistry.co/keys) in the the `.env` file. If you
+   don't set it, no IP metadata will be displayed.
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+4. Run all migrations
+```
+npm run initialize
 ```
 
-## Support
+5. Start the development server
+```
+npm run dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+The back-end is served by default on port `8080`. You may interact with it
+through GraphQL (available on `http://localhost:8080/graphql`).
 
-## Stay in touch
+## Architecture
+This codebase is split out into a number of modules, services and providers that
+together create the full back-end service. You can find an overview of all
+modules that are loaded in this application at `./src/app.module.ts`.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Databasae
+The back-end is powered by an SQLite database that is stored locally. By running
+`npm run initialize`, this database is initialised, migrated and seeded. The
+database is located in the `./data/packet-run.db` file.
 
-## License
+The database is accessed through the MikroORM ORM layer. This layer features a
+number of `entities` (or "models") that are stored in
+`./src/entities/**/index.entity.ts`. Each files corresponds with a table in the
+database, and the files contain the properties that should be available in the
+database, along with their types.
 
-Nest is [MIT licensed](LICENSE).
+The database is automagically migrated through the [MikroORM migration
+manager](https://mikro-orm.io/docs/migrations). Whenever entity files are
+changed, it's recommended to generate a new migration.
+
+MikroORM also features subscribers, which allow create/update hooks for all
+models. These are co-located with the entitities in `./src/entities/**/subscriber.ts`.
+
+### GraphQL
+The data is made available through an GraphQL API. In order to specify data
+access for these, you can find resolvers (in `./src/entities/**/resolver.ts`)
+that specify which models are available in the API and how they should exactly
+be resolved. The output types for the GraphQL API are defined as GraphQL
+"models" in `./src/entities/**/model.ts`.
+
+These resolvers also specify which mutations should be made available to
+clients, and how they should be handled. 
+
+In order for the application to respond as quickly as possible to user inputs,
+the back-end makes most of it data available across WebSockets, actively pushing
+data to clients whenever models are updated. There is some glue code that hooks
+into the MikroORM subscribers that automatically triggers GraphQL updates
+whenever entities are changed.
+
+### Jobs
+We use traceroute to gather the route to a particular website. As traceroute is
+asynchronous, we need to perform some tasks asychronously, as new addressed come
+in. In order to facilitate this, we use a BullMQ queue, with jobs that are
+defined in `./src/jobs`.
+
+These jobs include traceroute itself, retrieving IP metadata from IPRegistry, as
+well as retrieving the website and exporting it as an image so we display it
+later. The latter task is accomplished in a headless Chrome instance powered by
+Puppeteer.
+
+As the BullMQ queue is powered by redis, you will need to have redis installed
+locally. Note that the current back-end implementation assumes your redis client
+is unauthenticated.
