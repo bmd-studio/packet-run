@@ -4,6 +4,7 @@ import validUrl from 'valid-url';
 import psl from 'psl';
 import { useValidateHostMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
+import { DEFAULT_WEBSITE } from '@/config';
 
 const Input = styled.input`
     background-color: var(--light-gray);
@@ -94,7 +95,7 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
         <form onSubmit={handleSubmit}>
             <Input
                 value={host}
-                placeholder="www.ddw.nl"
+                placeholder={DEFAULT_WEBSITE}
                 autoFocus
                 onChange={handleChange}
             />

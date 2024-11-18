@@ -23,3 +23,5 @@ export const LOCATION_LNG = Number.parseFloat(process.env.NEXT_PUBLIC_LOCATION_L
 
 export const ORIGIN = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
 export const BACKEND_URL = `http://${ORIGIN}:8080`;
+
+export const DEFAULT_WEBSITE = process.env.NEXT_PUBLIC_DEFAULT_WEBSITE || 'ddw.nl'
