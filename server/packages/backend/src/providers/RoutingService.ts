@@ -289,7 +289,6 @@ export default class RoutingService {
         ];
 
         this.logger.debug(`Attempting to geolocate alternative hops for address [${adressLocation?.longitude},${adressLocation?.latitude}]`);
-        console.log(address, address?.info?.location);
 
         // If the coordinates are available, sort the alt hops based on distance
         const sortedAltHops = recommendedLatLng && altHops.sort((a, b) => (

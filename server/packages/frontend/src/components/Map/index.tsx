@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useTerminal } from '../RegisterTerminal';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
-import { LOCATION_LAT, LOCATION_LNG, MAPBOX_TOKEN } from '@/config';
+import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
@@ -33,15 +33,13 @@ export default function Map() {
         // Retrieve the latest known hop (that was not null or unknown)
         const latestKnownHop = retrieveLatestKnownHop(run);
         const address = latestKnownHop?.address;
-        const lng = (address?.info?.location?.longitude || LOCATION_LNG);
-        const lat = (address?.info?.location?.latitude || LOCATION_LAT);
+        const lng = address?.info?.location?.longitude;
+        const lat = address?.info?.location?.latitude;
+
+        if (!lng || !lat) return;
 
         // Determine where the center of the map should be
-        const center: [number, number] = address?.isInternalIP ? [
-            LOCATION_LNG, LOCATION_LAT,
-        ] : [
-            lng, lat + 0.15
-        ];
+        const center: [number, number] = [lng, lat + 0.15];
 
         // Initialize map
         map.current = new mapboxgl.Map({

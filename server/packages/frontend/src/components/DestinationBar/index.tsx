@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { theme, DEBUG, LOCATION_NAME } from '@/config';
+import { theme, DEBUG } from '@/config';
 import { RunHopType, TerminalType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
@@ -84,6 +84,8 @@ export default function DestinationBar() {
         return null;
     }
 
+    console.log(sortedHops);
+
     return (
         <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
             {DEBUG && (
@@ -103,16 +105,12 @@ export default function DestinationBar() {
                         {hop && (
                             <>
                                 <Content>
-                                    {hop.address?.isInternalIP ? (
-                                        <h1>{LOCATION_NAME}</h1>
-                                    ): (
-                                        <h1>
-                                            {hop.address?.info
-                                                ? <>{hop.address.info?.location?.city} ({hop.address.info?.location?.country.code})</>
-                                                : UNKNOWN
-                                            }
-                                        </h1>
-                                    )}
+                                    <h1>
+                                        {hop.address?.info
+                                            ? <>{hop.address.info?.location?.city} ({hop.address.info?.location?.country.code})</>
+                                            : UNKNOWN
+                                        }
+                                    </h1>
                                     <p>IP address: {hop.address?.ip || UNKNOWN}</p>
                                     <p>Owner: {hop.address?.info?.carrier?.name || hop.address?.info?.company.name || UNKNOWN}</p>
                                     <p>

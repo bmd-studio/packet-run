@@ -54,8 +54,6 @@ export function InfoBoxWrapper({ children }: PropsWithChildren) {
 export default function InfoBox() {
     const terminal = useTerminal();
 
-    console.log(terminal.run?.currentHopIndex);
-
     if (terminal.type === TerminalType.Server
         && terminal.status === TerminalStatus.CreatedPacket
     ) {
