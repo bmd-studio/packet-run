@@ -13,6 +13,7 @@ import NfcScanner from '@/components/PacketScanner';
 import { BACKEND_URL, MODE } from '@/config';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
+import React from 'react';
 
 const BrowserContainer = styled(PatternedBackground)`
     padding: 0 32px;
@@ -83,7 +84,7 @@ function ReceiverView() {
     return (
         <>
             {index === 0 && (
-                <>
+                <React.Fragment key="browser-view">
                     <BrowserContainer>
                         <div>
                             <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
@@ -92,15 +93,15 @@ function ReceiverView() {
                             <Image alt="Browser screen" src={`${BACKEND_URL}/${terminal.run?.imagePath}`} />
                         </ImageContainer>
                     </BrowserContainer>
-                </>
+                </React.Fragment>
             )}
             {index === 1 && (
-                <>
+                <React.Fragment key="map-view">
                     <Map />
-                </>
+                </React.Fragment>
             )}
             {index === 2 && (
-                <>
+                <React.Fragment key="thanks-view">
                     <Centered>
                         <TextContainer>
                             <Title>THANKS FOR TAKING A</Title>
@@ -110,7 +111,7 @@ function ReceiverView() {
                         </TextContainer>
                     </Centered>
                     <ArrowWithLabel position="top-right">DEPOSIT BALL</ArrowWithLabel>
-                </>
+                </React.Fragment>
             )}
             <Banner
                 initial={{ x: '-50%', y: 400 }}

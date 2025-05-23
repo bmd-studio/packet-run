@@ -15,6 +15,7 @@ import ForgeManager from './manager';
 import styled from 'styled-components';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
 import InfoBox from '@/components/InfoBox';
+import React from 'react';
 
 const Centered = styled.div`
     display: flex;
@@ -37,39 +38,20 @@ export default function Server() {
                             </>
                         )}
                         {terminal.status === TerminalStatus.ScanningNfc && (
-                            terminal.run?.currentHop.mayPerformTransformation ? (
-                                <>
-                                    <Centered key="centered">
-                                        <Title>YOUR PACKET HAS ARRIVED AT</Title>
-                                        <Title>{terminal.run?.url}</Title>
-                                        <Title></Title>
-                                        <Title>NOW, ANSWER THE REQUEST BY </Title>
-                                        <Title>CREATING A RESPONSE PACKET.</Title>
-                                    </Centered>
-                                    <PacketScanner key="packet-scanner">
-                                        <TextContainer>
-                                            <Title>USE THE HANDLE TO</Title>
-                                            <Title>FORGE A NEW PACKET</Title>
-                                        </TextContainer>
-                                        <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
-                                    </PacketScanner>
-                                </>
-                            ) : (
-                                <>
-                                    <DestinationBar />
-                                    <Map />
-                                    <Journey />
-                                    <PacketScanner key="packet-scanner">
-                                        <TextContainer>
-                                            <Title>GUIDE YOUR</Title>
-                                            <Title>PACKET ONWARDS</Title>
-                                        </TextContainer>
-                                    </PacketScanner>
-                                </>
-                            )
+                            <React.Fragment key="scanning-nfc-content">
+                                <DestinationBar key="destination-bar" />
+                                <Map key="map" />
+                                <Journey key="journey" />
+                                <PacketScanner key="packet-scanner">
+                                    <TextContainer>
+                                        <Title>GUIDE YOUR</Title>
+                                        <Title>PACKET ONWARDS</Title>
+                                    </TextContainer>
+                                </PacketScanner>
+                            </React.Fragment>
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
-                            <>
+                            <React.Fragment key="creating-packet-content">
                                 <Centered key="centered">
                                     <Title>YOUR NEW PACKET</Title>
                                     <Title>HAS BEEN CREATED!</Title>
@@ -77,10 +59,10 @@ export default function Server() {
                                 <PacketScanner key="packet-scanner">
                                     <Title>LIFT THE HANDLE</Title> 
                                 </PacketScanner>
-                            </>
+                            </React.Fragment>
                         )}
                         {terminal.status === TerminalStatus.CreatedPacket && (
-                            <>
+                            <React.Fragment key="created-packet-content">
                                 <DestinationBar key="destination-bar" />
                                 <Map key="map" />
                                 <Journey key="journey" />
@@ -90,7 +72,7 @@ export default function Server() {
                                         <Title>TO YOUR COMPUTER</Title>
                                     </TextContainer>
                                 </PacketScanner>
-                            </>
+                            </React.Fragment>
                         )}
                         {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />}
                         <InfoBox />

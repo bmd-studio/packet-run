@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import displayDistance from './distance';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
+import React from 'react';
 
 const UNKNOWN = '???';
 
@@ -101,9 +102,9 @@ export default function DestinationBar() {
             )}
             <Container>
                 {sortedHops.map((hop, i) => (
-                    <Destination key={hop?.id || i}>
+                    <Destination key={hop?.id || `null-hop-${i}`}>
                         {hop && (
-                            <>
+                            <div key={hop.id}>
                                 <Content>
                                     <h1>
                                         {hop.address?.info
@@ -143,7 +144,7 @@ export default function DestinationBar() {
                                     )}
                                     {hop.type}
                                 </Banner>
-                            </>
+                            </div>
                         )}
                     </Destination>
                 ))}
