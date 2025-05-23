@@ -1,6 +1,7 @@
 'use client';
 
 import { useTerminal } from '@/components/RegisterTerminal';
+import { MODE } from '@/config';
 import { TerminalStatus, TerminalType, useCreateReturnPacketMutation } from '@/data/generated';
 import useHallSensor from '@/lib/useHallSensor';
 import { useEffect } from 'react';
@@ -11,7 +12,7 @@ import { useEffect } from 'react';
  */
 export default function ForgeManager() {
     const terminal = useTerminal();
-    const isHallSensorActive = useHallSensor(terminal.status !== TerminalStatus.ScanningNfc);
+    const isHallSensorActive = useHallSensor(terminal.status !== TerminalStatus.ScanningNfc || MODE === 'standalone');
     const [createReturnPacket, { loading }] = useCreateReturnPacketMutation();
 
     useEffect(() => {

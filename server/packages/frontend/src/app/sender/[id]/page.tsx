@@ -3,7 +3,7 @@
 import CreateRunWithNFC from '@/components/CreateRunWithNFC';
 import PatternedBackground from '@/components/PatternedBackground';
 import RegisterTerminal from '@/components/RegisterTerminal';
-import { DEBUG } from '@/config';
+import { MODE } from '@/config';
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import ScannerAnimation from '@/components/ScannerAnimation';
@@ -13,6 +13,8 @@ import useHallSensor from '@/lib/useHallSensor';
 import WebsiteInput from '@/components/WebsiteInput';
 import { TextContainer, Title, Subtitle } from '@/components/Typography';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
+import generateId from '@/lib/generateId';
+import { useRouter } from 'next/navigation';
 
 const Container = styled(PatternedBackground)`
     width: 100vw;
@@ -26,16 +28,37 @@ const Container = styled(PatternedBackground)`
 `;
 
 export default function Sender() {
+    const router = useRouter();
     const nfcId = useNFCReader();
     const isPacketPressed = useHallSensor(!nfcId);
     const [createRunMutation, { loading, data, reset }] = useCreateRunMutation();
     const [host, setHost] = useState<null | string>(null);
 
     useEffect(() => {
-        // GUARD: Check that the package is ready to be created
-        if (nfcId && host && isPacketPressed && !data?.createRun && !loading) {
-            createRunMutation({ variables: { nfcId, url: `https://${host}` } });
+        async function potentiallyCreateRun() {
+            // GUARD: Check that the package is ready to be created
+            if (host && !data?.createRun && !loading) {
+                if (MODE === 'standalone') {
+                    // In standalone mode, create a run immediately with a generated ID
+                    const standaloneId = `standalone-${generateId(12)}`;
+                    const result = await createRunMutation({ 
+                        variables: { nfcId: standaloneId, url: `https://${host}` } 
+                    });
+                    
+                    // GUARD: Check that the run was created
+                    if (result.data?.createRun) {
+                        // Redirect to the router page
+                        router.push(`/gateway/2?nfcId=${standaloneId}`);
+                    }
+                } else if (nfcId && isPacketPressed) {
+                    // In distributed mode, require NFC and packet press
+                    createRunMutation({ variables: { nfcId, url: `https://${host}` } });
+                }
+            }
+
         }
+
+        potentiallyCreateRun();
 
         // GUARD: Check that the packet is created and has been lifted from the scanner 
         if (data?.createRun && !nfcId) {
@@ -46,11 +69,11 @@ export default function Sender() {
 
             return () => clearTimeout(timeout);
         }
-    }, [nfcId, host, isPacketPressed, data, loading, createRunMutation, reset, setHost]);
+    }, [nfcId, host, isPacketPressed, data, loading, createRunMutation, reset, setHost, router]);
 
     return(
         <RegisterTerminal>
-            {DEBUG && <CreateRunWithNFC />}
+            {/* {MODE === 'standalone' && <CreateRunWithNFC />} */}
             <Container>
                 {!data?.createRun ? (
                     !host ? (

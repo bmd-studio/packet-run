@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import NfcScanner from '@/components/PacketScanner';
-import { BACKEND_URL, DEBUG } from '@/config';
+import { BACKEND_URL, MODE } from '@/config';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
 
@@ -132,7 +132,7 @@ export default function Receiver() {
                     {terminal.status === TerminalStatus.ScanningNfc && (
                         <ReceiverView />
                     )}
-                    {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
+                    {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                 </Grid>
             )}
         </RegisterTerminal>

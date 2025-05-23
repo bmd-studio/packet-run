@@ -8,12 +8,18 @@ export const theme = {
     }
 }
 
+export type Mode = 'standalone' | 'distributed';
+
 /**
- * This config variable describes whether the front-end is in debug mode. In
- * debug mode, extra information will be shown on all terminal screens that help
- * with debugging issues.
+ * This config variable describes the mode of operation for the front-end.
+ * - 'standalone': All terminals are accessible in a single browser window
+ * - 'distributed': Each terminal runs in its own browser window, requiring physical movement between terminals
  */
-export const DEBUG = process.env.NEXT_PUBLIC_DEBUG === 'true';
+if (process.env.NEXT_PUBLIC_MODE && process.env.NEXT_PUBLIC_MODE !== 'standalone' && process.env.NEXT_PUBLIC_MODE !== 'distributed') {
+    console.warn(`Invalid MODE value: ${process.env.NEXT_PUBLIC_MODE}. Defaulting to 'standalone'`);
+}
+
+export const MODE: Mode = process.env.NEXT_PUBLIC_MODE === 'distributed' ? 'distributed' : 'standalone';
 
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 

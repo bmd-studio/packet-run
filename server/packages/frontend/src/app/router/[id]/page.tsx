@@ -8,7 +8,7 @@ import PacketScanner from '@/components/PacketScanner';
 import Map from '@/components/Map';
 import Grid from '@/components/Grid';
 import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
-import { DEBUG } from '@/config';
+import { MODE } from '@/config';
 import { AnimatePresence } from 'framer-motion';
 import Journey from '@/components/Journey';
 import Stars from '@/components/Stars';
@@ -33,7 +33,7 @@ export default function Router() {
                         )}
                         <InfoBox />
                         <PacketScanner key="packet-scanner" />
-                        {DEBUG && <LoadNFCForTerminal key="load-nfc" />}
+                        {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                     </AnimatePresence>
                 </Grid>
             )}

@@ -5,7 +5,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';
-import { DEBUG } from '@/config';
+import { MODE } from '@/config';
 
 export const terminalContext = createContext<RegisterTerminalSubscription['registerTerminal']>(undefined);
 
@@ -33,10 +33,10 @@ export function useTerminal<T = TerminalSubscriptionData>(
 
 
 /**
- * A dynamic wrapper that only loads the debug bar when the NEXTJS_PUBLIC_DEBUG
- * environment variable is set to true.
+ * A dynamic wrapper that only loads the debug bar when the MODE is 'standalone'
+ * to avoid loading unnecessary code in distributed mode.
  */
-export const DynamicDebugBar = DEBUG
+export const DynamicDebugBar = MODE === 'standalone'
     ? dynamic(() => import('@/components/DebugBar'))
     : () => null;
 
@@ -62,15 +62,15 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     }
 
     // Reload the page whenever an error is encountered
-    useEffect(() => {
-        if (!error) return;
+    // useEffect(() => {
+    //     if (!error) return;
 
-        const timeout = setTimeout(() => {
-            window.location.reload();
-        }, 30_000);
+    //     const timeout = setTimeout(() => {
+    //         window.location.reload();
+    //     }, 200);
 
-        return () => clearTimeout(timeout);
-    }, [error]);
+    //     return () => clearTimeout(timeout);
+    // }, [error]);
 
     // GUARD: Check if an error was encountered
     if (!terminalId || error) {
@@ -100,6 +100,7 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
 
     // GUARD: Verify that we're on the right type of page for this terminal type
     if (pageSlug !== data.registerTerminal.type.toLowerCase()) {
+        console.log('Redirecting from', pageSlug, 'to', data.registerTerminal.type.toLowerCase());
         push(`/${data.registerTerminal.type.toLowerCase()}/${terminalId}`);
         return null;
     }
@@ -110,7 +111,7 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
                 ? children(data.registerTerminal)
                 : children
             }
-            <DynamicDebugBar />
+            {/* <DynamicDebugBar /> */}
         </terminalContext.Provider>
     )
 }

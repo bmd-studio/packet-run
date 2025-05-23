@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { theme, DEBUG } from '@/config';
+import { theme, MODE } from '@/config';
 import { RunHopType, TerminalType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
@@ -84,9 +84,11 @@ export default function DestinationBar() {
         return null;
     }
 
+    console.log({ sortedConnections})
+
     return (
         <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
-            {DEBUG && (
+            {MODE === 'standalone' && (
                 <Container>
                     {sortedConnections.map((c) => (
                         <Destination key={c.to.id}>

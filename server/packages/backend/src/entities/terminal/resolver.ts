@@ -87,9 +87,9 @@ export default class TerminalsResolver {
         const terminal = await this.repository.findOneOrFail({ id: terminalId });
 
         // GUARD: Check that we make the state transition from a valid state
-        if (terminal.status !== TerminalStatus.IDLE) {
-            throw new Error(`StateError: Cannot transition from "${terminal.status}" to "SCANNING_NFC" for terminal "${terminalId}"`);
-        }
+        // if (terminal.status !== TerminalStatus.IDLE) {
+        //     throw new Error(`StateError: Cannot transition from "${terminal.status}" to "SCANNING_NFC" for terminal "${terminalId}"`);
+        // }
 
         // Retrieve the run
         const run = await this.em.findOneOrFail(
