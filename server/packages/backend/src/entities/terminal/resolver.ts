@@ -7,6 +7,7 @@ import PubSubManager from '../../providers/PubSubManager';
 import WebsocketId, { GraphQLContext } from '../../lib/WebsocketId';
 import { terminalsObservable } from './subscriber';
 import { map } from 'rxjs';
+import { observableToAsyncIterable } from '@graphql-tools/utils';
 import PresenceManager from '../../providers/PresenceManager';
 import { EntityManager } from '@mikro-orm/core';
 import Run, { RunPacketType } from '../run/index.entity';
@@ -58,18 +59,23 @@ export default class TerminalsResolver {
             id,
             context.req.extra.request.socket.remoteAddress,
         );
-        return this.pubsub.subscribe(
+        const observable = await this.pubsub.subscribe(
             TerminalEntity,
             id,
             () => this.repository.findOne({ id }, { populate: defaultTerminalRelations, cache: false, disableIdentityMap: true }),
             subscriptionId,
             'registerTerminal',
         );
+        return observableToAsyncIterable(observable);
     }
 
     @Subscription(() => [Terminal])
     async allTerminals() {
-        return terminalsObservable.pipe(map((allTerminals) => ({ allTerminals })));
+        return observableToAsyncIterable(
+            terminalsObservable.pipe(
+                map((allTerminals) => ({ allTerminals }))
+            )
+        );
     }
 
     @Mutation(() => Boolean, { nullable: true, description: 'Indicate that a particular terminal has scanned an NFC tag. This should result in the terminal status being set to `SCANNING_NFC`' })

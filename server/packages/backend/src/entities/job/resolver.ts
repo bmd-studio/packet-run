@@ -3,6 +3,7 @@ import { Resolver, Subscription } from '@nestjs/graphql';
 import { Job, JobStatus } from './model';
 import { BehaviorSubject, map } from 'rxjs';
 import { Queue, Job as BullJob } from 'bullmq';
+import { observableToAsyncIterable } from '@graphql-tools/utils';
 
 @Resolver(() => Job)
 @QueueEventsListener('default')
@@ -59,6 +60,8 @@ export class JobsResolver extends QueueEventsHost {
 
     @Subscription(() => [Job])
     async jobs() {
-        return this.observable.pipe(map((jobs) => ({ jobs })));
+        return observableToAsyncIterable(
+            this.observable.pipe(map((jobs) => ({ jobs })))
+        );
     }
 }

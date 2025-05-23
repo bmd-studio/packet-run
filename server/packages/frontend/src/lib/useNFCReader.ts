@@ -97,7 +97,7 @@ export default function useNFCReader() {
                         return;
                     }
                     if (e.message.startsWith('WebSerial not supported')) {
-                        console.error('WebSerial is not supported on this device...');
+                        console.warn('WebSerial is not supported on this device...');
                         return;
                     }
                     if (!e.message.startsWith('readRespTimeout')) {

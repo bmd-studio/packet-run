@@ -50,8 +50,6 @@ export type RegisterTerminalProps = PropsWithChildren | { children: ((data: Term
  * using the context.
  */
 export default function RegisterTerminal({ children }: RegisterTerminalProps) {
-
-    console.log('REGISTERING', new Date().toISOString());
     const { push } = useRouter();
     const pathname = usePathname();
     const params = useParams();
