@@ -85,8 +85,6 @@ export default function DestinationBar() {
         return null;
     }
 
-    console.log({ sortedConnections})
-
     return (
         <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
             {MODE === 'standalone' && (

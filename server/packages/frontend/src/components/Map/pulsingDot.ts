@@ -33,8 +33,10 @@ export default function generatePulsingDot(map: Map) {
                 return;
             }
 
-            // Draw the outer circle.
+            // Clear the canvas
             context.clearRect(0, 0, this.width, this.height);
+
+            // Draw the outer circle with reduced opacity
             context.beginPath();
             context.arc(
                 this.width / 2,
@@ -43,10 +45,10 @@ export default function generatePulsingDot(map: Map) {
                 0,
                 Math.PI * 2
             );
-            context.fillStyle = `rgba(200, 200, 0, ${1 - t})`;
+            context.fillStyle = `rgba(200, 200, 0, ${0.5 * (1 - t)})`;
             context.fill();
 
-            // Draw the inner circle.
+            // Draw the inner circle with simplified styling
             context.beginPath();
             context.arc(
                 this.width / 2,
@@ -57,11 +59,11 @@ export default function generatePulsingDot(map: Map) {
             );
             context.fillStyle = 'rgba(240, 234, 0, 1)';
             context.strokeStyle = 'white';
-            context.lineWidth = 2 + 4 + 2 * (1 - t);
+            context.lineWidth = 2 + 4 + 2;
             context.fill();
             context.stroke();
 
-            // Update this image's data with data from the canvas.
+            // Update image data
             this.data = context.getImageData(
                 0,
                 0,
@@ -69,11 +71,9 @@ export default function generatePulsingDot(map: Map) {
                 this.height
             ).data as Uint8ClampedArray<ArrayBuffer>;
 
-            // Continuously repaint the map, resulting
-            // in the smooth animation of the dot.
-            map.triggerRepaint();
+            // Use requestAnimationFrame for smoother animation
+            requestAnimationFrame(() => map.triggerRepaint());
 
-            // Return `true` to let the map know that the image was updated.
             return true;
         }
     };

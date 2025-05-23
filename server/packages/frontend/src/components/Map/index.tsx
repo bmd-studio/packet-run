@@ -166,7 +166,11 @@ export default function Map() {
 
     return (
         <motion.div
-            style={{ gridArea: 'main' }}
+            style={{ 
+                gridArea: 'main',
+                willChange: 'transform',
+                transform: 'translateZ(0)'
+            }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             transition={{ duration: 2 }}

@@ -65,7 +65,15 @@ export default function Journey() {
     const address =  terminal.run.currentHop.address;
 
     return (
-        <Container initial={{ y: '150%' }} animate={{ y: 0 }} transition={{ duration: 1, delay: 1, ease: 'easeOut' }}>
+        <Container 
+            style={{
+                willChange: 'transform',
+                transform: 'translateZ(0)'
+            }}
+            initial={{ y: '150%' }} 
+            animate={{ y: 0 }} 
+            transition={{ duration: 1, delay: 1, ease: 'easeOut' }}
+        >
             <GraphicContainer>
                 <Circle />
                 <Line />
