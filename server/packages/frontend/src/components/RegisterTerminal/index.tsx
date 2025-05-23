@@ -1,7 +1,7 @@
 'use client';
 import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';

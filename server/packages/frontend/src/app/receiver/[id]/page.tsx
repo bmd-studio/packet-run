@@ -89,7 +89,7 @@ function ReceiverView() {
                             <URLBar>{terminal.run?.url || 'https://moeilijkedingen.nl'}</URLBar>
                         </div>
                         <ImageContainer>
-                            <Image src={`${BACKEND_URL}/${terminal.run?.imagePath}`} />
+                            <Image alt="Browser screen" src={`${BACKEND_URL}/${terminal.run?.imagePath}`} />
                         </ImageContainer>
                     </BrowserContainer>
                 </>
