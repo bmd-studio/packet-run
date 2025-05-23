@@ -67,7 +67,7 @@ export default function generatePulsingDot(map: Map) {
                 0,
                 this.width,
                 this.height
-            ).data;
+            ).data as Uint8ClampedArray<ArrayBuffer>;
 
             // Continuously repaint the map, resulting
             // in the smooth animation of the dot.

@@ -17,7 +17,7 @@ type PageParams = {
 export default function RedirectToRightTerminalPage({
     params,
 }: {
-    params: PageParams;
+    params: Promise<PageParams>;
 }) {
     const router = useRouter();
     const { id } = use(Promise.resolve(params));

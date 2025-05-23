@@ -50,6 +50,8 @@ export type RegisterTerminalProps = PropsWithChildren | { children: ((data: Term
  * using the context.
  */
 export default function RegisterTerminal({ children }: RegisterTerminalProps) {
+
+    console.log('REGISTERING', new Date().toISOString());
     const { push } = useRouter();
     const pathname = usePathname();
     const params = useParams();
@@ -67,7 +69,7 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
 
         const timeout = setTimeout(() => {
             window.location.reload();
-        }, 5_000);
+        }, 30_000);
 
         return () => clearTimeout(timeout);
     }, [error]);
