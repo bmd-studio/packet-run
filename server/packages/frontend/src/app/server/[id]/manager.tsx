@@ -1,3 +1,5 @@
+'use client';
+
 import { useTerminal } from '@/components/RegisterTerminal';
 import { TerminalStatus, TerminalType, useCreateReturnPacketMutation } from '@/data/generated';
 import useHallSensor from '@/lib/useHallSensor';
@@ -40,4 +42,4 @@ export default function ForgeManager() {
     }, [terminal, loading, isHallSensorActive, createReturnPacket]);
 
     return null;
-}
+} 

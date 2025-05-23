@@ -17,7 +17,7 @@ export default class PresenceManager implements OnModuleInit {
     private registry = new Set<string>;
 
     constructor(
-        private readonly orm: MikroORM
+        private readonly orm: MikroORM,
     ) {
         this.repository = this.orm.em.getRepository(Presence);
     }

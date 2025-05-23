@@ -1,7 +1,9 @@
+'use client';
+
 import Grid from '@/components/Grid';
 import RegisterTerminal from '@/components/RegisterTerminal';
 import { AnimatePresence } from 'framer-motion';
-import PacketScanner from '../../components/PacketScanner';
+import PacketScanner from '@/components/PacketScanner';
 import { TerminalStatus } from '@/data/generated';
 import DestinationBar from '@/components/DestinationBar';
 import Journey from '@/components/Journey';
@@ -98,4 +100,4 @@ export default function Server() {
             )}
         </RegisterTerminal>
     )
-}
+} 

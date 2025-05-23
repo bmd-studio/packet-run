@@ -1,15 +1,27 @@
+'use client';
+
 import { useGetTerminalTypeQuery } from '@/data/generated';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
+import { use } from 'react';
+
+type PageParams = {
+    id: string;
+};
 
 /**
  * This component should redirect a terminal to the right page given its
  * terminal type.
  */
-export default function RedirectToRightTerminalPage() {
-    const { query, push } = useRouter();
-    const terminalId = parseInt(query.id as string);
+export default function RedirectToRightTerminalPage({
+    params,
+}: {
+    params: PageParams;
+}) {
+    const router = useRouter();
+    const { id } = use(Promise.resolve(params));
+    const terminalId = parseInt(id);
     const { data, loading, error } = useGetTerminalTypeQuery({ variables: { terminalId }});
 
     // GUARD: Check if an error was encountered
@@ -29,7 +41,7 @@ export default function RedirectToRightTerminalPage() {
         );
     }
 
-    // GUARD: Check whether we're loading or whether the dat ais not yet there
+    // GUARD: Check whether we're loading or whether the data is not yet there
     if (loading || !data?.terminal) {
         return (
             <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
@@ -39,7 +51,7 @@ export default function RedirectToRightTerminalPage() {
     }
 
     // If all is right, redirect to the right page
-    push(`/${data.terminal.type.toLowerCase()}/${terminalId}`);
+    router.push(`/${data.terminal.type.toLowerCase()}/${terminalId}`);
 
     return null;
-}
+} 

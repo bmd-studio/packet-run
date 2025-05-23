@@ -38,7 +38,7 @@ export default class TerminalsResolver {
                     'run.hops',
                     'presences',
                 ], 
-            }
+            },
         );
     }
 
@@ -51,12 +51,12 @@ export default class TerminalsResolver {
     async registerTerminal(
         @Args('id') id: number,
         @WebsocketId() subscriptionId: string,
-        @Context() context: { req: GraphQLContext }
+        @Context() context: { req: GraphQLContext },
     ) {
         this.presence.register(
             subscriptionId,
             id,
-            context.req.extra.request.socket.remoteAddress
+            context.req.extra.request.socket.remoteAddress,
         );
         return this.pubsub.subscribe(
             TerminalEntity,
@@ -105,7 +105,7 @@ export default class TerminalsResolver {
                 orderBy: [
                     { createdAt: 'DESC' },
                 ],
-            }
+            },
         );
 
         // Generate new hops for the terminal
@@ -169,7 +169,7 @@ export default class TerminalsResolver {
         }
 
         // Save to database
-        await this.repository.flush();
+        await this.em.flush();
 
         return true;
     }
@@ -214,7 +214,7 @@ export default class TerminalsResolver {
             }
 
             return response.status >= 200 && response.status < 400;
-        } catch(e) {
+        } catch {
             return false;
         }
     }

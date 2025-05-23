@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import DestinationBar from "@/components/DestinationBar";
 import { TerminalStatus } from "@/data/generated";
@@ -37,4 +39,4 @@ export default function Router() {
             )}
         </RegisterTerminal>
     );
-}
+} 

@@ -1,6 +1,7 @@
+'use client';
 import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';
@@ -49,8 +50,10 @@ export type RegisterTerminalProps = PropsWithChildren | { children: ((data: Term
  * using the context.
  */
 export default function RegisterTerminal({ children }: RegisterTerminalProps) {
-    const { query, pathname, push } = useRouter();
-    const terminalId = parseInt(query.id as string);
+    const { push } = useRouter();
+    const pathname = usePathname();
+    const params = useParams();
+    const terminalId = parseInt(params.id as string);
     const pageSlug = useMemo(() => pathname.split('/')[1], [pathname]);
     const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: terminalId }, skip: !terminalId });
     

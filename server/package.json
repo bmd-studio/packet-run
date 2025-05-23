@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "patch-package": "^8.0.0",
-    "turbo": "^1.10.12"
-  }
+    "turbo": "^2.5.3"
+  },
+  "packageManager": "npm@10.8.2"
 }

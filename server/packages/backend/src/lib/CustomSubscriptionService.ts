@@ -8,7 +8,7 @@ import {
     Disposable,
     ServerOptions,
 } from 'graphql-ws';
-import { useServer } from 'graphql-ws/lib/use/ws';
+import { useServer } from 'graphql-ws/use/ws';
 import * as ws from 'ws';
 import PubSubManager from '../providers/PubSubManager';
 import PresenceManager from 'src/providers/PresenceManager';
@@ -26,13 +26,13 @@ export interface GqlSubscriptionServiceOptions extends SubscriptionConfig {
 }
 
 export default class CustomGqlSubscriptionService {
-    private readonly wss: ws.Server<typeof ws & { isAlive: boolean }>;
+    private readonly wss: ws.Server<typeof ws.WebSocket & { isAlive: boolean }>;
     private wsGqlDisposable: Disposable;
 
     /** This map contains references to all intervals that are registered for
      * connecting sockets. Each connected socket has an individual interval that
      * maintains a heartbeat or else disconnects the socket (so it can reconnect). */
-    private intervals = new Map<string, NodeJS.Timer>;
+    private intervals = new Map<string, NodeJS.Timeout>;
 
     constructor(
         private readonly options: GqlSubscriptionServiceOptions,

@@ -1,4 +1,5 @@
-/* eslint-disable jsx-a11y/alt-text */
+'use client';
+
 import Grid from '@/components/Grid';
 import Map from '@/components/Map';
 import PatternedBackground from '@/components/PatternedBackground';
@@ -136,4 +137,4 @@ export default function Receiver() {
             )}
         </RegisterTerminal>
     )
-}
+} 

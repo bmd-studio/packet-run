@@ -10,7 +10,7 @@ export class JobsResolver extends QueueEventsHost {
     observable = new BehaviorSubject<Job[]>([]);
 
     constructor(
-        @InjectQueue('default') private queue: Queue
+        @InjectQueue('default') private queue: Queue,
     ) {
         super();
     }
@@ -48,7 +48,7 @@ export class JobsResolver extends QueueEventsHost {
                     ...job,
                     status,
                 };
-            })
+            }),
         );
 
         // Filter any with 'completed' status

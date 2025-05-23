@@ -1,3 +1,4 @@
+'use client';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { Terminal, TerminalStatus, TerminalType, useAllTerminalsSubscription, useResetTerminalMutation } from '@/data/generated';

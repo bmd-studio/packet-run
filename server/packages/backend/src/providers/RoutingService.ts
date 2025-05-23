@@ -226,7 +226,7 @@ export default class RoutingService {
             run,
             run.packetType === RunPacketType.RESPONSE ? TerminalType.RECEIVER : TerminalType.SERVER,
             this.orm,
-            previousTerminal
+            previousTerminal,
         );
 
         this.logger.debug(`Calculated shortest path to destination "${destination}". Recommending terminal "${terminalId}" via route "${JSON.stringify(route)}"`)
@@ -305,7 +305,7 @@ export default class RoutingService {
             const address = sortedAltHops
                 ? await this.orm.em.upsert(Address, { 
                     ip: altHop.ip,
-                    info: (await this.client.lookup(altHop.ip)).data,
+                    info: (await this.client.lookupIp(altHop.ip)).data,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 })
@@ -357,7 +357,7 @@ export default class RoutingService {
                 const hop = await this.orm.em.findOneOrFail(
                     TracerouteHop,
                     { run },
-                    { orderBy: [{ hop: 'DESC' }], populate: ['address.info'] }
+                    { orderBy: [{ hop: 'DESC' }], populate: ['address.info'] },
                 );
                 return hop.address
             } else if (run.packetType === RunPacketType.RESPONSE) {
@@ -365,7 +365,7 @@ export default class RoutingService {
                 const hop = await this.orm.em.findOneOrFail(
                     TracerouteHop,
                     { run, hop: 1 },
-                    { populate: ['address.info'] }
+                    { populate: ['address.info'] },
                 );
                 return hop.address
             }
@@ -379,7 +379,7 @@ export default class RoutingService {
                 { 
                     orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' },
                     populate: ['address.info'],
-                }
+                },
             );
 
             return hops[Math.floor((hops.length - 1) / distanceToDestination)].address;

@@ -1,3 +1,5 @@
 packet-run.db
+packet-run.db-shm
+packet-run.db-wal
 images/**
 !images/.gitkeep

@@ -1,6 +1,6 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "pipeline": {
+    "tasks": {
         "build": {
             "inputs": [
                 ".env"
@@ -14,13 +14,20 @@
         "lint": {},
         "codegen": {},
         "migrations:check": {
-            "dependsOn": ["build"]
+            "dependsOn": [
+                "build"
+            ]
         },
         "migrations:run": {
-            "dependsOn": ["build"]
+            "dependsOn": [
+                "build"
+            ]
         },
         "seed": {
-            "dependsOn": ["build", "migrations:run"]
+            "dependsOn": [
+                "build",
+                "migrations:run"
+            ]
         },
         "dev": {
             "cache": false,
@@ -29,7 +36,9 @@
         "start": {
             "cache": false,
             "persistent": true,
-            "dependsOn": ["build"]
+            "dependsOn": [
+                "build"
+            ]
         }
-    }   
+    }
 }

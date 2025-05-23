@@ -14,7 +14,7 @@ export default class UrlFilterProvider implements OnModuleInit {
         // Read blocklist
         const data = await readFile(
             path.join(__dirname, '..', '..', 'data', 'blocklist', 'block.txt'),
-            { encoding: 'utf-8'}
+            { encoding: 'utf-8'},
         );
 
         // Split into lines

@@ -37,7 +37,7 @@ export default class RunsResolver {
 
         // Create the run
         const run = this.repository.create({ url, nfcId, server: sample(terminals) });
-        await this.repository.flush();
+        await this.em.flush();
 
         return run;
     }
@@ -52,12 +52,12 @@ export default class RunsResolver {
     async currentHop(@Parent() run: Run) {
         const hops = await run.hops.loadItems({ populate: ['address']});
         return hops.find((h) => (
-            h.hop === run.currentHopIndex - 1 && h.status === RunHopStatus.ACTUAL)
+            h.hop === run.currentHopIndex - 1 && h.status === RunHopStatus.ACTUAL),
         );
     }
 
     @ResolveField(() => Address, { nullable: true })
-    async origin(@Parent() run: Run) {
+    async origin(@Parent() run: Run): Promise<Address | null> {
         const hop = await run.tracerouteHops.loadItems({ where: { hop: { $eq: 1 } }, populate: ['address' ]})
         return hop[0]?.address ?? null;
     }

@@ -1,3 +1,4 @@
+'use client';
 import { JobStatus, useJobsSubscription } from "@/data/generated";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';

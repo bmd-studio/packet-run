@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
+ 
 import { Collection, Entity, Enum, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { customAlphabet } from 'nanoid';
 import 'reflect-metadata';
@@ -14,7 +14,7 @@ export enum RunPacketType {
 
 const nanoid = customAlphabet(
     '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    12
+    12,
 );
 
 @Entity()
