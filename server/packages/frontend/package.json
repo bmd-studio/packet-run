@@ -31,7 +31,7 @@
     "clsx": "^2.1.1",
     "cytoscape": "^3.32.0",
     "eslint": "9.27.0",
-    "eslint-config-next": "15.1.8",
+    "eslint-config-next": "^15.1.8",
     "framer-motion": "^12.12.1",
     "graphql": "^16.11.0",
     "graphql-ws": "5.14",
