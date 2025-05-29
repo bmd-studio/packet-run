@@ -16,6 +16,7 @@ const Fixed = styled(motion.div)`
     top: 0;
     left: ${theme.destinationBar.spaceLeft}px;
     z-index: 3;
+    will-change: transform;
 `;
 
 const Container = styled.div`
