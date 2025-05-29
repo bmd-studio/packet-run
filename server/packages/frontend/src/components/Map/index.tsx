@@ -49,6 +49,7 @@ export default function Map() {
             zoom: 9,
             center,
             interactive: true,
+            performanceMetricsCollection: false,
         });
 
         // Add the pulsing dot as an image
@@ -108,7 +109,7 @@ export default function Map() {
                 } else {
                     new mapboxgl.Marker({ 
                         color: coord[0] === lng ? 'var(--yellow)' : '#666',
-                        scale: 1.5
+                        scale: 1.5,
                     }).setLngLat(coord)
                         .addTo(map.current as mapboxgl.Map);
                 }

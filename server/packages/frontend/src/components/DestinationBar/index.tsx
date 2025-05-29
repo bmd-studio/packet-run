@@ -91,7 +91,7 @@ export default function DestinationBar() {
                 <Container>
                     {sortedConnections.map((c) => (
                         <Destination key={c.to.id}>
-                            <TerminalConnection href={`/${c.to.type.toLowerCase()}/${c.to.id}?nfcId=${run.nfcId}`}>
+                            <TerminalConnection href={`/${c.to.type.toLowerCase()}/${c.to.id}?nfcId=${run.nfcId}`} prefetch>
                                 TO TERMINAL {c.to.id} (SLOT #{c.slot})
                             </TerminalConnection>
                         </Destination>
@@ -102,7 +102,7 @@ export default function DestinationBar() {
                 {sortedHops.map((hop, i) => (
                     <Destination key={hop?.id || `null-hop-${i}`}>
                         {hop && (
-                            <div key={hop.id}>
+                            <div>
                                 <Content>
                                     <h1>
                                         {hop.address?.info
