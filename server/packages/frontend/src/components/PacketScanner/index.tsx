@@ -85,7 +85,9 @@ export default function PacketScanner({ children }: PropsWithChildren) {
 
     useEffect(() => {
         // GUARD: If we're in standalone mode and the NFC ID is passed as a search parameter, scan the NFC for the terminal
-        if (MODE === 'standalone' && searchParams.has('nfcId')) {
+        if (MODE === 'standalone' && searchParams.has('nfcId')
+            && terminal.status === TerminalStatus.Idle
+        ) {
             scanNfcForTerminal({
                 variables: {
                     terminalId: terminal.id,
@@ -93,7 +95,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 }
             });
         }
-    }, [terminal.id]);
+    }, [terminal.id, searchParams]);
 
     useEffect(() => {
         // GUARD: Don't do anything when there isn't any NFC that is being

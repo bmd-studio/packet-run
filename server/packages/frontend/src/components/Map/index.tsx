@@ -81,27 +81,30 @@ export default function Map() {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
                 if (coord[0] === lng) {
-                    map.current?.addLayer({
-                        id: 'layer-with-pulsing-dot',
-                        type: 'symbol',
-                        source: {
-                            type: 'geojson',
-                            data: {
-                                type: 'FeatureCollection',
-                                features: [{
-                                    type: 'Feature',
-                                    geometry: {
-                                        type: 'Point',
-                                        coordinates: coord,
-                                    },
-                                    properties: {},
-                                }]
+                    // Only add the layer if it doesn't exist yet
+                    if (!map.current?.getLayer('layer-with-pulsing-dot')) {
+                        map.current?.addLayer({
+                            id: 'layer-with-pulsing-dot',
+                            type: 'symbol',
+                            source: {
+                                type: 'geojson',
+                                data: {
+                                    type: 'FeatureCollection',
+                                    features: [{
+                                        type: 'Feature',
+                                        geometry: {
+                                            type: 'Point',
+                                            coordinates: coord,
+                                        },
+                                        properties: {},
+                                    }]
+                                }
+                            },
+                            layout: {
+                                "icon-image": 'pulsing-dot',
                             }
-                        },
-                        layout: {
-                            "icon-image": 'pulsing-dot',
-                        }
-                    })
+                        });
+                    }
                 } else {
                     new mapboxgl.Marker({ 
                         color: coord[0] === lng ? 'var(--yellow)' : '#666',

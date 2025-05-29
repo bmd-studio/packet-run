@@ -1,5 +1,5 @@
 'use client';
-import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
+import { RegisterTerminalSubscription, useRegisterTerminalSubscription, useResetTerminalMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
@@ -18,7 +18,7 @@ export function useTerminal<T = TerminalSubscriptionData>(
     memoFunction: (t: TerminalSubscriptionData) => T = (t) => t as T,
 ): T {
     // Retrieve the terminal from the context
-    const terminal = useContext(terminalContext) ;
+    const terminal = useContext(terminalContext);
 
     // GUARD: Ensure that the hook is only called when a descendant of `RegisterTerminal`
     if (!terminal) {
@@ -30,7 +30,6 @@ export function useTerminal<T = TerminalSubscriptionData>(
         () => memoFunction(terminal as unknown as TerminalSubscriptionData)
     ), [memoFunction, terminal]);
 }
-
 
 /**
  * A dynamic wrapper that only loads the debug bar when the MODE is 'standalone'
@@ -56,10 +55,15 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     const terminalId = parseInt(params.id as string);
     const pageSlug = useMemo(() => pathname.split('/')[1], [pathname]);
     const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: terminalId }, skip: !terminalId });
+    const [ resetTerminal ] = useResetTerminalMutation();
     
     if (error) {
         console.error(error, error.graphQLErrors, data);
     }
+
+    useEffect(() => {
+        resetTerminal({ variables: { terminalId }});
+    }, [terminalId]);
 
     // Reload the page whenever an error is encountered
     // useEffect(() => {

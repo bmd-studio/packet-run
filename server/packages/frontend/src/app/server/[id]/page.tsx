@@ -34,39 +34,58 @@ export default function Server() {
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.Idle && (
                             <>
-                                <PacketScanner key="packet-scanner" />
+                                <PacketScanner />
                             </>
                         )}
                         {terminal.status === TerminalStatus.ScanningNfc && (
-                            <React.Fragment key="scanning-nfc-content">
-                                <DestinationBar key="destination-bar" />
-                                <Map key="map" />
-                                <Journey key="journey" />
-                                <PacketScanner key="packet-scanner">
-                                    <TextContainer>
-                                        <Title>GUIDE YOUR</Title>
-                                        <Title>PACKET ONWARDS</Title>
-                                    </TextContainer>
-                                </PacketScanner>
-                            </React.Fragment>
+                            terminal.run?.currentHop.mayPerformTransformation ? (
+                                <React.Fragment>
+                                    <Centered>
+                                        <Title>YOUR PACKET HAS ARRIVED AT</Title>
+                                        <Title>{terminal.run?.url}</Title>
+                                        <Title></Title>
+                                        <Title>NOW, ANSWER THE REQUEST BY </Title>
+                                        <Title>CREATING A RESPONSE PACKET.</Title>
+                                    </Centered>
+                                    <PacketScanner>
+                                        <TextContainer>
+                                            <Title>USE THE HANDLE TO</Title>
+                                            <Title>FORGE A NEW PACKET</Title>
+                                        </TextContainer>
+                                        <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
+                                    </PacketScanner>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <DestinationBar />
+                                    <Map />
+                                    <Journey />
+                                    <PacketScanner>
+                                        <TextContainer>
+                                            <Title>GUIDE YOUR</Title>
+                                            <Title>PACKET ONWARDS</Title>
+                                        </TextContainer>
+                                    </PacketScanner>
+                                </React.Fragment>
+                            )
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
-                            <React.Fragment key="creating-packet-content">
-                                <Centered key="centered">
+                            <React.Fragment>
+                                <Centered>
                                     <Title>YOUR NEW PACKET</Title>
                                     <Title>HAS BEEN CREATED!</Title>
                                 </Centered>
-                                <PacketScanner key="packet-scanner">
+                                <PacketScanner>
                                     <Title>LIFT THE HANDLE</Title> 
                                 </PacketScanner>
                             </React.Fragment>
                         )}
                         {terminal.status === TerminalStatus.CreatedPacket && (
-                            <React.Fragment key="created-packet-content">
-                                <DestinationBar key="destination-bar" />
-                                <Map key="map" />
-                                <Journey key="journey" />
-                                <PacketScanner key="packet-scanner">
+                            <React.Fragment>
+                                <DestinationBar />
+                                <Map />
+                                <Journey />
+                                <PacketScanner>
                                     <TextContainer>
                                         <Title>NOW, NAVIGATE BACK</Title>
                                         <Title>TO YOUR COMPUTER</Title>
@@ -74,9 +93,9 @@ export default function Server() {
                                 </PacketScanner>
                             </React.Fragment>
                         )}
-                        {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />}
+                        {MODE === 'standalone' && <LoadNFCForTerminal />}
                         <InfoBox />
-                        <ForgeManager key="forge-manager" />
+                        <ForgeManager />
                     </AnimatePresence>
                 </Grid>
             )}

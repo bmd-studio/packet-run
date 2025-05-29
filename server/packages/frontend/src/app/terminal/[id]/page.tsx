@@ -20,7 +20,7 @@ export default function RedirectToRightTerminalPage({
     params: Promise<PageParams>;
 }) {
     const router = useRouter();
-    const { id } = use(Promise.resolve(params));
+    const { id } = use(params);
     const terminalId = parseInt(id);
     const { data, loading, error } = useGetTerminalTypeQuery({ variables: { terminalId }});
 
