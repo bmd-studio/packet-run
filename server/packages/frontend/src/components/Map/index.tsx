@@ -44,12 +44,17 @@ export default function Map() {
         // Initialize map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946',
+            style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946?optimize=true',
             accessToken: MAPBOX_TOKEN,
             zoom: 9,
             center,
-            interactive: true,
+            interactive: false,
             performanceMetricsCollection: false,
+            renderWorldCopies: false,
+            preserveDrawingBuffer: false,
+            antialias: false,
+            attributionControl: false,
+            fadeDuration: 0,
         });
 
         // Add the pulsing dot as an image
