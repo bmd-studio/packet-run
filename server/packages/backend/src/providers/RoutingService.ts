@@ -391,6 +391,8 @@ export default class RoutingService {
     private async createHop(data: RequiredEntityData<RunHop>) {
         const terminalId = typeof data.terminal === 'object' ? (data.terminal as Terminal).id : data.terminal;
         this.logger.debug(`Creating hop to terminal "${terminalId}", address "${data.address?.ip || null}" and type "${data.type}"`);
-        return this.orm.em.create(RunHop, data);
+        const hop = this.orm.em.create(RunHop, data);
+        await this.orm.em.persistAndFlush(hop);
+        return hop;
     }
 }   
