@@ -1,11 +1,12 @@
-import JobsTable from "@/components/JobsTable";
-import TerminalGraph from "@/components/TerminalGraph";
+import StandaloneMenu from '@/components/StandaloneMenu';
 
 export default function Home() {
     return (
-        <div className="flex flex-row h-screen">
-            <TerminalGraph />
-            <JobsTable />
-        </div>
-    );
-} 
+        <>
+            <StandaloneMenu />
+            <div className="flex flex-row h-screen items-center justify-center bg-[var(--light-gray)]">
+                <img src="/logo.svg" alt="Packet Run" className="w-[25vw]" />
+            </div>
+        </>
+    )
+}

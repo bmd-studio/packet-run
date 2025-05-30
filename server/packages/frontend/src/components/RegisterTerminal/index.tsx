@@ -35,8 +35,8 @@ export function useTerminal<T = TerminalSubscriptionData>(
  * A dynamic wrapper that only loads the debug bar when the MODE is 'standalone'
  * to avoid loading unnecessary code in distributed mode.
  */
-export const DynamicDebugBar = MODE === 'standalone'
-    ? dynamic(() => import('@/components/DebugBar'))
+export const DynamicStandaloneMenu = MODE === 'standalone'
+    ? dynamic(() => import('@/components/StandaloneMenu'))
     : () => null;
 
 export type RegisterTerminalProps = PropsWithChildren | { children: ((data: TerminalSubscriptionData) => ReactNode | undefined) };
@@ -111,11 +111,11 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     
     return (
         <terminalContext.Provider value={data.registerTerminal}>
+            <DynamicStandaloneMenu />
             {typeof children === 'function'
                 ? children(data.registerTerminal)
                 : children
             }
-            {/* <DynamicDebugBar /> */}
         </terminalContext.Provider>
     )
 }

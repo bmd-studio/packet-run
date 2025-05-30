@@ -23,6 +23,7 @@ const Container = styled.div`
     gap: 32px;
     grid-area: packet;
     padding: 64px 32px 0 32px;
+    overflow: scroll;
 `;
 
 const RestContainer = styled.div`

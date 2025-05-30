@@ -24,8 +24,13 @@ const Container = styled.div`
     flex-direction: row;
     gap: ${theme.destinationBar.blockSpacer}px;
 `
-const Destination = styled.div`
+const Destination = styled(Link)`
     width: ${theme.destinationBar.destinationBlock.width}px;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.9;
+    }
 `;
         
 const Content = styled.div`
@@ -35,17 +40,6 @@ const Content = styled.div`
 
     p {
         font-size: 14px;
-    }
-`;
-
-const TerminalConnection = styled(Content).attrs({ 
-    as: Link 
-})`
-    display: block;
-    padding: 16px 32px 16px 32px;  
-
-    &:hover {
-        opacity: 0.8;
     }
 `;
 
@@ -87,21 +81,18 @@ export default function DestinationBar() {
     }
 
     return (
-        <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
-            {MODE === 'standalone' && (
-                <Container>
-                    {sortedConnections.map((c) => (
-                        <Destination key={c.to.id}>
-                            <TerminalConnection href={`/${c.to.type.toLowerCase()}/${c.to.id}?nfcId=${run.nfcId}`} prefetch>
-                                TO TERMINAL {c.to.id} (SLOT #{c.slot})
-                            </TerminalConnection>
-                        </Destination>
-                    ))}
-                </Container>
-            )}
+        <Fixed
+            initial={{ y: '-100%' }}
+            animate={{ y: MODE === 'standalone' ? 54 : 0 }}
+            transition={{ duration: 2, delay: 1 }}
+            exit={{ y: '-100%' }}
+        >
             <Container>
                 {sortedHops.map((hop, i) => (
-                    <Destination key={hop?.id || `null-hop-${i}`}>
+                    <Destination
+                        key={hop?.id || `null-hop-${i}`}
+                        href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run.nfcId}`}
+                    >
                         {hop && (
                             <div>
                                 <Content>
