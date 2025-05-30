@@ -182,7 +182,7 @@ export default function StandaloneMenu() {
                                     <NavigationMenuLink
                                         asChild
                                         className={cn(
-                                            "flex items-center gap-2 flex-row",
+                                            "flex items-center gap-2 flex-row cursor-pointer",
                                             (!terminal || terminal.status === TerminalStatus.Idle) && "opacity-50 cursor-not-allowed"
                                         )}
                                         onClick={handleResetTerminal}
@@ -196,7 +196,7 @@ export default function StandaloneMenu() {
                                 <li>
                                     <NavigationMenuLink
                                         className={cn(
-                                            "flex items-center gap-2 flex-row",
+                                            "flex items-center gap-2 flex-row cursor-pointer",
                                             (!terminal || terminal.type !== TerminalType.Server || terminal.status !== TerminalStatus.ScanningNfc) && "opacity-50 cursor-not-allowed"
                                         )}
                                         onClick={handleOpenReturnPacket}
@@ -208,7 +208,7 @@ export default function StandaloneMenu() {
                                 <li>
                                     <NavigationMenuLink
                                         className={cn(
-                                            "flex items-center gap-2 flex-row",
+                                            "flex items-center gap-2 flex-row cursor-pointer",
                                             (!terminal || terminal.type !== TerminalType.Server || terminal.status !== TerminalStatus.CreatingPacket) && "opacity-50 cursor-not-allowed"
                                         )}
                                         onClick={handleCloseReturnPacket}
