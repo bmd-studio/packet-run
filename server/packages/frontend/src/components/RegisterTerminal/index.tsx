@@ -96,9 +96,12 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     // GUARD: Check whether we're loading or whether the dat ais not yet there
     if (loading || !data?.registerTerminal) {
         return (
-            <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
-                <Loader2 className="w-16 h-16 animate-spin" />
-            </div>
+            <>
+                <DynamicStandaloneMenu />
+                <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
+                    <Loader2 className="w-16 h-16 animate-spin" />
+                </div>
+            </>
         );
     }
 

@@ -8,8 +8,6 @@ import { TerminalStatus } from '@/data/generated';
 import DestinationBar from '@/components/DestinationBar';
 import Journey from '@/components/Journey';
 import Map from '@/components/Map';
-import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
-import { MODE } from '@/config';
 import { TextContainer, Title } from '@/components/Typography';
 import ForgeManager from './manager';
 import styled from 'styled-components';
@@ -93,7 +91,6 @@ export default function Server() {
                                 </PacketScanner>
                             </React.Fragment>
                         )}
-                        {MODE === 'standalone' && <LoadNFCForTerminal />}
                         <InfoBox />
                         <ForgeManager />
                     </AnimatePresence>

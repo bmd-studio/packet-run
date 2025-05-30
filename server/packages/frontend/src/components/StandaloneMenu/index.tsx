@@ -1,9 +1,9 @@
 'use client';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '../ui/navigation-menu';
 import Link from 'next/link';
-import { TerminalStatus, TerminalType, useAllTerminalsSubscription } from '@/data/generated';
-import { CircleHelp, DoorClosed, MonitorPlay, MonitorStop, Plus, Router, Server } from 'lucide-react';
-import { useContext } from 'react';
+import { TerminalStatus, TerminalType, useAllTerminalsSubscription, useResetTerminalMutation, useCreateReturnPacketMutation } from '@/data/generated';
+import { CircleHelp, DoorClosed, MonitorPlay, MonitorStop, Plus, Router, Server, Loader2, RefreshCw, Package } from 'lucide-react';
+import { useCallback, useContext } from 'react';
 import { terminalContext } from '../RegisterTerminal';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -66,6 +66,45 @@ function getTerminalStatusIndicator(terminal: { status: TerminalStatus, presence
 export default function StandaloneMenu() {
     const { data } = useAllTerminalsSubscription();
     const terminal = useContext(terminalContext);
+    const [resetTerminal, { loading: loadingReset }] = useResetTerminalMutation();
+    const [createReturnPacket, { loading: loadingReturnPacket }] = useCreateReturnPacketMutation();
+
+    const handleResetTerminal = useCallback(() => {
+        if (!terminal || terminal.status === TerminalStatus.Idle) {
+            return;
+        }
+        resetTerminal({ variables: { terminalId: terminal.id } });
+    }, [terminal, resetTerminal]);
+
+    const handleOpenReturnPacket = useCallback(() => {
+        if (!terminal || terminal.type !== TerminalType.Server) {
+            return;
+        }
+        if (terminal.status !== TerminalStatus.ScanningNfc) {
+            return;
+        }
+        createReturnPacket({
+            variables: {
+                terminalId: terminal.id,
+                isPacketCreated: false
+            }
+        });
+    }, [terminal, createReturnPacket]);
+
+    const handleCloseReturnPacket = useCallback(() => {
+        if (!terminal || terminal.type !== TerminalType.Server) {
+            return;
+        }
+        if (terminal.status !== TerminalStatus.CreatingPacket) {
+            return;
+        }
+        createReturnPacket({
+            variables: {
+                terminalId: terminal.id,
+                isPacketCreated: true
+            }
+        });
+    }, [terminal, createReturnPacket]);
 
     return (
         <div className="flex py-2 px-6 bg-[var(--light-gray)] w-screen justify-between gap-8 items-center border-b-2 border-dashed fixed top-0 left-0 right-0 z-50">
@@ -131,6 +170,57 @@ export default function StandaloneMenu() {
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
+                        <NavigationMenuTrigger className="flex items-center gap-2">
+                            Actions
+                            {(loadingReset || loadingReturnPacket) && (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            )}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[200px] gap-2 p-2">
+                                <li>
+                                    <NavigationMenuLink
+                                        asChild
+                                        className={cn(
+                                            "flex items-center gap-2 flex-row",
+                                            (!terminal || terminal.status === TerminalStatus.Idle) && "opacity-50 cursor-not-allowed"
+                                        )}
+                                        onClick={handleResetTerminal}
+                                    >
+                                        <button>
+                                            <RefreshCw className="w-4 h-4 shrink-0" />
+                                            <span>Reset Terminal</span>
+                                        </button>
+                                    </NavigationMenuLink>
+                                </li>
+                                <li>
+                                    <NavigationMenuLink
+                                        className={cn(
+                                            "flex items-center gap-2 flex-row",
+                                            (!terminal || terminal.type !== TerminalType.Server || terminal.status !== TerminalStatus.ScanningNfc) && "opacity-50 cursor-not-allowed"
+                                        )}
+                                        onClick={handleOpenReturnPacket}
+                                    >
+                                        <Package className="w-4 h-4 shrink-0" />
+                                        <span>Create Return Packet (Open)</span>
+                                    </NavigationMenuLink>
+                                </li>
+                                <li>
+                                    <NavigationMenuLink
+                                        className={cn(
+                                            "flex items-center gap-2 flex-row",
+                                            (!terminal || terminal.type !== TerminalType.Server || terminal.status !== TerminalStatus.CreatingPacket) && "opacity-50 cursor-not-allowed"
+                                        )}
+                                        onClick={handleCloseReturnPacket}
+                                    >
+                                        <Package className="w-4 h-4 shrink-0" />
+                                        <span>Create Return Packet (Close)</span>
+                                    </NavigationMenuLink>
+                                </li>
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
                         <NavigationMenuLink asChild>
                             <Link href="/statistics">
                                 Statistics
@@ -139,6 +229,6 @@ export default function StandaloneMenu() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-        </div >
+        </div>
     );
 }
