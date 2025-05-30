@@ -66,6 +66,7 @@ export default function Journey() {
 
     return (
         <Container 
+            key="journey"
             style={{
                 willChange: 'transform',
                 transform: 'translateZ(0)'

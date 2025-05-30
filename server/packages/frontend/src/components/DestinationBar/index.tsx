@@ -82,6 +82,7 @@ export default function DestinationBar() {
 
     return (
         <Fixed
+            key="destination-bar"
             initial={{ y: '-100%' }}
             animate={{ y: MODE === 'standalone' ? 54 : 0 }}
             transition={{ duration: 2, delay: 1 }}

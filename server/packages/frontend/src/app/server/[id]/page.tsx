@@ -2,7 +2,7 @@
 
 import Grid from '@/components/Grid';
 import RegisterTerminal from '@/components/RegisterTerminal';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import PacketScanner from '@/components/PacketScanner';
 import { TerminalStatus } from '@/data/generated';
 import DestinationBar from '@/components/DestinationBar';
@@ -15,7 +15,7 @@ import ArrowWithLabel from '@/components/ArrowWithLabel';
 import InfoBox from '@/components/InfoBox';
 import React from 'react';
 
-const Centered = styled.div`
+const Centered = styled(motion.div)`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,8 +37,8 @@ export default function Server() {
                         )}
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             terminal.run?.currentHop.mayPerformTransformation ? (
-                                <React.Fragment>
-                                    <Centered>
+                                <>
+                                    <Centered key="creating-packet">
                                         <Title>YOUR PACKET HAS ARRIVED AT</Title>
                                         <Title>{terminal.run?.url}</Title>
                                         <Title></Title>
@@ -52,9 +52,9 @@ export default function Server() {
                                         </TextContainer>
                                         <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
                                     </PacketScanner>
-                                </React.Fragment>
+                                </>
                             ) : (
-                                <React.Fragment>
+                                <>
                                     <DestinationBar />
                                     <Map />
                                     <Journey />
@@ -64,22 +64,22 @@ export default function Server() {
                                             <Title>PACKET ONWARDS</Title>
                                         </TextContainer>
                                     </PacketScanner>
-                                </React.Fragment>
+                                </>
                             )
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
-                            <React.Fragment>
-                                <Centered>
+                            <>
+                                <Centered key="created-packet">
                                     <Title>YOUR NEW PACKET</Title>
                                     <Title>HAS BEEN CREATED!</Title>
                                 </Centered>
                                 <PacketScanner>
                                     <Title>LIFT THE HANDLE</Title> 
                                 </PacketScanner>
-                            </React.Fragment>
+                            </>
                         )}
                         {terminal.status === TerminalStatus.CreatedPacket && (
-                            <React.Fragment>
+                            <>
                                 <DestinationBar />
                                 <Map />
                                 <Journey />
@@ -89,7 +89,7 @@ export default function Server() {
                                         <Title>TO YOUR COMPUTER</Title>
                                     </TextContainer>
                                 </PacketScanner>
-                            </React.Fragment>
+                            </>
                         )}
                         <InfoBox />
                         <ForgeManager />

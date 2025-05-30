@@ -175,6 +175,7 @@ export default function Map() {
 
     return (
         <motion.div
+            key="map"
             style={{ 
                 gridArea: 'main',
                 willChange: 'transform',

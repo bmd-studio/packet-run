@@ -16,7 +16,7 @@ import { MODE } from '@/config';
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -151,7 +151,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     }, [nfcId, terminal.run, resetTerminal, terminal.id]);
     
     return (
-        <Container>
+        <Container key="packet-scanner">
             {scannerTimeout && (
                 <ScannerTimeoutBar start={scannerTimeout[0]} end={scannerTimeout[1]} />
             )}

@@ -20,17 +20,17 @@ export default function Router() {
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             <React.Fragment key="scanning-nfc-content">
-                                <DestinationBar key="destination-bar" />
+                                <DestinationBar />
                                 {terminal.run?.currentHop.address ? (
-                                    <Map key="map" />
+                                    <Map />
                                 ) : (
-                                    <Stars key="stars" />
+                                    <Stars />
                                 )}
-                                <Journey key="journey" />
+                                <Journey />
                             </React.Fragment>
                         )}
                         <InfoBox />
-                        <PacketScanner key="packet-scanner" />
+                        <PacketScanner />
                         {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                     </AnimatePresence>
                 </Grid>
