@@ -96,7 +96,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 }
             });
         }
-    }, [terminal.id, searchParams]);
+    }, [terminal.id, searchParams, terminal.status]);
 
     useEffect(() => {
         // GUARD: Don't do anything when there isn't any NFC that is being

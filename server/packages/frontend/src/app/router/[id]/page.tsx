@@ -7,8 +7,6 @@ import RegisterTerminal from '@/components/RegisterTerminal';
 import PacketScanner from '@/components/PacketScanner';
 import Map from '@/components/Map';
 import Grid from '@/components/Grid';
-import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
-import { MODE } from '@/config';
 import { AnimatePresence } from 'framer-motion';
 import Journey from '@/components/Journey';
 import Stars from '@/components/Stars';

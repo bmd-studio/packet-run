@@ -10,8 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import NfcScanner from '@/components/PacketScanner';
-import { BACKEND_URL, MODE } from '@/config';
-import LoadNFCForTerminal from '@/components/LoadNFCForTerminal';
+import { BACKEND_URL } from '@/config';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
 import React from 'react';
 

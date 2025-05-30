@@ -1,7 +1,7 @@
 'use client';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '../ui/navigation-menu';
 import Link from 'next/link';
-import { AllTerminalsSubscription, TerminalStatus, TerminalType, useAllTerminalsSubscription } from '@/data/generated';
+import { TerminalStatus, TerminalType, useAllTerminalsSubscription } from '@/data/generated';
 import { CircleHelp, DoorClosed, MonitorPlay, MonitorStop, Plus, Router, Server } from 'lucide-react';
 import { useContext } from 'react';
 import { terminalContext } from '../RegisterTerminal';

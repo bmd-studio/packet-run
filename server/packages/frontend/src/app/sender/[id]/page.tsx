@@ -1,6 +1,5 @@
 'use client';
 
-import CreateRunWithNFC from '@/components/CreateRunWithNFC';
 import PatternedBackground from '@/components/PatternedBackground';
 import RegisterTerminal from '@/components/RegisterTerminal';
 import { MODE } from '@/config';
