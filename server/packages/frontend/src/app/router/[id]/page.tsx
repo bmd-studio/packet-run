@@ -29,8 +29,8 @@ export default function Router() {
                                 <Journey />
                             </React.Fragment>
                         )}
-                        <InfoBox />
-                        <PacketScanner />
+                        <InfoBox key="info-box" />
+                        <PacketScanner key="packet-scanner" />
                         {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                     </AnimatePresence>
                 </Grid>

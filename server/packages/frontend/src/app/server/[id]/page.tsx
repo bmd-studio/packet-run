@@ -31,69 +31,74 @@ export default function Server() {
                 <Grid>
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.Idle && (
-                            <>
-                                <PacketScanner />
-                            </>
+                            <PacketScanner />
                         )}
-                        {terminal.status === TerminalStatus.ScanningNfc && (
-                            terminal.run?.currentHop.mayPerformTransformation ? (
-                                <>
-                                    <Centered key="creating-packet">
-                                        <Title>YOUR PACKET HAS ARRIVED AT</Title>
-                                        <Title>{terminal.run?.url}</Title>
-                                        <Title></Title>
-                                        <Title>NOW, ANSWER THE REQUEST BY </Title>
-                                        <Title>CREATING A RESPONSE PACKET.</Title>
-                                    </Centered>
-                                    <PacketScanner>
-                                        <TextContainer>
-                                            <Title>USE THE HANDLE TO</Title>
-                                            <Title>FORGE A NEW PACKET</Title>
-                                        </TextContainer>
-                                        <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
-                                    </PacketScanner>
-                                </>
-                            ) : (
-                                <>
-                                    <DestinationBar />
-                                    <Map />
-                                    <Journey />
-                                    <PacketScanner>
-                                        <TextContainer>
-                                            <Title>GUIDE YOUR</Title>
-                                            <Title>PACKET ONWARDS</Title>
-                                        </TextContainer>
-                                    </PacketScanner>
-                                </>
-                            )
+                        {terminal.status === TerminalStatus.ScanningNfc && terminal.run?.currentHop.mayPerformTransformation && (
+                            <Centered key="creating-packet">
+                                <Title>YOUR PACKET HAS ARRIVED AT</Title>
+                                <Title>{terminal.run?.url}</Title>
+                                <Title></Title>
+                                <Title>NOW, ANSWER THE REQUEST BY </Title>
+                                <Title>CREATING A RESPONSE PACKET.</Title>
+                            </Centered>
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && terminal.run?.currentHop.mayPerformTransformation && (
+                            <PacketScanner>
+                                <TextContainer>
+                                    <Title>USE THE HANDLE TO</Title>
+                                    <Title>FORGE A NEW PACKET</Title>
+                                </TextContainer>
+                                <ArrowWithLabel position="bottom-right" rotate={90}>HANDLE</ArrowWithLabel>
+                            </PacketScanner>
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && !terminal.run?.currentHop.mayPerformTransformation && (
+                            <DestinationBar />
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && !terminal.run?.currentHop.mayPerformTransformation && (
+                            <Map />
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && !terminal.run?.currentHop.mayPerformTransformation && (
+                            <Journey />
+                        )}
+                        {terminal.status === TerminalStatus.ScanningNfc && !terminal.run?.currentHop.mayPerformTransformation && (
+                            <PacketScanner>
+                                <TextContainer>
+                                    <Title>GUIDE YOUR</Title>
+                                    <Title>PACKET ONWARDS</Title>
+                                </TextContainer>
+                            </PacketScanner>
                         )}
                         {terminal.status === TerminalStatus.CreatingPacket && (
-                            <>
-                                <Centered key="created-packet">
-                                    <Title>YOUR NEW PACKET</Title>
-                                    <Title>HAS BEEN CREATED!</Title>
-                                </Centered>
-                                <PacketScanner>
-                                    <Title>LIFT THE HANDLE</Title> 
-                                </PacketScanner>
-                            </>
+                            <Centered key="created-packet">
+                                <Title>YOUR NEW PACKET</Title>
+                                <Title>HAS BEEN CREATED!</Title>
+                            </Centered>
+                        )}
+                        {terminal.status === TerminalStatus.CreatingPacket && (
+                            <PacketScanner>
+                                <Title>LIFT THE HANDLE</Title> 
+                            </PacketScanner>
                         )}
                         {terminal.status === TerminalStatus.CreatedPacket && (
-                            <>
-                                <DestinationBar />
-                                <Map />
-                                <Journey />
-                                <PacketScanner>
-                                    <TextContainer>
-                                        <Title>NOW, NAVIGATE BACK</Title>
-                                        <Title>TO YOUR COMPUTER</Title>
-                                    </TextContainer>
-                                </PacketScanner>
-                            </>
+                            <DestinationBar />
                         )}
-                        <InfoBox />
-                        <ForgeManager />
+                        {terminal.status === TerminalStatus.CreatedPacket && (
+                            <Map />
+                        )}
+                        {terminal.status === TerminalStatus.CreatedPacket && (
+                            <Journey />
+                        )}
+                        {terminal.status === TerminalStatus.CreatedPacket && (
+                            <PacketScanner>
+                                <TextContainer>
+                                    <Title>NOW, NAVIGATE BACK</Title>
+                                    <Title>TO YOUR COMPUTER</Title>
+                                </TextContainer>
+                            </PacketScanner>
+                        )}
+                        <InfoBox key="info-box" />
                     </AnimatePresence>
+                    <ForgeManager />
                 </Grid>
             )}
         </RegisterTerminal>
