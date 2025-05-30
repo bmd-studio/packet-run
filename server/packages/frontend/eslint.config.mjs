@@ -9,7 +9,7 @@ const eslintConfig = [
     ...compat.config({
         extends: ['next/core-web-vitals', 'next/typescript'],
         rules: {
-            'indent': ['error', 4],
+            'indent': ['error', 4, { SwitchCase: 1 }],
             '@typescript-eslint/no-unused-vars': 'error',
             '@next/next/no-img-element': 'off',
         }

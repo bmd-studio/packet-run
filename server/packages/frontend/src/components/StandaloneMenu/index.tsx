@@ -6,58 +6,59 @@ import { CircleHelp, DoorClosed, MonitorPlay, MonitorStop, Plus, Router, Server 
 import { useContext } from 'react';
 import { terminalContext } from '../RegisterTerminal';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 function getTerminalIcon(type: TerminalType, className: string = 'size-5') {
     switch (type) {
-    case TerminalType.Gateway:
-        return <DoorClosed className={className} />;
-    case TerminalType.Router:
-        return <Router className={className} />;
-    case TerminalType.Sender:
-        return <MonitorPlay className={className} />;
-    case TerminalType.Receiver:
-        return <MonitorStop className={className} />;
-    case TerminalType.Server:
-        return <Server className={className} />;
-    default:
-        return <CircleHelp className={className} />;
+        case TerminalType.Gateway:
+            return <DoorClosed className={className} />;
+        case TerminalType.Router:
+            return <Router className={className} />;
+        case TerminalType.Sender:
+            return <MonitorPlay className={className} />;
+        case TerminalType.Receiver:
+            return <MonitorStop className={className} />;
+        case TerminalType.Server:
+            return <Server className={className} />;
+        default:
+            return <CircleHelp className={className} />;
     }
-}   
+}
 
 const terminalStatusIndicatorClassNames = "inline-block size-2 rounded-full";
 
 function getTerminalStatusIndicator(terminal: { status: TerminalStatus, presences?: { connectedAt: number }[] }, className?: string) {
     switch (terminal.status) {
-    case TerminalStatus.Idle:
-        return <span className={cn(
-            "bg-green-500",
-            terminalStatusIndicatorClassNames,
-            className
-        )} />;
-    case TerminalStatus.ScanningNfc:
-        return <span className={cn(
-            "bg-blue-500",
-            terminalStatusIndicatorClassNames,
-            className
-        )} />;
-    case TerminalStatus.CreatingPacket:
-        return <span className={cn(
-            "bg-yellow-500",
-            terminalStatusIndicatorClassNames,
-            className
-        )} />;
-    case TerminalStatus.CreatedPacket:
-        return <span className={cn(
-            "bg-purple-500",
-            terminalStatusIndicatorClassNames,
-            className
-        )} />;
-    default:
-        return <span className={cn(
-            "bg-red-500",
-            terminalStatusIndicatorClassNames,
-            className
-        )} />;
+        case TerminalStatus.Idle:
+            return <span className={cn(
+                "bg-green-500",
+                terminalStatusIndicatorClassNames,
+                className
+            )} />;
+        case TerminalStatus.ScanningNfc:
+            return <span className={cn(
+                "bg-blue-500",
+                terminalStatusIndicatorClassNames,
+                className
+            )} />;
+        case TerminalStatus.CreatingPacket:
+            return <span className={cn(
+                "bg-yellow-500",
+                terminalStatusIndicatorClassNames,
+                className
+            )} />;
+        case TerminalStatus.CreatedPacket:
+            return <span className={cn(
+                "bg-purple-500",
+                terminalStatusIndicatorClassNames,
+                className
+            )} />;
+        default:
+            return <span className={cn(
+                "bg-red-500",
+                terminalStatusIndicatorClassNames,
+                className
+            )} />;
     }
 }
 
@@ -68,8 +69,19 @@ export default function StandaloneMenu() {
 
     return (
         <div className="flex py-2 px-6 bg-[var(--light-gray)] w-screen justify-between gap-8 items-center border-b-2 border-dashed fixed top-0 left-0 right-0 z-50">
-            {/* eslint-disable-next-line @next/next/no-img-element  */}
-            <img src="/logo.svg" alt="Packet Run" className="h-6" />
+            <div className="flex items-center gap-2">
+                <img src="/logo.svg" alt="Packet Run" className="h-6" />
+                <Tooltip>
+                    <TooltipTrigger>
+                        <span className="text-xs uppercase text-gray-400 flex items-center gap-1">
+                            / Standalone
+                        </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" align="start" sideOffset={5}>
+                        In standalone mode, we&apos;re running a simulation of the Packet Run system.
+                    </TooltipContent>
+                </Tooltip>
+            </div>
             {terminal && (
                 <div className="text-xs text-gray-500 flex gap-2 items-center">
                     Current terminal:

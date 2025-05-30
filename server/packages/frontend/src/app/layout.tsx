@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import '@/styles/tailwind.css';
 import '@/styles/global.css';
 import { Inter, VT323 } from 'next/font/google';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const vt323 = VT323({
     subsets: ['latin'],
@@ -27,9 +28,11 @@ export default function RootLayout({
                 <title>📦 Packet Run</title>
             </head>
             <body className={`dark bg-background min-h-screen text-foreground ${vt323.variable} ${inter.variable}`}>
-                <ApolloProvider client={client}>
-                    {children}
-                </ApolloProvider>
+                <TooltipProvider>
+                    <ApolloProvider client={client}>
+                        {children}
+                    </ApolloProvider>
+                </TooltipProvider>
             </body>
         </html>
     );
