@@ -14,6 +14,8 @@ import { TextContainer, Title, Subtitle } from '@/components/Typography';
 import ArrowWithLabel from '@/components/ArrowWithLabel';
 import generateId from '@/lib/generateId';
 import { useRouter } from 'next/navigation';
+import OnBoardingFlow from './onboardingScreens';
+import './index.css';
 
 const Container = styled(PatternedBackground)`
     width: 100vw;
@@ -40,10 +42,10 @@ export default function Sender() {
                 if (MODE === 'standalone') {
                     // In standalone mode, create a run immediately with a generated ID
                     const standaloneId = `standalone-${generateId(12)}`;
-                    const result = await createRunMutation({ 
-                        variables: { nfcId: standaloneId, url: `https://${host}` } 
+                    const result = await createRunMutation({
+                        variables: { nfcId: standaloneId, url: `https://${host}` }
                     });
-                    
+
                     // GUARD: Check that the run was created
                     if (result.data?.createRun) {
                         // Redirect to the router page
@@ -69,10 +71,11 @@ export default function Sender() {
             return () => clearTimeout(timeout);
         }
     }, [nfcId, host, isPacketPressed, data, loading, createRunMutation, reset, setHost, router]);
-
-    return(
+    console.log('do you have some change?');
+    return (
         <RegisterTerminal>
             {/* {MODE === 'standalone' && <CreateRunWithNFC />} */}
+            <OnBoardingFlow />
             <Container>
                 {!data?.createRun ? (
                     !host ? (
@@ -82,7 +85,7 @@ export default function Sender() {
                                 <Subtitle>Which website would you like to visit today?</Subtitle>
                             </TextContainer>
                             <WebsiteInput onHost={setHost} />
-                        </> 
+                        </>
                     ) : (
                         !nfcId ? (
                             <>
