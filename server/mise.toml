@@ -1,0 +1,4 @@
+[tools]
+node = "20.19.2"
+redis = "latest"
+redis-cli = "latest"
