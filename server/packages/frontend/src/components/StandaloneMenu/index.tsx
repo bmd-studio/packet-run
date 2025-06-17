@@ -7,6 +7,31 @@ import { useCallback, useContext } from 'react';
 import { terminalContext } from '../RegisterTerminal';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { styled } from 'styled-components';
+const MenuWrapper = styled.div<{ open?: boolean }>`
+    top: -54px;
+    transition: all 0.3s;
+    position: relative;
+    &:hover {
+        top: -0px;
+    }
+    &::after {
+        font-family: Symbola, monospace;
+        content: '\\2193';
+        text-align: center;
+        padding-bottom: 8px;
+        width: 100px;
+        height: 32px;
+        border-radius: 0px 0px 16px 16px;
+        position: absolute;
+        bottom: -32px;
+        background-color: var(--light-gray);
+        border-top: 2px dashed;
+        left: calc(50vw - 50px);
+        z-index: 1;
+        box-shadow: 0px 5px 5px grey;
+    }
+`;
 
 function getTerminalIcon(type: TerminalType, className: string = 'size-5') {
     switch (type) {
@@ -107,7 +132,7 @@ export default function StandaloneMenu() {
     }, [terminal, createReturnPacket]);
 
     return (
-        <div className="flex py-2 px-6 bg-[var(--light-gray)] w-screen justify-between gap-8 items-center border-b-2 border-dashed fixed top-0 left-0 right-0 z-50">
+        <MenuWrapper className="flex py-2 px-6 bg-[var(--light-gray)] w-screen justify-between gap-8 items-center border-b-2 border-dashed fixed top-0 left-0 right-0 z-50">
             <div className="flex items-center gap-2">
                 <img src="/logo.svg" alt="Packet Run" className="h-6" />
                 <Tooltip>
@@ -229,6 +254,6 @@ export default function StandaloneMenu() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-        </div>
+        </MenuWrapper>
     );
 }
