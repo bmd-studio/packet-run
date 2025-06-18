@@ -15,11 +15,12 @@
 body {
   font-family: var(--font-doto);
   overflow: hidden;
+  font-weight: bold;
 }
 
 p {
   color: black;
-
+  font-family: var(--font-doto);
 }
 
 /* headings */
@@ -30,6 +31,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-doto);
   text-transform: uppercase;
 }
+
+
 
 h1 {
   font-size: 30px;

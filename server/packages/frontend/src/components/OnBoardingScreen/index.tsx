@@ -17,6 +17,9 @@ const ContentWrapper = styled.div`
     flex-direction: row;
     justify-content: center;
     box-sizing: border-box;
+    & p {
+      margin-bottom: 60px;
+    }
 `;
 interface OnBoadingProps extends React.PropsWithChildren {
     indicator: {
