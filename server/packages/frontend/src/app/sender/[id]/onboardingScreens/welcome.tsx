@@ -1,8 +1,8 @@
 'use client';
 
 import { OnboardingScreen } from '@/components/OnBoardingScreen';
-import PatternedBackground from '@/components/PatternedBackground';
 import { styled } from 'styled-components';
+import { OnBoardingProps } from './types';
 
 const WelcomeWrapper = styled.div`
   width: 100%;
@@ -24,17 +24,17 @@ const TextWrapper = styled.div`
 `
 
 export default function WelcomeScreen(props: OnBoardingProps) {
-  return (
-    <OnboardingScreen indicator={props}>
-      <WelcomeWrapper>
-        <TextWrapper>
-          <div>
-            <h1>Start <span className='with-accent-color'>PACKET RUN</span></h1>
-            <p>Gebruik de pijltjes op het toetsenbord [->] om verder te gaan.</p>
-          </div>
-        </TextWrapper>
-      </WelcomeWrapper>
-    </OnboardingScreen >
-  )
+    return (
+        <OnboardingScreen indicator={props}>
+            <WelcomeWrapper>
+                <TextWrapper>
+                    <div>
+                        <h1>Start <span className='with-accent-color'>PACKET RUN</span></h1>
+                        <p>Gebruik de pijltjes op het toetsenbord [{`->`}] om verder te gaan.</p>
+                    </div>
+                </TextWrapper>
+            </WelcomeWrapper>
+        </OnboardingScreen >
+    )
 
 }

@@ -33,27 +33,27 @@ export default function OnBoardingFlow() {
         <Explanation7 key={'7'} currentStep={6} stepAmount={7} />,
     ]
 
-    const incrementScreenNumber = () => {
-        setScreenNumber((previous) => {
-            let newValue = previous + 1;
-            if (newValue >= screens.length) {
-                newValue = screens.length - 1;
-            }
-            return newValue;
-        });
-    }
-
-    const decrementScreenNumber = () => {
-        setScreenNumber((previous) => {
-            let newValue = previous - 1;
-            if (newValue < 0) {
-                newValue = 0;
-            }
-            return newValue;
-        });
-    }
     useEffect(() => {
         // register key presses
+        const incrementScreenNumber = () => {
+            setScreenNumber((previous) => {
+                let newValue = previous + 1;
+                if (newValue >= screens.length) {
+                    newValue = screens.length - 1;
+                }
+                return newValue;
+            });
+        }
+
+        const decrementScreenNumber = () => {
+            setScreenNumber((previous) => {
+                let newValue = previous - 1;
+                if (newValue < 0) {
+                    newValue = 0;
+                }
+                return newValue;
+            });
+        }
         console.log('registering key press');
         document.onkeyup = (e) => {
             console.log(e.key);
@@ -72,7 +72,7 @@ export default function OnBoardingFlow() {
                     break;
             }
         }
-    }, [])
+    }, [setScreenNumber, screens.length])
 
     const currentScreen = screens[screenNumber];
     console.log('loaded');

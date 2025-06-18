@@ -1,6 +1,6 @@
-
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
+import { OnBoardingProps } from "./types";
 
 
 const ContentWrapper = styled.div`
@@ -35,19 +35,19 @@ const Image = styled.img`
 `;
 
 export function Explanation5(props: OnBoardingProps) {
-  return (
-    <OnboardingScreen indicator={props}>
-      <ContentWrapper>
-        <TextWrapper>
-          <p>De metalen buizen symboliseren de routers.</p>
-          <p>Via deze buizen reist je pakketje van router naar router. De installatie is een fysieke representatie van mogelijke routes die pakketjes op het internet kunnen nemen.</p>
-          <p>Onderweg leer je wie er achter het internet zit en welke risico's daarbij horen.</p>
-        </TextWrapper>
-        <ImageWrapper>
-          <Image src='/onboarding-installation-graphic.svg' />
-        </ImageWrapper>
-      </ContentWrapper>
-    </OnboardingScreen>
-  )
+    return (
+        <OnboardingScreen indicator={props}>
+            <ContentWrapper>
+                <TextWrapper>
+                    <p>De metalen buizen symboliseren de routers.</p>
+                    <p>Via deze buizen reist je pakketje van router naar router. De installatie is een fysieke representatie van mogelijke routes die pakketjes op het internet kunnen nemen.</p>
+                    <p>Onderweg leer je wie er achter het internet zit en welke risico{`'`}s daarbij horen.</p>
+                </TextWrapper>
+                <ImageWrapper>
+                    <Image src='/onboarding-installation-graphic.svg' alt="Packet Run installation" />
+                </ImageWrapper>
+            </ContentWrapper>
+        </OnboardingScreen>
+    )
 
 }

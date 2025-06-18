@@ -1,6 +1,6 @@
-
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
+import { OnBoardingProps } from "./types";
 
 
 const ContentWrapper = styled.div`
@@ -39,25 +39,25 @@ margin-bottom: 60px;
 `
 
 export function Explanation4(props: OnBoardingProps) {
-  return (
-    <OnboardingScreen indicator={props}>
-      <ContentWrapper>
-        <TextWrapper>
-          <TopText>
-            Hoe gebruik je de bal en router?
-          </TopText>
-          <OrderedList>
-            <li>Je bal komt in de container aangerold</li>
-            <li>Plaats de bal op de scanner</li>
-            <li>Lees de informatie op het scherm</li>
-            <li>Gooi bal door 1 van de gaten, en volg waar je bal naartoe gaat</li>
-          </OrderedList>
-        </TextWrapper>
-        <ImageWrapper>
-          <Image src='/onboarding-terminal-graphic.svg' />
-        </ImageWrapper>
-      </ContentWrapper>
-    </OnboardingScreen>
-  )
+    return (
+        <OnboardingScreen indicator={props}>
+            <ContentWrapper>
+                <TextWrapper>
+                    <TopText>
+                        Hoe gebruik je de bal en router?
+                    </TopText>
+                    <OrderedList>
+                        <li>Je bal komt in de container aangerold</li>
+                        <li>Plaats de bal op de scanner</li>
+                        <li>Lees de informatie op het scherm</li>
+                        <li>Gooi bal door 1 van de gaten, en volg waar je bal naartoe gaat</li>
+                    </OrderedList>
+                </TextWrapper>
+                <ImageWrapper>
+                    <Image src='/onboarding-terminal-graphic.svg' alt="onboarding terminal" />
+                </ImageWrapper>
+            </ContentWrapper>
+        </OnboardingScreen>
+    )
 
 }
