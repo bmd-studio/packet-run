@@ -9,7 +9,7 @@ const ContentWrapper = styled.div`
 
 `
 
-export function Explanation7(props: OnBoardingProps) {
+export default function Explanation7(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>

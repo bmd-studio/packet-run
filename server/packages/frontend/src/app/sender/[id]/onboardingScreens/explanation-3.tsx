@@ -34,7 +34,7 @@ const Image = styled.img`
   padding-left: 72px;
 `;
 
-export function Explanation3(props: OnBoardingProps) {
+export default function Explanation3(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>

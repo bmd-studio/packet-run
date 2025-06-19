@@ -1,18 +1,21 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-const Container = styled(motion.div)`
+const ContainerContainer = styled.div`
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    width: 100vw;
+    bottom: 0px;
+    left: 0px;
+
+`;
+const Container = styled(motion.div)`
     z-index: 100;
     background-color: var(--dark-gray);
 `;
 
 const Bar = styled(motion.div)`
-    background-color: var(--yellow);
-    height: 8px;
+    background-color: var(--orange);
+    height: 38px;
 `;
 
 /**
@@ -39,16 +42,18 @@ export default function ScannerTimeoutBar({ start, end }: { start?: Date, end?: 
     const startProgression = Math.max((now - start.getTime()) / (end.getTime() - start.getTime()), 0);
 
     return (
-        <Container
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1 }}
-        >
-            <Bar
-                initial={{ width: `${startProgression * 100}%` }}
-                animate={{ width: '100%' }}
-                transition={{ duration, delay }}
-            />
-        </Container>
+        <ContainerContainer>
+            <Container
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <Bar
+                    initial={{ width: `${startProgression * 100}%` }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration, delay }}
+                />
+            </Container>
+        </ContainerContainer>
     );
 }

@@ -1,6 +1,6 @@
 
 import { styled } from 'styled-components';
-import CarrouselIndicator from '../CarrouselIndicator';
+import CarrouselIndicator, { CarrouselProps } from '../CarrouselIndicator';
 import PatternedBackground from '../PatternedBackground';
 
 const Background = styled(PatternedBackground)`
@@ -22,16 +22,13 @@ const ContentWrapper = styled.div`
     }
 `;
 interface OnBoadingProps extends React.PropsWithChildren {
-    indicator: {
-        stepAmount: number;
-        currentStep: number;
-    }
+    indicator: CarrouselProps;
 }
 export function OnboardingScreen(props: OnBoadingProps) {
     const { children, indicator } = props;
     return (
         <Background>
-            <CarrouselIndicator currentStep={indicator.currentStep} stepAmount={indicator.stepAmount} />
+            <CarrouselIndicator {...indicator} />
             <ContentWrapper>
                 {children}
             </ContentWrapper>
