@@ -7,3 +7,9 @@ const PatternedBackground = styled.div`
 `;
 
 export default PatternedBackground;
+
+export const PatternedBackgroundDark = styled.div`
+  background: var(--background-black);
+  background-image: radial-gradient(var(--background-dot-gray) 5%, transparent 0);
+  background-size: 35px 35px;
+`;
