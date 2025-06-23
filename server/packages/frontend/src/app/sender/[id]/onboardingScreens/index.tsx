@@ -104,16 +104,11 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
                         break;
                 }
             } else {
-                //switch (e.key) {
-                //    case 'Enter':
-                //    case 'ArrowRight': // FIXME: remove after testing
-                //        incrementScreenNumber();
-                //        break;
-                //    case 'Escape':
-                //    case 'ArrowLeft': // FIXME: remove after testing
-                //        decrementScreenNumber();
-                //        break;
-                //}
+                switch (e.key) {
+                    case 'Escape':
+                        setScreenNumber(0);
+                        break;
+                }
             }
         }
     }, [setScreenNumber, screens.length, isInInputScreen])

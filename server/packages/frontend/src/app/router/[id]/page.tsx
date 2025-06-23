@@ -21,11 +21,7 @@ export default function Router() {
                         {terminal.status === TerminalStatus.ScanningNfc && (
                             <React.Fragment key="scanning-nfc-content">
                                 <DestinationBar />
-                                {terminal.run?.currentHop.address ? (
-                                    <Map />
-                                ) : (
-                                    <Stars />
-                                )}
+                                <Map />
                             </React.Fragment>
                         )}
                         <PacketScanner key="packet-scanner" />

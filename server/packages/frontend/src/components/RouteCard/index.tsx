@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
+import LabeledHeader from '../LabeledHeader';
 
 export type RouteTypes = 'alternative' | 'recommended' | 'back' | 'wormhole';
 export interface RouteCardProps extends PropsWithChildren {
@@ -14,16 +15,6 @@ export interface RouteCardProps extends PropsWithChildren {
 const Container = styled.div`
 position: relative;
   width: 304px;
-`;
-const NameContainer = styled.div`
-  background-color: var(--background-light-gray);
-  height: 42px;
-  box-sizing: border-box;
-  padding-left: 16px;
-  font-size: 20px;
-  padding-top: 6px;
-  text-transform: uppercase;
-
 `;
 function getBackgroundColorForRouteType(routeType?: RouteTypes) {
     switch (routeType) {
@@ -75,13 +66,13 @@ const DestinationBar = styled.div`
     background-color: var(--orange);
     height: 66px;
     width: 100%;
-      text-transform: uppercase;
-      font-size: 24px;
+    text-transform: uppercase;
+    font-size: 24px;
     padding-left: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
+    box-sizing: border-box;
 `;
 
 const OwnerContainer = styled.div`
@@ -129,6 +120,9 @@ export default function RouteCard(props: RouteCardProps) {
             <DestinationBar>
                 {destination}
             </DestinationBar>
+            <LabeledHeader label={<Type type={type} />}>
+                {name}
+            </LabeledHeader>
             <ExplanationContainer>
                 {renderOwnerContainer ? (
                     <OwnerContainer>
@@ -141,6 +135,6 @@ export default function RouteCard(props: RouteCardProps) {
                     {children}
                 </Explanation>
             </ExplanationContainer>
-        </Container>
+        </Container >
     );
 }
