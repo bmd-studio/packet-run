@@ -9,7 +9,25 @@ const NameContainer = styled.div`
     padding-top: 6px;
     text-transform: uppercase;
     width: 100%;
+    position: relative;
 `;
+
+const LabelWrapper = styled.div`
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    & div, p , h1, h2, h3 {
+        height: 34px;
+        padding-left: 16px;
+        padding-right: 16px;
+        fonbt-size: 18px;
+    }
+`;
+
 
 
 export interface LabeledHeaderProps extends PropsWithChildren {
@@ -19,7 +37,9 @@ export default function LabeledHeader(props: LabeledHeaderProps) {
     return (
         <NameContainer>
             {props.children}
-            {props?.label || null}
+            <LabelWrapper>
+                {props?.label || null}
+            </LabelWrapper>
         </NameContainer>
     )
 }
