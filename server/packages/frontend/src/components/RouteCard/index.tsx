@@ -104,7 +104,7 @@ const OwnerSpan = styled.span`
 `;
 const ExplanationContainer = styled.div`
     width: 100%;
-    height: 473px;
+    height: 390px;
     background: linear-gradient(180deg, #272727 40%, rgba(0, 0, 0, 0.20) 100%);
     color: white;
     font-size: 18px;
@@ -129,10 +129,6 @@ export default function RouteCard(props: RouteCardProps) {
             <DestinationBar>
                 {destination}
             </DestinationBar>
-            <NameContainer>
-                {name}
-                <Type type={type} />
-            </NameContainer>
             <ExplanationContainer>
                 {renderOwnerContainer ? (
                     <OwnerContainer>
