@@ -4,9 +4,9 @@
   "description": "All software components for the Packet Run installation that run on a server",
   "main": "",
   "scripts": {
-    "start": "turbo run start",
+    "start": "concurrently \"redis-server\" \"turbo run start\"",
     "build": "turbo build",
-    "dev": "turbo run dev",
+    "dev": "concurrently \"redis-server\" \"turbo run dev\"",
     "lint": "turbo run lint",
     "postinstall": "patch-package"
   },
@@ -17,6 +17,10 @@
   ],
   "dependencies": {
     "patch-package": "^8.0.0",
-    "turbo": "^1.10.12"
+    "turbo": "^2.5.3"
+  },
+  "packageManager": "npm@10.8.2",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

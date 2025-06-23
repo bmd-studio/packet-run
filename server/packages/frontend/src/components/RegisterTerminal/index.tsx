@@ -1,10 +1,11 @@
-import { RegisterTerminalSubscription, useRegisterTerminalSubscription } from '@/data/generated';
+'use client';
+import { RegisterTerminalSubscription, useRegisterTerminalSubscription, useResetTerminalMutation } from '@/data/generated';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 import dynamic from 'next/dynamic';
-import { DEBUG } from '@/config';
+import { MODE } from '@/config';
 
 export const terminalContext = createContext<RegisterTerminalSubscription['registerTerminal']>(undefined);
 
@@ -17,7 +18,7 @@ export function useTerminal<T = TerminalSubscriptionData>(
     memoFunction: (t: TerminalSubscriptionData) => T = (t) => t as T,
 ): T {
     // Retrieve the terminal from the context
-    const terminal = useContext(terminalContext) ;
+    const terminal = useContext(terminalContext);
 
     // GUARD: Ensure that the hook is only called when a descendant of `RegisterTerminal`
     if (!terminal) {
@@ -30,13 +31,12 @@ export function useTerminal<T = TerminalSubscriptionData>(
     ), [memoFunction, terminal]);
 }
 
-
 /**
- * A dynamic wrapper that only loads the debug bar when the NEXTJS_PUBLIC_DEBUG
- * environment variable is set to true.
+ * A dynamic wrapper that only loads the debug bar when the MODE is 'standalone'
+ * to avoid loading unnecessary code in distributed mode.
  */
-export const DynamicDebugBar = DEBUG
-    ? dynamic(() => import('@/components/DebugBar'))
+export const DynamicStandaloneMenu = MODE === 'standalone'
+    ? dynamic(() => import('@/components/StandaloneMenu'))
     : () => null;
 
 export type RegisterTerminalProps = PropsWithChildren | { children: ((data: TerminalSubscriptionData) => ReactNode | undefined) };
@@ -49,25 +49,32 @@ export type RegisterTerminalProps = PropsWithChildren | { children: ((data: Term
  * using the context.
  */
 export default function RegisterTerminal({ children }: RegisterTerminalProps) {
-    const { query, pathname, push } = useRouter();
-    const terminalId = parseInt(query.id as string);
+    const { push } = useRouter();
+    const pathname = usePathname();
+    const params = useParams();
+    const terminalId = parseInt(params.id as string);
     const pageSlug = useMemo(() => pathname.split('/')[1], [pathname]);
     const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: terminalId }, skip: !terminalId });
+    const [ resetTerminal ] = useResetTerminalMutation();
     
     if (error) {
         console.error(error, error.graphQLErrors, data);
     }
 
-    // Reload the page whenever an error is encountered
     useEffect(() => {
-        if (!error) return;
+        resetTerminal({ variables: { terminalId }});
+    }, [terminalId]);
 
-        const timeout = setTimeout(() => {
-            window.location.reload();
-        }, 5_000);
+    // Reload the page whenever an error is encountered
+    // useEffect(() => {
+    //     if (!error) return;
 
-        return () => clearTimeout(timeout);
-    }, [error]);
+    //     const timeout = setTimeout(() => {
+    //         window.location.reload();
+    //     }, 200);
+
+    //     return () => clearTimeout(timeout);
+    // }, [error]);
 
     // GUARD: Check if an error was encountered
     if (!terminalId || error) {
@@ -89,25 +96,29 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     // GUARD: Check whether we're loading or whether the dat ais not yet there
     if (loading || !data?.registerTerminal) {
         return (
-            <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
-                <Loader2 className="w-16 h-16 animate-spin" />
-            </div>
+            <>
+                <DynamicStandaloneMenu />
+                <div className="w-screen h-screen flex items-center justify-center bg-black text-white">
+                    <Loader2 className="w-16 h-16 animate-spin" />
+                </div>
+            </>
         );
     }
 
     // GUARD: Verify that we're on the right type of page for this terminal type
     if (pageSlug !== data.registerTerminal.type.toLowerCase()) {
+        console.log('Redirecting from', pageSlug, 'to', data.registerTerminal.type.toLowerCase());
         push(`/${data.registerTerminal.type.toLowerCase()}/${terminalId}`);
         return null;
     }
     
     return (
         <terminalContext.Provider value={data.registerTerminal}>
+            <DynamicStandaloneMenu />
             {typeof children === 'function'
                 ? children(data.registerTerminal)
                 : children
             }
-            <DynamicDebugBar />
         </terminalContext.Provider>
     )
 }

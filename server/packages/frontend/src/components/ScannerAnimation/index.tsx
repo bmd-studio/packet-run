@@ -4,6 +4,7 @@ import { styled } from 'styled-components'
 const Ring = styled(motion.ellipse)`
     stroke-width: 8px;
     fill: none;
+    will-change: transform;
 `;
 
 type RingProps = SVGMotionProps<SVGEllipseElement>;

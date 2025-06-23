@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
+ 
 import { Entity, Enum, ManyToOne, OneToOne, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import 'reflect-metadata';
 import Address from '../address/index.entity';

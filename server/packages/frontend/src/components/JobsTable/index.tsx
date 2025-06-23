@@ -1,3 +1,4 @@
+'use client';
 import { JobStatus, useJobsSubscription } from "@/data/generated";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
@@ -40,8 +41,8 @@ export default function JobsTable() {
     }
 
     return (
-        <div className="h-full border-l">
-            <Table className="border-b">
+        <div className="h-full border-l bg-white rounded-xl shadow-xl border-gray-100 overflow-hidden">
+            <Table className="border-b border-gray-200">
                 <TableHeader className="sticky top-0 bg-background">
                     <TableRow>
                         <TableHead>Time</TableHead>
@@ -62,7 +63,7 @@ export default function JobsTable() {
                                 <TableCell>{job.data}</TableCell>
                                 <TableCell>
                                     <span
-                                        className="text-sm font-bold p-1 px-2 rounded flex items-center gap-1 basis-0"
+                                        className="text-sm font-bold p-1 px-2 rounded inline-flex items-center gap-1 basis-0"
                                         style={{
                                             backgroundColor: mapJobStatusToColor[job.status].background,
                                             color: mapJobStatusToColor[job.status].text,

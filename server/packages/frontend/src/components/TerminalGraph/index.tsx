@@ -1,31 +1,31 @@
+'use client';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Popover, PopoverContent } from '@/components/ui/popover';
 import { Terminal, TerminalStatus, TerminalType, useAllTerminalsSubscription, useResetTerminalMutation } from '@/data/generated';
 import cytoscape, { EdgeDefinition, NodeDefinition } from 'cytoscape';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import colors from 'tailwindcss/colors';
 import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogHeader } from '../ui/dialog';
 
 const mapTerminalStatusToColor: Record<TerminalStatus | 'OFFLINE', { background: string, border: string }> = {
     'OFFLINE': {
-        background: colors.red[500],
-        border: colors.red[200],
+        background: 'rgb(239, 68, 68)',    // #ef4444
+        border: 'rgb(254, 202, 202)',      // #fecaca
     },
     [TerminalStatus.Idle]: {
-        background: colors.green[500],
-        border: colors.green[200],
+        background: 'rgb(34, 197, 94)',    // #22c55e
+        border: 'rgb(187, 247, 208)',      // #bbf7d0
     },
     [TerminalStatus.ScanningNfc]: {
-        background: colors.blue[500],
-        border: colors.blue[200],
+        background: 'rgb(59, 130, 246)',   // #3b82f6
+        border: 'rgb(191, 219, 254)',      // #bfdbfe
     },
     [TerminalStatus.CreatingPacket]: {
-        background: colors.indigo[500],
-        border: colors.indigo[200],
+        background: 'rgb(99, 102, 241)',   // #6366f1
+        border: 'rgb(199, 210, 254)',      // #c7d2fe
     },
     [TerminalStatus.CreatedPacket]: {
-        background: colors.purple[500],
-        border: colors.purple[200],
+        background: 'rgb(168, 85, 247)',   // #a855f7
+        border: 'rgb(233, 213, 255)',      // #e9d5ff
     },
 };
 
@@ -84,6 +84,8 @@ export default function TerminalGraph() {
         };
     }, [data]);
 
+    console.log(data, elements);
+
     useEffect(() => {
         graph.current = cytoscape({
             elements,
@@ -122,16 +124,16 @@ export default function TerminalGraph() {
                     width: 1.5,
                     'curve-style': 'bezier',
                     "mid-target-arrow-shape": 'triangle',
-                    "mid-target-arrow-color": colors.gray[300],
+                    "mid-target-arrow-color": 'rgb(209, 213, 219)',  // gray[300]
                     "arrow-scale": 1.6,
-                    "line-color": colors.gray[300],
+                    "line-color": 'rgb(209, 213, 219)',  // gray[300]
                 }
             }, {
                 selector: 'edge.highlighted',
                 style: {
                     width: 2.5,
-                    "line-color": colors.gray[400],
-                    'mid-target-arrow-color': colors.gray[400],
+                    "line-color": 'rgb(156, 163, 175)',  // gray[400]
+                    'mid-target-arrow-color': 'rgb(156, 163, 175)',  // gray[400]
                     "z-index": 2,
                 }
             }],
@@ -187,18 +189,20 @@ export default function TerminalGraph() {
     }, [data]);
 
     return (
-        <div className="grow flex flex-col flex-shrink min-w-0 w-md">
+        <div className="grow flex flex-col flex-shrink min-w-0 w-md p-4 bg-white rounded-xl shadow-xl">
             <div className="flex-auto" ref={graphRef} />
-            <Popover open={!!activeTerminal} onOpenChange={closePopover}>
-                <PopoverContent className='w-[384px] m-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100' align="start">
+            <Dialog open={!!activeTerminal} onOpenChange={closePopover}>
+                <DialogContent className='w-[384px] m-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100 p-0'>
                     {activeTerminal && (
                         <div className="grid grid-colrs-1 divide-y max-h-screen">
-                            <h1 className="text-lg p-4 flex items-center">
-                                Terminal {activeTerminal.id}
-                                <span className="text-sm ml-2 text-gray-600">
-                                    {activeTerminal.type}
-                                </span>
-                            </h1>
+                            <DialogHeader className="p-4">
+                                <h1 className="text-lg p-4 flex items-center">
+                                    Terminal {activeTerminal.id}
+                                    <span className="text-sm ml-2 text-gray-600">
+                                        {activeTerminal.type}
+                                    </span>
+                                </h1>
+                            </DialogHeader>
                             <div className="p-4 flex space-between items-center">
                                 <span className="text-sm text-white font-bold p-1 px-2 rounded" style={{ backgroundColor: mapTerminalStatusToColor[activeTerminal.status].background}}>
                                     {activeTerminal?.status}
@@ -221,8 +225,8 @@ export default function TerminalGraph() {
                             </Accordion>
                         </div>
                     )}
-                </PopoverContent>
-            </Popover>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

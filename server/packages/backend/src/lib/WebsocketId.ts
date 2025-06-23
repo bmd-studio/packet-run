@@ -1,7 +1,7 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 import { Context as ContextDecorator } from '@nestjs/graphql';
 import type { Context  } from 'graphql-ws';
-import { Extra } from 'graphql-ws/lib/use/ws';
+import { Extra } from 'graphql-ws/use/ws';
 
 export type GraphQLContext = Context<Record<string, unknown>, Extra & Partial<Record<PropertyKey, never>>>
 

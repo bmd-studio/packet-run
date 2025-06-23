@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
+ 
 import 'reflect-metadata';
 import { Entity, PrimaryKey, Property, Rel } from '@mikro-orm/core';
 import { IpInfo } from '@ipregistry/client';

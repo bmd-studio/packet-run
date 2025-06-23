@@ -226,7 +226,7 @@ export default class RoutingService {
             run,
             run.packetType === RunPacketType.RESPONSE ? TerminalType.RECEIVER : TerminalType.SERVER,
             this.orm,
-            previousTerminal
+            previousTerminal,
         );
 
         this.logger.debug(`Calculated shortest path to destination "${destination}". Recommending terminal "${terminalId}" via route "${JSON.stringify(route)}"`)
@@ -289,7 +289,6 @@ export default class RoutingService {
         ];
 
         this.logger.debug(`Attempting to geolocate alternative hops for address [${adressLocation?.longitude},${adressLocation?.latitude}]`);
-        console.log(address, address?.info?.location);
 
         // If the coordinates are available, sort the alt hops based on distance
         const sortedAltHops = recommendedLatLng && altHops.sort((a, b) => (
@@ -305,7 +304,7 @@ export default class RoutingService {
             const address = sortedAltHops
                 ? await this.orm.em.upsert(Address, { 
                     ip: altHop.ip,
-                    info: (await this.client.lookup(altHop.ip)).data,
+                    info: (await this.client.lookupIp(altHop.ip)).data,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 })
@@ -357,7 +356,7 @@ export default class RoutingService {
                 const hop = await this.orm.em.findOneOrFail(
                     TracerouteHop,
                     { run },
-                    { orderBy: [{ hop: 'DESC' }], populate: ['address.info'] }
+                    { orderBy: [{ hop: 'DESC' }], populate: ['address.info'] },
                 );
                 return hop.address
             } else if (run.packetType === RunPacketType.RESPONSE) {
@@ -365,7 +364,7 @@ export default class RoutingService {
                 const hop = await this.orm.em.findOneOrFail(
                     TracerouteHop,
                     { run, hop: 1 },
-                    { populate: ['address.info'] }
+                    { populate: ['address.info'] },
                 );
                 return hop.address
             }
@@ -379,7 +378,7 @@ export default class RoutingService {
                 { 
                     orderBy: { hop: run.packetType === RunPacketType.REQUEST ? 'ASC' : 'DESC' },
                     populate: ['address.info'],
-                }
+                },
             );
 
             return hops[Math.floor((hops.length - 1) / distanceToDestination)].address;
@@ -392,6 +391,8 @@ export default class RoutingService {
     private async createHop(data: RequiredEntityData<RunHop>) {
         const terminalId = typeof data.terminal === 'object' ? (data.terminal as Terminal).id : data.terminal;
         this.logger.debug(`Creating hop to terminal "${terminalId}", address "${data.address?.ip || null}" and type "${data.type}"`);
-        return this.orm.em.create(RunHop, data);
+        const hop = this.orm.em.create(RunHop, data);
+        await this.orm.em.persistAndFlush(hop);
+        return hop;
     }
 }   

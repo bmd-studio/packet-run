@@ -37,7 +37,7 @@ export default function CreateRunWithNFC() {
             <Input placeholder="NFC ID" onChange={(event) => setNfcId(event.target.value)}></Input>
             <Input placeholder="URL" onChange={(event) => setUrl(event.target.value)}></Input>
             <Button onClick={createRun}>
-                    Submit
+                Submit
             </Button>
         </div>
     )

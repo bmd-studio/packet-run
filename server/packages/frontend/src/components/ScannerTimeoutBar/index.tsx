@@ -20,8 +20,6 @@ const Bar = styled(motion.div)`
  * start and an end date
  */
 export default function ScannerTimeoutBar({ start, end }: { start?: Date, end?: Date }) {
-    console.log('I AM RENDER', { start, end });
-
     // GUARD: Don't display the bar if one of the dates is missing
     if (!start || !end) {
         return null;
@@ -39,8 +37,6 @@ export default function ScannerTimeoutBar({ start, end }: { start?: Date, end?: 
     const delay = Math.max(start.getTime() - now, 0) / 1_000;
     const duration = Math.max(end.getTime() - now, 0) / 1_000;
     const startProgression = Math.max((now - start.getTime()) / (end.getTime() - start.getTime()), 0);
-
-    console.log({ delay, duration, startProgression });
 
     return (
         <Container

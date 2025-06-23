@@ -5,7 +5,7 @@ import { TerminalStatus, TerminalType } from '@/data/generated';
 import { PropsWithChildren, ReactNode } from 'react';
 import { sample } from 'lodash';
 
-const Container = styled.div`
+const Container = styled(motion.div)`
     grid-area: main;
     position: relative;
     overflow: hidden;
@@ -38,7 +38,7 @@ const Question = styled.img`
 
 export function InfoBoxWrapper({ children }: PropsWithChildren) {
     return (
-        <Container>
+        <Container key="info-box">
             <Box
                 initial={{ translateY: '150%' }}
                 animate={{ translateY: '0%' }}
@@ -53,8 +53,6 @@ export function InfoBoxWrapper({ children }: PropsWithChildren) {
 
 export default function InfoBox() {
     const terminal = useTerminal();
-
-    console.log(terminal.run?.currentHopIndex);
 
     if (terminal.type === TerminalType.Server
         && terminal.status === TerminalStatus.CreatedPacket

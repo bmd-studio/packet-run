@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { theme, DEBUG, LOCATION_NAME } from '@/config';
+import { theme, MODE } from '@/config';
 import { RunHopType, TerminalType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import displayDistance from './distance';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
+import React from 'react';
 
 const UNKNOWN = '???';
 
@@ -15,6 +16,7 @@ const Fixed = styled(motion.div)`
     top: 0;
     left: ${theme.destinationBar.spaceLeft}px;
     z-index: 3;
+    will-change: transform;
 `;
 
 const Container = styled.div`
@@ -22,8 +24,13 @@ const Container = styled.div`
     flex-direction: row;
     gap: ${theme.destinationBar.blockSpacer}px;
 `
-const Destination = styled.div`
+const Destination = styled(Link)`
     width: ${theme.destinationBar.destinationBlock.width}px;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.9;
+    }
 `;
         
 const Content = styled.div`
@@ -33,17 +40,6 @@ const Content = styled.div`
 
     p {
         font-size: 14px;
-    }
-`;
-
-const TerminalConnection = styled(Content).attrs({ 
-    as: Link 
-})`
-    display: block;
-    padding: 16px 32px 16px 32px;  
-
-    &:hover {
-        opacity: 0.8;
     }
 `;
 
@@ -85,34 +81,28 @@ export default function DestinationBar() {
     }
 
     return (
-        <Fixed initial={{ y: '-100%' }} animate={{ y: 0 }} transition={{ duration: 2, delay: 1 }} exit={{ y: '-100%' }}>
-            {DEBUG && (
-                <Container>
-                    {sortedConnections.map((c) => (
-                        <Destination key={c.to.id}>
-                            <TerminalConnection href={`/${c.to.type.toLowerCase()}/${c.to.id}?nfcId=${run.nfcId}`}>
-                                TO TERMINAL {c.to.id} (SLOT #{c.slot})
-                            </TerminalConnection>
-                        </Destination>
-                    ))}
-                </Container>
-            )}
+        <Fixed
+            key="destination-bar"
+            initial={{ y: '-100%' }}
+            animate={{ y: MODE === 'standalone' ? 54 : 0 }}
+            transition={{ duration: 2, delay: 1 }}
+            exit={{ y: '-100%' }}
+        >
             <Container>
                 {sortedHops.map((hop, i) => (
-                    <Destination key={hop?.id || i}>
+                    <Destination
+                        key={hop?.id || `null-hop-${i}`}
+                        href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run.nfcId}`}
+                    >
                         {hop && (
-                            <>
+                            <div>
                                 <Content>
-                                    {hop.address?.isInternalIP ? (
-                                        <h1>{LOCATION_NAME}</h1>
-                                    ): (
-                                        <h1>
-                                            {hop.address?.info
-                                                ? <>{hop.address.info?.location?.city} ({hop.address.info?.location?.country.code})</>
-                                                : UNKNOWN
-                                            }
-                                        </h1>
-                                    )}
+                                    <h1>
+                                        {hop.address?.info
+                                            ? <>{hop.address.info?.location?.city} ({hop.address.info?.location?.country.code})</>
+                                            : UNKNOWN
+                                        }
+                                    </h1>
                                     <p>IP address: {hop.address?.ip || UNKNOWN}</p>
                                     <p>Owner: {hop.address?.info?.carrier?.name || hop.address?.info?.company.name || UNKNOWN}</p>
                                     <p>
@@ -145,7 +135,7 @@ export default function DestinationBar() {
                                     )}
                                     {hop.type}
                                 </Banner>
-                            </>
+                            </div>
                         )}
                     </Destination>
                 ))}

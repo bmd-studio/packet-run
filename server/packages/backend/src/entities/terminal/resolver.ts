@@ -7,6 +7,7 @@ import PubSubManager from '../../providers/PubSubManager';
 import WebsocketId, { GraphQLContext } from '../../lib/WebsocketId';
 import { terminalsObservable } from './subscriber';
 import { map } from 'rxjs';
+import { observableToAsyncIterable } from '@graphql-tools/utils';
 import PresenceManager from '../../providers/PresenceManager';
 import { EntityManager } from '@mikro-orm/core';
 import Run, { RunPacketType } from '../run/index.entity';
@@ -38,7 +39,7 @@ export default class TerminalsResolver {
                     'run.hops',
                     'presences',
                 ], 
-            }
+            },
         );
     }
 
@@ -51,25 +52,30 @@ export default class TerminalsResolver {
     async registerTerminal(
         @Args('id') id: number,
         @WebsocketId() subscriptionId: string,
-        @Context() context: { req: GraphQLContext }
+        @Context() context: { req: GraphQLContext },
     ) {
         this.presence.register(
             subscriptionId,
             id,
-            context.req.extra.request.socket.remoteAddress
+            context.req.extra.request.socket.remoteAddress,
         );
-        return this.pubsub.subscribe(
+        const observable = await this.pubsub.subscribe(
             TerminalEntity,
             id,
             () => this.repository.findOne({ id }, { populate: defaultTerminalRelations, cache: false, disableIdentityMap: true }),
             subscriptionId,
             'registerTerminal',
         );
+        return observableToAsyncIterable(observable);
     }
 
     @Subscription(() => [Terminal])
     async allTerminals() {
-        return terminalsObservable.pipe(map((allTerminals) => ({ allTerminals })));
+        return observableToAsyncIterable(
+            terminalsObservable.pipe(
+                map((allTerminals) => ({ allTerminals }))
+            )
+        );
     }
 
     @Mutation(() => Boolean, { nullable: true, description: 'Indicate that a particular terminal has scanned an NFC tag. This should result in the terminal status being set to `SCANNING_NFC`' })
@@ -81,9 +87,9 @@ export default class TerminalsResolver {
         const terminal = await this.repository.findOneOrFail({ id: terminalId });
 
         // GUARD: Check that we make the state transition from a valid state
-        if (terminal.status !== TerminalStatus.IDLE) {
-            throw new Error(`StateError: Cannot transition from "${terminal.status}" to "SCANNING_NFC" for terminal "${terminalId}"`);
-        }
+        // if (terminal.status !== TerminalStatus.IDLE) {
+        //     throw new Error(`StateError: Cannot transition from "${terminal.status}" to "SCANNING_NFC" for terminal "${terminalId}"`);
+        // }
 
         // Retrieve the run
         const run = await this.em.findOneOrFail(
@@ -105,7 +111,7 @@ export default class TerminalsResolver {
                 orderBy: [
                     { createdAt: 'DESC' },
                 ],
-            }
+            },
         );
 
         // Generate new hops for the terminal
@@ -169,7 +175,7 @@ export default class TerminalsResolver {
         }
 
         // Save to database
-        await this.repository.flush();
+        await this.em.flush();
 
         return true;
     }
@@ -214,7 +220,7 @@ export default class TerminalsResolver {
             }
 
             return response.status >= 200 && response.status < 400;
-        } catch(e) {
+        } catch {
             return false;
         }
     }

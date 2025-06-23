@@ -24,12 +24,13 @@ import RunSubscriber from './entities/run/subscriber';
 import { ConfigModule } from '@nestjs/config';
 import { InMemoryCache, IpregistryClient } from '@ipregistry/client';
 import { JobsResolver } from './entities/job/resolver';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import TracerouteHop from './entities/tracerouteHop/index.entity';
 import RunHop from './entities/runHop/index.entity';
 import RoutingService from './providers/RoutingService';
 import UrlFilterProvider from './providers/UrlFilterProvider';
 import InitTerminalProvider from './providers/InitTerminalProvider';
+import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import { ImageStaticLoader } from './lib/ImageStaticLoader';
 
 @Global()
 @Module({
@@ -39,7 +40,7 @@ import InitTerminalProvider from './providers/InitTerminalProvider';
             entities: ['./dist/entities/**/index.entity.js'],
             entitiesTs: ['./src/entities/**/index.entity.ts'],
             dbName: './data/packet-run.db',
-            type: 'better-sqlite',
+            driver: BetterSqliteDriver,
             allowGlobalContext: true,
             debug: false,
         }),
@@ -66,10 +67,6 @@ import InitTerminalProvider from './providers/InitTerminalProvider';
                 },
             },
         }),
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'data', 'images'),
-            serveRoot: '/images',
-        }),
     ],
     controllers: [AppController],
     providers: [
@@ -93,6 +90,7 @@ import InitTerminalProvider from './providers/InitTerminalProvider';
         /** Misc */
         AppService,
         JobProcessor,
+        ImageStaticLoader,
         { 
             provide: IpregistryClient, 
             useFactory: () => {

@@ -9,18 +9,21 @@ import ScannerAnimation from '@/components/ScannerAnimation';
 import { TextContainer, Title } from '@/components/Typography';
 import { motion } from 'framer-motion';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
+import { useSearchParams } from 'next/navigation';
+import { MODE } from '@/config';
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 32px;
     grid-area: packet;
     padding: 64px 32px 0 32px;
+    overflow: scroll;
 `;
 
 const RestContainer = styled.div`
@@ -74,6 +77,7 @@ const IPs = styled.div`
 export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
+    const searchParams = useSearchParams();
 
     const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
 
@@ -81,11 +85,23 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     const [resetTerminal] = useResetTerminalMutation();
 
     useEffect(() => {
+        // GUARD: If we're in standalone mode and the NFC ID is passed as a search parameter, scan the NFC for the terminal
+        if (MODE === 'standalone' && searchParams.has('nfcId')
+            && terminal.status === TerminalStatus.Idle
+        ) {
+            scanNfcForTerminal({
+                variables: {
+                    terminalId: terminal.id,
+                    nfcId: searchParams.get('nfcId') as string,
+                }
+            });
+        }
+    }, [terminal.id, searchParams, terminal.status]);
+
+    useEffect(() => {
         // GUARD: Don't do anything when there isn't any NFC that is being
         // scanned currently. Resetting happens in the other hook
-        if (!nfcId) {
-            return;
-        }
+        if (!nfcId) return;
 
         async function sendNfcToTerminal() {
             // GUARD: If the terminal is currently set to another nfcId, reset
@@ -98,7 +114,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             scanNfcForTerminal({
                 variables: {
                     terminalId: terminal.id,
-                    nfcId: nfcId as string,
+                    nfcId: nfcId!,
                 }
             });
         }
@@ -107,6 +123,9 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run]);
 
     useEffect(() => {
+        // GUARD: Don't timeout in standalone mode
+        if (MODE === 'standalone') return;
+
         // GUARD: Wait for nfcId to become null and a run to be set
         if (nfcId || !terminal.run) {
             return;
@@ -132,7 +151,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     }, [nfcId, terminal.run, resetTerminal, terminal.id]);
     
     return (
-        <Container>
+        <Container key="packet-scanner">
             {scannerTimeout && (
                 <ScannerTimeoutBar start={scannerTimeout[0]} end={scannerTimeout[1]} />
             )}

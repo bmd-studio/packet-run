@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useTerminal } from '../RegisterTerminal';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
-import { LOCATION_LAT, LOCATION_LNG, MAPBOX_TOKEN } from '@/config';
+import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
@@ -33,24 +33,28 @@ export default function Map() {
         // Retrieve the latest known hop (that was not null or unknown)
         const latestKnownHop = retrieveLatestKnownHop(run);
         const address = latestKnownHop?.address;
-        const lng = (address?.info?.location?.longitude || LOCATION_LNG);
-        const lat = (address?.info?.location?.latitude || LOCATION_LAT);
+        const lng = address?.info?.location?.longitude;
+        const lat = address?.info?.location?.latitude;
+
+        if (!lng || !lat) return;
 
         // Determine where the center of the map should be
-        const center: [number, number] = address?.isInternalIP ? [
-            LOCATION_LNG, LOCATION_LAT,
-        ] : [
-            lng, lat + 0.15
-        ];
+        const center: [number, number] = [lng, lat + 0.15];
 
         // Initialize map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946',
+            style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946?optimize=true',
             accessToken: MAPBOX_TOKEN,
             zoom: 9,
             center,
-            interactive: true,
+            interactive: false,
+            performanceMetricsCollection: false,
+            renderWorldCopies: false,
+            preserveDrawingBuffer: false,
+            antialias: false,
+            attributionControl: false,
+            fadeDuration: 0,
         });
 
         // Add the pulsing dot as an image
@@ -83,31 +87,34 @@ export default function Map() {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
                 if (coord[0] === lng) {
-                    map.current?.addLayer({
-                        id: 'layer-with-pulsing-dot',
-                        type: 'symbol',
-                        source: {
-                            type: 'geojson',
-                            data: {
-                                type: 'FeatureCollection',
-                                features: [{
-                                    type: 'Feature',
-                                    geometry: {
-                                        type: 'Point',
-                                        coordinates: coord,
-                                    },
-                                    properties: {},
-                                }]
+                    // Only add the layer if it doesn't exist yet
+                    if (!map.current?.getLayer('layer-with-pulsing-dot')) {
+                        map.current?.addLayer({
+                            id: 'layer-with-pulsing-dot',
+                            type: 'symbol',
+                            source: {
+                                type: 'geojson',
+                                data: {
+                                    type: 'FeatureCollection',
+                                    features: [{
+                                        type: 'Feature',
+                                        geometry: {
+                                            type: 'Point',
+                                            coordinates: coord,
+                                        },
+                                        properties: {},
+                                    }]
+                                }
+                            },
+                            layout: {
+                                "icon-image": 'pulsing-dot',
                             }
-                        },
-                        layout: {
-                            "icon-image": 'pulsing-dot',
-                        }
-                    })
+                        });
+                    }
                 } else {
                     new mapboxgl.Marker({ 
                         color: coord[0] === lng ? 'var(--yellow)' : '#666',
-                        scale: 1.5
+                        scale: 1.5,
                     }).setLngLat(coord)
                         .addTo(map.current as mapboxgl.Map);
                 }
@@ -168,7 +175,12 @@ export default function Map() {
 
     return (
         <motion.div
-            style={{ gridArea: 'main' }}
+            key="map"
+            style={{ 
+                gridArea: 'main',
+                willChange: 'transform',
+                transform: 'translateZ(0)'
+            }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             transition={{ duration: 2 }}

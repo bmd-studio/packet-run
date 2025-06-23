@@ -43,7 +43,7 @@ export default async function whois(
         // GUARD: Only load data for non-alt addresses
         if (!address.isInAltNetwork) {
             // Add the info to the address and save
-            address.info = (await client.lookup(ip)).data;
+            address.info = (await client.lookupIp(ip)).data;
         }
     }
 
