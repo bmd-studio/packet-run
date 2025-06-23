@@ -129,6 +129,10 @@ export default function RouteCard(props: RouteCardProps) {
             <DestinationBar>
                 {destination}
             </DestinationBar>
+            <NameContainer>
+                {name}
+                <Type type={type} />
+            </NameContainer>
             <ExplanationContainer>
                 {renderOwnerContainer ? (
                     <OwnerContainer>
@@ -141,6 +145,6 @@ export default function RouteCard(props: RouteCardProps) {
                     {children}
                 </Explanation>
             </ExplanationContainer>
-        </Container>
+        </Container >
     );
 }
