@@ -2,23 +2,21 @@ import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
 import { OnBoardingProps } from "./types";
 
-
 const ContentWrapper = styled.div`
     padding-left: 360px;
     padding-right: 360px;
 
 `
 
-export default function Explanation1(props: OnBoardingProps) {
+export default function Explanation6(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <p>
-                    Hoi! Leuk dat je er bent!
+                    Aan het eind van je reis komt je pakketje aan bij de achterzijde van deze PC.
                 </p>
-
                 <p>
-                    Laten we kort uitleggen wat je gaat doen met Packet Run. Je kan de pijltjes op het toetsenbord gebruiken om door te klikken in de uitleg.
+                    Hier kun je je website bekijken en je afgelegde route zien. Gaaf he!
                 </p>
             </ContentWrapper>
         </OnboardingScreen>
