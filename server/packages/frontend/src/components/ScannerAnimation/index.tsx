@@ -1,115 +1,57 @@
 import { SVGMotionProps, motion } from 'framer-motion';
 import { styled } from 'styled-components'
 
-const Ring = styled(motion.ellipse)`
-    stroke-width: 8px;
-    fill: none;
-    will-change: transform;
-`;
-
-type RingProps = SVGMotionProps<SVGEllipseElement>;
-
-const ringTransition: RingProps['transition'] = {
-    duration: 2,
-    repeat: Infinity,
-    ease: [(val) => val > 0.5 ? 1 : 0, 'easeInOut', 'easeInOut'],
-};
-
 interface ScannerAnimationProps {
     variant: 'empty' | 'scanning' | 'scanned';
+    background: 'dark' | 'light';
 }
-
-const ringVariants: SVGMotionProps<SVGEllipseElement>['variants'] = {
-    empty: {
-        stroke: ['#000', '#F0EA00', '#000', '#000'],
-    },
-    scanning: {
-        stroke: ['#000']
-    },
-    scanned: {
-        stroke: ['#000']
-    },
-};
 
 const ballVariants: SVGMotionProps<SVGEllipseElement>['variants'] = {
     empty: {
         y: [-25, 25, -25],
-    },
-    scanning: {
-        y: [-5, 5, -5],
-    },
-    scanned: {
-        y: [-5, 5, -5],
-    },
+    }
 };
 
-export default function ScannerAnimation({ variant }: ScannerAnimationProps) {
+export default function ScannerAnimation({ variant, background }: ScannerAnimationProps) {
     return (
-        <svg viewBox="0 0 500 435" width="500" height="435">
-            <motion.g>
-                <Ring
-                    cx="250"
-                    cy="410"
-                    rx="25"
-                    ry="6.25"
-                    initial={{ stroke: '#000' }}
-                    variants={ringVariants}
-                    animate={variant}
-                    transition={{ ...ringTransition, delay: 0 }}
+        <svg viewBox="0 0 360 310" width="360" height="310">
+            {/* Static Scanner Top (positioned 42px from bottom) */}
+            <g id="scanner-top" transform="translate(0, 254)">
+                <path
+                d="M283.635 1L357.26 63H2.74023L76.3652 1H283.635Z"
+                fill="#FAEBD0"
+                stroke="#FF781F"
+                strokeWidth="2"
                 />
-                <Ring
-                    cx="250"
-                    cy="390"
-                    rx="100"
-                    ry="25"
-                    animate={variant}
-                    variants={ringVariants}
-                    transition={{ ...ringTransition, delay: 0.5 }}
+                <path
+                d="M182 17C196.075 17 208.659 18.761 217.593 21.5098C222.084 22.8917 225.428 24.4554 227.561 26.0068C229.781 27.622 230 28.6839 230 29C230 29.3161 229.781 30.378 227.561 31.9932C225.428 33.5446 222.084 35.1083 217.593 36.4902C208.659 39.239 196.075 41 182 41C167.925 41 155.341 39.239 146.407 36.4902C141.916 35.1083 138.572 33.5446 136.439 31.9932C134.219 30.378 134 29.3161 134 29C134 28.6839 134.219 27.622 136.439 26.0068C138.572 24.4554 141.916 22.8917 146.407 21.5098C155.341 18.761 167.925 17 182 17Z"
+                fill="#FF781F"
+                stroke="#FF781F"
+                strokeWidth="8"
                 />
-                <Ring
-                    cx="250"
-                    cy="365"
-                    rx="175"
-                    ry="43.75"
-                    initial={{ stroke: '#000' }}
-                    animate={variant}
-                    variants={ringVariants}
-                    transition={{ ...ringTransition, delay: 1 }}
-                />
-                <Ring
-                    cx="250"
-                    cy="330"
-                    rx="200"
-                    ry="50"
-                    initial={{ stroke: '#000' }}
-                    animate={variant}
-                    variants={ringVariants}
-                    transition={{ ...ringTransition, delay: 1.5 }}
-                />
-            </motion.g>
+            </g>
             <motion.g 
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                 variants={ballVariants}
                 animate={variant}
             >
-                <ellipse
-                    stroke={variant === 'scanned' ? 'var(--yellow)' : 'black'}
-                    strokeWidth={8}
-                    fill={variant === 'scanned' ? 'black' : 'var(--light-gray)'}
-                    strokeDasharray={variant === 'empty' ? "36 20" : "none"}
-                    rx={150}
-                    ry={150}
-                    cx={250}
-                    cy={180} 
+                <circle
+                    cx={180}
+                    cy={180}
+                    r={78}
+                    stroke={background === 'light' ? 'black' : 'var(--white)'}
+                    strokeWidth={4}
+                    fill={variant === 'scanned' ? 'var(--orange)' : 'var(--light-gray-50)'}
                 />
                 <path
-                    d="M100 182C163 222.5 332.5 225 400 182"
-                    stroke={variant === 'scanned' ? 'var(--yellow)' : 'black'}
+                    d="M102 180 C132 210, 228 210, 258 180"
+                    stroke={background === 'light' ? 'black' : 'var(--white)'}
+                    strokeWidth="4"
                     fill="none"
-                    strokeWidth="8"
-                    strokeDasharray="36 20"
+                    strokeDasharray="8 8"
                 />
             </motion.g>
         </svg>
     )
 }
+
