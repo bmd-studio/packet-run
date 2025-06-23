@@ -13,7 +13,7 @@ export default function generatePulsingDot(map: Map) {
 
         // When the layer is added to the map,
         // get the rendering context for the map canvas.
-        onAdd: function () {
+        onAdd: function() {
             const canvas = document.createElement('canvas');
             canvas.width = this.width;
             canvas.height = this.height;
@@ -21,33 +21,33 @@ export default function generatePulsingDot(map: Map) {
         },
 
         // Call once before every frame where the icon will be used.
-        render: function () {
-            const duration = 1000;
-            const t = (performance.now() % duration) / duration;
-
+        render: function() {
+            //const duration = 1000;
+            //const t = (performance.now() % duration) / duration;
+            //
             const radius = (size / 2) * 0.3;
-            const outerRadius = (size / 2) * 0.7 * t + radius;
+            //const outerRadius = (size / 2) * 0.7 * t + radius;
             const context = this.context;
-
+            //
             if (!context) {
                 return;
             }
-
-            // Clear the canvas
-            context.clearRect(0, 0, this.width, this.height);
-
-            // Draw the outer circle with reduced opacity
-            context.beginPath();
-            context.arc(
-                this.width / 2,
-                this.height / 2,
-                outerRadius,
-                0,
-                Math.PI * 2
-            );
-            context.fillStyle = `rgba(200, 200, 0, ${0.5 * (1 - t)})`;
-            context.fill();
-
+            //
+            //// Clear the canvas
+            //context.clearRect(0, 0, this.width, this.height);
+            //
+            //// Draw the outer circle with reduced opacity
+            //context.beginPath();
+            //context.arc(
+            //    this.width / 2,
+            //    this.height / 2,
+            //    outerRadius,
+            //    0,
+            //    Math.PI * 2
+            //);
+            //context.fillStyle = `rgba(200, 200, 0, ${0.5 * (1 - t)})`;
+            //context.fill();
+            //
             // Draw the inner circle with simplified styling
             context.beginPath();
             context.arc(
@@ -72,7 +72,7 @@ export default function generatePulsingDot(map: Map) {
             ).data as Uint8ClampedArray<ArrayBuffer>;
 
             // Use requestAnimationFrame for smoother animation
-            requestAnimationFrame(() => map.triggerRepaint());
+            //requestAnimationFrame(() => map.triggerRepaint());
 
             return true;
         }

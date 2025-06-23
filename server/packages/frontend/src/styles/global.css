@@ -9,25 +9,38 @@
   --yellow: #F0EA00;
   --orange: #FF6622;
   --background-orange: #FF781F;
+  --background-black: #000500;
+  --background-dot-gray: #2F342F;
+  --background-light-gray: #F2F2F2;
+  --green: #2FCE61;
+  --gray:#545454;
+  --unobtrusive-gray: #7D7D7C;
 }
 
 /* body family */
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-doto);
   overflow: hidden;
+  font-weight: 900;
 }
 
 p {
-
+  color: black;
+  font-family: var(--font-doto);
+  font-weight: 900;
 }
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
-  font-family: var(--font-vt323);
+  /*font-family: var(--font-vt323);*/
+  font-family: var(--font-doto);
   text-transform: uppercase;
+  font-weight: 900;
 }
+
+
 
 h1 {
   font-size: 30px;

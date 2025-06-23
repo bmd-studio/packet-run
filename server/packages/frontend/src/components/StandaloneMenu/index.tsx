@@ -11,7 +11,7 @@ import { styled } from 'styled-components';
 const MenuWrapper = styled.div<{ open?: boolean }>`
     top: -54px;
     transition: all 0.3s;
-    position: relative;
+    position: fixed;
     &:hover {
         top: -0px;
     }

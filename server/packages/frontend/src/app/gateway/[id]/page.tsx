@@ -33,10 +33,8 @@ export default function Gateway() {
                                 ) : (
                                     <Stars />
                                 )}
-                                <Journey />
                             </React.Fragment>
                         )}
-                        <InfoBox key="info-box" />
                         <PacketScanner key="packet-scanner" />
                         {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                     </AnimatePresence>

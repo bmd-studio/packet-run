@@ -9,16 +9,15 @@ const ContentWrapper = styled.div`
 
 `
 
-export default function Explanation1(props: OnBoardingProps) {
+export default function Explanation2(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <p>
-                    Hoi! Leuk dat je er bent!
+                    Elke dag gebruiken miljarden mensen het internet. Dat heeft een enorme invloed op de wereld. Maar hoe werkt dat eigenlijk?
                 </p>
-
                 <p>
-                    Laten we kort uitleggen wat je gaat doen met Packet Run. Je kan de pijltjes op het toetsenbord gebruiken om door te klikken in de uitleg.
+                    Elke keer dat jij iets op internet doet — bijvoorbeeld een filmpje kijken of een website openen — stuur je een verzoek naar een server. Die server stuurt een antwoord terug.
                 </p>
             </ContentWrapper>
         </OnboardingScreen>

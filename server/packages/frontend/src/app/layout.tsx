@@ -3,7 +3,7 @@ import client from '@/data';
 import { ApolloProvider } from '@apollo/client';
 import '@/styles/tailwind.css';
 import '@/styles/global.css';
-import { Inter, VT323 } from 'next/font/google';
+import { Inter, VT323, Doto } from 'next/font/google';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 const vt323 = VT323({
@@ -17,6 +17,11 @@ const inter = Inter({
     variable: '--font-inter',
 });
 
+const doto = Doto({
+    subsets: ['latin'],
+    variable: '--font-doto',
+});
+
 export default function RootLayout({
     children,
 }: {
@@ -27,7 +32,7 @@ export default function RootLayout({
             <head>
                 <title>📦 Packet Run</title>
             </head>
-            <body className={`dark bg-background min-h-screen text-foreground ${vt323.variable} ${inter.variable}`}>
+            <body className={`dark bg-background min-h-screen text-foreground ${vt323.variable} ${inter.variable} ${doto.variable}`}>
                 <TooltipProvider>
                     <ApolloProvider client={client}>
                         {children}

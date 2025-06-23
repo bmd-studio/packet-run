@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import PatternedBackground from '../PatternedBackground';
+import { PatternedBackgroundDark } from '../PatternedBackground';
 
-const Grid = styled(PatternedBackground)`
+const Grid = styled(PatternedBackgroundDark)`
     display: grid;
     grid-template-columns: 60% 40%;
     grid-template-areas: "main packet";
