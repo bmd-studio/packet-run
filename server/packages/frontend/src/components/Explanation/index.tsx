@@ -9,7 +9,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     gap: 52px;
-    z-index: 20;
+    z-index: 3;
 `;
 
 const ImageWrapper = styled.div`
