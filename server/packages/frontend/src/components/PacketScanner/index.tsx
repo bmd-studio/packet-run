@@ -204,7 +204,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                         ),
                         terminal.type === TerminalType.Server && terminal.status === TerminalStatus.ScanningNfc && (
                             <InstructionsTextContainer key="scanning-nfc">
-                                <InstructionsTitle>Doe de hendel van de scanner DICHT en weer OPEN. Zo maak je het antwoord pakket.</InstructionsTitle>
+                                <InstructionsTitle>Doe de hendel van de scanner rustig DICHT en weer OPEN.</InstructionsTitle>
                             </InstructionsTextContainer>
                         )
                     ]}
