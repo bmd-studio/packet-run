@@ -4,21 +4,37 @@ import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
-import 'mapbox-gl/dist/mapbox-gl.css'; 
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { RegisterTerminalRunHopFragment, RunHopStatus, TerminalType } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
-import generatePulsingDot from './pulsingDot';
+import generateDot from './dot';
 import curvedLine from './curvedLine';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
+import UnknownMap from './unkown';
+import Label from '../Label';
 
-const MapContainer = styled.div`
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    overflow: hidden;
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
 `;
 
-export default function Map() {
+const MapContainer = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
+
+export interface MapProps {
+    shouldDisplayMap?: boolean;
+    padding?: {
+        left?: number;
+        right?: number;
+        top?: number;
+        bottom?: number;
+    }
+}
+export default function Map(props: MapProps) {
+    const { shouldDisplayMap, padding = {} } = props;
     const terminal = useTerminal();
     const { run } = terminal;
 
@@ -26,9 +42,10 @@ export default function Map() {
     const map = useRef<MapboxMap | null>(null);
 
     useEffect(() => {
-        if (!mapContainer.current || !run?.currentHop) {
+        if (!mapContainer.current || !run?.currentHop || !shouldDisplayMap) {
             return;
         }
+
 
         // Retrieve the latest known hop (that was not null or unknown)
         const latestKnownHop = retrieveLatestKnownHop(run);
@@ -58,8 +75,8 @@ export default function Map() {
         });
 
         // Add the pulsing dot as an image
-        const pulsingDot = generatePulsingDot(map.current);
-        map.current.addImage('pulsing-dot', pulsingDot)
+        const orangeDot = generateDot(map.current);
+        map.current.addImage('orange-dot', orangeDot)
 
         const previousRoutes = run.hops.filter((h) => (
             h.address && h.status === RunHopStatus.Actual
@@ -76,21 +93,23 @@ export default function Map() {
         }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
 
         // Fit the map to the resulting bounds
-        map.current?.fitBounds(bounds, { 
-            padding: { top: 340, left: 200, bottom: 200, right: 100 }, 
+        const defaultPadding = { top: 64, left: 64, bottom: 64, right: 64 };
+        map.current?.fitBounds(bounds, {
+            padding: { ...defaultPadding, ...padding },
             minZoom: 7,
             maxZoom: 12,
             animate: false,
         });
-       
+
         map.current.on('load', () => {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
                 if (coord[0] === lng) {
                     // Only add the layer if it doesn't exist yet
-                    if (!map.current?.getLayer('layer-with-pulsing-dot')) {
+                    // TODO: Add the new marker in here
+                    if (!map.current?.getLayer('layer-with-orange-dot')) {
                         map.current?.addLayer({
-                            id: 'layer-with-pulsing-dot',
+                            id: 'layer-with-orange-dot',
                             type: 'symbol',
                             source: {
                                 type: 'geojson',
@@ -107,14 +126,15 @@ export default function Map() {
                                 }
                             },
                             layout: {
-                                "icon-image": 'pulsing-dot',
+                                "icon-image": 'orange-dot',
                             }
                         });
                     }
                 } else {
-                    new mapboxgl.Marker({ 
-                        color: coord[0] === lng ? 'var(--yellow)' : '#666',
-                        scale: 1.5,
+                    // TODO: add the square marker in here
+                    new mapboxgl.Marker({
+                        color: coord[0] === lng ? 'var(--orange)' : '#FF0000',
+                        scale: 1.0,
                     }).setLngLat(coord)
                         .addTo(map.current as mapboxgl.Map);
                 }
@@ -130,8 +150,8 @@ export default function Map() {
                             data: curvedLine(runHopToCoords(hop), runHopToCoords(prev)),
                         },
                         paint: {
-                            "line-color": '#F0EA00',
-                            "line-width": 6,
+                            "line-color": '#FF781F',
+                            "line-width": 3,
                         }
                     });
                 }
@@ -143,26 +163,14 @@ export default function Map() {
                 if (latestKnownHop && address && hop.address && hop.address.info?.location?.longitude) {
                     map.current?.addLayer({
                         type: 'line',
-                        id: `line-${hop.id}-background`,
-                        source: {
-                            type: 'geojson',
-                            data: curvedLine(runHopToCoords(hop), runHopToCoords(latestKnownHop)),
-                        },
-                        paint: {
-                            "line-color": '#5b5800',
-                            "line-width": 6,
-                        }
-                    });
-                    map.current?.addLayer({
-                        type: 'line',
                         id: `line-${hop.id}-foreground`,
                         source: {
                             type: 'geojson',
                             data: curvedLine(runHopToCoords(hop), runHopToCoords(latestKnownHop)),
                         },
                         paint: {
-                            "line-color": '#F0EA00',
-                            "line-width": 6,
+                            "line-color": '#FF781F',
+                            "line-width": 3,
                             'line-dasharray': [4, 4],
                         }
                     });
@@ -171,23 +179,21 @@ export default function Map() {
         });
 
         return () => map.current?.remove();
-    }, [run, terminal.type]);
+    }, [run, terminal.type, shouldDisplayMap]);
 
     return (
-        <motion.div
-            key="map"
-            style={{ 
-                gridArea: 'main',
-                willChange: 'transform',
-                transform: 'translateZ(0)'
-            }}
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            transition={{ duration: 2 }}
-        >
-            <MapContainer
-                ref={mapContainer}
-            />
-        </motion.div>
+
+        <Container>
+            {shouldDisplayMap ?
+                (
+                    <MapContainer
+                        ref={mapContainer}
+                    />
+                ) :
+                (
+                    <UnknownMap />
+                )
+            }
+        </Container>
     );
 }

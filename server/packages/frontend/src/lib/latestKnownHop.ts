@@ -1,9 +1,6 @@
-import { RegisterTerminalRunHopFragment, RunHopStatus } from '@/data/generated';
+import { RunHopStatus } from '@/data/generated';
+import { PartialRun } from './hopHelpers';
 
-interface PartialRun {
-    currentHop: RegisterTerminalRunHopFragment;
-    hops: RegisterTerminalRunHopFragment[];
-}
 
 /**
  * Helper function to retrieve the latest hop that had a known location

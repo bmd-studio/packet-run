@@ -16,7 +16,7 @@ export default function displayDistance(
 
     // GUARD: Check that all coordinates are present on both hops
     if (!from || !to
-        || (!fromLocation?.latitude && !fromLocation?.longitude && !from.address?.isInternalIP) 
+        || (!fromLocation?.latitude && !fromLocation?.longitude && !from.address?.isInternalIP)
         || (!toLocation?.latitude && !toLocation?.longitude && !to.address?.isInternalIP)
     ) {
         return UNKNOWN;
@@ -30,4 +30,27 @@ export default function displayDistance(
     );
 
     return `${d.toFixed(0)}KM`;
+}
+
+export function calculateDistance(
+    from: RegisterTerminalRunHopFragment | undefined,
+    to: RegisterTerminalRunHopFragment | undefined,
+) {
+    const fromLocation = from?.address?.info?.location;
+    const toLocation = to?.address?.info?.location;
+
+    // GUARD: Check that all coordinates are present on both hops
+    if (!from || !to
+        || (!fromLocation?.latitude && !fromLocation?.longitude && !from.address?.isInternalIP)
+        || (!toLocation?.latitude && !toLocation?.longitude && !to.address?.isInternalIP)
+    ) {
+        return undefined;
+    }
+
+    const d = distance(
+        runHopToCoords(from),
+        runHopToCoords(to),
+        { units: 'kilometers' }
+    ).toFixed(0);
+    return d;
 }
