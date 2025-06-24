@@ -28,7 +28,7 @@ const MenuWrapper = styled.div<{ open?: boolean }>`
         background-color: var(--light-gray);
         border-top: 2px dashed;
         left: calc(50vw - 50px);
-        z-index: 1;
+        z-index: 5;
         box-shadow: 0px 5px 5px grey;
     }
 `;

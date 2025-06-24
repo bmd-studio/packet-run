@@ -30,10 +30,10 @@ function getBackgroundColorForRouteType(routeType?: RouteTypes) {
     return '#FFFFFF00'
 }
 
-const RouteTypeContainer = styled.div<{ routeType?: RouteTypes }>`
+const RouteTypeContainer = styled.div<{ $routeType?: RouteTypes }>`
   padding-left: 16px;
   padding-right: 16px;
-  background-color: ${props => getBackgroundColorForRouteType(props.routeType)};
+  background-color: ${props => getBackgroundColorForRouteType(props.$routeType)};
   font-size: 18px;
   right:0px;
   top: 4px;
@@ -56,7 +56,7 @@ function Type(props: { type?: RouteTypes }) {
     }
 
     return (
-        <RouteTypeContainer routeType={type}>
+        <RouteTypeContainer $routeType={type}>
             {typeText[type]}
         </RouteTypeContainer>
     )

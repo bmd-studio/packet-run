@@ -14,30 +14,33 @@ import UnknownMap from './unkown';
 import Label from '../Label';
 
 const Container = styled.div`
-   position:absolute; 
-   left: 244px;
-   bottom: 38px;
+    width: 100%;
+    height: 100%;
 `;
 
 const MapContainer = styled.div`
-    height: calc(50vh - 34px);
-    overflow: hidden;
-    position: relative;
-    overflow: hidden;
-    width: 61vw;
-    border: 1px solid white;
+    width: 100%;
+    height: 100%;
 `;
 
 
-export default function Map() {
+export interface MapProps {
+    shouldDisplayMap?: boolean;
+    padding?: {
+        left?: number;
+        right?: number;
+        top?: number;
+        bottom?: number;
+    }
+}
+export default function Map(props: MapProps) {
+    const { shouldDisplayMap, padding = {} } = props;
     const terminal = useTerminal();
     const { run } = terminal;
 
     const mapContainer = useRef<HTMLDivElement | null>(null);
     const map = useRef<MapboxMap | null>(null);
-    const shouldDisplayMap = !!run?.currentHop?.info?.location;
 
-    console.log({ currentHop: run?.currentHop });
     useEffect(() => {
         if (!mapContainer.current || !run?.currentHop || !shouldDisplayMap) {
             return;
@@ -90,8 +93,9 @@ export default function Map() {
         }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
 
         // Fit the map to the resulting bounds
+        const defaultPadding = { top: 64, left: 64, bottom: 64, right: 64 };
         map.current?.fitBounds(bounds, {
-            padding: { top: 64, left: 64, bottom: 64, right: 64 },
+            padding: { ...defaultPadding, ...padding },
             minZoom: 7,
             maxZoom: 12,
             animate: false,
@@ -179,34 +183,17 @@ export default function Map() {
 
     return (
 
-        <motion.div
-            key="map"
-            style={{
-                gridArea: 'main',
-                willChange: 'transform',
-                transform: 'translateZ(0)',
-                zIndex: '20',
-                pointerEvents: 'none',
-            }}
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            transition={{ duration: 2 }}
-        >
-            <Container>
-                <Label>
-                    {shouldDisplayMap ? `Kaart` : `Geen Kaart Beschikbaar`}
-                </Label>
-                {shouldDisplayMap ?
-                    (
-                        <MapContainer
-                            ref={mapContainer}
-                        />
-                    ) :
-                    (
-                        <UnknownMap />
-                    )
-                }
-            </Container>
-        </motion.div>
+        <Container>
+            {shouldDisplayMap ?
+                (
+                    <MapContainer
+                        ref={mapContainer}
+                    />
+                ) :
+                (
+                    <UnknownMap />
+                )
+            }
+        </Container>
     );
 }
