@@ -9,16 +9,15 @@ const ContentWrapper = styled.div`
 
 `
 
-export default function Explanation1(props: OnBoardingProps) {
+export default function Explanation8(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <p>
-                    Hoi! Leuk dat je er bent!
+                    Heb je er al zin in?
                 </p>
-
                 <p>
-                    Laten we kort uitleggen wat je gaat doen met Packet Run. Je kan de pijltjes op het toetsenboord gebruiken om door te klikken in de uitleg.
+                    We gaan nu een pakketje maken voor een website naar keuze, zodat je kunt starten met Packet Run!
                 </p>
             </ContentWrapper>
         </OnboardingScreen>

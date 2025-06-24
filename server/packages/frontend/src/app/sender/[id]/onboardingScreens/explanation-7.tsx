@@ -2,7 +2,6 @@ import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
 import { OnBoardingProps } from "./types";
 
-
 const ContentWrapper = styled.div`
     padding-left: 360px;
     padding-right: 360px;
@@ -14,10 +13,10 @@ export default function Explanation7(props: OnBoardingProps) {
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <p>
-                    Heb je er al zin in?
+                    De computer waar je nu achter zit, gebruik je om een pakketje te versturen naar een bepaalde website. Aan het eind van de reis komt dat pakketje aan bij de achterkant van deze computer.
                 </p>
                 <p>
-                    We gaan nu een pakketje maken voor een website naar keuze, zodat je kunt starten met Packet Run!
+                    Daar kun je de website bekijken én de route zien die je pakketje heeft afgelegd. Gaaf, hè?
                 </p>
             </ContentWrapper>
         </OnboardingScreen>

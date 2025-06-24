@@ -5,7 +5,7 @@ import { OnBoardingProps } from "./types";
 
 const ContentWrapper = styled.div`
     padding-left: 200px;
-    padding-right: 0;
+    padding-right: 140px;
     display: flex;
     flex-direction: row;
     gap:32px;
@@ -19,9 +19,6 @@ const TextWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 66%;
-  & p {
-    margin-bottom: 60px;
-  }
 `;
 
 const ImageWrapper = styled.div`
@@ -29,22 +26,36 @@ const ImageWrapper = styled.div`
   height: 100%;
 `;
 const Image = styled.img`
-  width: 110%;
-  position: relative;
-  top: -100px;
+  width: 91%;
 `;
+const OrderedList = styled.ol`
+  list-style: decimal;
+  font-size: 40px;
+  box-sizing: border-box;
+  padding-left: 72px;
+`;
+const TopText = styled.p`
+margin-bottom: 60px;
+`
 
 export default function Explanation5(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <TextWrapper>
-                    <p>De metalen buizen symboliseren de routers.</p>
-                    <p>Via deze buizen reist je pakketje van router naar router. De installatie is een fysieke representatie van mogelijke routes die pakketjes op het internet kunnen nemen.</p>
-                    <p>Onderweg leer je wie er achter het internet zit en welke risico{`'`}s daarbij horen.</p>
+                    <TopText>
+                        Hoe gebruik je de bal en router?
+                    </TopText>
+                    <OrderedList>
+                        <li>Je bal komt in de container aangerold</li>
+                        <li>Plaats de bal op de scanner</li>
+                        <li>Lees de informatie op het scherm</li>
+                        <li>Gooi bal door 1 van de gaten</li>
+                        <li>Volg waar je bal naartoe gaat</li>
+                    </OrderedList>
                 </TextWrapper>
                 <ImageWrapper>
-                    <Image src='/onboarding-installation-graphic.svg' alt="Packet Run installation" />
+                    <Image src='/onboarding-terminal-graphic.svg' alt="onboarding terminal" />
                 </ImageWrapper>
             </ContentWrapper>
         </OnboardingScreen>
