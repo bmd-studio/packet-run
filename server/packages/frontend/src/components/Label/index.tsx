@@ -24,7 +24,7 @@ const LabelWrapper = styled.div`
         height: 34px;
         padding-left: 16px;
         padding-right: 16px;
-        fonbt-size: 18px;
+        font-size: 18px;
     }
 `;
 

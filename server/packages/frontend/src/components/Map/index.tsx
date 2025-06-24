@@ -17,6 +17,7 @@ const Container = styled.div`
    position:absolute; 
    left: 244px;
    bottom: 38px;
+   width: 1175px;
 `;
 
 const MapContainer = styled.div`
