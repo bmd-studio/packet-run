@@ -130,7 +130,7 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
                 ) : (
 
                     <Message>
-                        Type a valid domain name first...
+                        Voer een geldige website in
                         {loading && <Loader2 className="animate-spin w-4 h-4" />}
                     </Message>
                 )}

@@ -47,10 +47,10 @@ export default function Explanation5(props: OnBoardingProps) {
                         Hoe gebruik je de bal en router?
                     </TopText>
                     <OrderedList>
-                        <li>Je bal komt in de container aangerold</li>
+                        <li>Je bal komt in het bakje aangerold</li>
                         <li>Plaats de bal op de scanner</li>
                         <li>Lees de informatie op het scherm</li>
-                        <li>Gooi bal door 1 van de gaten</li>
+                        <li>Gooi bal door één van de gaten</li>
                         <li>Volg waar je bal naartoe gaat</li>
                     </OrderedList>
                 </TextWrapper>

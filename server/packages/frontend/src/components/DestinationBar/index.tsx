@@ -58,7 +58,6 @@ export default function DestinationBar() {
             run?.availableHops.find((h) => h.terminal.id === to.id) || null
         ))
     ), [sortedConnections, run]);
-    console.log({ sortedHops });
     const latestKnownHop = retrieveLatestKnownHop(run);
     const ConnectionCards = sortedConnections.map((conn, index) => {
         return (
@@ -80,7 +79,9 @@ export default function DestinationBar() {
         const name = `Route ${index + 1}`;
         let destinationName = `${city ? city : ''} ${country ? `(${country})` : ''}`;
         const hopType = runHopTypeToRouteLabel(hop?.type);
-        if (!city && !country) {
+        const goesBackHome = hop.type === RunHopType.Recommended && hop.terminal.type === TerminalType.Receiver;
+
+        if (!city && !country && !goesBackHome) {
             destinationName = '???';
         }
 
