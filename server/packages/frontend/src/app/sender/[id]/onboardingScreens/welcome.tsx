@@ -23,15 +23,15 @@ const TextWrapper = styled.div`
 `
 
 export default function WelcomeScreen() {
-  return (
-    <WelcomeWrapper>
-      <TextWrapper>
-        <div>
-          <h1>WELKOM BIJ <span className='with-accent-color'>PACKET RUN</span></h1>
-          <p>Gebruik de pijltjes op het toetsenbord [->] om verder te gaan.</p>
-        </div>
-      </TextWrapper>
-    </WelcomeWrapper>
-  )
+    return (
+        <WelcomeWrapper>
+            <TextWrapper>
+                <div>
+                    <h1>WELKOM BIJ <span className='with-accent-color'>PACKET RUN</span></h1>
+                    <p>Gebruik de pijltjes op het toetsenbord {'[->]'} om verder te gaan.</p>
+                </div>
+            </TextWrapper>
+        </WelcomeWrapper>
+    )
 
 }

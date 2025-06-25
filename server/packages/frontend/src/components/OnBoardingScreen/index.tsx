@@ -8,7 +8,6 @@ const OrangeBackground = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
 `;
 
 
@@ -73,9 +72,6 @@ const StepIndicatorBallFilled = styled(StepIndicatorBall)`
   background-color: black;
 `;
 
-function StepIndicator() {
-
-}
 function ArrowIndicators(props: { stepAmount: number, currentStep: number }) {
     const { stepAmount, currentStep } = props;
     const steps = [];

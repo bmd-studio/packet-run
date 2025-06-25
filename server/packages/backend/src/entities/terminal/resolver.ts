@@ -73,8 +73,8 @@ export default class TerminalsResolver {
     async allTerminals() {
         return observableToAsyncIterable(
             terminalsObservable.pipe(
-                map((allTerminals) => ({ allTerminals }))
-            )
+                map((allTerminals) => ({ allTerminals })),
+            ),
         );
     }
 

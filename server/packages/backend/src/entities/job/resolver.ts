@@ -61,7 +61,7 @@ export class JobsResolver extends QueueEventsHost {
     @Subscription(() => [Job])
     async jobs() {
         return observableToAsyncIterable(
-            this.observable.pipe(map((jobs) => ({ jobs })))
+            this.observable.pipe(map((jobs) => ({ jobs }))),
         );
     }
 }
