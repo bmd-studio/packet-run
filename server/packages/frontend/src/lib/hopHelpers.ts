@@ -26,8 +26,21 @@ export function hopIsAtGateway(run: PartialRun | null | undefined) {
 }
 
 export function getActualTakenHops(run: PartialRun | null | undefined) {
+    if (!run) {
+        return [];
+    }
     const previousRoutes = run.hops.filter((h) => (
         h.address && h.status === RunHopStatus.Actual
     )).sort((a, b) => a.hop - b.hop);
+    return previousRoutes;
+}
+export function filterOutHopsWithUnkownLocation(hops: RegisterTerminalRunHopFragment[]) {
+    const previousRoutes = hops.filter((h) => (
+        !(h.address?.info?.location?.longitude === undefined
+            || h.address.info.location.longitude === null
+            || h.address.info.location.latitude === undefined
+            || h.address.info.location.latitude === null
+        )
+    ));
     return previousRoutes;
 }
