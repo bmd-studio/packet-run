@@ -1,5 +1,5 @@
 
-import { RegisterTerminalRunHopFragment, RunHopType } from '@/data/generated';
+import { RegisterTerminalRunHopFragment, RunHopStatus, RunHopType } from '@/data/generated';
 export interface PartialRun {
     currentHop: RegisterTerminalRunHopFragment;
     hops: RegisterTerminalRunHopFragment[];
@@ -23,4 +23,11 @@ export function hopIsAtGateway(run: PartialRun | null | undefined) {
         return false;
     }
     return run.currentHop.terminal.id === 2;
+}
+
+export function getActualTakenHops(run: PartialRun | null | undefined) {
+    const previousRoutes = run.hops.filter((h) => (
+        h.address && h.status === RunHopStatus.Actual
+    )).sort((a, b) => a.hop - b.hop);
+    return previousRoutes;
 }

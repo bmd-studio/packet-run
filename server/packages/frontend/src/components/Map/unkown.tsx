@@ -27,7 +27,7 @@ const Text = styled.p`
     font-style: normal;
     font-weight: 900;
     line-height: normal;
-    width: 872px;
+    width: 924px;
     margin-bottom: 24px;
 `;
 const TextContainer = styled.div`

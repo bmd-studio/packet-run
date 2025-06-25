@@ -1,5 +1,5 @@
 import { RegisterTerminalRunHopFragment, RunHopType } from "@/data/generated";
-import { getAmountOfAlternativeHops, getAmountOfReturnHops, hopIsAtGateway, PartialRun } from "@/lib/hopHelpers";
+import { getActualTakenHops, getAmountOfAlternativeHops, getAmountOfReturnHops, hopIsAtGateway, PartialRun } from "@/lib/hopHelpers";
 import { JSX } from "react";
 
 function RecommendedHopText(hop: RegisterTerminalRunHopFragment) {
@@ -118,7 +118,7 @@ function PreviousHopText(hop: RegisterTerminalRunHopFragment, run: PartialRun | 
 
 
 function WormHoleHopText(hop: RegisterTerminalRunHopFragment, run: PartialRun | null | undefined) {
-    const hopAmount = run?.hops.length || 0;
+    const hopAmount = getActualTakenHops(run)?.length || 0;
     const potentialTexts = [];
     potentialTexts.push((
         <p>
@@ -128,7 +128,7 @@ function WormHoleHopText(hop: RegisterTerminalRunHopFragment, run: PartialRun | 
     if (hopAmount > 5) {
         potentialTexts.push((
             <p>
-                Pfoe wat een reis. Dit pakketje is door {`${hopAmount}`} routers gereist. Voor de snelle weg terug kiese deze route.
+                Pfoe wat een reis. Dit pakketje is door {`${hopAmount}`} routers gereist. Voor de snelle weg terug kies deze route.
             </p>
         ));
     }

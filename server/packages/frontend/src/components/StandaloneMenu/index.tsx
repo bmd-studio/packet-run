@@ -8,6 +8,7 @@ import { terminalContext } from '../RegisterTerminal';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { styled } from 'styled-components';
+
 const MenuWrapper = styled.div<{ open?: boolean }>`
     top: -54px;
     transition: all 0.3s;
