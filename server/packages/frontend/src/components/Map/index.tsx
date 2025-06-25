@@ -3,7 +3,6 @@ import { useTerminal } from '../RegisterTerminal';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
-import { motion } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { RegisterTerminalRunHopFragment, RunHopStatus, TerminalType } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
@@ -11,7 +10,6 @@ import generateDot from './dot';
 import curvedLine from './curvedLine';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 import UnknownMap from './unkown';
-import Label from '../Label';
 
 const Container = styled.div`
     width: 100%;
@@ -46,7 +44,6 @@ export default function Map(props: MapProps) {
             return;
         }
 
-
         // Retrieve the latest known hop (that was not null or unknown)
         const latestKnownHop = retrieveLatestKnownHop(run);
         const address = latestKnownHop?.address;
@@ -75,7 +72,7 @@ export default function Map(props: MapProps) {
         });
 
         // Add the pulsing dot as an image
-        const orangeDot = generateDot(map.current);
+        const orangeDot = generateDot();
         map.current.addImage('orange-dot', orangeDot)
 
         const previousRoutes = run.hops.filter((h) => (
@@ -179,7 +176,7 @@ export default function Map(props: MapProps) {
         });
 
         return () => map.current?.remove();
-    }, [run, terminal.type, shouldDisplayMap]);
+    }, [run, terminal.type, shouldDisplayMap, padding]);
 
     return (
 

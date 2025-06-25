@@ -3,9 +3,6 @@ import { styled } from 'styled-components';
 import { useCallback, useEffect, useState } from "react"
 import WelcomeScreen from "./welcome";
 import Explanation from './explanation';
-import WebpageView from './webpageView';
-import MapView from './map';
-import End from './end';
 
 
 const ScreensWrapper = styled.div`
@@ -19,7 +16,7 @@ const ScreensWrapper = styled.div`
 export interface OffBoardingFlowProps {
     resetCallback: () => void;
 }
-export default function OffBoardingFlow(props: OffBoardingFlowProps) {
+export default function OffBoardingFlow() {
     let screens: React.JSX.Element[] = [];
     const [screenNumber, setScreenNumber] = useState(0);
 
@@ -76,7 +73,13 @@ export default function OffBoardingFlow(props: OffBoardingFlowProps) {
                 }
             }
         }
-    }, [setScreenNumber, screens.length, isInInputScreen])
+    }, [
+        setScreenNumber,
+        screens.length,
+        isInInputScreen,
+        incrementScreenNumber,
+        decrementScreenNumber,
+    ])
 
     const currentScreen = screens[screenNumber];
     return (

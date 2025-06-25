@@ -1,16 +1,12 @@
-import styled, { css } from 'styled-components';
-import { theme, MODE } from '@/config';
+import styled from 'styled-components';
 import { RegisterTerminalRunHopFragment, RunHopType, TerminalType } from '@/data/generated';
 import { useTerminal } from '../RegisterTerminal';
 import Link from 'next/link';
 import { useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { calculateDistance } from './distance';
-import retrieveLatestKnownHop, { PartialRun } from '@/lib/latestKnownHop';
+import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 import React from 'react';
 import RouteCard, { RouteTypes } from '../RouteCard';
-import { RouteType } from 'next/dist/lib/load-custom-routes';
-import { getAmountOfAlternativeHops } from '@/lib/hopHelpers';
 import DestinationExplanation from './routeText';
 
 const Container = styled.div`

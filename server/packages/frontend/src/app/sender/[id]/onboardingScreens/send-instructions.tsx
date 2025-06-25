@@ -5,7 +5,6 @@ import { OnBoardingProps } from "./types";
 import CheckBoxListItem from "@/components/CheckBoxListItem";
 import ScannerTimeoutBar from "@/components/ScannerTimeoutBar";
 import { useEffect, useState } from "react";
-import { time } from "console";
 
 
 const ContentWrapper = styled.div`
@@ -52,11 +51,9 @@ export default function SendInstructions(props: SendInstructionsProps) {
         return () => {
             clearTimeout(endTimeout)
         }
-
-    }, [resetCallback]);
+    }, [resetCallback, endTimeout]);
 
     useEffect(() => {
-        // TODO: add a way to complete the run e.g.
         if (!ballPressed) {
             return;
         }

@@ -68,13 +68,13 @@ export default function PacketDescription(props: { terminal: Terminal, error?: b
                     || terminal.status === TerminalStatus.CreatingPacket
                     || terminal.status === TerminalStatus.CreatedPacket
                 ) && (
-                        <>
-                            <div>
-                                <Text>Verzoek voor website:</Text>
-                                <Text>{terminal.run.url}</Text>
-                            </div>
-                        </>
-                    )}
+                    <>
+                        <div>
+                            <Text>Verzoek voor website:</Text>
+                            <Text>{terminal.run.url}</Text>
+                        </div>
+                    </>
+                )}
             </PacketDescriptionTextContainer>
             <Label>
                 SCANNER

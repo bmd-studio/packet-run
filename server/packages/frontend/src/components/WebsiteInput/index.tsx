@@ -125,7 +125,7 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
             <h2>
                 {isValidated ? (
                     <Message>
-                        Press <Inverse>Enter ⏎</Inverse> to continue!
+                        Druk op <Inverse>Enter ⏎</Inverse> om verder te gaan!
                     </Message>
                 ) : (
 

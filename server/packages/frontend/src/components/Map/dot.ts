@@ -1,8 +1,7 @@
-import { Map } from 'mapbox-gl';
 
 const size = 32;
 
-export default function generateDot(map: Map) {
+export default function generateDot() {
     // This implements `StyleImageInterface`
     // to draw a pulsing dot icon on the map.
     return {

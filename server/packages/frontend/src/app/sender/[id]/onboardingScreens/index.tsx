@@ -12,7 +12,6 @@ import Explanation6 from "./explanation-6";
 import Explanation7 from "./explanation-7";
 import WebsiteInput from "./website-input";
 import SendInstructions from "./send-instructions";
-import { setConfig } from "next/config";
 import Explanation8 from "./explanation-8";
 
 
@@ -118,7 +117,13 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
                 }
             }
         }
-    }, [setScreenNumber, screens.length, isInInputScreen])
+    }, [
+        setScreenNumber,
+        screens.length,
+        isInInputScreen,
+        decrementScreenNumber,
+        incrementScreenNumber
+    ]);
 
     const currentScreen = screens[screenNumber];
     return (
