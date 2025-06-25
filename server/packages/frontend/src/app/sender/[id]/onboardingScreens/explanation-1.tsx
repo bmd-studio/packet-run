@@ -1,4 +1,5 @@
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
+import { OnBoardingProps } from './types';
 
 export function Explanation1(props: OnBoardingProps) {
     return (
