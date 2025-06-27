@@ -3,6 +3,7 @@ import { Terminal, TerminalStatus, TerminalType } from '@/data/generated';
 import Label from '../Label';
 import ScannerAnimation, { ScannerVariant } from '../ScannerAnimation';
 import { useMemo } from 'react';
+import OnboardingAnimation from '../OnboardingAnimation';
 
 const PacketDescriptionTextContainer = styled.div`
     background-color: var(--orange);
@@ -49,10 +50,11 @@ export interface PacketDescriptionProps {
     error?: boolean;
     nfcId?: string;
     dark?: boolean;
+    animation?: 'onboarding' | 'scanner';
 }
 
 export default function PacketDescription(props: PacketDescriptionProps) {
-    const { terminal, error = false, nfcId, dark = false } = props;
+    const { terminal, error = false, nfcId, dark = false, animation = 'scanner' } = props;
 
     const animationType = useMemo(() => (
         selectAnimationType(terminal.type, terminal.status)
@@ -68,10 +70,15 @@ export default function PacketDescription(props: PacketDescriptionProps) {
 
     return (
         <PacketDescriptionContainer>
-            <ScannerAnimation
-                variant={animationType}
-                background={background}
-            />
+            {animation === 'onboarding' && (
+                <OnboardingAnimation />
+            )}
+            {animation === 'scanner' && (
+                <ScannerAnimation
+                    variant={animationType}
+                    background={background}
+                />
+            )}
             <PacketDescriptionTextContainer>
                 {terminal.status === TerminalStatus.Idle && (
                     error && nfcId ? (

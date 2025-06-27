@@ -4,12 +4,12 @@ import { Terminal } from '@/data/generated';
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
-import { PropsWithChildren, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
 import Label from '../Label';
 import InstructionText, { selectInstructionType } from './text';
-import PacketDescription from '../PacketDescription';
+import PacketDescription, { PacketDescriptionProps } from '../PacketDescription';
 import useNFCLogic from '../NFCScanLogic';
 
 
@@ -45,8 +45,13 @@ const PacketInfoContainer = styled.div`
 
 `;
 
+export interface PacketScannerProps {
+    children?: React.ReactNode;
+    animation?: PacketDescriptionProps['animation'];
+    dark?: boolean;
+}
 
-export default function PacketScanner({ children }: PropsWithChildren) {
+export default function PacketScanner({ children, animation, dark }: PacketScannerProps) {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
 
@@ -75,7 +80,8 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                     terminal={terminal as unknown as Terminal}
                     error={!!error}
                     nfcId={nfcId || undefined}
-                    dark
+                    dark={dark}
+                    animation={animation}
                 />
 
             </PacketInfoContainer>
