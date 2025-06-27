@@ -5,6 +5,7 @@ import { OnBoardingProps } from "./types";
 import CheckBoxListItem from "@/components/CheckBoxListItem";
 import ScannerTimeoutBar from "@/components/ScannerTimeoutBar";
 import { useEffect, useState } from "react";
+import PacketScanner from "@/components/PacketScanner";
 
 
 const ContentWrapper = styled.div`
@@ -110,6 +111,7 @@ export default function SendInstructions(props: SendInstructionsProps) {
                     </p>
                 </List>
             </ContentWrapper>
+            <PacketScanner key="packet-scanner" />
             <ScannerTimeoutBar
                 start={startDate}
                 end={endDate}

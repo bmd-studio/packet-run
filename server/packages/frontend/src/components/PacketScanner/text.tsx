@@ -12,6 +12,7 @@ const InstructionsTextContainer = styled.div`
     }
 `;
 enum InstructionTextType {
+    'explanationSender',
     'explanationGateway',
     'explanationRouter',
     'explanationServer',
@@ -23,6 +24,9 @@ enum InstructionTextType {
 export function selectInstructionType(terminalType: TerminalType, terminalStatus: TerminalStatus) {
     let textType = InstructionTextType.explanationRouter;
     switch (terminalType) {
+        case TerminalType.Sender:
+            textType = InstructionTextType.explanationSender;
+            break;
         case TerminalType.Router:
             textType = InstructionTextType.explanationRouter;
             break;
@@ -46,6 +50,13 @@ export function selectInstructionType(terminalType: TerminalType, terminalStatus
 function InstructionTextSelection(type: InstructionTextType) {
     const readExplanationText = 'Lees eerst links de uitleg';
     switch (type) {
+        case InstructionTextType.explanationSender:
+            return (
+                <>
+                    <p></p>
+                </>
+            );
+            break;
         case InstructionTextType.explanationGateway:
             return (
                 <>

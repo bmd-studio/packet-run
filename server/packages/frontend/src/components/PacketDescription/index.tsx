@@ -3,6 +3,7 @@ import { Terminal, TerminalStatus, TerminalType } from '@/data/generated';
 import { usePathname } from 'next/navigation';
 import Label from '../Label';
 import ScannerAnimation, { ScannerVariant } from '../ScannerAnimation';
+import OnboardingAnimation from '../OnboardingAnimation';
 
 const PacketDescriptionTextContainer = styled.div`
     background-color: var(--orange);
@@ -49,12 +50,20 @@ export default function PacketDescription(props: { terminal: Terminal, error?: b
     const pathname = usePathname();
     const isLightBackground = pathname.includes('sender') || pathname.includes('receiver');
     const background = isLightBackground ? 'light' : 'dark';
+    // Here include whether in Sender or not
+    const isOnboardingAnimation = pathname.includes('sender');
+
     return (
         <PacketDescriptionContainer>
-            <ScannerAnimation
-                variant={animationType}
-                background={background}
-            />
+            {isOnboardingAnimation ? (
+                <OnboardingAnimation />
+                ) : (
+                <ScannerAnimation
+                    variant={animationType}
+                    background={background}
+                />
+                )
+            }
             <PacketDescriptionTextContainer>
                 {terminal.status === TerminalStatus.Idle && (
                     error && nfcId ? (
