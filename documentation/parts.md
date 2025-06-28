@@ -5,55 +5,56 @@ as when retuning the installation.
 
 All parts fit in a 2m x 3,85m truck bed.
 
-##Terminals
+## Terminals
 - [ ] 8x regular plywood terminal unit (labeled), consisting of:
-- [ ] 1x Raspberry Pi
-- [ ] 1x 24” monitor
-- [ ] 1x Power strip
-- [ ] 1x Ethernet cable
-- [ ] 1x NFC scanner, connected to Raspberry Pi GPIO Pins
+    - [ ] 1x Raspberry Pi
+    - [ ] 1x 24” monitor
+    - [ ] 1x Power strip
+    - [ ] 1x Ethernet cable
+    - [ ] 1x NFC scanner, connected to Raspberry Pi GPIO Pins
+    - [ ] 1x wooden top assembly
+    - [ ] 1x wooden bottom assembly
+    - [ ] 2x legs (marked L and R on bottom)
+    - [ ] 1x ball receiving tray
 - [ ] 2x plywood terminal unit with press, labeled
-- [ ] 1x rope measure for terminals
-- [ ] 1x template for measuring terminal spacing
 - [ ] 1x box of SD cards
 - [ ] 1x box of M3x16 Torx screws
 
 ## Desk
 The desk is a single unit that consists of these parts:
 - [ ] 2x integrated terminals, each consisting of
-- [ ] 1x Raspberry Pi + USB-C power brick
+    - [ ] 1x Raspberry Pi + USB-C power brick
     - [ ] 1x 24” HDMI Monitor + Power brick
     - [ ] 1x NFC assembly, connected to Raspberry Pi GPIO Pins
     - [ ] 1x Press assembly with hall sensor, connected to Raspberry Pi GPIO Pins (only for sender side)
     - [ ] 1x Ethernet cable, routed through bottom opening to switch
     - [ ] 1x Keyboard
-- [ ] 1x Mac mini, with:
-- [ ] 1x Power cable
-- [ ] 1x USB-C Ethernet dongle, connected to switch
+- [ ] 1x server:
+    - [ ] 1x Raspberry Pi + USB-C power brick
+    - [ ] 1x USB-C Ethernet dongle, connected to switch
 - [ ] 1x Power socket
 - [ ] 1x Ethernet switch, with power cable
-- [ ] 1x KVM switch for switching between terminal 1 and Mac Mini, including:
-- [ ] 3x HDMI Cable (2x input, 1x output)
-- [ ] 1x Keyboard
-- [ ] 1x Mouse
-- [ ] 2x USB host cable
-- [ ] 1x micro-USB switch, for toggling between connected computers
+- [ ] 1x KVM switch for switching between terminal 1 and server, including:
+    - [ ] 3x HDMI Cable (2x input, 1x output)
+    - [ ] 1x Keyboard
+    - [ ] 2x USB host cable
+    - [ ] 1x micro-USB switch, for toggling between connected computers
 - [ ] 1x 10m Ethernet cable, with Ethernet coupling piece
 
 Additionally, the following peripherals should be packed with the desk:
 - [ ] 2x wooden stool
-- [ ] 1x Roll-up banner
+- [ ] 1x banner with wooden housing
 - [ ] 500x flyers
 - [ ] 500x postcards
 - [ ] 150x ball, in box
 
-Tracks
-- [ ] 26x track set, labeled (see 2-4x steel track segments
-- [ ] 1-2x rope holds per segment, taped in place with painter’s tape
-- [ ] 1x rope per rope hold
-- [ ] 1-3x slinky assembly connecting track segments
-- [ ] Track list and build order ), grouped in three sets (build order 1-3), each containing:
-- [ ] Superstructure
+## Tracks
+- [ ] 26x track set, labeled (see [track list](./track-list.md)), grouped in three sets (build order 1-3), each containing:
+    - [ ] 1-2x rope holds per segment, taped in place with painter’s tape
+    - [ ] 1x rope per rope hold
+    - [ ] 1-3x slinky assembly connecting track segments
+
+## Superstructure
 - [ ] 3x horizontal wooden beam, labeled H1-H3
 - [ ] 3x vertical wooden beam, labeled V1-V3, with attachment points for steel cables and support beams
 - [ ] 1x steel center piece
@@ -68,8 +69,10 @@ Tracks
 - [ ] 1x M22 eye nut, preferably fastened to the top of the center piece
 - [ ] 6x boxes containing clips (white, IKEA)
 - [ ] Spare parts
-- [ ] To suit varying circumstances, especially during construction, it might be wise to bring some spare parts along. The following parts and
-- [ ] amounts are recommended:
+
+To suit varying circumstances, especially during construction, it might be
+wise to bring some spare parts along. The following parts and amounts are
+recommended:
 - [ ] 6x slinky receiver
 - [ ] 6x slinky sender
 - [ ] 6x rope hold including rope

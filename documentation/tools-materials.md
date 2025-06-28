@@ -5,17 +5,14 @@ down Packet Run. The materials are mostly needed for buildup.
 ## Required tools
 ### Lifting
 - [ ] 1x support rod (bouwstempel)
-- [ ] 2x lifting tripod (takelstatief) + U-shape lifting attachments
-- [ ] 2x solid steel rod 18mm (for lifting the superstructure)
-- [ ] 2x steel profile (for lifting the superstructure)
-- [ ] 1x steel cable that attaches to the profile (for lifting the superstructure)
+- [ ] 3x lifting tripod (takelstatief): Manfrotto 087
+- [ ] 3x U-shape lifting attachments
 - [ ] 2x stepladder
-- [ ] 1x D-shackle (harpsluiting)
+- [ ] 1x (laser) level
 
 ### Tools
 - [ ] 2x M22 spanner (moersleutel)
 - [ ] 2x Adjustable spanner (Engelse sleutel)
-- [ ] 2x steeksleutel voor steigerbuizen
 - [ ] 1x M6 Allan wrench (inbussleutel)
 - [ ] 1x M3 Allan wrench (inbussleutel)
 - [ ] 1x M3 Torx screwdriver
@@ -24,16 +21,13 @@ down Packet Run. The materials are mostly needed for buildup.
 - [ ] 1x rubber hammer
 - [ ] 1x steel hammer
 - [ ] 1x lighter
-- [ ] 1x draadeind
-- [ ] 2x screwdriver we don’t care about
 
 ### Miscellaneous
 - [ ] 3x large storage box
-- [ ] 1x full roll of painter’s tape
+- [ ] 3x full roll of painter’s tape
 - [ ] 1x 25m cable reel
 - [ ] 1x USB-A keyboard (for debugging)
-- [ ] 1x trolley for carrying stuffs by old people
-- [ ] 3x spanbanden
+- [ ] 12x spanbanden
 
 ## Required materials
 - [ ] 100x small black tie-wrap
