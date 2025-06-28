@@ -27,10 +27,14 @@ BUILD_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 # Create build info string
 BUILD_INFO="packet-run-img-$1-$BUILD_DATE-$GIT_SHA"
 
+# Build the Docker image to ensure it's up to date
+echo "Building Docker image..."
+podman compose build
+
 # Run the build using a heredoc for better readability
 podman compose run --rm \
   -e BUILD_INFO="$BUILD_INFO" \
-  build-image sh -c '
+  packet-run-rpi-img-builder sh -c '
     # Exit on any error
     set -e
     

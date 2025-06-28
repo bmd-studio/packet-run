@@ -12,6 +12,8 @@
 output/
 **/dist
 **/build
+**/.turbo
+**/.next
 
 # OS files
 .DS_Store

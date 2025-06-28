@@ -1,21 +1,13 @@
 services:
-  build-image:
+  packet-run-rpi-img-builder:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: image/Dockerfile
     platform: linux/arm64
-    container_name: rpi-image-builder
+    container_name: packet-run-rpi-img-builder
     restart: unless-stopped
     volumes:
-      - ../client:/opt/packet-run/client
-      - client_node_modules:/opt/packet-run/client/hall-sensor-server/node_modules
-      - ../server:/opt/packet-run/server
-      - server_node_modules:/opt/packet-run/server/node_modules
       - ./config:/home/imagegen/rpi-image-gen/packet-run
       - ./deploy:/home/imagegen/rpi-image-gen/deploy
     working_dir: /home/imagegen/rpi-image-gen
     privileged: true
-
-volumes:
-  client_node_modules:
-  server_node_modules:

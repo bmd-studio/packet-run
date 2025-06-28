@@ -38,3 +38,6 @@ USER ${USER}
 WORKDIR /home/${USER}
 
 RUN /bin/bash -c 'cp -r /rpi-image-gen ~/'
+
+# Copy the project files (respects .dockerignore)
+COPY --chown=${USER}:${USER} . /opt/packet-run/
