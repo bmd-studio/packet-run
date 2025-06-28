@@ -18,6 +18,7 @@ mmdebstrap:
   # Create packet_run_config.txt from template
   - |
     cat ./packet-run/packet_run_config.txt.tpl | sed \
+      -e "s|<BUILD_INFO>|${BUILD_INFO}|g" \
       -e "s|<PACKET_RUN_TERMINAL_ID>|${IGconf_packet_run_terminal_id}|g" \
       -e "s|<PACKET_RUN_SERVER_IP>|${IGconf_packet_run_server_ip}|g" \
       -e "s|<TAILSCALE_AUTH_KEY>|${IGconf_tailscale_auth_key}|g" \

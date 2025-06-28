@@ -1,3 +1,5 @@
+# Build info: <BUILD_INFO>
+#
 # This is the id for this terminal
 PACKET_RUN_TERMINAL_ID=<PACKET_RUN_TERMINAL_ID>
 

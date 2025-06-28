@@ -21,8 +21,16 @@ GIT_SHA=$(git rev-parse --short HEAD)
 # Get current date in ISO format for sorting
 BUILD_DATE=$(date +%Y%m%d%H%M%S)
 
+# Get build time for config file
+BUILD_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Create build info string
+BUILD_INFO="packet-run-img-$1-$BUILD_DATE-$GIT_SHA"
+
 # Run the build using a heredoc for better readability
-podman compose run --rm build-image sh -c '
+podman compose run --rm \
+  -e BUILD_INFO="$BUILD_INFO" \
+  build-image sh -c '
     # Exit on any error
     set -e
     
