@@ -1,12 +1,16 @@
-# Git
-.git
-.gitignore
+image/output/**
+!image/output/.gitignore
+image/deploy/**
+!image/deploy/.gitignore
+image/config/my.options
+
+server/packages/backend/data/images/**
+server/packages/backend/data/packet-run.db
+server/packages/backend/data/packet-run.db-shm
+server/packages/backend/data/packet-run.db-wal
 
 # Node
 **/node_modules
-**/npm-debug.log
-**/yarn-debug.log
-**/yarn-error.log
 
 # Build outputs
 output/
@@ -21,15 +25,6 @@ Thumbs.db
 
 # IDE files
 .idea/
-.vscode/
 *.swp
 *.swo
 
-# Large data files
-*.log
-*.sqlite
-*.db
-
-# Temporary files
-*.tmp
-*.temp 

@@ -39,6 +39,14 @@ mmdebstrap:
   # Disable serial console service
   - $BDEBSTRAP_HOOKS/disable-units "$1" serial-getty@serial0
 
+  # Load application code
+  - mkdir -p $1/opt/packet-run/
+  - cp -R /opt/packet-run/. $1/opt/packet-run/
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
+    EOCHROOT
+  
   packages:
   - nodejs
   - tailscale

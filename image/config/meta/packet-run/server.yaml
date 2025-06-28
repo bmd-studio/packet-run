@@ -2,10 +2,6 @@
 name: packet-run-server
 mmdebstrap:
   customize-hooks:
-  # Load application code
-  - mkdir -p $1/opt/packet-run/
-  - cp -R /opt/packet-run/server $1/opt/packet-run/
-
   # Install server dependencies and build
   - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build
 
@@ -17,12 +13,6 @@ mmdebstrap:
 
   # Copy server-specific overlay
   - cp -R ./packet-run/image/device/server/rootfs-overlay/* $1/
-
-  # Set proper ownership for server files
-  - |
-    chroot $1 bash -- <<- EOCHROOT
-    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run/server
-    EOCHROOT
 
   # Install Litestream
   - PATH=$1/usr/bin:$PATH wget -O $1/tmp/litestream.deb https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-arm64.deb
@@ -44,6 +34,12 @@ mmdebstrap:
 
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server isc-dhcp-server litestream
+
+  # Set proper ownership for client files
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
+    EOCHROOT
 
   packages:
   - isc-dhcp-server

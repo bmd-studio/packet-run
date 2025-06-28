@@ -5,10 +5,6 @@ mmdebstrap:
   - chromium
 
   customize-hooks:
-  # Load application code
-  - mkdir -p $1/opt/packet-run/
-  - cp -R /opt/packet-run/client $1/opt/packet-run/
-
   # Install hall-sensor-server dependencies
   - cd $1/opt/packet-run/client/hall-sensor-server && PATH=$1/usr/bin:$PATH npm install
 
@@ -31,7 +27,7 @@ mmdebstrap:
   # Set proper ownership for client files
   - |
     chroot $1 bash -- <<- EOCHROOT
-    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run/client
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
     EOCHROOT
 
   # Enable services
