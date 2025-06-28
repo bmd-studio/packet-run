@@ -36,4 +36,5 @@ printf '\nHost was found and available! Launching Packet Run...\n'
     --start-fullscreen \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \
-    --test-type &> /dev/null
+    --test-type \
+    --ozone-platform=wayland
