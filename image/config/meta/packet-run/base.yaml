@@ -1,0 +1,33 @@
+---
+name: packet-run-base
+mmdebstrap:
+  setup-hooks:
+  - mkdir -p $1/etc/apt/trusted.gpg.d/
+  # Nodejs repo key
+  - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | apt-key --keyring $1/etc/apt/trusted.gpg.d/nodesource.gpg add -
+  # Tailscale repo key
+  - curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | apt-key --keyring $1/etc/apt/trusted.gpg.d/tailscale.gpg add -
+
+  mirrors:
+  # Nodejs repo
+  - deb [arch=arm64 trusted=yes] https://deb.nodesource.com/node_20.x nodistro main
+  # Tailscale repo
+  - deb [trusted=yes] https://pkgs.tailscale.com/stable/debian bookworm main
+
+  customize-hooks:
+  - |
+    pwd 
+
+    # Create tailscale service from template
+    cat ./packet-run/tailscale.service.tpl | sed \
+      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      > $1/etc/systemd/system/tailscale.service
+    
+
+    # Enable tailscale unit
+    $BDEBSTRAP_HOOKS/enable-units "$1" tailscale
+
+  packages:
+  - nodejs
+  - tailscale
+  - cage

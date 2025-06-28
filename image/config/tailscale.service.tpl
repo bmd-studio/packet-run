@@ -1,0 +1,14 @@
+[Unit]
+Description=Tailscale Node
+After=network.target
+
+[Service]
+Type=simple
+User=<SERVICE_USER>
+PreExecStart=/bin/sh -c 'export $(grep -v "^#" /boot/packet_run_config.txt | xargs); /usr/bin/tailscale up --authkey=${TAILSCALE_AUTH_KEY} --login-server=${TAILSCALE_LOGIN_SERVER} --hostname=packet-run-${PACKET_RUN_TERMINAL_ID}'
+ExecStart=/usr/sbin/tailscaled
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target 
