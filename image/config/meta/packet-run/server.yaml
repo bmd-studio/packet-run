@@ -25,12 +25,12 @@ mmdebstrap:
     EOCHROOT
 
   # Install Litestream
+  - PATH=$1/usr/bin:$PATH wget -O $1/tmp/litestream.deb https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-arm64.deb
   - |
     chroot $1 bash -- <<- EOCHROOT
-    wget -O /tmp/litestream.deb https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-amd64.deb
     dpkg -i /tmp/litestream.deb
-    rm /tmp/litestream.deb
     EOCHROOT
+  - rm $1/tmp/litestream.deb
 
   # Configure Litestream
   - |
