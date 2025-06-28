@@ -13,13 +13,14 @@ printf 'Booting...\n'
 # git pull || true
 
 # Export all config entries in packet_run_config.txt as environment variables
-export $(grep -v '^#' /boot/packet_run_config.txt | xargs)
+export $(grep -v '^#' /boot/firmware/packet_run_config.txt | xargs)
 
 # Generate the origin
 ORIGIN="http://$PACKET_RUN_SERVER_IP:3000"
 
 # Create a Chrome policy that allows access to the serial ports
 POLICY="{\"SerialAllowAllPortsForUrls\":[\"$ORIGIN\"]}"
+sudo mkdir -p /etc/chromium/policies/managed
 echo "$POLICY" | sudo tee /etc/chromium/policies/managed/policy.json >/dev/null
 
 # Wait for the origin to become available
@@ -31,10 +32,9 @@ done
 printf '\nHost was found and available! Launching Packet Run...\n'
 
 # Then, launch Chromium based on those variables
-chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
+/usr/bin/cage -- /usr/bin/chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
     --start-fullscreen \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \
-    --test-type &> /dev/null &
-node $(dirname $0)/hall-sensor-server/src/index.js &
-wait
+    --test-type \
+    --ozone-platform=wayland

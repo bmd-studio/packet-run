@@ -17,5 +17,6 @@ export default class DatabasePragmasService implements OnModuleInit {
         (this.orm as MikroORMSQLite).em.execute('PRAGMA temp_store = memory;');
         (this.orm as MikroORMSQLite).em.execute('PRAGMA cache_size = -512000;');
         (this.orm as MikroORMSQLite).em.execute('PRAGMA mmap_size = 30000000000;');
+        (this.orm as MikroORMSQLite).em.execute('PRAGMA busy_timeout = 5000');
     }
 }

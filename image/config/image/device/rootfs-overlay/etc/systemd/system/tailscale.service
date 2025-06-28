@@ -1,0 +1,15 @@
+[Unit]
+Description=Tailscale VPN Service
+After=network.target systemd-networkd-wait-online@eth0.service overlayfs-check.service systemd-resolved.service
+Requires=overlayfs-check.service systemd-networkd-wait-online@eth0.service
+Before=hall-sensor-server.service kiosk.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/tailscale-setup.sh
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target 

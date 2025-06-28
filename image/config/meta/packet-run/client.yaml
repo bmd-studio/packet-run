@@ -1,0 +1,34 @@
+---
+name: packet-run-client
+mmdebstrap:
+  packages:
+  - chromium
+
+  customize-hooks:
+  # Install hall-sensor-server dependencies
+  - cd $1/opt/packet-run/client/hall-sensor-server && PATH=$1/usr/bin:$PATH npm install
+
+  # Make boot script executable
+  - chmod +x $1/opt/packet-run/client/boot_packet_run.sh
+
+  # Create hall-sensor-server service from template
+  - |
+    cat ./packet-run/hall-sensor-server.service.tpl | sed \
+      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      > $1/etc/systemd/system/hall-sensor-server.service
+
+  # Create kiosk service from template
+  - |
+    cat ./packet-run/kiosk.service.tpl | sed \
+      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      -e "s|<USER_ID>|$(id -u ${IGconf_device_user1})|g" \
+      > $1/etc/systemd/system/kiosk.service
+
+  # Set proper ownership for client files
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
+    EOCHROOT
+
+  # Enable services
+  - $BDEBSTRAP_HOOKS/enable-units "$1" hall-sensor-server kiosk gpio-setup

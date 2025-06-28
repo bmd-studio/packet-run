@@ -1,0 +1,13 @@
+services:
+  packet-run-rpi-img-builder:
+    build:
+      context: ..
+      dockerfile: image/Dockerfile
+    platform: linux/arm64
+    container_name: packet-run-rpi-img-builder
+    restart: unless-stopped
+    volumes:
+      - ./config:/home/imagegen/rpi-image-gen/packet-run
+      - ./deploy:/home/imagegen/rpi-image-gen/deploy
+    working_dir: /home/imagegen/rpi-image-gen
+    privileged: true

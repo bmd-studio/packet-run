@@ -1,0 +1,47 @@
+---
+name: packet-run-server
+mmdebstrap:
+  customize-hooks:
+  # Install server dependencies and build
+  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build
+
+  # Create packet-run-server service from template
+  - |
+    cat ./packet-run/packet-run-server.service.tpl | sed \
+      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      > $1/etc/systemd/system/packet-run-server.service
+
+  # Copy server-specific overlay
+  - cp -R ./packet-run/image/device/server/rootfs-overlay/* $1/
+
+  # Install Litestream
+  - PATH=$1/usr/bin:$PATH wget -O $1/tmp/litestream.deb https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-arm64.deb
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    dpkg -i /tmp/litestream.deb
+    EOCHROOT
+  - rm $1/tmp/litestream.deb
+
+  # Configure Litestream
+  - |
+    cat ./packet-run/litestream.yaml.tpl | sed \
+      -e "s|<LITESTREAM_ACCESS_KEY>|${IGconf_litestream_access_key}|g" \
+      -e "s|<LITESTREAM_ACCESS_SECRET>|${IGconf_litestream_access_secret}|g" \
+      -e "s|<LITESTREAM_REGION>|${IGconf_litestream_region}|g" \
+      -e "s|<LITESTREAM_ENDPOINT>|${IGconf_litestream_endpoint}|g" \
+      -e "s|<LITESTREAM_BUCKET>|${IGconf_litestream_bucket}|g" \
+      > $1/etc/litestream.yml
+
+  # Enable services
+  - $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server isc-dhcp-server litestream
+
+  # Set proper ownership for client files
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
+    EOCHROOT
+
+  packages:
+  - isc-dhcp-server
+  - iptables-persistent
+  - redis

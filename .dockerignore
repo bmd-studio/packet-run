@@ -1,0 +1,30 @@
+image/output/**
+!image/output/.gitignore
+image/deploy/**
+!image/deploy/.gitignore
+image/config/my.options
+
+server/packages/backend/data/images/**
+server/packages/backend/data/packet-run.db
+server/packages/backend/data/packet-run.db-shm
+server/packages/backend/data/packet-run.db-wal
+
+# Node
+**/node_modules
+
+# Build outputs
+output/
+**/dist
+**/build
+**/.turbo
+**/.next
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+*.swp
+*.swo
+
