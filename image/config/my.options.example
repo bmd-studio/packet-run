@@ -14,3 +14,4 @@ litestream_access_key=
 litestream_access_secret=
 litestream_endpoint=
 litestream_bucket=packet-run
+litestream_region=

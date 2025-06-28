@@ -37,6 +37,7 @@ mmdebstrap:
     cat ./packet-run/litestream.yaml.tpl | sed \
       -e "s|<LITESTREAM_ACCESS_KEY>|${IGconf_litestream_access_key}|g" \
       -e "s|<LITESTREAM_ACCESS_SECRET>|${IGconf_litestream_access_secret}|g" \
+      -e "s|<LITESTREAM_REGION>|${IGconf_litestream_region}|g" \
       -e "s|<LITESTREAM_ENDPOINT>|${IGconf_litestream_endpoint}|g" \
       -e "s|<LITESTREAM_BUCKET>|${IGconf_litestream_bucket}|g" \
       > $1/etc/litestream.yml

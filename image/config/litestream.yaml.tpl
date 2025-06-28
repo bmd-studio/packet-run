@@ -4,6 +4,7 @@ dbs:
       - type: s3
         bucket: <LITESTREAM_BUCKET>
         path: db
+        endpoint: <LITESTREAM_ENDPOINT>
+        region: <LITESTREAM_REGION>
         access-key-id: <LITESTREAM_ACCESS_KEY>
-        secret-access-key: <LITESTREAM_ACCESS_SECRET>
-        endpoint: <LITESTREAM_ENDPOINT> 
+        secret-access-key: <LITESTREAM_ACCESS_SECRET> 
