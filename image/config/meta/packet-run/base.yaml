@@ -51,3 +51,8 @@ mmdebstrap:
   - curl
   - busybox
   - systemd-resolved
+  - less
+  - iproute2
+  - htop
+  - libnfc-bin
+  - libnfc-dev
