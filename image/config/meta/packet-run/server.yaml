@@ -2,21 +2,18 @@
 name: packet-run-server
 mmdebstrap:
   customize-hooks:
-  - |
-    # Load application code
-    cp -R /opt/packet-run/server $1/opt/packet-run/server/
+  # Load application code
+  - mkdir -p $1/opt/packet-run/
+  - cp -R /opt/packet-run/server $1/opt/packet-run/
 
     # Install server dependencies and build
-    cd $1/opt/packet-run/server/
-    npm install
-    npm run build
+  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && npm run build
 
     # Create packet-run-server service from template
+  - |
     cat ./packet-run/packet-run-server.service.tpl | sed \
       -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
       > $1/etc/systemd/system/packet-run-server.service
 
-    # Enable service
-    $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server
-
-  packages:
+  # Enable service
+  - $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server
