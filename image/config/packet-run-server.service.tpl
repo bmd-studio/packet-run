@@ -10,6 +10,7 @@ WorkingDirectory=/opt/packet-run/server
 ExecStart=/usr/bin/npm start
 Restart=on-failure
 Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_MODE=distributed
 
 [Install]
 WantedBy=multi-user.target 

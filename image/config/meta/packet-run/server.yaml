@@ -7,7 +7,7 @@ mmdebstrap:
   - cp -R /opt/packet-run/server $1/opt/packet-run/
 
   # Install server dependencies and build
-  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH npm run build
+  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build
 
   # Create packet-run-server service from template
   - |
