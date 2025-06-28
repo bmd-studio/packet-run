@@ -1,0 +1,12 @@
+[Unit]
+Description=Packet Run Update Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/packet-run-update.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target 
