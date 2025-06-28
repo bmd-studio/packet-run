@@ -1,0 +1,12 @@
+[Unit]
+Description=Tailscale VPN Service
+After=network.target network-online.target overlayfs-check.service
+Requires=overlayfs-check.service network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'source /boot/firmware/packet_run_config.txt && /usr/bin/tailscale up --authkey="${TAILSCALE_AUTH_KEY}" --login-server="${TAILSCALE_LOGIN_SERVER:-https://login.tailscale.com}" --hostname="packet-run-${PACKET_RUN_TERMINAL_ID:-1}"'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target 

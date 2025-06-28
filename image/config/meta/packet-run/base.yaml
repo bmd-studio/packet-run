@@ -24,12 +24,6 @@ mmdebstrap:
       -e "s|<TAILSCALE_LOGIN_SERVER>|${IGconf_tailscale_login_server:-https://login.tailscale.com}|g" \
       > $1/boot/firmware/packet_run_config.txt
 
-  # Create tailscale service from template
-  - |
-    cat ./packet-run/tailscale.service.tpl | sed \
-      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
-      > $1/etc/systemd/system/tailscale.service
-
   # Copy common rootfs-overlay
   - cp -R ./packet-run/image/device/rootfs-overlay/* $1/
 
