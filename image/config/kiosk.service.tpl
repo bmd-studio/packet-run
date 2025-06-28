@@ -1,14 +1,13 @@
 [Unit]
-Description=Packet Run Kiosk
-After=network.target hall-sensor-server.service
-Requires=hall-sensor-server.service
+Description=Kiosk Browser Service
+After=network.target overlayfs-check.service
+Requires=overlayfs-check.service
 
 [Service]
 Type=simple
 User=<SERVICE_USER>
-ExecStart=/opt/packet-run/client/boot_packet_run.sh
-Restart=always
-RestartSec=10
+ExecStart=/usr/bin/cage -- /usr/bin/chromium-browser --kiosk --noerrdialogs --disable-infobars http://localhost:3000
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target 

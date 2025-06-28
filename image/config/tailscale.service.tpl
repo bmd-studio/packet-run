@@ -1,13 +1,14 @@
 [Unit]
-Description=Tailscale Node
-After=network.target
+Description=Tailscale VPN Service
+After=network.target overlayfs-check.service
+Requires=overlayfs-check.service
 
 [Service]
 Type=simple
 User=<SERVICE_USER>
 PreExecStart=/bin/sh -c 'export $(grep -v "^#" /boot/packet_run_config.txt | xargs); /usr/bin/tailscale up --authkey=${TAILSCALE_AUTH_KEY} --login-server=${TAILSCALE_LOGIN_SERVER} --hostname=packet-run-${PACKET_RUN_TERMINAL_ID}'
 ExecStart=/usr/sbin/tailscaled
-Restart=always
+Restart=on-failure
 RestartSec=10
 
 [Install]

@@ -1,13 +1,14 @@
 [Unit]
-Description=Hall Sensor Server
-After=network.target
+Description=Hall Sensor Server Service
+After=network.target overlayfs-check.service
+Requires=overlayfs-check.service
 
 [Service]
 Type=simple
 User=<SERVICE_USER>
-WorkingDirectory=/opt/packet-run/client/hall-sensor-server
+WorkingDirectory=/opt/packet-run/hall-sensor-server
 ExecStart=/usr/bin/npm start
-Restart=always
+Restart=on-failure
 Environment=NODE_ENV=production
 
 [Install]
