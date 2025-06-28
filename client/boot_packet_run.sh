@@ -20,6 +20,7 @@ ORIGIN="http://$PACKET_RUN_SERVER_IP:3000"
 
 # Create a Chrome policy that allows access to the serial ports
 POLICY="{\"SerialAllowAllPortsForUrls\":[\"$ORIGIN\"]}"
+sudo mkdir -p /etc/chromium/policies/managed
 echo "$POLICY" | sudo tee /etc/chromium/policies/managed/policy.json >/dev/null
 
 # Wait for the origin to become available
@@ -31,7 +32,7 @@ done
 printf '\nHost was found and available! Launching Packet Run...\n'
 
 # Then, launch Chromium based on those variables
-chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
+/usr/bin/cage -- /usr/bin/chromium-browser "$ORIGIN/router/$PACKET_RUN_TERMINAL_ID" \
     --start-fullscreen \
     --unsafely-treat-insecure-origin-as-secure=$ORIGIN \
     --hide-crash-restore-bubble \

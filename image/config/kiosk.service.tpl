@@ -7,7 +7,8 @@ Requires=overlayfs-check.service
 Type=simple
 User=<SERVICE_USER>
 Environment=XDG_RUNTIME_DIR=/run/user/<USER_ID>
-ExecStart=/usr/bin/cage -- /usr/bin/chromium-browser --kiosk --noerrdialogs --disable-infobars http://localhost:3000
+Environment=WLR_RENDERER_ALLOW_SOFTWARE=1
+ExecStart=/opt/packet-run/client/boot_packet_run.sh
 Restart=on-failure
 
 [Install]
