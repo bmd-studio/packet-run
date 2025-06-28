@@ -1,5 +1,5 @@
 services:
-  build-client-image:
+  build-image:
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,28 +8,14 @@ services:
     restart: unless-stopped
     volumes:
       - ../client:/opt/packet-run/client
-      - /opt/packet-run/client/hall-sensor-server/node_modules/
+      - client_node_modules:/opt/packet-run/client/hall-sensor-server/node_modules
       - ../server:/opt/packet-run/server
-      - /opt/packet-run/server/node_modules/
+      - server_node_modules:/opt/packet-run/server/node_modules
       - ./config:/home/imagegen/rpi-image-gen/packet-run
       - ./deploy:/home/imagegen/rpi-image-gen/deploy
     working_dir: /home/imagegen/rpi-image-gen
-    command: sh -c './build.sh -D ./packet-run -c packet-run-client -o ./packet-run/my.options; mv /home/imagegen/rpi-image-gen/work/deb12-arm64-min/artefacts/deb12-arm64-min.* ./deploy/'
     privileged: true
-  build-server-image:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    platform: linux/arm64
-    container_name: rpi-image-builder
-    restart: unless-stopped
-    volumes:
-      - ../client:/opt/packet-run/client
-      - /opt/packet-run/client/hall-sensor-server/node_modules/
-      - ../server:/opt/packet-run/server
-      - /opt/packet-run/server/node_modules/
-      - ./config:/home/imagegen/rpi-image-gen/packet-run
-      - ./deploy:/home/imagegen/rpi-image-gen/deploy
-    working_dir: /home/imagegen/rpi-image-gen
-    command: sh -c './build.sh -D ./packet-run -c packet-run-server -o ./packet-run/my.options; mv /home/imagegen/rpi-image-gen/work/deb12-arm64-min/artefacts/deb12-arm64-min.* ./deploy/'
-    privileged: true
+
+volumes:
+  client_node_modules:
+  server_node_modules:

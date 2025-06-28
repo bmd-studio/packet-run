@@ -13,7 +13,7 @@ printf 'Booting...\n'
 # git pull || true
 
 # Export all config entries in packet_run_config.txt as environment variables
-export $(grep -v '^#' /boot/packet_run_config.txt | xargs)
+export $(grep -v '^#' /boot/firmware/packet_run_config.txt | xargs)
 
 # Generate the origin
 ORIGIN="http://$PACKET_RUN_SERVER_IP:3000"

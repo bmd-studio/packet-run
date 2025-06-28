@@ -16,7 +16,7 @@ mmdebstrap:
       > $1/etc/systemd/system/packet-run-server.service
 
   # Copy server-specific overlay
-  - cp -R ./packet-run/device/server/rootfs-overlay/* $1/
+  - cp -R ./packet-run/image/device/server/rootfs-overlay/* $1/
 
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server isc-dhcp-server

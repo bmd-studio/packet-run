@@ -15,15 +15,6 @@ mmdebstrap:
   # Make boot script executable
   - chmod +x $1/opt/packet-run/client/boot_packet_run.sh
 
-  # Create packet_run_config.txt from template
-  - |
-    cat ./packet-run/packet_run_config.txt.tpl | sed \
-      -e "s|<PACKET_RUN_TERMINAL_ID>|${IGconf_packet_run_terminal_id}|g" \
-      -e "s|<PACKET_RUN_SERVER_IP>|${IGconf_packet_run_server_ip}|g" \
-      -e "s|<TAILSCALE_AUTH_KEY>|${IGconf_tailscale_auth_key}|g" \
-      -e "s|<TAILSCALE_LOGIN_SERVER>|${IGconf_tailscale_login_server:-https://login.tailscale.com}|g" \
-      > $1/boot/packet_run_config.txt
-
   # Create hall-sensor-server service from template
   - |
     cat ./packet-run/hall-sensor-server.service.tpl | sed \

@@ -1,4 +1,5 @@
 # Packet Run Terminal Image configuration
+# device_user1pass=
 
 # Terminal configuration
 PACKET_RUN_TERMINAL_ID=1

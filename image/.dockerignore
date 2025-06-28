@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Node
+**/node_modules
+**/npm-debug.log
+**/yarn-debug.log
+**/yarn-error.log
+
+# Build outputs
+output/
+**/dist
+**/build
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Large data files
+*.log
+*.sqlite
+*.db
+
+# Temporary files
+*.tmp
+*.temp 
