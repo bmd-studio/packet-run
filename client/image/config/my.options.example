@@ -1,0 +1,12 @@
+# Packet Run Terminal Image configuration
+
+# Terminal configuration
+PACKET_RUN_TERMINAL_ID=1
+PACKET_RUN_SERVER_IP=10.13.39.205
+
+# Tailscale configuration
+TAILSCALE_AUTH_KEY=tskey-auth-xxxxx
+TAILSCALE_LOGIN_SERVER=https://login.tailscale.com
+
+# SSH configuration
+SSH_PUBLIC_KEY="ssh-rsa AAAA... "
