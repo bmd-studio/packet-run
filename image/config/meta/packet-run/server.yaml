@@ -19,7 +19,10 @@ mmdebstrap:
   - cp -R ./packet-run/image/device/server/rootfs-overlay/* $1/
 
   # Set proper ownership for server files
-  - chown -R ${IGconf_device_user1}:${IGconf_device_user1} $1/opt/packet-run/server
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run/server
+    EOCHROOT
 
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" packet-run-server isc-dhcp-server

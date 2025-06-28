@@ -28,7 +28,10 @@ mmdebstrap:
       > $1/etc/systemd/system/kiosk.service
 
   # Set proper ownership for client files
-  - chown -R ${IGconf_device_user1}:${IGconf_device_user1} $1/opt/packet-run/client
+  - |
+    chroot $1 bash -- <<- EOCHROOT
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run/client
+    EOCHROOT
 
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" hall-sensor-server kiosk
