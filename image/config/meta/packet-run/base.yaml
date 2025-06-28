@@ -36,6 +36,9 @@ mmdebstrap:
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" overlayfs-check tailscale
 
+  # Disable serial console service
+  - $BDEBSTRAP_HOOKS/disable-units "$1" serial-getty@serial0
+
   packages:
   - nodejs
   - tailscale
