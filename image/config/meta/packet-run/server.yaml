@@ -30,3 +30,4 @@ mmdebstrap:
   packages:
   - isc-dhcp-server
   - iptables-persistent
+  - redis
