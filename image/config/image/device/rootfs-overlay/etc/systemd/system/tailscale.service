@@ -8,6 +8,8 @@ Before=hall-sensor-server.service kiosk.service
 Type=oneshot
 ExecStart=/usr/local/bin/tailscale-setup.sh
 RemainAfterExit=yes
+Restart=on-failure
+RestartSec=30
 
 [Install]
 WantedBy=multi-user.target 
