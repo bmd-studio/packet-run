@@ -25,6 +25,7 @@ mmdebstrap:
   - |
     cat ./packet-run/kiosk.service.tpl | sed \
       -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      -e "s|<USER_ID>|$(id -u ${IGconf_device_user1})|g" \
       > $1/etc/systemd/system/kiosk.service
 
   # Set proper ownership for client files
@@ -34,4 +35,4 @@ mmdebstrap:
     EOCHROOT
 
   # Enable services
-  - $BDEBSTRAP_HOOKS/enable-units "$1" hall-sensor-server kiosk
+  - $BDEBSTRAP_HOOKS/enable-units "$1" hall-sensor-server kiosk gpio-setup

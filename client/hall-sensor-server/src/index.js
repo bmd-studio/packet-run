@@ -6,7 +6,7 @@ const PORT = 8000;
 
 async function main() {
     // Create a new Gpio input that listens to the state of hall sensor 
-    const sensor = new Gpio(2, 'in', 'both', { debounceTimeout: 50 });
+    const sensor = new Gpio(514, 'in', 'both', { debounceTimeout: 50 });
     
     // Keep the state in a variable as a boolean
     let state = false;

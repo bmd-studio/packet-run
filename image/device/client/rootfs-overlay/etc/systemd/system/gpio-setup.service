@@ -1,0 +1,12 @@
+[Unit]
+Description=GPIO Setup Service
+After=local-fs.target
+Before=hall-sensor-server.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/gpio-setup.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target 
