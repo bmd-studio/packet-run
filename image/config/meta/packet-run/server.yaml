@@ -35,11 +35,10 @@ mmdebstrap:
   # Configure Litestream
   - |
     cat ./packet-run/litestream.yaml.tpl | sed \
-      -e "s|\${litestream_access_key}|${litestream_access_key}|g" \
-      -e "s|\${litestream_access_secret}|${litestream_access_secret}|g" \
-      -e "s|\${litestream_endpoint}|${litestream_endpoint}|g" \
-      -e "s|\${litestream_bucket}|${litestream_bucket}|g" \
-      -e "s|\${litestream_region}|${litestream_region}|g" \
+      -e "s|<LITESTREAM_ACCESS_KEY>|${IGconf_litestream_access_key}|g" \
+      -e "s|<LITESTREAM_ACCESS_SECRET>|${IGconf_litestream_access_secret}|g" \
+      -e "s|<LITESTREAM_ENDPOINT>|${IGconf_litestream_endpoint}|g" \
+      -e "s|<LITESTREAM_BUCKET>|${IGconf_litestream_bucket}|g" \
       > $1/etc/litestream.yml
 
   # Enable services
