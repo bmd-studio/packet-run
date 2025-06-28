@@ -33,6 +33,9 @@ mmdebstrap:
   # Copy common rootfs-overlay
   - cp -R ./packet-run/image/device/rootfs-overlay/* $1/
 
+  # Make scripts executable
+  - chmod +x $1/usr/local/bin/overlayfs-check.sh
+
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" overlayfs-check tailscale
 
@@ -43,3 +46,4 @@ mmdebstrap:
   - vim
   - git
   - raspi-config
+  - overlayroot
