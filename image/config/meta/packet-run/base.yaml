@@ -15,14 +15,6 @@ mmdebstrap:
   - deb [trusted=yes] https://pkgs.tailscale.com/stable/debian bookworm main
 
   customize-hooks:
-  # Install overlayfs check script
-  - |
-    install -m 755 ./packet-run/overlayfs-check.sh $1/usr/local/bin/overlayfs-check.sh
-
-  # Create overlayfs service from template
-  - |
-    cat ./packet-run/overlayfs-check.service > $1/etc/systemd/system/overlayfs-check.service
-
   # Create tailscale service from template
   - |
     cat ./packet-run/tailscale.service.tpl | sed \
