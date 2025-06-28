@@ -8,3 +8,9 @@ PACKET_RUN_SERVER_IP=10.13.39.205
 # Tailscale configuration
 TAILSCALE_AUTH_KEY=tskey-auth-xxxxx
 TAILSCALE_LOGIN_SERVER=https://login.tailscale.com
+
+# Litestream configuration
+litestream_access_key=
+litestream_access_secret=
+litestream_endpoint=
+litestream_bucket=packet-run
