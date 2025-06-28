@@ -21,6 +21,6 @@ done
 
 # Set permissions for GPIO 514
 if [ -d /sys/class/gpio/gpio514 ]; then
-    chgrp -R gpio /sys/class/gpio/gpio514
-    chmod -R 775 /sys/class/gpio/gpio514
+    chgrp -R gpio /sys/class/gpio/gpio514/
+    chmod -R 775 /sys/class/gpio/gpio514/
 fi 
