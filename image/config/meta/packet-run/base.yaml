@@ -29,6 +29,7 @@ mmdebstrap:
 
   # Make scripts executable
   - chmod +x $1/usr/local/bin/overlayfs-check.sh
+  - chmod +x $1/usr/local/bin/tailscale-setup.sh
 
   # Enable services
   - $BDEBSTRAP_HOOKS/enable-units "$1" overlayfs-check tailscale

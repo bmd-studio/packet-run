@@ -5,7 +5,7 @@ Requires=overlayfs-check.service network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c '. /boot/firmware/packet_run_config.txt && /usr/bin/tailscale up --authkey="${TAILSCALE_AUTH_KEY}" --login-server="${TAILSCALE_LOGIN_SERVER:-https://login.tailscale.com}" --hostname="packet-run-${PACKET_RUN_TERMINAL_ID:-1}"'
+ExecStart=/usr/local/bin/tailscale-setup.sh
 RemainAfterExit=yes
 
 [Install]
