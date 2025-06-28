@@ -41,3 +41,7 @@ mmdebstrap:
   - git
   - raspi-config
   - overlayroot
+  - dnsutils
+  - curl
+  - busybox
+  - systemd-resolved

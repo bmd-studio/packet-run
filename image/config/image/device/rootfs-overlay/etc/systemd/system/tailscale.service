@@ -1,6 +1,6 @@
 [Unit]
 Description=Tailscale VPN Service
-After=network.target network-online.target overlayfs-check.service
+After=network.target network-online.target overlayfs-check.service systemd-resolved.service
 Requires=overlayfs-check.service network-online.target
 
 [Service]
