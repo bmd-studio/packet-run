@@ -1,6 +1,6 @@
-
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
+import { OnBoardingProps } from "./types";
 
 
 const ContentWrapper = styled.div`
@@ -35,19 +35,19 @@ const Image = styled.img`
 `;
 
 export function Explanation3(props: OnBoardingProps) {
-  return (
-    <OnboardingScreen indicator={props}>
-      <ContentWrapper>
-        <TextWrapper>
-          <p>In Packet Run hebben we ook pakketjes en routers.</p>
-          <p>Routers in Packet Run zijn de houten stations</p>
-          <p>Pekketjes zijn de gekleurde balletjes</p>
-        </TextWrapper>
-        <ImageWrapper>
-          <Image src='/onboarding-terminal-and-bal-graphic.svg' />
-        </ImageWrapper>
-      </ContentWrapper>
-    </OnboardingScreen>
-  )
+    return (
+        <OnboardingScreen indicator={props}>
+            <ContentWrapper>
+                <TextWrapper>
+                    <p>In Packet Run hebben we ook pakketjes en routers.</p>
+                    <p>Routers in Packet Run zijn de houten stations</p>
+                    <p>Pekketjes zijn de gekleurde balletjes</p>
+                </TextWrapper>
+                <ImageWrapper>
+                    <Image src='/onboarding-terminal-and-bal-graphic.svg' alt="onboarding terminal and ball graphic" />
+                </ImageWrapper>
+            </ContentWrapper>
+        </OnboardingScreen>
+    )
 
 }

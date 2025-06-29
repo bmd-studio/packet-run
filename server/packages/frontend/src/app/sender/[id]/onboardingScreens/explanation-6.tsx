@@ -1,6 +1,6 @@
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
-
+import { OnBoardingProps } from "./types";
 
 const ContentWrapper = styled.div`
     padding-left: 360px;

@@ -42,16 +42,6 @@ const NextArrow = styled(Arrow)`
   bottom: 0px;
 `;
 
-const StepIndicatorBall = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 2px solid black;
-  border-radius: 100%;
-`;
-const StepIndicatorBallFilled = styled(StepIndicatorBall)`
-  background-color: black;
-`;
-
 const CenterIndicatorWrapper = styled.div`
     width: 100%;
     display: flex;
@@ -88,12 +78,9 @@ export default function BottomBar(props: { stepAmount: number, currentStep: numb
     const steps = [];
     for (let i = 0; i < stepAmount; i++) {
         if (currentStep >= i) {
-            //steps.push(<StepIndicatorBallFilled key={i} />)
             steps.push(<StepIndicatorLetterFilled key={i}>•</StepIndicatorLetterFilled>);
         } else {
-
             steps.push(<StepIndicatorLetter key={i}>o</StepIndicatorLetter>);
-            //steps.push(<StepIndicatorBall key={i} />)
         }
     }
     return (
