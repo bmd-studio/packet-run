@@ -26,7 +26,7 @@ export function hopIsAtGateway(run: PartialRun | null | undefined) {
 }
 
 export function getActualTakenHops(run: PartialRun | null | undefined) {
-    const previousRoutes = run.hops.filter((h) => (
+    const previousRoutes = run?.hops.filter((h) => (
         h.address && h.status === RunHopStatus.Actual
     )).sort((a, b) => a.hop - b.hop);
     return previousRoutes;
