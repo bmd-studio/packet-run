@@ -14,12 +14,21 @@ const CarrouselWrapper = styled.div`
 `;
 
 
-export default function CarrouselIndicator(props: { stepAmount: number, currentStep: number, showSteps?: boolean }) {
-    const { currentStep } = props;
+export interface CarrouselProps {
+    stepAmount: number,
+    currentStep: number,
+    showSteps?: boolean,
+    showArrows?: boolean,
+    hideBottom?: boolean,
+}
+export default function CarrouselIndicator(props: CarrouselProps) {
+    const { currentStep, hideBottom = false } = props;
     return (
         <CarrouselWrapper>
             <EscapeBar showText={currentStep > 0} />
-            <BottomBar {...props} />
+            {hideBottom ? null :
+                <BottomBar {...props} />
+            }
         </CarrouselWrapper>
     );
 }

@@ -1,3 +1,4 @@
+
 import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
 import { OnBoardingProps } from "./types";
@@ -9,12 +10,12 @@ const ContentWrapper = styled.div`
 
 `
 
-export default function Explanation1(props: OnBoardingProps) {
+export default function BallPressScreen(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
                 <p>
-                    Hoi! Leuk dat je er bent!
+                    Volg deze instructies:
                 </p>
 
                 <p>

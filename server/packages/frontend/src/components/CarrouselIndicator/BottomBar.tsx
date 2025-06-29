@@ -72,11 +72,47 @@ const StepIndicatorLetterFilled = styled(StepIndicatorLetter)`
     line-height: 16px;
 `;
 
+function Arrows(props: { showForward: boolean, showBackward: boolean }) {
+    const { showForward, showBackward } = props;
+    return (
+        <>
+            {showBackward ?
+                (<BackArrow>
+                    [{`<-`}] Terug
+                </BackArrow>
+                ) : null
+            }
 
-export default function BottomBar(props: { stepAmount: number, currentStep: number }) {
-    const { stepAmount, currentStep } = props;
+            {
+                showForward ?
+                    (
+                        <NextArrow>
+                            Volgende [{`->`}]
+                        </NextArrow>
+                    ) : null
+            }
+        </>
+    )
+}
+
+export default function BottomBar(props: {
+    stepAmount: number,
+    currentStep: number,
+    showArrows?: boolean,
+    showSteps?: boolean
+}) {
+    const { stepAmount, currentStep, showArrows = true, showSteps = true } = props;
+    let showForward = true;
+    let showBackward = true;
+    if (!showArrows) {
+        showForward = false;
+        showBackward = false;
+    }
+    if (currentStep < 0) {
+        showBackward = false;
+    }
     const steps = [];
-    for (let i = 0; i < stepAmount; i++) {
+    for (let i = 0; i < stepAmount && showSteps; i++) {
         if (currentStep >= i) {
             steps.push(<StepIndicatorLetterFilled key={i}>•</StepIndicatorLetterFilled>);
         } else {
@@ -85,14 +121,10 @@ export default function BottomBar(props: { stepAmount: number, currentStep: numb
     }
     return (
         <BottomBarWrapper>
-            {currentStep < 0 ? null :
-                <BackArrow>
-                    [{`<-`}] Terug
-                </BackArrow>
-            }
-            <NextArrow>
-                Volgende [{`->`}]
-            </NextArrow>
+            <Arrows
+                showBackward={showBackward}
+                showForward={showForward}
+            />
             <CenterIndicatorWrapper>
                 <StepIndicatorWrapper>
                     {

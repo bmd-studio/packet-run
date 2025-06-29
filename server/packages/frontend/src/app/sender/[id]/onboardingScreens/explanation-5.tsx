@@ -34,7 +34,7 @@ const Image = styled.img`
   top: -100px;
 `;
 
-export function Explanation5(props: OnBoardingProps) {
+export default function Explanation5(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>

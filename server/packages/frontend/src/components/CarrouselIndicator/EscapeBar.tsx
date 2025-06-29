@@ -6,8 +6,8 @@ const EscapeWrapper = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
-  height: 48px;
-  padding:32px;
+  height: 112px;
+  padding: 32px;
   font-size: 40px;
   font-weight: 900;
   color: #000;
@@ -15,13 +15,16 @@ const EscapeWrapper = styled.div`
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default function EscapeBar(props: { showText?: boolean }) {
     return (
         <EscapeWrapper>
             {
-                props.showText ?? `[ESC] Beginscherm`
+                props.showText ? `[ESC] Beginscherm` : null
             }
         </EscapeWrapper>
     );

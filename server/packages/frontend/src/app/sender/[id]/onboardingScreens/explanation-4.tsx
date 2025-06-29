@@ -38,7 +38,7 @@ const TopText = styled.p`
 margin-bottom: 60px;
 `
 
-export function Explanation4(props: OnBoardingProps) {
+export default function Explanation4(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
