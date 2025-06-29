@@ -5,7 +5,6 @@ import DestinationBar from "@/components/DestinationBar";
 import { TerminalStatus } from "@/data/generated";
 import RegisterTerminal from '@/components/RegisterTerminal';
 import PacketScanner from '@/components/PacketScanner';
-import Map from '@/components/Map';
 import Grid from '@/components/Grid';
 import { AnimatePresence } from 'framer-motion';
 import Journey from '@/components/Journey';
@@ -13,19 +12,18 @@ import Stars from '@/components/Stars';
 import InfoBox from '@/components/InfoBox';
 import Explanation from '@/components/Explanation';
 import Label from '@/components/Label';
-import { PatternedBackgroundDark } from '@/components/PatternedBackground';
+import RouterMap from '@/components/RouterMap';
 
 export default function Router() {
     return (
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    <PatternedBackgroundDark />
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.ScanningNfc ? (
                             <React.Fragment key="scanning-nfc-content">
                                 <DestinationBar />
-                                <Map />
+                                <RouterMap />
                             </React.Fragment>
                         ) :
                             <>

@@ -72,8 +72,8 @@ const StepIndicatorLetterFilled = styled(StepIndicatorLetter)`
     line-height: 16px;
 `;
 
-function Arrows(props: { showForward: boolean, showBackward: boolean }) {
-    const { showForward, showBackward } = props;
+function Arrows(props: { showForward: boolean, showBackward: boolean, customNextText?: string }) {
+    const { showForward, showBackward, customNextText } = props;
     return (
         <>
             {showBackward ?
@@ -87,7 +87,7 @@ function Arrows(props: { showForward: boolean, showBackward: boolean }) {
                 showForward ?
                     (
                         <NextArrow>
-                            Volgende [{`->`}]
+                            {customNextText ? `${customNextText}` : `Volgende`} [{`->`}]
                         </NextArrow>
                     ) : null
             }
@@ -100,8 +100,15 @@ export default function BottomBar(props: {
     currentStep: number,
     showArrows?: boolean,
     showSteps?: boolean
+    customNextText?: string;
 }) {
-    const { stepAmount, currentStep, showArrows = true, showSteps = true } = props;
+    const {
+        stepAmount,
+        currentStep,
+        showArrows = true,
+        showSteps = true,
+        customNextText
+    } = props;
     let showForward = true;
     let showBackward = true;
     if (!showArrows) {
@@ -124,6 +131,8 @@ export default function BottomBar(props: {
             <Arrows
                 showBackward={showBackward}
                 showForward={showForward}
+                customNextText={customNextText}
+
             />
             <CenterIndicatorWrapper>
                 <StepIndicatorWrapper>

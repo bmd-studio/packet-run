@@ -21,10 +21,10 @@ const ContentWrapper = styled.div`
       margin-bottom: 60px;
     }
 `;
-interface OnBoadingProps extends React.PropsWithChildren {
+export interface OnBoardingProps extends React.PropsWithChildren {
     indicator: CarrouselProps;
 }
-export function OnboardingScreen(props: OnBoadingProps) {
+export function OnboardingScreen(props: OnBoardingProps) {
     const { children, indicator } = props;
     return (
         <Background>

@@ -7,7 +7,6 @@ import PacketScanner from '@/components/PacketScanner';
 import { TerminalStatus } from '@/data/generated';
 import DestinationBar from '@/components/DestinationBar';
 import Journey from '@/components/Journey';
-import Map from '@/components/Map';
 import { TextContainer, Title } from '@/components/Typography';
 import ForgeManager from './manager';
 import styled from 'styled-components';
@@ -16,7 +15,7 @@ import InfoBox from '@/components/InfoBox';
 import React from 'react';
 import Explanation from '@/components/Explanation';
 import Label from '@/components/Label';
-import { PatternedBackgroundDark } from '@/components/PatternedBackground';
+import RouterMap from '@/components/RouterMap';
 
 const Centered = styled(motion.div)`
     display: flex;
@@ -33,12 +32,11 @@ export default function Server() {
         <RegisterTerminal>
             {(terminal) => (
                 <Grid>
-                    <PatternedBackgroundDark />
                     <AnimatePresence>
                         {terminal.status === TerminalStatus.ScanningNfc ? (
                             <React.Fragment key="scanning-nfc-content">
                                 <DestinationBar />
-                                <Map />
+                                <RouterMap />
                             </React.Fragment>
                         ) :
                             <>
