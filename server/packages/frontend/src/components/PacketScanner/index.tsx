@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
 import { useSearchParams } from 'next/navigation';
 import { MODE } from '@/config';
+import { usePathname } from 'next/navigation';
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
@@ -81,6 +82,10 @@ export default function PacketScanner({ children }: PropsWithChildren) {
 
     const [scanNfcForTerminal, { error }] = useScanNfcForTerminalMutation();
     const [resetTerminal] = useResetTerminalMutation();
+
+    const pathname = usePathname();
+    const isLightBackground = pathname.includes('sender') || pathname.includes('receiver');
+    const background = isLightBackground ? 'light' : 'dark';
 
     useEffect(() => {
         // GUARD: If we're in standalone mode and the NFC ID is passed as a search parameter, scan the NFC for the terminal
@@ -175,6 +180,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                             || terminal.status === TerminalStatus.CreatedPacket
                             ? 'scanned' 
                             : (nfcId ? 'scanning' : 'empty')}
+                    background={background}
                 />
             </RestContainer>
             <Card>
@@ -184,9 +190,9 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                 <CardInnerContainer>
                     {terminal.status === TerminalStatus.Idle && (
                         error && nfcId ? (
-                            <h3>Invalid packet detected</h3>
+                            <h3>Invaliede pakketje gescand</h3>
                         ) : (
-                            <h3>No packet detected</h3>
+                            <h3>Geen pakketje gescand</h3>
                         )
                     )}
                     {terminal.run && (
@@ -196,26 +202,9 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                     ) && (
                         <>
                             <div>
-                                <Label>Packet ID</Label>
-                                <Text>{terminal.run.id}</Text>
-                            </div>
-                            <div>
-                                <Label>Destination</Label>
+                                <Label>Verzoek voor website</Label>
                                 <Text>{terminal.run.url}</Text>
                             </div>
-                            <IPs>
-                                <div>
-                                    <Label>Source IP</Label>
-                                    <Text>{terminal.run.origin?.ip || '???'}</Text>
-                                </div>
-                                <div>
-                                    <Text><img src="/arrow-right.png" /></Text>
-                                </div>
-                                <div>
-                                    <Label>Destination IP</Label>
-                                    <Text>{terminal.run.destination?.ip || '???'}</Text>
-                                </div>
-                            </IPs>
                         </>
                     )}
                 </CardInnerContainer>
