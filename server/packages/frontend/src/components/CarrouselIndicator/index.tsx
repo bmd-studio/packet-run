@@ -22,6 +22,7 @@ export interface CarrouselProps {
     hideBottom?: boolean,
     customNextText?: string;
 }
+
 export default function CarrouselIndicator(props: CarrouselProps) {
     const { currentStep, hideBottom = false } = props;
     return (

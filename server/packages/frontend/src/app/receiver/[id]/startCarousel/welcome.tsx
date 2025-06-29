@@ -1,8 +1,8 @@
 'use client';
 
 import { OnboardingScreen } from '@/components/OnBoardingScreen';
-import { OffboardingScreenProps } from './types';
 import { styled } from 'styled-components';
+import { OffboardingScreenProps } from '../types';
 
 const WelcomeWrapper = styled.div`
   width: 100%;

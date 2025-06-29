@@ -9,6 +9,7 @@ import { ApolloError } from "@apollo/client";
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
+
 export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloError | undefined] {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
