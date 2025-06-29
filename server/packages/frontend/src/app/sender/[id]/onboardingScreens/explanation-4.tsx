@@ -1,0 +1,63 @@
+
+import { OnboardingScreen } from "@/components/OnBoardingScreen";
+import { styled } from 'styled-components';
+
+
+const ContentWrapper = styled.div`
+    padding-left: 200px;
+    padding-right: 140px;
+    display: flex;
+    flex-direction: row;
+    gap:32px;
+    height: 100%;
+`
+
+const TextWrapper = styled.div`
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 66%;
+`;
+
+const ImageWrapper = styled.div`
+  flex-grow: 1;
+  height: 100%;
+`;
+const Image = styled.img`
+  width: 110%;
+`;
+const OrderedList = styled.ol`
+  list-style: decimal;
+  font-size: 40px;
+  box-sizing: border-box;
+  padding-left: 72px;
+`;
+const TopText = styled.p`
+margin-bottom: 60px;
+`
+
+export function Explanation4(props: OnBoardingProps) {
+  return (
+    <OnboardingScreen indicator={props}>
+      <ContentWrapper>
+        <TextWrapper>
+          <TopText>
+            Hoe gebruik je de bal en router?
+          </TopText>
+          <OrderedList>
+            <li>Je bal komt in de container aangerold</li>
+            <li>Plaats de bal op de scanner</li>
+            <li>Lees de informatie op het scherm</li>
+            <li>Gooi bal door 1 van de gaten, en volg waar je bal naartoe gaat</li>
+          </OrderedList>
+        </TextWrapper>
+        <ImageWrapper>
+          <Image src='/onboarding-terminal-graphic.svg' />
+        </ImageWrapper>
+      </ContentWrapper>
+    </OnboardingScreen>
+  )
+
+}

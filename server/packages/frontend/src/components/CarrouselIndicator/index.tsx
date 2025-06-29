@@ -10,6 +10,7 @@ const CarrouselWrapper = styled.div`
   top: 0px;
   left: 0px;
   z-index: 3;
+  pointer-events:none;
 `;
 
 

@@ -69,22 +69,40 @@ const StepIndicatorWrapper = styled.div`
   height: auto;
 `;
 
+const StepIndicatorLetter = styled.h3`
+    color: black;
+    width: 20px;
+    height: 20px;
+    line-height: 12px;
+    font-size: 44px;
+    text-transform: lowercase
+`;
+const StepIndicatorLetterFilled = styled(StepIndicatorLetter)`
+    font-size: 50px;
+    line-height: 16px;
+`;
+
 
 export default function BottomBar(props: { stepAmount: number, currentStep: number }) {
     const { stepAmount, currentStep } = props;
     const steps = [];
     for (let i = 0; i < stepAmount; i++) {
         if (currentStep >= i) {
-            steps.push(<StepIndicatorBallFilled key={i} />)
+            //steps.push(<StepIndicatorBallFilled key={i} />)
+            steps.push(<StepIndicatorLetterFilled key={i}>•</StepIndicatorLetterFilled>);
         } else {
-            steps.push(<StepIndicatorBall key={i} />)
+
+            steps.push(<StepIndicatorLetter key={i}>o</StepIndicatorLetter>);
+            //steps.push(<StepIndicatorBall key={i} />)
         }
     }
     return (
         <BottomBarWrapper>
-            <BackArrow>
-                [{`<-`}] Terug
-            </BackArrow>
+            {currentStep < 0 ? null :
+                <BackArrow>
+                    [{`<-`}] Terug
+                </BackArrow>
+            }
             <NextArrow>
                 Volgende [{`->`}]
             </NextArrow>
