@@ -1,4 +1,5 @@
 import { TerminalStatus, TerminalType } from '@/data/generated';
+import { useMemo } from 'react';
 import { styled } from 'styled-components';
 const InstructionsTextContainer = styled.div`
     max-width: 100%;
@@ -93,9 +94,13 @@ function InstructionTextSelection(type: InstructionTextType) {
 }
 
 export default function InstructionText(props: { type: InstructionTextType }) {
+    const text = useMemo(() => (
+        InstructionTextSelection(props.type)
+    ), [props.type]);
+
     return (
         <InstructionsTextContainer>
-            {InstructionTextSelection(props.type)}
+            {text}
         </InstructionsTextContainer>
     );
 }
