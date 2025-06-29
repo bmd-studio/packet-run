@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
+import LabeledHeader from '../LabeledHeader';
 
 export type RouteTypes = 'alternative' | 'recommended' | 'back' | 'wormhole';
 export interface RouteCardProps extends PropsWithChildren {
@@ -129,10 +130,9 @@ export default function RouteCard(props: RouteCardProps) {
             <DestinationBar>
                 {destination}
             </DestinationBar>
-            <NameContainer>
+            <LabeledHeader label={<Type type={type} />}>
                 {name}
-                <Type type={type} />
-            </NameContainer>
+            </LabeledHeader>
             <ExplanationContainer>
                 {renderOwnerContainer ? (
                     <OwnerContainer>
