@@ -1,4 +1,3 @@
-'use client';
 /* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -701,7 +700,7 @@ export const GetTerminalTypeDocument = gql`
  *   },
  * });
  */
-export function useGetTerminalTypeQuery(baseOptions: Apollo.QueryHookOptions<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>) {
+export function useGetTerminalTypeQuery(baseOptions: Apollo.QueryHookOptions<GetTerminalTypeQuery, GetTerminalTypeQueryVariables> & ({ variables: GetTerminalTypeQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>(GetTerminalTypeDocument, options);
       }
@@ -709,8 +708,13 @@ export function useGetTerminalTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>(GetTerminalTypeDocument, options);
         }
+export function useGetTerminalTypeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>(GetTerminalTypeDocument, options);
+        }
 export type GetTerminalTypeQueryHookResult = ReturnType<typeof useGetTerminalTypeQuery>;
 export type GetTerminalTypeLazyQueryHookResult = ReturnType<typeof useGetTerminalTypeLazyQuery>;
+export type GetTerminalTypeSuspenseQueryHookResult = ReturnType<typeof useGetTerminalTypeSuspenseQuery>;
 export type GetTerminalTypeQueryResult = Apollo.QueryResult<GetTerminalTypeQuery, GetTerminalTypeQueryVariables>;
 export const AllTerminalsDocument = gql`
     subscription AllTerminals {
@@ -911,7 +915,7 @@ ${RegisterTerminalRunHopFragmentDoc}`;
  *   },
  * });
  */
-export function useRegisterTerminalSubscription(baseOptions: Apollo.SubscriptionHookOptions<RegisterTerminalSubscription, RegisterTerminalSubscriptionVariables>) {
+export function useRegisterTerminalSubscription(baseOptions: Apollo.SubscriptionHookOptions<RegisterTerminalSubscription, RegisterTerminalSubscriptionVariables> & ({ variables: RegisterTerminalSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<RegisterTerminalSubscription, RegisterTerminalSubscriptionVariables>(RegisterTerminalDocument, options);
       }
