@@ -62,7 +62,7 @@ function AlternativeHopText(hop: RegisterTerminalRunHopFragment, run: PartialRun
         potentialTexts.push((
             <p>
                 Vraagtekens ????<br></br>
-                Dat is een onbekende route! Soms kunnen we niet zien hoe je pakketje reist.De weg bestaat wel, maar blijft een mysterie.Spannend!
+                Dat is een onbekende route! Soms kunnen we niet zien hoe je pakketje reist. De weg bestaat wel, maar blijft een mysterie. Spannend!
             </p >
         ));
     }

@@ -17,16 +17,8 @@ const Container = styled.div`
    position:absolute; 
    left: 244px;
    bottom: 38px;
-   z-index: 5;
 `;
-const Header = styled.h2`
-    font-size: 20px;
-    color: black;
-    width: 100%;
-    height: 34px;
-    padding-left: 16px;
-    background-color:var(--background-light-gray);
-`;
+
 const MapContainer = styled.div`
     height: calc(50vh - 34px);
     overflow: hidden;
@@ -192,7 +184,9 @@ export default function Map() {
             style={{
                 gridArea: 'main',
                 willChange: 'transform',
-                transform: 'translateZ(0)'
+                transform: 'translateZ(0)',
+                zIndex: '20',
+                pointerEvents: 'none',
             }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}

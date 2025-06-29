@@ -60,6 +60,14 @@ export default function DestinationBar() {
     ), [sortedConnections, run]);
     console.log({ sortedHops });
     const latestKnownHop = retrieveLatestKnownHop(run);
+    const ConnectionCards = sortedConnections.map((conn, index) => {
+        return (
+            <RouteCard
+                key={`${index}-${conn.to.id}-${conn.slot}`}
+                name={`Route ${index + 1}`}
+            />
+        );
+    })
 
     const RouteCards = sortedHops.map((hop, index) => {
         if (!hop) {
@@ -80,7 +88,7 @@ export default function DestinationBar() {
             <Link
 
                 key={hop?.id || `null-hop-${index}`}
-                href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run.nfcId || ''}`}
+                href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run?.nfcId || ''}`}
             >
                 <RouteCard
                     key={name}
@@ -96,12 +104,14 @@ export default function DestinationBar() {
                 </RouteCard>
             </Link>
         )
-
-
     });
 
     if (!run?.availableHops) {
-        return null;
+        return (
+            <Container>
+                {ConnectionCards}
+            </Container>
+        );
     }
     return (
         <Container>
