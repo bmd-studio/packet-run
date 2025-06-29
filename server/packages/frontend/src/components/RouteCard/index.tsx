@@ -1,12 +1,13 @@
+import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 
-type RouteTypes = 'alternative' | 'recommended' | 'back';
-export interface RouteCardProps {
+export type RouteTypes = 'alternative' | 'recommended' | 'back' | 'wormhole';
+export interface RouteCardProps extends PropsWithChildren {
     name: string;
     type?: RouteTypes;
     destination?: string;
     owner?: string;
-    distance?: number;
+    distance?: number | string;
     explanation?: string;
 }
 
@@ -32,11 +33,13 @@ function getBackgroundColorForRouteType(routeType?: RouteTypes) {
             return 'var(--gray)';
         case 'recommended':
             return 'var(--green)';
+        case 'wormhole':
+            return 'var(--green)';
     }
     return '#FFFFFF00'
 }
 
-const RouteTypeContainer = styled.div < { routeType?: RouteTypes } > `
+const RouteTypeContainer = styled.div<{ routeType?: RouteTypes }>`
   padding-left: 16px;
   padding-right: 16px;
   background-color: ${props => getBackgroundColorForRouteType(props.routeType)};
@@ -57,7 +60,8 @@ function Type(props: { type?: RouteTypes }) {
     const typeText: Record<RouteTypes, string> = {
         alternative: 'Alternatief',
         recommended: 'Aanbevolen',
-        back: 'Terug'
+        back: 'Terug',
+        wormhole: 'Internetpoort',
     }
 
     return (
@@ -106,24 +110,29 @@ const ExplanationContainer = styled.div`
     font-size: 18px;
     box-sizing: border-box;
 `;
-const Explanation = styled.p`
+const Explanation = styled.div`
     color: white;
     font-size: 18px;
     padding: 16px;
+    & p {
+        color: white;
+        font-size: 18px;
+    }
 `;
 
+
 export default function RouteCard(props: RouteCardProps) {
-    const { name = '', type, destination, owner, distance, explanation } = props;
+    const { name = '', type, destination, owner, distance, explanation, children } = props;
     const renderOwnerContainer = !!owner || !!distance;
     return (
         <Container>
+            <DestinationBar>
+                {destination}
+            </DestinationBar>
             <NameContainer>
                 {name}
                 <Type type={type} />
             </NameContainer>
-            <DestinationBar>
-                {destination}
-            </DestinationBar>
             <ExplanationContainer>
                 {renderOwnerContainer ? (
                     <OwnerContainer>
@@ -133,6 +142,7 @@ export default function RouteCard(props: RouteCardProps) {
                 }
                 <Explanation>
                     {explanation}
+                    {children}
                 </Explanation>
             </ExplanationContainer>
         </Container>

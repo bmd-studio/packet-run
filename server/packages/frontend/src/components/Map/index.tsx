@@ -4,7 +4,7 @@ import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { MAPBOX_TOKEN } from '@/config';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
-import 'mapbox-gl/dist/mapbox-gl.css'; 
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { RegisterTerminalRunHopFragment, RunHopStatus, TerminalType } from '@/data/generated';
 import runHopToCoords from '@/lib/runHopToCoords';
 import generatePulsingDot from './pulsingDot';
@@ -12,11 +12,14 @@ import curvedLine from './curvedLine';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 
 const MapContainer = styled.div`
-    height: 100vh;
+    height: 50vh;
     overflow: hidden;
     position: relative;
     overflow: hidden;
+    width: 50vw;
+    border: 1px solid white;
 `;
+
 
 export default function Map() {
     const terminal = useTerminal();
@@ -76,13 +79,13 @@ export default function Map() {
         }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
 
         // Fit the map to the resulting bounds
-        map.current?.fitBounds(bounds, { 
-            padding: { top: 340, left: 200, bottom: 200, right: 100 }, 
+        map.current?.fitBounds(bounds, {
+            padding: { top: 340, left: 200, bottom: 200, right: 100 },
             minZoom: 7,
             maxZoom: 12,
             animate: false,
         });
-       
+
         map.current.on('load', () => {
             // Create a marker for each coordinate
             markers.forEach((coord) => {
@@ -112,9 +115,9 @@ export default function Map() {
                         });
                     }
                 } else {
-                    new mapboxgl.Marker({ 
-                        color: coord[0] === lng ? 'var(--yellow)' : '#666',
-                        scale: 1.5,
+                    new mapboxgl.Marker({
+                        color: coord[0] === lng ? 'var(--orange)' : '#666',
+                        scale: 1.0,
                     }).setLngLat(coord)
                         .addTo(map.current as mapboxgl.Map);
                 }
@@ -176,7 +179,7 @@ export default function Map() {
     return (
         <motion.div
             key="map"
-            style={{ 
+            style={{
                 gridArea: 'main',
                 willChange: 'transform',
                 transform: 'translateZ(0)'
