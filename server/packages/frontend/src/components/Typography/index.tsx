@@ -19,6 +19,21 @@ export function Title({ children, ...rest }: TextWithStrokeProps) {
     );
 }
 
+export function InstructionTitle({ children, ...rest }: TextWithStrokeProps) {
+    return (
+        <TextWithStroke
+            fontSize="80"
+            height={68}
+            stroke="var(--light-gray)"
+            fontFamily="var(--font-doto)"
+            strokeWidth={12}
+            {...rest}
+        >
+            {children}
+        </TextWithStroke>
+    );
+}
+
 export function Subtitle({ children, ...rest }: TextWithStrokeProps) {
     return (
         <TextWithStroke
@@ -70,6 +85,5 @@ export function TextWithStroke({ children, height, stroke, strokeWidth, ...rest 
 export const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    align-items: center;
+    align-items: left;
 `;

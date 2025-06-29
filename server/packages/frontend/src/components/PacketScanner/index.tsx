@@ -1,4 +1,5 @@
-import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
+ 
+import { TerminalStatus, TerminalType, useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
@@ -10,19 +11,26 @@ import ScannerTimeoutBar from '../ScannerTimeoutBar';
 import { useSearchParams } from 'next/navigation';
 import { MODE } from '@/config';
 import { usePathname } from 'next/navigation';
+import Label from '../Label';
+
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
 
 const Container = styled(motion.div)`
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 360px;
+    height: 1042px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: space-between;
     gap: 32px;
-    grid-area: packet;
-    padding: 64px 32px 0 32px;
-    overflow: scroll;
+    transform: translateX(-216px);
+    z-index: 4; // Make sure it's in front of the element below
 `;
 
 const RestContainer = styled.div`
@@ -31,46 +39,54 @@ const RestContainer = styled.div`
     justify-content: center;
     flex-grow: 1;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
     gap: 32px;
 `;
 
-const Card = styled.div`
-    flex-grow: 0;
-    width: 66%;
+const PacketDescriptionTextContainer = styled(motion.div)`
+    background-color: var(--orange);
+    width: 360px; 
+    height: 104px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column-reverse;
 `;
 
-const CardHeader = styled.h4`
-    background-color: var(--medium-gray );
-    padding: 8px 32px;
-    font-size: 24px;
-`;
-
-const CardInnerContainer = styled(motion.div)`
-    background-color: var(--light-gray);
-    padding: 32px;
-    font-size: 32px;
+const PacketDescriptionContainer = styled(motion.div)`
+    width: 360px; 
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: flex-start;
 `;
 
-const Label = styled.p`
-    font-size: 20px;
+const InstructionsContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    text-align: left;
+    gap: 32px;
 `;
 
-const Text = styled.h2`
-    font-size: 30px;
-    line-height: 28px;
+const InstructionsTextContainer = styled.div`
+    max-width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+`;
+
+const InstructionsTitle = styled.div`
+  font-size: 48px;
+  line-height: 48px;
+  color: var(--white); 
+  text-transform: none;
+`;
+
+const Text = styled.p`
+    font-size: 24px;
+    line-height: 34px;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-`;
-
-const IPs = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 `;
 
 export default function PacketScanner({ children }: PropsWithChildren) {
@@ -86,6 +102,16 @@ export default function PacketScanner({ children }: PropsWithChildren) {
     const pathname = usePathname();
     const isLightBackground = pathname.includes('sender') || pathname.includes('receiver');
     const background = isLightBackground ? 'light' : 'dark';
+
+    const typeLabels: Record<string, string> = {
+        GATEWAY: 'de internet poort',
+        ROUTER: 'een router', 
+        SERVER: 'een server',
+        SENDER: 'de computer',
+        RECEIVER: 'de computer',
+      };
+    
+      const translatedType = typeLabels[terminal.type] || terminal.type;
 
     useEffect(() => {
         // GUARD: If we're in standalone mode and the NFC ID is passed as a search parameter, scan the NFC for the terminal
@@ -158,57 +184,66 @@ export default function PacketScanner({ children }: PropsWithChildren) {
             {scannerTimeout && (
                 <ScannerTimeoutBar start={scannerTimeout[0]} end={scannerTimeout[1]} />
             )}
-            <RestContainer>
-                {children || [
-                    terminal.status === TerminalStatus.Idle && (
-                        <TextContainer key="idle">
-                            <Title>PLACE YOUR PACKET</Title>
-                            <Title>ON THE SCANNER</Title>
-                        </TextContainer>
-                    ),
-                    terminal.status === TerminalStatus.ScanningNfc && (
-                        <TextContainer key="scanning-nfc">
-                            <Title>GUIDE YOUR</Title>
-                            <Title>PACKET ONWARDS</Title>
-                        </TextContainer>
-                    )
-                ]}
-                <ScannerAnimation
-                    variant={
-                        terminal.status === TerminalStatus.ScanningNfc 
+            
+            <InstructionsContainer>
+                <Label>
+                    INSTRUCTIES
+                </Label>
+                    {children || [
+                        terminal.status === TerminalStatus.Idle && (
+                            <InstructionsTextContainer key="idle">
+                                <InstructionsTitle>Welkom bij {translatedType}.</InstructionsTitle><br></br> 
+                                <InstructionsTitle>Lees eerst links de uitleg.</InstructionsTitle>
+                            </InstructionsTextContainer>
+                        ),
+                        terminal.status === TerminalStatus.ScanningNfc && (
+                            <InstructionsTextContainer key="scanning-nfc">
+                                <InstructionsTitle>Jij kiest de volgende route! Pak de bal, en werp die in een van de routes.</InstructionsTitle>
+                            </InstructionsTextContainer>
+                        ),
+                        terminal.type === TerminalType.Server && terminal.status === TerminalStatus.ScanningNfc && (
+                            <InstructionsTextContainer key="scanning-nfc">
+                                <InstructionsTitle>Doe de hendel van de scanner DICHT en weer OPEN. Zo maak je het antwoord pakket.</InstructionsTitle>
+                            </InstructionsTextContainer>
+                        )
+                    ]}
+            </InstructionsContainer>
+                <PacketDescriptionContainer>
+                    <ScannerAnimation
+                        variant={
+                            terminal.status === TerminalStatus.ScanningNfc 
+                                || terminal.status === TerminalStatus.CreatingPacket
+                                || terminal.status === TerminalStatus.CreatedPacket
+                                ? 'scanned' 
+                                : (nfcId ? 'scanning' : 'empty')}
+                        background={background}
+                        isServer={terminal.type === 'SERVER'}
+                    />
+                    <PacketDescriptionTextContainer>
+                        {terminal.status === TerminalStatus.Idle && (
+                            error && nfcId ? (
+                                <Text>Ongeldig pakket gescand</Text>
+                            ) : (
+                                <Text>Geen pakket gescand</Text>
+                            )
+                        )}
+                        {terminal.run && (
+                            terminal.status === TerminalStatus.ScanningNfc
                             || terminal.status === TerminalStatus.CreatingPacket
                             || terminal.status === TerminalStatus.CreatedPacket
-                            ? 'scanned' 
-                            : (nfcId ? 'scanning' : 'empty')}
-                    background={background}
-                />
-            </RestContainer>
-            <Card>
-                <CardHeader>
-                    Terminal {terminal.id} ({terminal.type})
-                </CardHeader>
-                <CardInnerContainer>
-                    {terminal.status === TerminalStatus.Idle && (
-                        error && nfcId ? (
-                            <h3>Invaliede pakketje gescand</h3>
-                        ) : (
-                            <h3>Geen pakketje gescand</h3>
-                        )
-                    )}
-                    {terminal.run && (
-                        terminal.status === TerminalStatus.ScanningNfc
-                        || terminal.status === TerminalStatus.CreatingPacket
-                        || terminal.status === TerminalStatus.CreatedPacket
-                    ) && (
-                        <>
-                            <div>
-                                <Label>Verzoek voor website</Label>
-                                <Text>{terminal.run.url}</Text>
-                            </div>
-                        </>
-                    )}
-                </CardInnerContainer>
-            </Card>
+                        ) && (
+                            <>
+                                <div>
+                                    <Text>Verzoek voor website:</Text>
+                                    <Text>{terminal.run.url}</Text>
+                                </div>
+                            </>
+                        )}
+                    </PacketDescriptionTextContainer>
+                <Label>
+                    SCANNER
+                </Label>
+                </PacketDescriptionContainer>
         </Container>
     )
 }

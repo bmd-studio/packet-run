@@ -14,8 +14,10 @@ import UnknownMap from './unkown';
 import Label from '../Label';
 
 const Container = styled.div`
-    width: 100%;
-    height: 100%;
+   position:absolute; 
+   left: 244px;
+   bottom: 38px;
+   width: 1175px;
 `;
 
 const MapContainer = styled.div`
