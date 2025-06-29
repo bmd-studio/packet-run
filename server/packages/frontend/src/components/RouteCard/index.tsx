@@ -16,16 +16,6 @@ const Container = styled.div`
 position: relative;
   width: 304px;
 `;
-const NameContainer = styled.div`
-  background-color: var(--background-light-gray);
-  height: 42px;
-  box-sizing: border-box;
-  padding-left: 16px;
-  font-size: 20px;
-  padding-top: 6px;
-  text-transform: uppercase;
-
-`;
 function getBackgroundColorForRouteType(routeType?: RouteTypes) {
     switch (routeType) {
         case 'alternative':
@@ -76,13 +66,13 @@ const DestinationBar = styled.div`
     background-color: var(--orange);
     height: 66px;
     width: 100%;
-      text-transform: uppercase;
-      font-size: 24px;
+    text-transform: uppercase;
+    font-size: 24px;
     padding-left: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
+    box-sizing: border-box;
 `;
 
 const OwnerContainer = styled.div`
