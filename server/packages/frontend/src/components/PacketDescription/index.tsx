@@ -60,6 +60,12 @@ export default function PacketDescription(props: PacketDescriptionProps) {
 
     const background = dark ? 'light' : 'dark';
 
+    const url = useMemo(() => (
+        terminal.run?.url
+            ?.replace('https://', '')
+            ?.replace('http://', '')
+    ), [terminal.run?.url]);
+
     return (
         <PacketDescriptionContainer>
             <ScannerAnimation
@@ -82,7 +88,7 @@ export default function PacketDescription(props: PacketDescriptionProps) {
                     <>
                         <div>
                             <Text>Verzoek voor website:</Text>
-                            <Text>{terminal.run.url}</Text>
+                            <Text>{url}</Text>
                         </div>
                     </>
                 )}

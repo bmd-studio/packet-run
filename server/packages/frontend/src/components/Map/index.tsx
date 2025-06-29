@@ -11,13 +11,6 @@ import curvedLine from './curvedLine';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 import UnknownMap from './unkown';
 
-const Container = styled.div`
-   position:absolute; 
-   left: 244px;
-   bottom: 38px;
-   width: 1175px;
-`;
-
 const MapContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -180,19 +173,11 @@ export default function Map(props: MapProps) {
         return () => map.current?.remove();
     }, [run, terminal.type, shouldDisplayMap, padding]);
 
-    return (
-
-        <Container>
-            {shouldDisplayMap ?
-                (
-                    <MapContainer
-                        ref={mapContainer}
-                    />
-                ) :
-                (
-                    <UnknownMap />
-                )
-            }
-        </Container>
+    return shouldDisplayMap ? (
+        <MapContainer
+            ref={mapContainer}
+        />
+    ) : (
+        <UnknownMap />
     );
 }
