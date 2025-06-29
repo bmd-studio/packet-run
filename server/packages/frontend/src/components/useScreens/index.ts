@@ -12,7 +12,7 @@ export default function useScreens(props: {
 } ) {
     const { screens: baseScreens, isInInputScreen: baseIsInInputScreen } = props;
     const [index, setIndex] = useState(0);
-    const screens = useRef<React.JSX.Element[]>([]);
+    const screensRef = useRef<React.JSX.Element[]>([]);
 
     // Determine if the current screen is an input screen
     const isInInputScreen = useMemo(() => {
@@ -24,7 +24,7 @@ export default function useScreens(props: {
     // Increment the screen number
     const increment = useCallback(() => {
         setIndex((previous) => (
-            Math.min(previous + 1, screens.current.length - 1)
+            Math.min(previous + 1, screensRef.current.length - 1)
         ));
     }, []);
 
@@ -33,12 +33,16 @@ export default function useScreens(props: {
         setIndex((previous) => Math.max(previous - 1, 0));
     }, []);
 
-    // Resolve the screens
-    useEffect(() => {
-        screens.current = typeof baseScreens === 'function'
+    const screens = useMemo(() => {
+        return typeof baseScreens === 'function'
             ? baseScreens({ increment, decrement })
             : baseScreens;
     }, [baseScreens, increment, decrement]);
+
+    // Resolve the screens
+    useEffect(() => {
+        screensRef.current = screens;
+    }, [screens, increment, decrement]);
     
     // Handle key up events
     useEffect(() => {
@@ -75,5 +79,5 @@ export default function useScreens(props: {
         increment,
     ]);
 
-    return { index, increment, decrement, screens, screen: screens.current[index] };
+    return { index, increment, decrement, screens, screen: screens[index] };
 }
