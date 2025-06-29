@@ -15,7 +15,7 @@ import DestinationExplanation from './routeText';
 
 const Container = styled.div`
     position: absolute;
-    z-index: 3;
+    z-index: 2;
     top: 0px;
     left: 0px;
     width: 100vw;
