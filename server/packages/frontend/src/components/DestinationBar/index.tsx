@@ -46,40 +46,48 @@ function runHopTypeToRouteLabel(hopType: RunHopType | undefined): RouteTypes | u
 
 export default function DestinationBar() {
     const { connectionsTo, run } = useTerminal();
+
     const sortedConnections = useMemo(() => (
         connectionsTo.sort((a, b) => a.slot - b.slot)
     ), [connectionsTo]);
+
     const sortedHops = useMemo(() => (
         sortedConnections.map(({ to }) => (
             run?.availableHops.find((h) => h.terminal.id === to.id) || null
         ))
     ), [sortedConnections, run]);
-    const latestKnownHop = retrieveLatestKnownHop(run);
-    const ConnectionCards = sortedConnections.map((conn, index) => {
+
+    const latestKnownHop = useMemo(() => retrieveLatestKnownHop(run), [run] );
+
+    const ConnectionCards = useMemo(() => sortedConnections.map((conn, index) => {
         return (
             <RouteCard
                 key={`${index}-${conn.to.id}-${conn.slot}`}
                 name={`Route ${index + 1}`}
             />
         );
-    })
+    }), [sortedConnections]);
 
-    const RouteCards = sortedHops.map((hop, index) => {
+    const RouteCards = useMemo(() => sortedHops.map((hop, index) => {
+        // GUARD: If the hop is not found, return null
         if (!hop) {
             return null;
         }
+
+        // Get the city, country, owner, and distance
         const city = hop?.address?.info?.location?.city || undefined;
         const country = hop?.address?.info?.location?.country.code;
         const owner = hop?.address?.info?.company.name || hop?.address?.info?.carrier?.name || undefined;
-        const distance = calculateDistance(latestKnownHop, hop as unknown as RegisterTerminalRunHopFragment);
         const name = `Route ${index + 1}`;
-        let destinationName = `${city ? city : ''} ${country ? `(${country})` : ''}`;
+
+        // Calculate the distance
+        const distance = calculateDistance(latestKnownHop, hop as unknown as RegisterTerminalRunHopFragment);
         const hopType = runHopTypeToRouteLabel(hop?.type);
         const goesBackHome = hop.type === RunHopType.Recommended && hop.terminal.type === TerminalType.Receiver;
 
-        if (!city && !country && !goesBackHome) {
-            destinationName = '???';
-        }
+        const destinationName = city || country || goesBackHome
+            ? `${city ? city : ''} ${country ? `(${country})` : ''}`
+            : '???';
 
         return (
             <Link
@@ -101,7 +109,7 @@ export default function DestinationBar() {
                 </RouteCard>
             </Link>
         )
-    });
+    }), [sortedHops, run, latestKnownHop]);
 
     if (!run?.availableHops) {
         return (
