@@ -84,7 +84,6 @@ export default function TerminalGraph() {
         };
     }, [data]);
 
-    console.log(data, elements);
 
     useEffect(() => {
         graph.current = cytoscape({
@@ -160,7 +159,7 @@ export default function TerminalGraph() {
         }
 
         window.addEventListener('resize', resizeCytoscape);
-        
+
         return () => window.removeEventListener('resize', resizeCytoscape);
     }, []);
 
@@ -170,20 +169,20 @@ export default function TerminalGraph() {
 
     const resetTerminal = useCallback(() => {
         if (activeTerminal) {
-            mutate({ variables: { terminalId: Number.parseInt(activeTerminal.id as unknown as string) }});
+            mutate({ variables: { terminalId: Number.parseInt(activeTerminal.id as unknown as string) } });
         }
     }, [mutate, activeTerminal]);
 
     useEffect(() => {
         if (!data?.allTerminals.length) {
             return;
-        } 
+        }
 
         setActiveTerminal((currentValue) => {
             if (!currentValue) {
                 return null;
             } else {
-                return data.allTerminals.find((t) => t.id == currentValue.id) as Terminal|| null;
+                return data.allTerminals.find((t) => t.id == currentValue.id) as Terminal || null;
             }
         });
     }, [data]);
@@ -204,7 +203,7 @@ export default function TerminalGraph() {
                                 </h1>
                             </DialogHeader>
                             <div className="p-4 flex space-between items-center">
-                                <span className="text-sm text-white font-bold p-1 px-2 rounded" style={{ backgroundColor: mapTerminalStatusToColor[activeTerminal.status].background}}>
+                                <span className="text-sm text-white font-bold p-1 px-2 rounded" style={{ backgroundColor: mapTerminalStatusToColor[activeTerminal.status].background }}>
                                     {activeTerminal?.status}
                                 </span>
                                 <Button className="ml-auto" variant="outline" onClick={resetTerminal}>

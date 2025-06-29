@@ -1,10 +1,18 @@
-import { RegisterTerminalRunHopFragment, RunHopType } from "@/data/generated";
+import { RegisterTerminalRunHopFragment, RunHopType, TerminalType } from "@/data/generated";
 import { getActualTakenHops, getAmountOfAlternativeHops, getAmountOfReturnHops, hopIsAtGateway, PartialRun } from "@/lib/hopHelpers";
 import { JSX } from "react";
 
 function RecommendedHopText(hop: RegisterTerminalRunHopFragment) {
     const owner = hop?.address?.info?.company.name || hop?.address?.info?.carrier?.name || undefined;
     const destination = hop.address?.info?.location?.city || undefined
+    const goesBackHome = hop.type === RunHopType.Recommended && hop.terminal.type === TerminalType.Receiver;
+    if (goesBackHome) {
+        return (
+            <p>
+                Deze route gaat terug naar de computer. Ga hier naar toe om je pakketje uit te pakken.
+            </p>
+        )
+    }
     if (destination) {
         return (
             <p>

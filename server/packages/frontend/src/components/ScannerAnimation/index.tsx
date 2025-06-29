@@ -168,7 +168,7 @@ export default function ScannerAnimation({
                             transformOrigin: 'right 88px',
                             zIndex: 3,
                         }}
-                        animate="rotate"
+                        animate={variant}
                         variants={rotationVariants}
                     >
                         <rect width="360" height="16" transform="matrix(-1 0 0 -1 360 96)" fill="#FF8C41" />

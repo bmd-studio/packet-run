@@ -68,7 +68,6 @@ export default function SendInstructions(props: SendInstructionsProps) {
                 clearTimeout(endTimeout)
             }
             setEndTimeout(setTimeout(() => {
-                console.log('Balled pressed');
                 resetCallback();
             }, AFTER_BALL_PRESSED_TIMEOUT) as unknown as number);
             return;
