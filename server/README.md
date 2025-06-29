@@ -12,6 +12,14 @@ npm install
 The monorepo contains two distinct codebases (found in `./packages`). One for
 the front-end (built using NextJS) and one for the back-end (built using NestJS).
 
+## Requirements
+Note that a redis server should be running before starting the server.
+
+A redis server can be started by running the following command:
+``
+redis-server
+``
+
 ## Other commands
 Build all code for production and run the resulting scripts in parallel:
 ```

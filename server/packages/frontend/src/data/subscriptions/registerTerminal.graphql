@@ -41,6 +41,7 @@ fragment RegisterTerminalRunHop on RunHop {
     status
     terminal {
         id
+        type
     }
 }
 

@@ -7,18 +7,36 @@ import { Loader2 } from 'lucide-react';
 import { DEFAULT_WEBSITE } from '@/config';
 
 const Input = styled.input`
-    background-color: var(--light-gray);
+    background-color: white;
     font-size: 64px;
     line-height: 32px;
     padding: 48px;
+    padding-left: 0px;
     text-transform: uppercase;
-    font-family: var(--font-vt323);
+    color: black;
+    &:focus {
+        outline: none;
+    }
 
-    &:focus-visible {
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    width: 100%;
+    height: 109px;
+    flex-direction:row;
+    font-size: 64px;
+    background-color: white;
+    padding-left: 48px;
+    box-sizing: border-box;
+    &:focus-within {
         outline: 8px solid var(--dark-gray);
         outline-offset: -8px;
     }
-`;
+`
+const InputBeforText = styled.div`
+    
+`
 
 const Message = styled.div`
     display: flex;
@@ -75,8 +93,8 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
             // as well
             if (validUrl.isHttpsUri(`https://${host}`) && psl.isValid(host)) {
                 // Instruct the backend to fetch HEAD for the URL to see if it's available
-                const { data } = await validateHost({ 
-                    variables: { host }, context: { fetchOptions: { signal: controller.signal } } 
+                const { data } = await validateHost({
+                    variables: { host }, context: { fetchOptions: { signal: controller.signal } }
                 });
 
                 // Then pipe the output to the validations tate
@@ -93,21 +111,26 @@ export default function WebsiteInput({ onHost }: WebsiteInputProps) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Input
-                value={host}
-                placeholder={DEFAULT_WEBSITE}
-                autoFocus
-                onChange={handleChange}
-            />
+            <InputContainer>
+                <InputBeforText>
+                    www.
+                </InputBeforText>
+                <Input
+                    value={host}
+                    placeholder={DEFAULT_WEBSITE}
+                    autoFocus
+                    onChange={handleChange}
+                />
+            </InputContainer>
             <h2>
                 {isValidated ? (
                     <Message>
-                        Press <Inverse>Enter ⏎</Inverse> to continue!
+                        Druk op <Inverse>Enter ⏎</Inverse> om verder te gaan!
                     </Message>
                 ) : (
 
                     <Message>
-                        Type a valid domain name first...
+                        Voer een geldige website in
                         {loading && <Loader2 className="animate-spin w-4 h-4" />}
                     </Message>
                 )}

@@ -22,7 +22,7 @@ const Label = styled.span`
     background-color: var(--dark-gray);
     color: var(--yellow);
     text-transform: uppercase;
-    font-family: var(--font-vt323);
+    font-family: var(--font-doto);
     line-height: 12px;
     padding: 8px;
 `;
@@ -62,17 +62,17 @@ export default function Journey() {
         return;
     }
 
-    const address =  terminal.run.currentHop.address;
+    const address = terminal.run.currentHop.address;
 
     return (
-        <Container 
+        <Container
             key="journey"
             style={{
                 willChange: 'transform',
                 transform: 'translateZ(0)'
             }}
-            initial={{ y: '150%' }} 
-            animate={{ y: 0 }} 
+            initial={{ y: '150%' }}
+            animate={{ y: 0 }}
             transition={{ duration: 1, delay: 1, ease: 'easeOut' }}
         >
             <GraphicContainer>

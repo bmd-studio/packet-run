@@ -55,15 +55,15 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
     const terminalId = parseInt(params.id as string);
     const pageSlug = useMemo(() => pathname.split('/')[1], [pathname]);
     const { data, loading, error } = useRegisterTerminalSubscription({ variables: { id: terminalId }, skip: !terminalId });
-    const [ resetTerminal ] = useResetTerminalMutation();
-    
+    const [resetTerminal] = useResetTerminalMutation();
+
     if (error) {
         console.error(error, error.graphQLErrors, data);
     }
 
     useEffect(() => {
-        resetTerminal({ variables: { terminalId }});
-    }, [terminalId]);
+        resetTerminal({ variables: { terminalId } });
+    }, [terminalId, resetTerminal]);
 
     // Reload the page whenever an error is encountered
     // useEffect(() => {
@@ -111,7 +111,7 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
         push(`/${data.registerTerminal.type.toLowerCase()}/${terminalId}`);
         return null;
     }
-    
+
     return (
         <terminalContext.Provider value={data.registerTerminal}>
             <DynamicStandaloneMenu />

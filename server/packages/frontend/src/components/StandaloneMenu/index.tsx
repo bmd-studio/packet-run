@@ -8,10 +8,11 @@ import { terminalContext } from '../RegisterTerminal';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { styled } from 'styled-components';
+
 const MenuWrapper = styled.div<{ open?: boolean }>`
     top: -54px;
     transition: all 0.3s;
-    position: relative;
+    position: fixed;
     &:hover {
         top: -0px;
     }
@@ -28,7 +29,7 @@ const MenuWrapper = styled.div<{ open?: boolean }>`
         background-color: var(--light-gray);
         border-top: 2px dashed;
         left: calc(50vw - 50px);
-        z-index: 1;
+        z-index: 5;
         box-shadow: 0px 5px 5px grey;
     }
 `;
