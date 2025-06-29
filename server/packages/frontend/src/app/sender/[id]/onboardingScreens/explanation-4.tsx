@@ -26,7 +26,7 @@ const ImageWrapper = styled.div`
   height: 100%;
 `;
 const Image = styled.img`
-  width: 110%;
+  width: 91%;
 `;
 const OrderedList = styled.ol`
   list-style: decimal;
