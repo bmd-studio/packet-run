@@ -38,7 +38,6 @@ export default function SendInstructions(props: SendInstructionsProps) {
     const [startDate, setStartDate] = useState<undefined | Date>(undefined);
     const [endDate, setEndDate] = useState<undefined | Date>(undefined);
     const [endTimeout, setEndTimeout] = useState<undefined | number>(undefined);
-
     useEffect(() => {
         const now = Date.now();
         setStartDate(new Date(now));
@@ -49,7 +48,11 @@ export default function SendInstructions(props: SendInstructionsProps) {
         setEndTimeout(setTimeout(() => {
             resetCallback();
         }, TOTAL_TIMEOUT) as unknown as number);
-    }, []);
+        return () => {
+            clearTimeout(endTimeout)
+        }
+
+    }, [resetCallback]);
 
     useEffect(() => {
         // TODO: add a way to complete the run e.g.
@@ -64,6 +67,7 @@ export default function SendInstructions(props: SendInstructionsProps) {
                 clearTimeout(endTimeout)
             }
             setEndTimeout(setTimeout(() => {
+                console.log('Balled pressed');
                 resetCallback();
             }, AFTER_BALL_PRESSED_TIMEOUT) as unknown as number);
             return;
