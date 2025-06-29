@@ -31,56 +31,35 @@ export interface SendInstructionsProps extends OnBoardingProps {
     resetCallback: () => void;
 }
 
+const TOTAL_TIMEOUT = 15000;
+const AFTER_BALL_PRESSED_TIMEOUT = 5000;
+
 export default function SendInstructions(props: SendInstructionsProps) {
     const { ballPresent, ballPressed, pressOpen, resetCallback } = props;
-    const TOTAL_TIMEOUT = 15000;
-    const AFTER_BALL_PRESSED_TIMEOUT = 5000;
-    const [startDate, setStartDate] = useState<undefined | Date>(undefined);
-    const [endDate, setEndDate] = useState<undefined | Date>(undefined);
-    const [endTimeout, setEndTimeout] = useState<undefined | number>(undefined);
-    useEffect(() => {
-        const now = Date.now();
-        setStartDate(new Date(now));
-        setEndDate(new Date(now + TOTAL_TIMEOUT));
-        if (endTimeout) {
-            clearTimeout(endTimeout)
-        }
-        setEndTimeout(setTimeout(() => {
-            resetCallback();
-        }, TOTAL_TIMEOUT) as unknown as number);
-        return () => {
-            clearTimeout(endTimeout)
-        }
-    }, [resetCallback, endTimeout]);
+    const [[startDate, endDate], setDates] = useState<[Date | undefined, Date | undefined]>([undefined, undefined]);
 
     useEffect(() => {
-        if (!ballPressed) {
-            return;
-        }
-        if (!endDate) {
-            const now = Date.now();
-            setStartDate(new Date(now));
-            setEndDate(new Date(now + AFTER_BALL_PRESSED_TIMEOUT));
-            if (endTimeout) {
-                clearTimeout(endTimeout)
-            }
-            setEndTimeout(setTimeout(() => {
-                resetCallback();
-            }, AFTER_BALL_PRESSED_TIMEOUT) as unknown as number);
-            return;
-        }
-        const timeRemaining = endDate.getTime() - Date.now();
-        if (timeRemaining > AFTER_BALL_PRESSED_TIMEOUT) {
-            const now = Date.now();
-            setEndDate(new Date(now + AFTER_BALL_PRESSED_TIMEOUT));
-            if (endTimeout) {
-                clearTimeout(endTimeout)
-            }
-            setEndTimeout(setTimeout(() => {
-                resetCallback();
-            }, AFTER_BALL_PRESSED_TIMEOUT) as unknown as number);
-        }
-    }, [ballPressed, endDate, endTimeout, resetCallback]);
+        // Set the start date
+        const now = Date.now();
+        const start = new Date(now);
+
+        // Determine which timeout should be used
+        const timeoutMs = ballPressed ? AFTER_BALL_PRESSED_TIMEOUT : TOTAL_TIMEOUT;
+
+        // Set the end date
+        const end = new Date(now + timeoutMs);
+
+        // Set the timeout
+        const timeout = setTimeout(() => {
+            resetCallback();
+        }, timeoutMs);
+
+        // Set the dates
+        setDates([start, end]);
+
+        // Clear the timeout if a new loop is started
+        return () => clearTimeout(timeout);
+    }, [ballPressed, resetCallback]);
 
 
     return (
