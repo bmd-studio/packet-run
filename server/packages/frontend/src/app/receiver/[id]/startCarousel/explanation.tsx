@@ -62,7 +62,9 @@ export default function Explanation(props: OffboardingScreenProps) {
                         </p>
                     </TextWrapper>
                     <ScannerWrapper>
-                        <PacketDescription terminal={terminal as unknown as Terminal} nfcId={nfcId || undefined} />
+                        <PacketDescription
+                            terminal={terminal as unknown as Terminal} nfcId={nfcId || undefined}
+                        />
                     </ScannerWrapper>
                 </Container>
             </ContentWrapper>

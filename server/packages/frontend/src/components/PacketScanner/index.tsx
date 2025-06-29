@@ -70,6 +70,7 @@ export default function PacketScanner({ children }: PropsWithChildren) {
                     terminal={terminal as unknown as Terminal}
                     error={!!error}
                     nfcId={nfcId || undefined}
+                    dark
                 />
 
             </PacketInfoContainer>

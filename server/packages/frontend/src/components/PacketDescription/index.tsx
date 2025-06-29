@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
 import { Terminal, TerminalStatus, TerminalType } from '@/data/generated';
-import { usePathname } from 'next/navigation';
 import Label from '../Label';
 import ScannerAnimation, { ScannerVariant } from '../ScannerAnimation';
+import { useMemo } from 'react';
 
 const PacketDescriptionTextContainer = styled.div`
     background-color: var(--orange);
@@ -43,12 +43,23 @@ function selectAnimationType(terminalType: TerminalType, terminalStatus: Termina
     }
     return 'pressing';
 }
-export default function PacketDescription(props: { terminal: Terminal, error?: boolean, nfcId?: string }) {
-    const { terminal, error = false, nfcId } = props;
-    const animationType = selectAnimationType(terminal.type, terminal.status);
-    const pathname = usePathname();
-    const isLightBackground = pathname.includes('sender') || pathname.includes('receiver');
-    const background = isLightBackground ? 'light' : 'dark';
+
+export interface PacketDescriptionProps {
+    terminal: Terminal;
+    error?: boolean;
+    nfcId?: string;
+    dark?: boolean;
+}
+
+export default function PacketDescription(props: PacketDescriptionProps) {
+    const { terminal, error = false, nfcId, dark = false } = props;
+
+    const animationType = useMemo(() => (
+        selectAnimationType(terminal.type, terminal.status)
+    ), [terminal.type, terminal.status]);
+
+    const background = dark ? 'light' : 'dark';
+
     return (
         <PacketDescriptionContainer>
             <ScannerAnimation
