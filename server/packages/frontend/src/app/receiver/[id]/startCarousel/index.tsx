@@ -13,11 +13,12 @@ const ScreensWrapper = styled.div`
     left:0px;
 `
 
-export interface OffBoardingFlowProps {
-    resetCallback: () => void;
-}
+const screens: React.JSX.Element[] = [
+    <WelcomeScreen key={'0'} currentStep={-1} stepAmount={-1} />,
+    <Explanation key={'1'} currentStep={1} stepAmount={-1} />,
+]
+
 export default function OffBoardingFlow() {
-    let screens: React.JSX.Element[] = [];
     const [screenNumber, setScreenNumber] = useState(0);
 
     const incrementScreenNumber = useCallback(() => {
@@ -29,7 +30,7 @@ export default function OffBoardingFlow() {
             }
             return newValue;
         });
-    }, [screens.length]);
+    }, []);
 
     const decrementScreenNumber = useCallback(() => {
         setScreenNumber((previous) => {
@@ -41,10 +42,6 @@ export default function OffBoardingFlow() {
         });
     }, []);
 
-    screens = [
-        <WelcomeScreen key={'0'} currentStep={-1} stepAmount={-1} />,
-        <Explanation key={'1'} currentStep={1} stepAmount={-1} />,
-    ]
     const isInInputScreen = screenNumber == 8;
 
     useEffect(() => {
@@ -75,7 +72,6 @@ export default function OffBoardingFlow() {
         }
     }, [
         setScreenNumber,
-        screens.length,
         isInInputScreen,
         incrementScreenNumber,
         decrementScreenNumber,
