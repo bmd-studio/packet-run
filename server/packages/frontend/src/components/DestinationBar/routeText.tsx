@@ -6,6 +6,7 @@ function RecommendedHopText(hop: RegisterTerminalRunHopFragment) {
     const owner = hop?.address?.info?.company.name || hop?.address?.info?.carrier?.name || undefined;
     const destination = hop.address?.info?.location?.city || undefined
     const goesBackHome = hop.type === RunHopType.Recommended && hop.terminal.type === TerminalType.Receiver;
+
     if (goesBackHome) {
         return (
             <p>
