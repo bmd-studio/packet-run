@@ -2,8 +2,6 @@
 'use client'
 import { styled } from 'styled-components';
 import { useCallback, useEffect, useState } from "react"
-import WelcomeScreen from "./welcome";
-import Explanation from './explanation';
 import WebpageView from './webpageView';
 import MapView from './map';
 import End from './end';
@@ -21,6 +19,7 @@ export interface EndCarouselProps {
     resetCallback: () => void;
 }
 export default function EndCarousel(props: EndCarouselProps) {
+    const { resetCallback } = props;
     let screens: React.JSX.Element[] = [];
     const [screenNumber, setScreenNumber] = useState(0);
 
@@ -30,11 +29,11 @@ export default function EndCarousel(props: EndCarouselProps) {
             if (newValue >= screens.length) {
                 newValue = screens.length - 1;
                 // should close
-                props.resetCallback();
+                resetCallback();
             }
             return newValue;
         });
-    }, [screens.length]);
+    }, [screens.length, resetCallback]);
 
     const decrementScreenNumber = useCallback(() => {
         setScreenNumber((previous) => {
@@ -70,7 +69,7 @@ export default function EndCarousel(props: EndCarouselProps) {
                     break;
             }
         }
-    }, [setScreenNumber, screens.length]);
+    }, [setScreenNumber, screens.length, incrementScreenNumber, decrementScreenNumber]);
 
     const currentScreen = screens[screenNumber];
     return (

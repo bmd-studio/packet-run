@@ -1,4 +1,4 @@
-import { Terminal, TerminalStatus, TerminalType } from '@/data/generated';
+import { TerminalStatus, TerminalType } from '@/data/generated';
 import { styled } from 'styled-components';
 const InstructionsTextContainer = styled.div`
     max-width: 100%;

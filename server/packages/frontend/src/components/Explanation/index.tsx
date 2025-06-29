@@ -1,6 +1,5 @@
 import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
-import Label from '../Label';
 
 const Container = styled.div`
     position: fixed;

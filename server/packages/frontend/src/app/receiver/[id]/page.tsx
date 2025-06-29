@@ -1,9 +1,8 @@
 'use client';
 
 import Grid from '@/components/Grid';
-import RegisterTerminal, { useTerminal } from '@/components/RegisterTerminal';
-import { Terminal, TerminalStatus, useCreateRunMutation } from '@/data/generated';
-import NfcScanner from '@/components/PacketScanner';
+import RegisterTerminal from '@/components/RegisterTerminal';
+import { Terminal, TerminalStatus, } from '@/data/generated';
 import React from 'react';
 import OffBoardingFlow from './startCarousel';
 import EndCarousel from './scannedCarousel';

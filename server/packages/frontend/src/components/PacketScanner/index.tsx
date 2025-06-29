@@ -1,16 +1,12 @@
 
 
-import { Terminal, TerminalStatus, TerminalType, useResetTerminalMutation, useScanNfcForTerminalMutation } from '@/data/generated';
+import { Terminal } from '@/data/generated';
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
-import { PropsWithChildren, use, useEffect, useState } from 'react';
-import ScannerAnimation, { ScannerVariant } from '@/components/ScannerAnimation';
+import { PropsWithChildren } from 'react';
 import { motion } from 'framer-motion';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
-import { useSearchParams } from 'next/navigation';
-import { MODE } from '@/config';
-import { usePathname } from 'next/navigation';
 import Label from '../Label';
 import InstructionText, { selectInstructionType } from './text';
 import PacketDescription from '../PacketDescription';
@@ -19,7 +15,6 @@ import useNFCLogic from '../NFCScanLogic';
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
-const NFC_READER_TIMEOUT = 20_000;
 
 const Container = styled(motion.div)`
     position: absolute;
