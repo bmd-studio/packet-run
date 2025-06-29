@@ -16,7 +16,6 @@ export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloErr
     const searchParams = useSearchParams();
     const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
 
-
     const [scanNfcForTerminal, { error }] = useScanNfcForTerminalMutation();
     const [resetTerminal] = useResetTerminalMutation();
 
@@ -64,32 +63,26 @@ export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloErr
 
         // GUARD: Wait for nfcId to become null and a run to be set
         if (nfcId || !terminal.run) {
-
             return;
         }
 
         // Set a timeout for the terminal to be reset. Also, store the date for
         // this in state, so we can display a bar at the top of the screen
         const now = new Date().getTime();
-        if (setScannerTimeout) {
-            setScannerTimeout([
-                new Date(now + 1_000),
-                new Date(now + 20_000),
-            ]);
-        }
+
+        setScannerTimeout([
+            new Date(now + 1_000),
+            new Date(now + 20_000),
+        ]);
         const timeout = setTimeout(() => {
             resetTerminal({ variables: { terminalId: terminal.id } });
-            if (setScannerTimeout) {
-                setScannerTimeout(null);
-            }
+            setScannerTimeout(null);
         }, NFC_READER_TIMEOUT);
 
         return () => {
             // If anything changes, clear the timeouts
             clearTimeout(timeout);
-            if (setScannerTimeout) {
-                setScannerTimeout(null);
-            }
+            setScannerTimeout(null);
         };
     }, [nfcId, terminal.run, resetTerminal, terminal.id]);
     return [scannerTimeout, error];

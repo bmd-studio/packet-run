@@ -4,7 +4,7 @@ import { Terminal } from '@/data/generated';
 import { styled } from 'styled-components';
 import { useTerminal } from '@/components/RegisterTerminal';
 import useNFCReader from '@/lib/useNFCReader';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import ScannerTimeoutBar from '../ScannerTimeoutBar';
 import Label from '../Label';
@@ -49,8 +49,13 @@ const PacketInfoContainer = styled.div`
 export default function PacketScanner({ children }: PropsWithChildren) {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
+
     const [scannerTimeout, error] = useNFCLogic();
-    const textType = selectInstructionType(terminal.type, terminal.status);
+
+    const textType = useMemo(() => (
+        selectInstructionType(terminal.type, terminal.status)
+    ), [terminal.type, terminal.status]);
+
     return (
         <Container key="packet-scanner">
             {scannerTimeout && (
