@@ -52,4 +52,4 @@ module.exports = defineConfig([{
 
         "comma-dangle": ["error", "always-multiline"],
     },
-}, globalIgnores(["**/.eslintrc.js"])]);
+}, globalIgnores(["**/.eslintrc.js", "**/metadata.ts"])]);
