@@ -30,10 +30,10 @@ const LabelWrapper = styled.div`
 
 
 
-export interface LabeledHeaderProps extends PropsWithChildren {
+export interface LabelProps extends PropsWithChildren {
     label?: ReactNode
 }
-export default function LabeledHeader(props: LabeledHeaderProps) {
+export default function Label(props: LabelProps) {
     return (
         <NameContainer>
             {props.children}

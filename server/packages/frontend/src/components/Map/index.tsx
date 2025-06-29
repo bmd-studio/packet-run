@@ -11,7 +11,7 @@ import generateDot from './dot';
 import curvedLine from './curvedLine';
 import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 import UnknownMap from './unkown';
-import LabeledHeader from '../LabeledHeader';
+import Label from '../Label';
 
 const Container = styled.div`
    position:absolute; 
@@ -199,9 +199,9 @@ export default function Map() {
             transition={{ duration: 2 }}
         >
             <Container>
-                <LabeledHeader>
+                <Label>
                     {shouldDisplayMap ? `Kaart` : `Geen Kaart Beschikbaar`}
-                </LabeledHeader>
+                </Label>
                 {shouldDisplayMap ?
                     (
                         <MapContainer
