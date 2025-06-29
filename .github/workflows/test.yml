@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: server/package-lock.json
+        
+    - name: Install dependencies
+      working-directory: server
+      run: npm install
+      
+    - name: Build and test
+      working-directory: server
+      run: npx turbo build lint migrations:check codegen migrations:run seed
+      
+    - name: Check for uncommitted changes
+      run: |
+        git status --porcelain
+        git diff-index --quiet HEAD 
