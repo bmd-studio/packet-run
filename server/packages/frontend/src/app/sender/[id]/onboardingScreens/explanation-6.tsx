@@ -2,22 +2,52 @@ import { OnboardingScreen } from "@/components/OnBoardingScreen";
 import { styled } from 'styled-components';
 import { OnBoardingProps } from "./types";
 
-const ContentWrapper = styled.div`
-    padding-left: 360px;
-    padding-right: 360px;
 
+const ContentWrapper = styled.div`
+    padding-left: 200px;
+    padding-right: 0;
+    display: flex;
+    flex-direction: row;
+    gap:32px;
+    height: 100%;
 `
+
+const TextWrapper = styled.div`
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 66%;
+  & p {
+    margin-bottom: 60px;
+  }
+`;
+
+const ImageWrapper = styled.div`
+  flex-grow: 1;
+  height: 100%;
+`;
+const Image = styled.img`
+  width: 110%;
+  position: relative;
+  top: -100px;
+`;
 
 export default function Explanation6(props: OnBoardingProps) {
     return (
         <OnboardingScreen indicator={props}>
             <ContentWrapper>
-                <p>
-                    Aan het eind van je reis komt je pakketje aan bij de achterzijde van deze PC.
-                </p>
-                <p>
-                    Hier kun je je website bekijken en je afgelegde route zien. Gaaf he!
-                </p>
+                <TextWrapper>
+                    <p>De metalen buizen symboliseren de routers.</p>
+                    <p>
+                        De installatie laat op een zichtbare manier zien welke routes pakketjes op het internet  nemen.
+                    </p>
+                    <p>Onderweg leer je wie er achter het internet zit en welke risico{`'`}s daarbij horen.</p>
+                </TextWrapper>
+                <ImageWrapper>
+                    <Image src='/onboarding-installation-graphic.svg' alt="Packet Run installation" />
+                </ImageWrapper>
             </ContentWrapper>
         </OnboardingScreen>
     )

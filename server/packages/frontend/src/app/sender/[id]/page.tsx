@@ -55,7 +55,7 @@ export default function Sender() {
     return (
         <RegisterTerminal>
             {/* {MODE === 'standalone' && <CreateRunWithNFC />} */}
-            <OnBoardingFlow setHost={setHost} ballPressed={isPacketPressed} ballPresent={!!nfcId} resetCallback={resetCallback} />
+            <OnBoardingFlow setHost={setHost} ballPressed={isPacketPressed} ballPresent={!!nfcId} pressOpen={!isPacketPressed && data} resetCallback={resetCallback} />
         </RegisterTerminal>
     )
 } 

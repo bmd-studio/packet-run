@@ -13,6 +13,7 @@ import Explanation7 from "./explanation-7";
 import WebsiteInput from "./website-input";
 import SendInstructions from "./send-instructions";
 import { setConfig } from "next/config";
+import Explanation8 from "./explanation-8";
 
 
 const ScreensWrapper = styled.div`
@@ -27,13 +28,17 @@ export interface OnBoardingFlowProps {
     setHost: (host: string) => void;
     ballPresent: boolean;
     ballPressed: boolean;
+    pressOpen: boolean;
     resetCallback: () => void;
 }
 export default function OnBoardingFlow(props: OnBoardingFlowProps) {
-    let { ballPresent } = props;
+    let { ballPresent, ballPressed } = props;
     let screens = [];
-    const { ballPressed, resetCallback } = props;
-    if (ballPressed) {
+    const { resetCallback, pressOpen } = props;
+    if (pressOpen) {
+        ballPressed = true;
+    }
+    if (ballPressed || pressOpen) {
         ballPresent = true;
     }
     const [screenNumber, setScreenNumber] = useState(0);
@@ -60,14 +65,15 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
 
     screens = [
         <WelcomeScreen key={'0'} currentStep={-1} stepAmount={-1} />,
-        <Explanation1 key={'1'} currentStep={0} stepAmount={7} />,
-        <Explanation2 key={'2'} currentStep={1} stepAmount={7} />,
-        <Explanation3 key={'3'} currentStep={2} stepAmount={7} />,
-        <Explanation4 key={'4'} currentStep={3} stepAmount={7} />,
-        <Explanation5 key={'5'} currentStep={4} stepAmount={7} />,
-        <Explanation6 key={'6'} currentStep={5} stepAmount={7} />,
-        <Explanation7 key={'7'} currentStep={6} stepAmount={7} />,
-        <WebsiteInput key="8" currentStep={7} stepAmount={-1} setHost={
+        <Explanation1 key={'1'} currentStep={0} stepAmount={8} />,
+        <Explanation2 key={'2'} currentStep={1} stepAmount={8} />,
+        <Explanation3 key={'3'} currentStep={2} stepAmount={8} />,
+        <Explanation4 key={'4'} currentStep={3} stepAmount={8} />,
+        <Explanation5 key={'5'} currentStep={4} stepAmount={8} />,
+        <Explanation6 key={'6'} currentStep={5} stepAmount={8} />,
+        <Explanation7 key={'7'} currentStep={6} stepAmount={8} />,
+        <Explanation8 key={'8'} currentStep={7} stepAmount={8} />,
+        <WebsiteInput key="9" currentStep={8} stepAmount={-1} setHost={
             (host: string) => {
                 props.setHost(host);
                 incrementScreenNumber();
@@ -80,10 +86,11 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
             }
             ballPressed={ballPressed}
             ballPresent={ballPresent}
+            pressOpen={pressOpen}
             resetCallback={resetCallback}
         />,
     ]
-    const isInInputScreen = screenNumber == 8;
+    const isInInputScreen = screenNumber == 9;
 
     useEffect(() => {
         // register key presses

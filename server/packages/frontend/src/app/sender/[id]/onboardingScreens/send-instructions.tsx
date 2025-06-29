@@ -28,11 +28,12 @@ const ListItem = styled.div`
 export interface SendInstructionsProps extends OnBoardingProps {
     ballPresent: boolean;
     ballPressed: boolean;
+    pressOpen: boolean;
     resetCallback: () => void;
 }
 
 export default function SendInstructions(props: SendInstructionsProps) {
-    const { ballPresent, ballPressed, resetCallback } = props;
+    const { ballPresent, ballPressed, pressOpen, resetCallback } = props;
     const TOTAL_TIMEOUT = 15000;
     const AFTER_BALL_PRESSED_TIMEOUT = 5000;
     const [startDate, setStartDate] = useState<undefined | Date>(undefined);
@@ -100,11 +101,16 @@ export default function SendInstructions(props: SendInstructionsProps) {
                     </CheckBoxListItem>
                     <CheckBoxListItem checked={ballPressed}>
                         <ListItem>
-                            Doe de hendel van de scanner DICHT en weer OPEN. Zo persen we het verzoek voor je website in het pakketje.
+                            SLUIT de hendel. Zo persen we het verzoek voor je website in het pakketje.
+                        </ListItem>
+                    </CheckBoxListItem>
+                    <CheckBoxListItem checked={pressOpen}>
+                        <ListItem>
+                            OPEN de hendel en pak de bal.
                         </ListItem>
                     </CheckBoxListItem>
                     <p>
-                        Na het voltooien van deze twee stappen, gooi het pakketje in het gat RECHTS BOVEN van de computer.
+                        Als je deze drie stappen hebt voltooid, gooi dan je bal RECHTSBOVEN in het gat om deze naar het internet op te sturen.
                     </p>
                 </List>
             </ContentWrapper>
