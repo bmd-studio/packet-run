@@ -51,7 +51,6 @@ mmdebstrap:
   - |
     chroot $1 bash -- <<- EOCHROOT
     chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
-    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /home/${IGconf_device_user1}/.cache/puppeteer/chrome
     EOCHROOT
 
   packages:
