@@ -11,6 +11,7 @@ ExecStart=/usr/bin/npm start
 Restart=on-failure
 Environment=NODE_ENV=production
 Environment=NEXT_PUBLIC_MODE=distributed
+Environment=PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 [Install]
 WantedBy=multi-user.target 
