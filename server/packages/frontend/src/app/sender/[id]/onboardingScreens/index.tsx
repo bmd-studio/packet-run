@@ -33,7 +33,7 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
     const { resetCallback, ballPresent, ballPressed, runId } = props;
 
     const { screen } = useScreens({
-        screens({ increment }) {
+        screens({ increment, setIndex }) {
             return [
                 <WelcomeScreen key={'0'} currentStep={-1} stepAmount={-1} />,
                 <Explanation1 key={'1'} currentStep={0} stepAmount={8} />,
@@ -61,7 +61,10 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
                     ballPressed={ballPressed}
                     ballPresent={ballPresent}
                     runId={runId}
-                    resetCallback={resetCallback}
+                    resetCallback={() => {
+                        resetCallback();
+                        setIndex(0);
+                    }}
                 />,
             ]
         },

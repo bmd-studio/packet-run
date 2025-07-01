@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-export type ScreenCallback = (({ increment, decrement }: { increment: () => void, decrement: () => void }) => React.JSX.Element[]);
+export type ScreenCallback = (({ increment, decrement, setIndex }: { increment: () => void, decrement: () => void, setIndex: (index: number) => void }) => React.JSX.Element[]);
 
 /**
  * @param screens The screens to navigate through.
@@ -35,7 +35,7 @@ export default function useScreens(props: {
 
     const screens = useMemo(() => {
         return typeof baseScreens === 'function'
-            ? baseScreens({ increment, decrement })
+            ? baseScreens({ increment, decrement, setIndex })
             : baseScreens;
     }, [baseScreens, increment, decrement]);
 
