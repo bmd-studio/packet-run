@@ -5,11 +5,6 @@ mmdebstrap:
   # Install server dependencies and build
   - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build && PATH=$1/usr/bin:$PATH
 
-  # Install puppeteer Chrome and move to correct location
-  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npx puppeteer browsers install chrome@136.0.7103.94
-  - mkdir -p $1/home/packet-run/.cache/puppeteer/chrome/linux_arm-136.0.7103.94
-  - cp -r /home/imagegen/.cache/puppeteer/chrome/linux_arm-136.0.7103.94/chrome-linux64 $1/home/packet-run/.cache/puppeteer/chrome/linux_arm-136.0.7103.94/
-
   # Create litestream-restore service from template
   - |
     cat ./packet-run/litestream-restore.service.tpl | sed \
@@ -56,6 +51,7 @@ mmdebstrap:
   - |
     chroot $1 bash -- <<- EOCHROOT
     chown -R ${IGconf_device_user1}:${IGconf_device_user1} /opt/packet-run
+    chown -R ${IGconf_device_user1}:${IGconf_device_user1} /home/${IGconf_device_user1}/.cache/puppeteer/chrome
     EOCHROOT
 
   packages:
