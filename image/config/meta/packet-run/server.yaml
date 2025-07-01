@@ -3,7 +3,7 @@ name: packet-run-server
 mmdebstrap:
   customize-hooks:
   # Install server dependencies and build
-  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build
+  - cd $1/opt/packet-run/server/ && PATH=$1/usr/bin:$PATH npm install && PATH=$1/usr/bin:$PATH NEXT_PUBLIC_MODE=distributed npm run build && PATH=$1/usr/bin:$PATH npx puppeteer browsers install chrome
 
   # Create litestream-restore service from template
   - |
