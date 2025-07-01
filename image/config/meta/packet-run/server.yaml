@@ -58,3 +58,4 @@ mmdebstrap:
   - iptables-persistent
   - redis
   - retry
+  - traceroute
