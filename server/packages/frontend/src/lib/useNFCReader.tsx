@@ -1,7 +1,15 @@
 import { Pn532 } from 'pn532.js';
 import Pn532Hf14a from 'pn532.js/plugin/Hf14a.js';
-import { useEffect, useRef, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 import Pn532WebserialAdapter from './WebSerialAdapter';
+
+type NFCReaderContextValue = string | null;
+
+export const NFCReaderContext = createContext<NFCReaderContextValue>(null);
+
+export default function useNFCReader() {
+    return useContext(NFCReaderContext);
+}
 
 /**
  * This is the minimum amount of time that should pass between successive scans.
@@ -11,7 +19,7 @@ const SCAN_FREQUENCY_MS = 250;
 
 interface State {
     lastScan: number | null;
-    id: string | null;
+    id: NFCReaderContextValue;
     isScanning: boolean;
     ready: boolean;
 }
@@ -28,10 +36,10 @@ const initialState: State = {
  * Pi 4 over an UART connection using the GPIO pins. It will return the NFC ID
  * for the currently scanned NFC tag.
  */
-export default function useNFCReader() {
+export function NFCReaderProvider({ children }: PropsWithChildren) {
     // We'll store the nfcId in a state so it can update the implementing
     // component once it changes
-    const [nfcId, setNfcId] = useState<string | null>(null);
+    const [nfcId, setNfcId] = useState<NFCReaderContextValue>(null);
 
     // We'll keep all the scanning state in a ref, so that we don't update the
     // parent component each time a scan is executed
@@ -134,5 +142,9 @@ export default function useNFCReader() {
         };
     }, []);
 
-    return nfcId;
+    return (
+        <NFCReaderContext.Provider value={nfcId}>
+            {children}
+        </NFCReaderContext.Provider>
+    );
 }
