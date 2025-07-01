@@ -11,6 +11,9 @@ ExecStart=/usr/bin/litestream restore -config /etc/litestream.yml /opt/packet-ru
 RemainAfterExit=yes
 StandardOutput=journal
 StandardError=journal
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=300
 
 [Install]
 WantedBy=multi-user.target 
