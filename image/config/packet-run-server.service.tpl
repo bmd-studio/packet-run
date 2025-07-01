@@ -1,7 +1,7 @@
 [Unit]
 Description=Packet Run Server Service
-After=network.target overlayfs-check.service
-Requires=overlayfs-check.service
+After=network.target overlayfs-check.service litestream-restore.service
+Requires=overlayfs-check.service litestream-restore.service
 
 [Service]
 Type=simple
