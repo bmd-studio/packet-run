@@ -191,7 +191,7 @@ export default function TerminalGraph() {
         <div className="grow flex flex-col flex-shrink min-w-0 w-md p-4 bg-white rounded-xl shadow-xl">
             <div className="flex-auto" ref={graphRef} />
             <Dialog open={!!activeTerminal} onOpenChange={closePopover}>
-                <DialogContent className='w-[384px] m-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100 p-0'>
+                <DialogContent className='w-full m-4 whitespace-pre bg-background shadow-md rounded-md overflow-x-hidden overflow-y-scroll border border-gray-100 p-0'>
                     {activeTerminal && (
                         <div className="grid grid-colrs-1 divide-y max-h-screen">
                             <DialogHeader className="p-4">
