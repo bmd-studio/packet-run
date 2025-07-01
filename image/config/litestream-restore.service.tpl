@@ -7,7 +7,7 @@ Requires=network-online.target
 [Service]
 Type=oneshot
 User=<SERVICE_USER>
-ExecStart=/usr/bin/retry -t 0 -d 30s /usr/bin/litestream restore -config /etc/litestream.yml /opt/packet-run/server/packages/backend/data/packet-run.db
+ExecStart=/usr/bin/retry -d 30s /usr/bin/litestream restore -config /etc/litestream.yml /opt/packet-run/server/packages/backend/data/packet-run.db
 RemainAfterExit=yes
 StandardOutput=journal
 StandardError=journal
