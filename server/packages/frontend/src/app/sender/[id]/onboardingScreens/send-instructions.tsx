@@ -7,7 +7,6 @@ import ScannerTimeoutBar from "@/components/ScannerTimeoutBar";
 import { useEffect, useState } from "react";
 import PacketScanner from "@/components/PacketScanner";
 
-
 const ContentWrapper = styled.div`
     padding-left: 216px;
     padding-right: 592px;
@@ -28,40 +27,37 @@ const ListItem = styled.div`
 export interface SendInstructionsProps extends OnBoardingProps {
     ballPresent: boolean;
     ballPressed: boolean;
-    pressOpen: boolean;
+    runId: string | undefined;
     resetCallback: () => void;
 }
 
-const TOTAL_TIMEOUT = 15000;
-const AFTER_BALL_PRESSED_TIMEOUT = 5000;
+const AFTER_BALL_PRESSED_TIMEOUT = 5_000;
 
 export default function SendInstructions(props: SendInstructionsProps) {
-    const { ballPresent, ballPressed, pressOpen, resetCallback } = props;
+    const { ballPresent, ballPressed, resetCallback, runId } = props;
     const [[startDate, endDate], setDates] = useState<[Date | undefined, Date | undefined]>([undefined, undefined]);
 
     useEffect(() => {
+        if (ballPresent || !runId) return;
+
         // Set the start date
         const now = Date.now();
         const start = new Date(now);
 
-        // Determine which timeout should be used
-        const timeoutMs = ballPressed ? AFTER_BALL_PRESSED_TIMEOUT : TOTAL_TIMEOUT;
-
         // Set the end date
-        const end = new Date(now + timeoutMs);
+        const end = new Date(now + AFTER_BALL_PRESSED_TIMEOUT);
 
         // Set the timeout
         const timeout = setTimeout(() => {
             resetCallback();
-        }, timeoutMs);
+        }, AFTER_BALL_PRESSED_TIMEOUT);
 
         // Set the dates
         setDates([start, end]);
 
         // Clear the timeout if a new loop is started
         return () => clearTimeout(timeout);
-    }, [ballPressed, resetCallback]);
-
+    }, [ballPresent, runId, resetCallback]);
 
     return (
         <OnboardingScreen indicator={{ ...props, showSteps: false, showArrows: false, hideBottom: true }}>
@@ -80,7 +76,7 @@ export default function SendInstructions(props: SendInstructionsProps) {
                             SLUIT de hendel. Zo persen we het verzoek voor je website in het pakketje.
                         </ListItem>
                     </CheckBoxListItem>
-                    <CheckBoxListItem checked={pressOpen}>
+                    <CheckBoxListItem checked={!!runId && !ballPressed}>
                         <ListItem>
                             OPEN de hendel en pak de bal.
                         </ListItem>

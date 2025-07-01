@@ -59,8 +59,8 @@ export default function Sender() {
                 setHost={setHost}
                 ballPressed={isPacketPressed}
                 ballPresent={!!nfcId}
-                pressOpen={!isPacketPressed && !!data?.createRun.id}
                 resetCallback={resetCallback}
+                runId={data?.createRun?.id}
             />
         </RegisterTerminal>
     )

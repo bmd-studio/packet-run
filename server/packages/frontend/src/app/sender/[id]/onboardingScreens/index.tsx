@@ -26,18 +26,11 @@ export interface OnBoardingFlowProps {
     setHost: (host: string) => void;
     ballPresent: boolean;
     ballPressed: boolean;
-    pressOpen: boolean;
     resetCallback: () => void;
+    runId: string | undefined;
 }
 export default function OnBoardingFlow(props: OnBoardingFlowProps) {
-    let { ballPresent, ballPressed } = props;
-    const { resetCallback, pressOpen } = props;
-    if (pressOpen) {
-        ballPressed = true;
-    }
-    if (ballPressed || pressOpen) {
-        ballPresent = true;
-    }
+    const { resetCallback, ballPresent, ballPressed, runId } = props;
 
     const { screen } = useScreens({
         screens({ increment }) {
@@ -51,20 +44,23 @@ export default function OnBoardingFlow(props: OnBoardingFlowProps) {
                 <Explanation6 key={'6'} currentStep={5} stepAmount={8} />,
                 <Explanation7 key={'7'} currentStep={6} stepAmount={8} />,
                 <Explanation8 key={'8'} currentStep={7} stepAmount={8} />,
-                <WebsiteInput key="9" currentStep={8} stepAmount={-1} setHost={
-                    (host: string) => {
-                        props.setHost(host);
-                        increment();
-                    }}
+                <WebsiteInput
+                    key="9"
+                    currentStep={8}
+                    stepAmount={-1}
+                    setHost={
+                        (host: string) => {
+                            props.setHost(host);
+                            increment();
+                        }}
                 />,
                 <SendInstructions
                     key="9"
                     currentStep={8}
-                    stepAmount={- 1
-                    }
+                    stepAmount={-1}
                     ballPressed={ballPressed}
                     ballPresent={ballPresent}
-                    pressOpen={pressOpen}
+                    runId={runId}
                     resetCallback={resetCallback}
                 />,
             ]
