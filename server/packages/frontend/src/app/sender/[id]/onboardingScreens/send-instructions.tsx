@@ -71,7 +71,7 @@ export default function SendInstructions(props: SendInstructionsProps) {
                             Pak een bal uit de bak LINKS en plaats deze op de ORANJE scanner naast het toetsenbord.
                         </ListItem>
                     </CheckBoxListItem>
-                    <CheckBoxListItem checked={ballPressed}>
+                    <CheckBoxListItem checked={ballPressed || !!runId}>
                         <ListItem>
                             SLUIT de hendel. Zo persen we het verzoek voor je website in het pakketje.
                         </ListItem>
