@@ -2,18 +2,15 @@
 Description=Litestream Database Restore Service
 After=network.target
 Before=packet-run-server.service
-Wants=network-online.target
+Requires=network-online.target
 
 [Service]
 Type=oneshot
 User=<SERVICE_USER>
-ExecStart=/usr/bin/litestream restore -config /etc/litestream.yml /opt/packet-run/server/packages/backend/data/packet-run.db
+ExecStart=/usr/bin/retry -t 0 -d 30s /usr/bin/litestream restore -config /etc/litestream.yml /opt/packet-run/server/packages/backend/data/packet-run.db
 RemainAfterExit=yes
 StandardOutput=journal
 StandardError=journal
-Restart=on-failure
-RestartSec=30
-TimeoutStartSec=300
 
 [Install]
 WantedBy=multi-user.target 

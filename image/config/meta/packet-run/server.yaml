@@ -57,3 +57,4 @@ mmdebstrap:
   - isc-dhcp-server
   - iptables-persistent
   - redis
+  - retry
