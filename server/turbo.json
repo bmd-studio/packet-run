@@ -3,7 +3,15 @@
     "tasks": {
         "build": {
             "inputs": [
-                ".env"
+                ".env",
+                "src/**/*",
+                "package.json",
+                "tsconfig.json",
+                "package-lock.json",
+                "next.config.*",
+                "graphql.config.*",
+                "eslint.config.*",
+                "components.json"
             ],
             "outputs": [
                 ".next/**",
