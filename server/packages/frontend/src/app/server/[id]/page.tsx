@@ -20,9 +20,7 @@ export default function Server() {
                     <AnimatePresence>
                         {
                             (
-                                terminal.status === TerminalStatus.ScanningNfc
-                                || terminal.status === TerminalStatus.CreatingPacket
-                                || terminal.status === TerminalStatus.CreatedPacket
+                                terminal.status === TerminalStatus.CreatedPacket
                             ) ? (
                                     <React.Fragment key="scanning-nfc-content">
                                         <DestinationBar />
@@ -36,12 +34,12 @@ export default function Server() {
                                             De server - uitleg
                                         </Label>
                                         <p>
-                                            {`Als jouw verzoekpakketje aankomt bij de server, gaat die meteen aan het werk. In het pakketje staat bijvoorbeeld de vraag: "Laat mij de homepage van YouTube zien."
-                                            De server leest wat je vraagt, zoekt de juiste informatie op en maakt een nieuw pakketje met het antwoord. Dat antwoord wordt dan teruggestuurd naar jouw computer.`}
+                                            {`Als jouw verzoekpakketje aankomt bij de server, gaat die meteen aan het werk. In het pakketje staat bijvoorbeeld de vraag: "Laat mij de homepage van YouTube zien."
+                                            De server leest wat je vraagt, zoekt de juiste informatie op en maakt een nieuw pakketje met het antwoord. Dat antwoord wordt dan teruggestuurd naar jouw computer.`}
 
                                         </p>
                                         <p>
-                                            {`Normaal moet dat antwoordpakketje weer langs allerlei routers en netwerken terugreizen, net als op de heenweg. Maar in deze installatie hebben we iets speciaals toegevoegd: een "wormhole" — een soort geheime snelweg. Daarmee kan het pakketje in één keer terug naar jouw internetpoort, zonder alle tussenstops. Zo kun je extra goed zien hoe het werkt én ben je supersnel terug. Je zult straks zien als je je bal scant dat je naast de “wormhole” - aka de korte route - ook gewoon de volledige lange route kan nemen. De keuze is aan jou!`}
+                                            {`Normaal moet dat antwoordpakketje weer langs allerlei routers en netwerken terugreizen, net als op de heenweg. Maar in deze installatie hebben we iets speciaals toegevoegd: een "wormhole" — een soort geheime snelweg. Daarmee kan het pakketje in één keer terug naar jouw internetpoort, zonder alle tussenstops. Zo kun je extra goed zien hoe het werkt én ben je supersnel terug. Je zult straks zien als je je bal scant dat je naast de “wormhole” - aka de korte route - ook gewoon de volledige lange route kan nemen. De keuze is aan jou!`}
                                         </p>
                                         <p>
                                             {`Maar eerst gaan we het “antwoordpakketje” klaarmaken. Als je er klaar voor bent leg dan de bal op de scanner.`}
