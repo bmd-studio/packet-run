@@ -16,11 +16,11 @@ const Container = styled.div`
     left: 0px;
     width: 100vw;
     box-sizing:border-box;
-    padding-left: 244px;
+    padding-left: 217px;
     padding-right: 244px;
     display: flex;
     flex-direction: row;
-    gap: 72px;
+    gap: 90px;
 `;
 function runHopTypeToRouteLabel(hopType: RunHopType | undefined): RouteTypes | undefined {
     let res: undefined | RouteTypes = undefined;
@@ -91,7 +91,6 @@ export default function DestinationBar() {
 
         return (
             <Link
-
                 key={hop?.id || `null-hop-${index}`}
                 href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run?.nfcId || ''}`}
             >

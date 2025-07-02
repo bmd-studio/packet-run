@@ -13,8 +13,8 @@ export interface RouteCardProps extends PropsWithChildren {
 }
 
 const Container = styled.div`
-position: relative;
-  width: 304px;
+    position: relative;
+    width: 304px;
 `;
 function getBackgroundColorForRouteType(routeType?: RouteTypes) {
     switch (routeType) {
