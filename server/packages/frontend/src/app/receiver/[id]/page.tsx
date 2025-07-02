@@ -7,16 +7,23 @@ import React from 'react';
 import OffBoardingFlow from './startCarousel';
 import EndCarousel from './scannedCarousel';
 import useNFCLogic from '@/components/NFCScanLogic';
+import ScannerTimeoutBar from '@/components/ScannerTimeoutBar';
 
 function Contents(props: { terminal: Terminal }) {
     const { terminal } = props;
-    useNFCLogic();
+    const { scannerTimeout } = useNFCLogic();
     
     return (
-
         <Grid>
-            {terminal.status === TerminalStatus.ScanningNfc ? <EndCarousel /> : (
-                <OffBoardingFlow />
+            {terminal.status === TerminalStatus.ScanningNfc
+                ? <EndCarousel /> 
+                : <OffBoardingFlow />
+            }
+            {scannerTimeout && (
+                <ScannerTimeoutBar
+                    start={scannerTimeout[0]}
+                    end={scannerTimeout[1]}
+                />
             )}
         </Grid>
     );
@@ -25,7 +32,6 @@ function Contents(props: { terminal: Terminal }) {
 
 
 export default function Receiver() {
-
     return (
         <RegisterTerminal>
             {(terminal) => (
