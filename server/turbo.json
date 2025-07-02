@@ -1,5 +1,6 @@
 {
     "$schema": "https://turbo.build/schema.json",
+    "globalEnv": ["PUPPETEER_EXECUTABLE_PATH"],
     "tasks": {
         "build": {
             "inputs": [
