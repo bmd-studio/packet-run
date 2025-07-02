@@ -26,7 +26,6 @@ export default function Router() {
                             <>
                                 <DestinationBar />
                                 <Explanation imageSrc='/icon-router.svg' imageAlt='Icon of a router'>
-
                                     <Label>
                                         De router - uitleg
                                     </Label>
@@ -47,7 +46,6 @@ export default function Router() {
                             </>
                         }
                         <PacketScanner key="packet-scanner" />
-                        {/* {MODE === 'standalone' && <LoadNFCForTerminal key="load-nfc" />} */}
                     </AnimatePresence>
                 </Grid>
             )}

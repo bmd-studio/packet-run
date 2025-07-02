@@ -32,15 +32,27 @@ export default function useNFCLogic(enabled = true) {
         }
     }, [terminal.id, searchParams, terminal.status, scanNfcForTerminal]);
 
-    useEffect(() => {
+    useEffect(() => run?.nfcId, status: terminal.status });
+
         // GUARD: Don't do anything when there isn't any NFC that is being
         // scanned currently. Resetting happens in the other hook
-        if (!nfcId || !enabled) return;
+        if (!nfcId
+            || !enabled
+            || terminal.status !== TerminalStatus.Idle
+            || scannerTimeout !== null
+            || terminal.run?.nfcId === nfcId
+        ) {
+            return;
+        };
 
         async function sendNfcToTerminal() {
             // GUARD: If the terminal is currently set to another nfcId, reset
             // the terminal first.
-            if (terminal.run?.nfcId !== nfcId) {
+            if (terminal.run?.nfcId !== nfcId
+                && terminal.run?.nfcId !== undefined
+                && scannerTimeout === null
+            ) {
+nfcId, nfcId);
                 await resetTerminal({ variables: { terminalId: terminal.id } });
             }
 
@@ -54,9 +66,9 @@ export default function useNFCLogic(enabled = true) {
         }
 
         sendNfcToTerminal();
-    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run, enabled]);
+    }, [terminal.id, nfcId, terminal.run, terminal.status, enabled, scannerTimeout]);
 
-    useEffect(() => {
+    useEffect(() => run?.nfcId });
         // GUARD: Don't timeout in standalone mode
         if (MODE === 'standalone') return;
 
@@ -69,10 +81,10 @@ export default function useNFCLogic(enabled = true) {
         // this in state, so we can display a bar at the top of the screen
         const now = new Date().getTime();
 
-        setScannerTimeout([
-            new Date(now + 1_000),
-            new Date(now + 20_000),
-        ]);
+        const start = new Date(now + 1_000);
+        const end = new Date(now + NFC_READER_TIMEOUT);
+
+        setScannerTimeout([ start, end ]);
         const timeout = setTimeout(() => {
             resetTerminal({ variables: { terminalId: terminal.id } });
             setScannerTimeout(null);
