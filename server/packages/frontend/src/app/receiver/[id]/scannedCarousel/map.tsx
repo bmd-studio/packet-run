@@ -13,7 +13,7 @@ export default function MapView(props: OffboardingScreenProps) {
     return (
         <OnboardingScreen indicator={{ ...props }} >
             <MapContainer>
-                <Map shouldDisplayMap={true} />
+                <Map shouldDisplayMap={true} delayed={false} />
             </MapContainer>
         </OnboardingScreen>
     );
