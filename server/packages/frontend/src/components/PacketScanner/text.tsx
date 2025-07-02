@@ -19,33 +19,39 @@ enum InstructionTextType {
     'explanationServer',
     'wait',
     'pickRouter',
-    'press',
+    'pressDown',
+    'pressUp',
 }
 
 export function selectInstructionType(terminalType: TerminalType, terminalStatus: TerminalStatus) {
-    let textType = InstructionTextType.explanationRouter;
-    switch (terminalType) {
-        case TerminalType.Sender:
-            textType = InstructionTextType.explanationSender;
+    switch (terminalStatus) {
+        case TerminalStatus.ScanningNfc:
+            switch (terminalType) {
+                case TerminalType.Server:
+                    return InstructionTextType.pressDown;
+                default:
+                    return InstructionTextType.pickRouter;
+            }
             break;
-        case TerminalType.Router:
-            textType = InstructionTextType.explanationRouter;
+        case TerminalStatus.CreatingPacket:
+            return InstructionTextType.pressUp;
             break;
-        case TerminalType.Gateway:
-            textType = InstructionTextType.explanationGateway;
+        case TerminalStatus.CreatedPacket:
+            return InstructionTextType.pickRouter;
             break;
-        case TerminalType.Server:
-            textType = InstructionTextType.explanationServer;
+        case TerminalStatus.Idle:
+            switch (terminalType) {
+                case TerminalType.Sender:
+                    return InstructionTextType.explanationSender;
+                case TerminalType.Router:
+                    return InstructionTextType.explanationRouter;
+                case TerminalType.Gateway:
+                    return InstructionTextType.explanationGateway;
+                case TerminalType.Server:
+                    return InstructionTextType.explanationServer;
+            }
             break;
     }
-    if (terminalStatus === TerminalStatus.ScanningNfc) {
-        textType = InstructionTextType.pickRouter;
-    }
-    if (terminalStatus === TerminalStatus.ScanningNfc && terminalType === TerminalType.Server) {
-        textType = InstructionTextType.press;
-    }
-    return textType;
-
 }
 
 function InstructionTextSelection(type: InstructionTextType) {
@@ -92,10 +98,17 @@ function InstructionTextSelection(type: InstructionTextType) {
                 </p>
             );
             break;
-        case InstructionTextType.press:
+        case InstructionTextType.pressDown:
             return (
                 <p>
-                    Doe de hendel van de scanner DICHT en weer OPEN. Zo maak je het antwoord pakket.
+                    Doe de hendel van de scanner DICHT. Zo maak je het antwoordpakket.
+                </p>
+            );
+            break;
+        case InstructionTextType.pressUp:
+            return (
+                <p>
+                    Doe de hendel van de scanner OPEN.
                 </p>
             );
             break;
