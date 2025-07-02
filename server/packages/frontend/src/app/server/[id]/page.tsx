@@ -28,7 +28,7 @@ export default function Server() {
                                     </React.Fragment>
                                 ) :
                                 <>
-                                    <DestinationBar />
+                                    {/* <DestinationBar /> */}
                                     <Explanation imageSrc='/icon_server.svg' imageAlt='Icon of a server'>
                                         <Label>
                                             De server - uitleg
