@@ -32,7 +32,7 @@ export default function useNFCLogic(enabled = true) {
         }
     }, [terminal.id, searchParams, terminal.status, scanNfcForTerminal]);
 
-    useEffect(() => run?.nfcId, status: terminal.status });
+    useEffect(() => {
 
         // GUARD: Don't do anything when there isn't any NFC that is being
         // scanned currently. Resetting happens in the other hook
@@ -52,7 +52,6 @@ export default function useNFCLogic(enabled = true) {
                 && terminal.run?.nfcId !== undefined
                 && scannerTimeout === null
             ) {
-nfcId, nfcId);
                 await resetTerminal({ variables: { terminalId: terminal.id } });
             }
 
@@ -68,7 +67,7 @@ nfcId, nfcId);
         sendNfcToTerminal();
     }, [terminal.id, nfcId, terminal.run, terminal.status, enabled, scannerTimeout]);
 
-    useEffect(() => run?.nfcId });
+    useEffect(() => {
         // GUARD: Don't timeout in standalone mode
         if (MODE === 'standalone') return;
 
