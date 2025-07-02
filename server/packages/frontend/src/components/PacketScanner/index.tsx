@@ -55,37 +55,38 @@ export default function PacketScanner({ children, animation, dark }: PacketScann
     const terminal = useTerminal();
     const nfcId = useNFCReader();
 
-    const { scannerTimeout, error, loading } = useNFCLogic(animation !== 'onboarding');
+    const { scannerTimeout, error } = useNFCLogic(animation !== 'onboarding');
 
     const textType = useMemo(() => (
         selectInstructionType(terminal.type, terminal.status)
     ), [terminal.type, terminal.status]);
 
     return (
-        <Container key="packet-scanner">
+        <>
             {scannerTimeout && (
                 <ScannerTimeoutBar start={scannerTimeout[0]} end={scannerTimeout[1]} />
             )}
+            <Container key="packet-scanner">
 
-            <InstructionsContainer>
-                <Label>
-                    INSTRUCTIES
-                </Label>
-                {children ||
-                    <InstructionText type={textType} />
-                }
-            </InstructionsContainer>
-            <PacketInfoContainer>
-                <PacketDescription
-                    terminal={terminal as unknown as Terminal}
-                    error={!!error}
-                    loading={loading}
-                    nfcId={nfcId || undefined}
-                    dark={dark}
-                    animation={animation}
-                />
+                <InstructionsContainer>
+                    <Label>
+                        INSTRUCTIES
+                    </Label>
+                    {children ||
+                        <InstructionText type={textType} />
+                    }
+                </InstructionsContainer>
+                <PacketInfoContainer>
+                    <PacketDescription
+                        terminal={terminal as unknown as Terminal}
+                        error={!!error}
+                        nfcId={nfcId || undefined}
+                        dark={dark}
+                        animation={animation}
+                    />
 
-            </PacketInfoContainer>
-        </Container>
+                </PacketInfoContainer>
+            </Container>
+        </>
     )
 }

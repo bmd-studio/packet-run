@@ -52,6 +52,8 @@ export function selectInstructionType(terminalType: TerminalType, terminalStatus
             }
             break;
     }
+
+    return InstructionTextType.wait;
 }
 
 function InstructionTextSelection(type: InstructionTextType) {
