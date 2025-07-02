@@ -42,7 +42,6 @@ const ScannerWrapper = styled.div`
 `;
 // TODO: add the packet scanner
 export default function Explanation(props: OffboardingScreenProps) {
-
     const terminal = useTerminal();
     const nfcId = useNFCReader();
 

@@ -45,7 +45,7 @@ function selectAnimationType(terminalType: TerminalType, terminalStatus: Termina
     return 'pressing';
 }
 
-function selectText(nfcId: string | undefined, loading: boolean, error: boolean) {
+function selectText(nfcId: string | undefined, loading: boolean | undefined, error: boolean | undefined) {
     if (loading) {
         return 'Laden...';
     }
@@ -60,11 +60,11 @@ function selectText(nfcId: string | undefined, loading: boolean, error: boolean)
 
 export interface PacketDescriptionProps {
     terminal: Terminal;
-    error: boolean;
+    error?: boolean;
     nfcId?: string;
     dark?: boolean;
     animation?: 'onboarding' | 'scanner';
-    loading: boolean;
+    loading?: boolean;
 }
 
 export default function PacketDescription(props: PacketDescriptionProps) {
