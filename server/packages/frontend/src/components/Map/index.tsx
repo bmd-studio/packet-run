@@ -13,7 +13,7 @@ import UnknownMap from './unkown';
 import { filterOutHopsWithUnkownLocation } from '@/lib/hopHelpers';
 
 /** Amount of time before map load is kicked off */
-const MAP_TIMEOUT = 5_000;
+const MAP_TIMEOUT = 3_000;
 
 const MapContainer = styled.div`
     width: 100%;
@@ -23,12 +23,7 @@ const MapContainer = styled.div`
 
 export interface MapProps {
     shouldDisplayMap?: boolean;
-    padding?: {
-        left?: number;
-        right?: number;
-        top?: number;
-        bottom?: number;
-    }
+    delayed?: boolean;
 }
 
 function addMarkers(
@@ -133,7 +128,7 @@ function addLinesToAvailableHops(
 }
 
 export default function Map(props: MapProps) {
-    const { shouldDisplayMap, padding = {} } = props;
+    const { shouldDisplayMap, delayed = true } = props;
     const terminal = useTerminal();
     const { run } = terminal;
 
@@ -141,12 +136,16 @@ export default function Map(props: MapProps) {
     const map = useRef<MapboxMap | null>(null);
 
     useEffect(() => {
+        console.log('LOADING MAP', { delayed });
+        
         async function loadMap() {
             if (!mapContainer.current || !run?.currentHop || !shouldDisplayMap) {
                 return;
             }
-            
-            await new Promise((resolve) => setTimeout(resolve, MAP_TIMEOUT));
+
+            if (delayed) {
+                await new Promise((resolve) => setTimeout(resolve, MAP_TIMEOUT));
+            }
     
             // Retrieve the latest known hop (that was not null or unknown)
             const latestKnownHop = retrieveLatestKnownHop(run);
@@ -199,7 +198,7 @@ export default function Map(props: MapProps) {
             // Fit the map to the resulting bounds
             const defaultPadding = { top: 64, left: 64, bottom: 64, right: 64 };
             map.current?.fitBounds(bounds, {
-                padding: { ...defaultPadding, ...padding },
+                padding: defaultPadding,
                 minZoom: 7,
                 maxZoom: 12,
                 animate: false,
@@ -218,8 +217,10 @@ export default function Map(props: MapProps) {
 
         loadMap();
 
-        return () => map.current?.remove();
-    }, [run, terminal.type, shouldDisplayMap, padding]);
+        return () => {
+            map.current?.remove();
+        };
+    }, [run, terminal.type, shouldDisplayMap, delayed]);
 
     return shouldDisplayMap ? (
         <MapContainer
