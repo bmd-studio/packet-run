@@ -65,6 +65,15 @@ export default function RegisterTerminal({ children }: RegisterTerminalProps) {
         resetTerminal({ variables: { terminalId } });
     }, [terminalId, resetTerminal]);
 
+    useEffect(() => {
+        // Reset the terminal every hour
+        const timeout = setTimeout(() => {
+            window.location.reload();
+        }, 60 * 60 * 1000);
+
+        return () => clearTimeout(timeout);
+    }, []);
+
     // Reload the page whenever an error is encountered
     // useEffect(() => {
     //     if (!error) return;
