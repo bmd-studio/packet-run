@@ -4,19 +4,18 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TerminalStatus, useResetTerminalMutation, useScanNfcForTerminalMutation } from "@/data/generated";
 import { MODE } from '@/config';
-import { ApolloError } from "@apollo/client";
 
 /** The amount of milliseconds between the scanner failing to detect an NFC tag
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
 
-export default function useNFCLogic(enabled = true): [timeout: Date[] | null, error: ApolloError | undefined] {
+export default function useNFCLogic(enabled = true) {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
     const searchParams = useSearchParams();
     const [scannerTimeout, setScannerTimeout] = useState<[Date, Date] | null>(null);
 
-    const [scanNfcForTerminal, { error }] = useScanNfcForTerminalMutation();
+    const [scanNfcForTerminal, { error, loading }] = useScanNfcForTerminalMutation();
     const [resetTerminal] = useResetTerminalMutation();
 
     useEffect(() => {
@@ -85,5 +84,6 @@ export default function useNFCLogic(enabled = true): [timeout: Date[] | null, er
             setScannerTimeout(null);
         };
     }, [nfcId, terminal.run, resetTerminal, terminal.id, enabled]);
-    return [scannerTimeout, error];
+
+    return { scannerTimeout, error, loading };
 }

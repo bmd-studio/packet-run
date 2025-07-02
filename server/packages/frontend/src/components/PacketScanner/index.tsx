@@ -55,7 +55,7 @@ export default function PacketScanner({ children, animation, dark }: PacketScann
     const terminal = useTerminal();
     const nfcId = useNFCReader();
 
-    const [scannerTimeout, error] = useNFCLogic(animation !== 'onboarding');
+    const { scannerTimeout, error, loading } = useNFCLogic(animation !== 'onboarding');
 
     const textType = useMemo(() => (
         selectInstructionType(terminal.type, terminal.status)
@@ -79,6 +79,7 @@ export default function PacketScanner({ children, animation, dark }: PacketScann
                 <PacketDescription
                     terminal={terminal as unknown as Terminal}
                     error={!!error}
+                    loading={loading}
                     nfcId={nfcId || undefined}
                     dark={dark}
                     animation={animation}

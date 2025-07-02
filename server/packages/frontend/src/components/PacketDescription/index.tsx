@@ -45,16 +45,30 @@ function selectAnimationType(terminalType: TerminalType, terminalStatus: Termina
     return 'pressing';
 }
 
+function selectText(nfcId: string | undefined, loading: boolean, error: boolean) {
+    if (loading) {
+        return 'Laden...';
+    }
+    if (error && nfcId) {
+        return 'Ongeldig pakket gescand';
+    }
+    if (nfcId) {
+        return 'Pakket gescand';
+    }
+    return 'Geen pakket gescand';
+}
+
 export interface PacketDescriptionProps {
     terminal: Terminal;
-    error?: boolean;
+    error: boolean;
     nfcId?: string;
     dark?: boolean;
     animation?: 'onboarding' | 'scanner';
+    loading: boolean;
 }
 
 export default function PacketDescription(props: PacketDescriptionProps) {
-    const { terminal, error = false, nfcId, dark = false, animation = 'scanner' } = props;
+    const { terminal, error = false, nfcId, dark = false, animation = 'scanner', loading } = props;
 
     const animationType = useMemo(() => (
         selectAnimationType(terminal.type, terminal.status)
@@ -81,11 +95,7 @@ export default function PacketDescription(props: PacketDescriptionProps) {
             )}
             <PacketDescriptionTextContainer>
                 {terminal.status === TerminalStatus.Idle && (
-                    error && nfcId ? (
-                        <Text>Ongeldig pakket gescand</Text>
-                    ) : (
-                        <Text>Geen pakket gescand</Text>
-                    )
+                    <Text>{selectText(nfcId, loading, error)}</Text>
                 )}
                 {terminal.run && (
                     terminal.status === TerminalStatus.ScanningNfc
