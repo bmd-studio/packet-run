@@ -7,7 +7,7 @@ Requires=overlayfs-check.service
 Type=simple
 User=<SERVICE_USER>
 Environment=XDG_RUNTIME_DIR=/home/<SERVICE_USER>
-Environment=WLR_RENDERER_ALLOW_SOFTWARE=1
+Environment=WLR_RENDERER_ALLOW_SOFTWARE=0
 ExecStart=/opt/packet-run/client/boot_packet_run.sh
 Restart=on-failure
 

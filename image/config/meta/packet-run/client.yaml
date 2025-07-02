@@ -3,6 +3,10 @@ name: packet-run-client
 mmdebstrap:
   packages:
   - chromium
+  - mesa-va-drivers
+  - mesa-vdpau-drivers
+  - libgles2-mesa
+  - libegl1-mesa
 
   customize-hooks:
   # Install hall-sensor-server dependencies

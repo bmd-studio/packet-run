@@ -39,4 +39,12 @@ printf '\nHost was found and available! Launching Packet Run...\n'
     --test-type \
     --ozone-platform=wayland \
     --disable-cursor \
+    --use-gl=egl \
+    --ignore-gpu-blocklist \
+    --enable-gpu-rasterization \
+    --enable-zero-copy \
+    --enable-gpu-memory-buffer-video-frames \
+    --enable-native-gpu-memory-buffers \
+    --enable-accelerated-video-decode \
+    --enable-accelerated-video-encode \
     --kiosk
