@@ -214,8 +214,8 @@ export default function TerminalGraph() {
                                 <AccordionItem value="json" className="border-none px-4">
                                     <AccordionTrigger className="text-gray-600">JSON Object</AccordionTrigger>
                                     <AccordionContent>
-                                        <div className="p-4 bg-gray-50 overflow-x-scroll rounded">
-                                            <code className="text-sm font-mono text-gray-500">
+                                        <div className="p-4 bg-gray-50 rounded max-h-96 overflow-y-auto">
+                                            <code className="text-xs  font-mono text-gray-500 whitespace-pre">
                                                 {JSON.stringify(activeTerminal, null, 4)}
                                             </code>
                                         </div>
