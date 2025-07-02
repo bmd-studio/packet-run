@@ -10,7 +10,7 @@ import { ApolloError } from "@apollo/client";
  * and the terminal being reset. */
 const NFC_READER_TIMEOUT = 20_000;
 
-export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloError | undefined] {
+export default function useNFCLogic(enabled = true): [timeout: Date[] | null, error: ApolloError | undefined] {
     const terminal = useTerminal();
     const nfcId = useNFCReader();
     const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloErr
     useEffect(() => {
         // GUARD: Don't do anything when there isn't any NFC that is being
         // scanned currently. Resetting happens in the other hook
-        if (!nfcId) return;
+        if (!nfcId || !enabled) return;
 
         async function sendNfcToTerminal() {
             // GUARD: If the terminal is currently set to another nfcId, reset
@@ -55,14 +55,14 @@ export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloErr
         }
 
         sendNfcToTerminal();
-    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run]);
+    }, [terminal.id, nfcId, scanNfcForTerminal, resetTerminal, terminal.run, enabled]);
 
     useEffect(() => {
         // GUARD: Don't timeout in standalone mode
         if (MODE === 'standalone') return;
 
         // GUARD: Wait for nfcId to become null and a run to be set
-        if (nfcId || !terminal.run) {
+        if (nfcId || !terminal.run || !enabled) {
             return;
         }
 
@@ -84,6 +84,6 @@ export default function useNFCLogic(): [timeout: Date[] | null, error: ApolloErr
             clearTimeout(timeout);
             setScannerTimeout(null);
         };
-    }, [nfcId, terminal.run, resetTerminal, terminal.id]);
+    }, [nfcId, terminal.run, resetTerminal, terminal.id, enabled]);
     return [scannerTimeout, error];
 }
