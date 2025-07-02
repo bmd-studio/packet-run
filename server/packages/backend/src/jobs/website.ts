@@ -22,7 +22,7 @@ export default async function website(runId: string, orm: MikroORM) {
     // Go to the page URL and wait until there are no idle network connections
     // for 500ms
     // FIXME: add a timeout on this function. Might nog complete for a long while
-    await page.goto(run.url, { waitUntil: 'networkidle0' });
+    await page.goto(run.url, { waitUntil: 'networkidle2' });
 
     // Then, take a screenshot and save it
     const destination = path.join(IMAGES_DIR, `${runId}.png`);
