@@ -36,7 +36,7 @@ export default function RouterMap() {
                 <Label>
                     {shouldDisplayMap ? `Kaart` : `Geen Kaart Beschikbaar`}
                 </Label>
-                <Map shouldDisplayMap={false} />
+                <Map shouldDisplayMap={shouldDisplayMap} />
             </MapContainer>
         </motion.div >
     )

@@ -12,6 +12,9 @@ import retrieveLatestKnownHop from '@/lib/latestKnownHop';
 import UnknownMap from './unkown';
 import { filterOutHopsWithUnkownLocation } from '@/lib/hopHelpers';
 
+/** Amount of time before map load is kicked off */
+const MAP_TIMEOUT = 5_000;
+
 const MapContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -138,76 +141,83 @@ export default function Map(props: MapProps) {
     const map = useRef<MapboxMap | null>(null);
 
     useEffect(() => {
-        if (!mapContainer.current || !run?.currentHop || !shouldDisplayMap) {
-            return;
+        async function loadMap() {
+            if (!mapContainer.current || !run?.currentHop || !shouldDisplayMap) {
+                return;
+            }
+            
+            await new Promise((resolve) => setTimeout(resolve, MAP_TIMEOUT));
+    
+            // Retrieve the latest known hop (that was not null or unknown)
+            const latestKnownHop = retrieveLatestKnownHop(run);
+            const address = latestKnownHop?.address;
+            const lng = address?.info?.location?.longitude;
+            const lat = address?.info?.location?.latitude;
+    
+            if (!lng || !lat) return;
+            const currentLocation = { longitude: lng, latitude: lat };
+    
+            // Determine where the center of the map should be
+            const center: [number, number] = [lng, lat + 0.15];
+    
+            // Initialize map
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current!,
+                style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946?optimize=true',
+                accessToken: MAPBOX_TOKEN,
+                zoom: 9,
+                center,
+                interactive: false,
+                performanceMetricsCollection: false,
+                renderWorldCopies: false,
+                preserveDrawingBuffer: false,
+                antialias: false,
+                attributionControl: false,
+                fadeDuration: 0,
+            });
+    
+            // Add the pulsing dot as an image
+            const orangeDot = generateDot();
+            map.current.addImage('orange-dot', orangeDot)
+    
+            const previousRoutes = filterOutHopsWithUnkownLocation(run.hops).filter((h) => (
+                h.address && h.status === RunHopStatus.Actual
+            )).sort((a, b) => a.hop - b.hop);
+    
+            // create coordinates for all hops and filters out hops with unkown locations
+            const markers = filterOutHopsWithUnkownLocation((terminal.type === TerminalType.Receiver
+                ? [...previousRoutes, ...run.availableHops]
+                : [...(latestKnownHop ? [latestKnownHop] : []), ...run.availableHops]
+            ))
+                .map(runHopToCoords);
+    
+            // Then, create a new bound from all coordinates
+            const bounds = markers.reduce((bounds, coord) => {
+                return bounds.extend(coord);
+            }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
+    
+            // Fit the map to the resulting bounds
+            const defaultPadding = { top: 64, left: 64, bottom: 64, right: 64 };
+            map.current?.fitBounds(bounds, {
+                padding: { ...defaultPadding, ...padding },
+                minZoom: 7,
+                maxZoom: 12,
+                animate: false,
+            });
+    
+            map.current.on('load', () => {
+                // Create a marker for each coordinate
+                addMarkers(map, markers, currentLocation);
+                // add all the lines to previous hops
+                addLinesToPreviousHops(map, previousRoutes);
+                // TODO:: should add markers.
+                // add lines to available hops
+                addLinesToAvailableHops(map, filterOutHopsWithUnkownLocation(run.availableHops), latestKnownHop);
+            });
         }
 
-        // Retrieve the latest known hop (that was not null or unknown)
-        const latestKnownHop = retrieveLatestKnownHop(run);
-        const address = latestKnownHop?.address;
-        const lng = address?.info?.location?.longitude;
-        const lat = address?.info?.location?.latitude;
+        loadMap();
 
-        if (!lng || !lat) return;
-        const currentLocation = { longitude: lng, latitude: lat };
-
-        // Determine where the center of the map should be
-        const center: [number, number] = [lng, lat + 0.15];
-
-        // Initialize map
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/leinelissen/clkjn5dqa00db01phfcjig946?optimize=true',
-            accessToken: MAPBOX_TOKEN,
-            zoom: 9,
-            center,
-            interactive: false,
-            performanceMetricsCollection: false,
-            renderWorldCopies: false,
-            preserveDrawingBuffer: false,
-            antialias: false,
-            attributionControl: false,
-            fadeDuration: 0,
-        });
-
-        // Add the pulsing dot as an image
-        const orangeDot = generateDot();
-        map.current.addImage('orange-dot', orangeDot)
-
-        const previousRoutes = filterOutHopsWithUnkownLocation(run.hops).filter((h) => (
-            h.address && h.status === RunHopStatus.Actual
-        )).sort((a, b) => a.hop - b.hop);
-
-        // create coordinates for all hops and filters out hops with unkown locations
-        const markers = filterOutHopsWithUnkownLocation((terminal.type === TerminalType.Receiver
-            ? [...previousRoutes, ...run.availableHops]
-            : [...(latestKnownHop ? [latestKnownHop] : []), ...run.availableHops]
-        ))
-            .map(runHopToCoords);
-
-        // Then, create a new bound from all coordinates
-        const bounds = markers.reduce((bounds, coord) => {
-            return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(markers[0], markers[0]));
-
-        // Fit the map to the resulting bounds
-        const defaultPadding = { top: 64, left: 64, bottom: 64, right: 64 };
-        map.current?.fitBounds(bounds, {
-            padding: { ...defaultPadding, ...padding },
-            minZoom: 7,
-            maxZoom: 12,
-            animate: false,
-        });
-
-        map.current.on('load', () => {
-            // Create a marker for each coordinate
-            addMarkers(map, markers, currentLocation);
-            // add all the lines to previous hops
-            addLinesToPreviousHops(map, previousRoutes);
-            // TODO:: should add markers.
-            // add lines to available hops
-            addLinesToAvailableHops(map, filterOutHopsWithUnkownLocation(run.availableHops), latestKnownHop);
-        });
         return () => map.current?.remove();
     }, [run, terminal.type, shouldDisplayMap, padding]);
 
