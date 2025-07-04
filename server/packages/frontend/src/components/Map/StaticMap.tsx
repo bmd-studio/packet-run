@@ -59,22 +59,9 @@ export default function StaticMap(props: StaticMapProps) {
             .map(runHopToCoords)
             .filter(coord => coord[0] !== 0 && coord[1] !== 0);
 
-        console.log(markers);
-
         if (markers.length === 0) {
             return '';
         }
-
-        // Calculate bounds
-        const lngs = markers.map(m => m[0]);
-        const lats = markers.map(m => m[1]);
-        const minLng = Math.min(...lngs).toFixed(5);
-        const maxLng = Math.max(...lngs).toFixed(5);
-        const minLat = Math.min(...lats).toFixed(5);
-        const maxLat = Math.max(...lats).toFixed(5);
-
-        console.log('Bounds:', { minLng, maxLng, minLat, maxLat });
-        console.log('Markers:', markers);
 
         // Build static map URL
         const baseUrl = 'https://api.mapbox.com/styles/v1/leinelissen/clkjn5dqa00db01phfcjig946/static';
@@ -91,10 +78,7 @@ export default function StaticMap(props: StaticMapProps) {
         // Note: polyline.encode expects [lat,lng] but our markers are [lng,lat]
         // So we need to swap the coordinates for the polyline encoding
         const pathCoords: [number, number][] = markers.map(coord => [coord[1], coord[0]]); // Swap lat/lng
-
-        console.log({ pathCoords });
-        const encodedPolyline = polyline.encode(pathCoords);
-        console.log('Encoded polyline:', encodedPolyline);
+        const encodedPolyline = polyline.encode(pathCoords)
         const pathParams = markers.length > 1 ?
             `path-2+ff781f(${encodeURIComponent(encodedPolyline)})` : '';
 
@@ -103,9 +87,6 @@ export default function StaticMap(props: StaticMapProps) {
 
         // Use bounding box format with markers and path, oriented north
         const staticMapUrl = `${baseUrl}/${overlayParams}/auto/960x428@2x?access_token=${MAPBOX_TOKEN}&padding=64`;
-
-        console.log('Static map URL:', staticMapUrl);
-        console.log('Overlay params:', overlayParams);
 
         return staticMapUrl;
     }, [run, terminal.type, shouldDisplayMap]);
