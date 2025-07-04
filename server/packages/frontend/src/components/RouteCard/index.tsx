@@ -68,11 +68,14 @@ const DestinationBar = styled.div`
     width: 100%;
     text-transform: uppercase;
     font-size: 24px;
-    padding-left: 16px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const OwnerContainer = styled.div`
