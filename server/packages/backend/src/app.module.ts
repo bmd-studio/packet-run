@@ -42,7 +42,8 @@ import { ImageStaticLoader } from './lib/ImageStaticLoader';
             dbName: './data/packet-run.db',
             driver: BetterSqliteDriver,
             allowGlobalContext: true,
-            debug: false,
+            debug: true,
+            loadStrategy: 'select-in',
         }),
         MikroOrmModule.forFeature([Address, TracerouteHop, RunHop, Run, Terminal]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
