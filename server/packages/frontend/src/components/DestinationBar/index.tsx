@@ -110,7 +110,7 @@ export default function DestinationBar() {
         )
     }), [sortedHops, run, latestKnownHop]);
 
-    if (!run?.availableHops) {
+    if (!run?.availableHops || sortedHops.length === 0) {
         return (
             <Container>
                 {ConnectionCards}
