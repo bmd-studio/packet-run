@@ -131,7 +131,7 @@ export default class RoutingService {
         // Retrieve the relevant hops
         const [client, , internet] = await this.orm.em.find(TracerouteHop, { run, hop: { $lte: 3 }}, { orderBy: [{ hop: 'ASC' }]});
 
-        this.logger.debug(`Retrieved client hop "${client.address?.ip}" and internet hop "${internet.address?.ip}"`);
+        this.logger.debug(`Retrieved client hop "${client?.address?.ip}" and internet hop "${internet?.address?.ip}"`);
 
         // GUARD: Check that traceroute has progressed far enough
         if (!internet) {
