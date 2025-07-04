@@ -42,7 +42,7 @@ import { ImageStaticLoader } from './lib/ImageStaticLoader';
             dbName: './data/packet-run.db',
             driver: BetterSqliteDriver,
             allowGlobalContext: true,
-            debug: true,
+            debug: false,
             loadStrategy: 'select-in',
         }),
         MikroOrmModule.forFeature([Address, TracerouteHop, RunHop, Run, Terminal]),
