@@ -93,6 +93,7 @@ export default function DestinationBar() {
             <Link
                 key={hop?.id || `null-hop-${index}`}
                 href={`/${hop?.terminal.type.toLowerCase()}/${hop?.terminal.id}?nfcId=${run?.nfcId || ''}`}
+                prefetch={false}
             >
                 <RouteCard
                     key={name}
@@ -110,7 +111,10 @@ export default function DestinationBar() {
         )
     }), [sortedHops, run, latestKnownHop]);
 
-    if (!run?.availableHops || sortedHops.length === 0) {
+    if (!run?.availableHops
+        || sortedHops.length === 0
+        || sortedHops.every((h) => h === null)
+    ) {
         return (
             <Container>
                 {ConnectionCards}
