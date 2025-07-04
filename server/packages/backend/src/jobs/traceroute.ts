@@ -51,7 +51,7 @@ export default async function (runId: string, orm: MikroORM) {
     // Wrap traceroute in a promise
     return new Promise<void>(async (resolve, reject) => {
         // Instantiate traceroute
-        const tracer = new Traceroute();
+        const tracer = new Traceroute('4', 0, ['-w','1','-q','2','-m','32']);
         
         // Whenever a destination is received, add it as the destination address
         tracer.on('destination', async (destination) => {

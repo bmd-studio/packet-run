@@ -98,3 +98,18 @@ index 9843c83..d494ca5 100644
          }
      }
  
+diff --git a/node_modules/nodejs-traceroute/src/traceroute.ts b/node_modules/nodejs-traceroute/src/traceroute.ts
+index be66541..e5c59bd 100644
+--- a/node_modules/nodejs-traceroute/src/traceroute.ts
++++ b/node_modules/nodejs-traceroute/src/traceroute.ts
+@@ -2,8 +2,8 @@ import { Flag } from './flag';
+ import { Hop, Process } from './process';
+ 
+ export class Traceroute extends Process {
+-    constructor(ipVersion = '', sendwait = 0) {
+-        const args = ['-q', '1', '-z', `${sendwait}`, '-n'];
++    constructor(ipVersion = '', sendwait = 0, additionalArgs = []) {
++        const args = ['-q', '1', '-z', `${sendwait}`, '-n', ...additionalArgs];
+ 
+         const ipFlag = Flag.getIpFlag(ipVersion);
+         if (ipFlag) {

@@ -17,7 +17,7 @@ type AnyJob = Job<string, void, 'traceroute'>
 /**
  * This class handles all jobs that come in on the `default` queue.
  */
-@Processor('default', { concurrency: 10, removeOnComplete: { age: 0 } })
+@Processor('default', { concurrency: 10, removeOnComplete: { age: 0 }, lockDuration: 600_000  })
 @Injectable()
 export default class JobProcessor extends WorkerHost {
     protected defaultLocation: Location;

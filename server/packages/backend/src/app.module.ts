@@ -60,7 +60,7 @@ import { ImageStaticLoader } from './lib/ImageStaticLoader';
         BullModule.registerQueue({
             name: 'default',
             defaultJobOptions: {
-                attempts: 10,
+                attempts: 3,
                 backoff: {
                     type: 'exponential',
                     delay: 2500,

@@ -9,7 +9,7 @@ declare module "nodejs-traceroute" {
     };
 
     export default class Traceroute{
-        constructor(ipVersion?: string, sendwait?: number);
+        constructor(ipVersion?: string, sendwait?: number, additionalArgs?: string[]);
         parseDestination(data: string): string | null;
         parseHop(hopData: string): Hop | null;
         on<T extends keyof TracerouteEventTypes>(
