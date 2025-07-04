@@ -19,9 +19,13 @@ mmdebstrap:
 
   # Create packet-run-server service from template
   - |
-    cat ./packet-run/packet-run-server.service.tpl | sed \
+    cat ./packet-run/packet-run-frontend.service.tpl | sed \
       -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
-      > $1/etc/systemd/system/packet-run-server.service
+      > $1/etc/systemd/system/packet-run-frontend.service
+  - |
+    cat ./packet-run/packet-run-backend.service.tpl | sed \
+      -e "s|<SERVICE_USER>|${IGconf_device_user1}|g" \
+      > $1/etc/systemd/system/packet-run-backend.service
 
   # Copy server-specific overlay
   - cp -R ./packet-run/image/device/server/rootfs-overlay/* $1/
@@ -45,7 +49,7 @@ mmdebstrap:
       > $1/etc/litestream.yml
 
   # Enable services
-  - $BDEBSTRAP_HOOKS/enable-units "$1" litestream-restore packet-run-server isc-dhcp-server litestream
+  - $BDEBSTRAP_HOOKS/enable-units "$1" litestream-restore packet-run-frontend packet-run-backend isc-dhcp-server litestream
 
   # Set proper ownership for client files
   - |
