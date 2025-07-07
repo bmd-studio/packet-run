@@ -56,16 +56,10 @@ The superstructure consists of a centre piece, to which three side beams are con
 
 The superstructure is heavy and dangerous. It must be assembled / disassembled by a team of at least four people.
 
-Firstly, remove all stainless steel cables and support beams. Remove the cables by relaxing the wire strainer and removing the cables from the hooks. Remove the beams by using an Allan key to loosen the center connector piece.
+Find the wooden attachments for the lifting tripods. Then, position each of three lifting tripods under a horizontal beam, and gently lift them so that they barely lift the superstructure of off the ground.
 
-Secondly, position the two lifting tripods on other ends of the steel center piece. Attach the U-shape attachments to the tops of the tripods. Then, lift the tripods so that their tops are slightly above the superstructure. Put the two steel profile pieces in the U-holds over the steel center piece.
+Secondly, remove all stainless steel cables and support beams. Remove the cables by relaxing the wire strainer and removing the cables from the hooks. Remove the beams by using an Allan key to loosen the center connector piece.
 
-Thirdly, unscrew the ring from the underside of the steel center piece, and attach it to the top side of the steel center piece. You can now fit a steel cable around the steel profile pieces and attach it to the ring that is now on top of the steel center pieces. You should end up with a situation where, when the lifting tripods are elevated, the steel center piece is pulled up through the ring.
-
-Fourthly, gently lift elevate the two lifting tripods until one leg is lifted from the ground. Now, all legs should be disassembled from the superstructure one by one. The center piece should remain elevated in the center until all legs are removed. For removing each leg, see the following instructions:
-
-Put the support rod under the leg near the steel side plates, and ensure that it well supports the weight of the leg. Now, loosen the bolts for the vertical beam, and remove the vertical beam from the leg assembly. Then, one-by-one, loosen the bolts connecting the side plate to the horizontal beams and remove the plate from the leg assembly. Finally, remove the support rod so that the weight is returned to the lifting tripods.
-
-Rinse and repeat for the two remaining legs until all side plates and vertical beams are removed. Then, lower the remaining assembly using the lifting tripods, as low as they can go. You can now remove the vertical pieces from the center piece by loosening the bolts and pulling the beam out. Finally, lift the center piece out of the lifting tripods by hand. Try to do this with at least three people.
+Thirdly, remove one of the legs by loosening the bolts. Take off the leg first, and then remove the plates one-by-one. Rinse and repeat for the two remaining legs until all side plates and vertical beams are removed. Then, lower the remaining assembly using the lifting tripods, as low as they can go. Lift what remains of the superstructure from the lifting tripods and place it on the ground. You can now remove the vertical pieces from the center piece by loosening the bolts and pulling the beam out. 
 
 The superstructure is now fully disassembled and ready for transportation.

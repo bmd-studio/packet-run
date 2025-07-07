@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart LR
-    subgraph server["Server (Mac Mini)"]
+    subgraph server["Server (Raspberry Pi)"]
         subgraph workers["Workers"]
             hop-worker("Worker (mtr / traceroute)")
             website-worker("Worker (website)")
@@ -15,8 +15,6 @@ flowchart LR
         backend("NestJS (GraphQL)")
         websockets("Websockets")
         db("Database (SQLite)")
-
-        tileserver("Tileserver")
     end
 
     subgraph terminals["Terminals (Raspberry Pi x12)"]
@@ -49,7 +47,6 @@ flowchart LR
     frontend <--HTTP--> switch
     backend <--HTTP--> switch
     websockets <--WS--> switch
-    tileserver <--HTTP--> switch
 
     switch <--HTTP--> chromium
     switch <--WS--> chromium

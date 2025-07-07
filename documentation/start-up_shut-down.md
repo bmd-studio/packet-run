@@ -23,21 +23,4 @@ Take a ball, and place them on the scanner for each terminal. The screen should 
 Make two full runs throughout the installation to ensure the installation is working as expected.
 
 ## Shutting down Packet Run
-
-1. Shut down the Mac Mini
-
-a. Switch terminal 1 to the Mac mini by pressing the button behind the top right corner of the screen.
-
-b. In macOS, press Fn-Control-F2 until the Apple icon in the top left corner light up.
-
-c. Press space bar to open the system menu.
-
-d. Navigate down to "Shut down..." and press enter
-
-e. Press enter again to confirm shutdown
-
-f. Wait for the Mac mini to be shutdown, approximately 15 seconds
-
-2. Disconnect power from the installation
-
-Find the plug connected to the power strip inside the desk and disconnect it from the plug powering it. Go ahead. Do it. The Raspberry Pis will be fine. You got this.
+Remove power from the installation.
