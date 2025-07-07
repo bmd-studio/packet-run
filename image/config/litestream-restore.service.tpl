@@ -1,7 +1,7 @@
 [Unit]
 Description=Litestream Database Restore Service
 After=network.target
-Before=packet-run-server.service
+Before=packet-run-backend.service packet-run-frontend.service
 Requires=network-online.target
 
 [Service]

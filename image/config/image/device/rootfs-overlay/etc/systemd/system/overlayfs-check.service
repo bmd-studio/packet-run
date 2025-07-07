@@ -1,6 +1,6 @@
 [Unit]
 Description=Check and enable OverlayFS
-Before=tailscale.service kiosk.service packet-run-server.service hall-sensor-server.service
+Before=tailscale.service kiosk.service packet-run-frontend.service packet-run-backend.service hall-sensor-server.service
 Wants=network-online.target
 After=network-online.target
 
